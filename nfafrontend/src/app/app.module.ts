@@ -3,14 +3,28 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { NewprojectComponent } from './newproject/newproject.component';
+import { NfacatalogComponent } from './nfacatalog/nfacatalog.component';
+import { NewnfaComponent } from './newnfa/newnfa.component';
+import { NewpackageComponent } from './newpackage/newpackage.component';
+import { HomeComponent } from './home/home.component';
+import {AppRoutingModule} from './app-routing.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    NewprojectComponent,
+    NfacatalogComponent,
+    NewnfaComponent,
+    NewpackageComponent,
+    HomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
