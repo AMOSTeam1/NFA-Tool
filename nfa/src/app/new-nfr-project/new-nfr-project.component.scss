@@ -1,0 +1,32 @@
+.container {
+  display: grid;
+  grid-template-columns: 50% auto;
+  background-color: lightgray;
+}
+.col {
+  padding: .4em 1.3em;
+  color: black;
+}
+.color-dark {
+  background: darkgray;
+}
+.color-light {
+  background: lightgray;
+}
+
+input.txt {
+  border: 0;
+  padding: 1em;
+  width: 80%;
+  margin-bottom: 2em;
+}
+input.button {
+  border: 0;
+  display:block;
+  padding:1em 3em;
+  background: white;
+  color:black;
+  margin-bottom:1em;
+  cursor:pointer;
+}
+
