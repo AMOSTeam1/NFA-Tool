@@ -10,6 +10,11 @@ import { NewnfaComponent } from './newnfa/newnfa.component';
 import { NewpackageComponent } from './newpackage/newpackage.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {DataStorageService} from './shared/data-storage.service';
+import {Http, HttpModule} from '@angular/http';
+
 
 
 @NgModule({
@@ -24,9 +29,13 @@ import {AppRoutingModule} from './app-routing.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    HttpModule
   ],
-  providers: [],
+  providers: [DataStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
