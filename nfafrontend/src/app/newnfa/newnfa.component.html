@@ -1,3 +1,23 @@
-<p>
-  newnfa works!
-</p>
+<div class="container color-dark">
+  <div class="col">
+    <p>It is dangerous to go alone for NFR project. Take this...</p>
+  </div>
+</div>
+<br/>
+<div class="container color-light">
+
+
+
+</div>
+
+<form [formGroup]="nfaform" (ngSubmit) = "onSubmit()">
+  <p class="sm">Factors</p>
+  <input formControlName ="factor" type="text" name="factor" placeholder="Some factor... I guess..."> <br/> <br/>
+  <p class="sm">Criteria</p>
+  <input formControlName ="criteria" type="text" name="criteria" placeholder="Some criteria... Probably..."> <br/> <br/>
+  <p class="sm">Metric</p>
+  <input formControlName ="metric" type="text" name="metric" placeholder="Some metrics... Possibly..."> <br/> <br/>
+  <p class="sm">Type</p>
+  <input formControlName ="nfa_type" type="text" name="nfa_type" placeholder="Type... Most likely..."> <br/> <br/>
+  <input type="submit" class="button" value="Send">
+</form>
