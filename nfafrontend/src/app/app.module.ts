@@ -10,7 +10,6 @@ import { NewnfaComponent } from './newnfa/newnfa.component';
 import { NewpackageComponent } from './newpackage/newpackage.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
-import {ServerServices} from './newproject/server.services';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
@@ -36,7 +35,6 @@ import {Http, HttpModule} from '@angular/http';
     HttpModule
   ],
   providers: [DataStorageService],
-  providers: [ServerServices],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

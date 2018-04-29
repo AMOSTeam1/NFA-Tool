@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ServerServices} from './server.services';
+import { DataStorageService} from '../shared/data-storage.service';
 import {Project} from './project.model';
 
 @Component({
@@ -9,17 +9,17 @@ import {Project} from './project.model';
 })
 export class NewprojectComponent implements OnInit {
   projectSaveStatus = '';
-  clientName = '';
-  constructor(private serverService: ServerServices) {}
+  kundenName = '';
+  constructor(private dataStorage: DataStorageService) {}
   ngOnInit() {
   }
 
   onClick() {
-    this.projectSaveStatus = 'Project was created for ' + this.clientName ;
-    const project = new Project(this.clientName)
-    this.serverService.storeProject(project).subscribe((response) => console.log(response.json())) ;
+    this.projectSaveStatus = 'Project was created for ' + this.kundenName ;
+    const project = new Project(this.kundenName)
+    this.dataStorage.storeProject(project).subscribe((response) => console.log(response.json())) ;
   }
   onUpdateClientName(event: Event) {
-    this.clientName = (<HTMLInputElement>event.target).value;
+    this.kundenName = (<HTMLInputElement>event.target).value;
   }
 }

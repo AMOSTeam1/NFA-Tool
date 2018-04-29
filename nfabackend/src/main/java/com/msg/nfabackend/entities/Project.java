@@ -2,9 +2,17 @@ package com.msg.nfabackend.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Entity-Mapping for the table 'nfaprojekt'.
+ * 
+ * @author <a href="mailto:alla.bors@fau.de">Alla Bors</a>
+ */
 @Entity
 @Table(name="nfaprojekt")
 public class Project {
@@ -12,19 +20,20 @@ public class Project {
 	public Project() {}
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	@Column(name="ID")
 	private Long id;
 	
-	@Column(name="nfaProjektnummer")
+	@Column(name="nfa_projektnummer")
 	private String nfaProjektnummer;
 	
 	@Column(name="kundenname")
 	private String kundenname;
 	
-/**	@Column(name="ansprechpartnerKunde")
+	@Column(name="ansprechpartner_kunde")
 	private String ansprechpartnerKunde;
 	
-	@Column(name="ansprechpartnerMsg")
+	@Column(name="ansprechpartner_msg")
 	private String ansprechpartnerMsg;
 	
 	@Column(name="branche")
@@ -121,7 +130,4 @@ public class Project {
 	public void setProjektstatus(String projektstatus) {
 		this.projektstatus = projektstatus;
 	}
-	
-	**/
-
 }
