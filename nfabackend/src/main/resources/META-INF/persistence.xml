@@ -6,11 +6,12 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<properties>
 			<property name="javax.persistence.jdbc.user" value="postgres"/>
-			<property name="javax.persistence.jdbc.password" value="kvshs4692KH"/>
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/NFADB"/>
+			<property name="javax.persistence.jdbc.password" value="nfapasswd"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/testdb"/>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -31,4 +31,19 @@ public class QueryService {
 			}
 		return listProject;
     }
+	
+	public Project createProject(Project project) {
+		try {
+			tx.begin();
+			em.persist(project);
+			tx.commit();
+		}
+		catch(Exception e) {
+			tx.rollback();
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return project;
+	}
 }

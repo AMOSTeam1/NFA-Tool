@@ -21,7 +21,7 @@ public class Project {
 	@Column(name="kundenname")
 	private String kundenname;
 	
-	@Column(name="ansprechpartnerKunde")
+/**	@Column(name="ansprechpartnerKunde")
 	private String ansprechpartnerKunde;
 	
 	@Column(name="ansprechpartnerMsg")
@@ -122,6 +122,6 @@ public class Project {
 		this.projektstatus = projektstatus;
 	}
 	
-	
+	**/
 
 }
