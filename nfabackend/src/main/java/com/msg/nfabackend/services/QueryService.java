@@ -8,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
 
 
@@ -45,5 +46,19 @@ public class QueryService {
 			emf.close();
 		}
 		return project;
+	}
+	
+	public Nfa addNfa (Nfa nfa) {
+		try {
+			tx.begin();
+			em.persist(nfa);
+			tx.commit();
+		}catch(Exception e){
+			tx.rollback();
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return nfa;
 	}
 }

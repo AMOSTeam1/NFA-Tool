@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule} from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -12,7 +11,10 @@ import { NewpackageComponent } from './newpackage/newpackage.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {ServerServices} from './newproject/server.services';
-import {HttpModule} from '@angular/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {DataStorageService} from './shared/data-storage.service';
+import {Http, HttpModule} from '@angular/http';
 
 
 @NgModule({
@@ -26,11 +28,14 @@ import {HttpModule} from '@angular/http';
     HomeComponent
   ],
   imports: [
-    HttpModule,
-    FormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    HttpModule
   ],
+  providers: [DataStorageService],
   providers: [ServerServices],
   bootstrap: [AppComponent]
 })
