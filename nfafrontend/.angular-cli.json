@@ -11,7 +11,8 @@
         "assets",
         "favicon.ico",
         "logo.png",
-        "favic.ico"
+        "favic.ico",
+        "favic_small.ico"
       ],
       "index": "index.html",
       "main": "main.ts",
