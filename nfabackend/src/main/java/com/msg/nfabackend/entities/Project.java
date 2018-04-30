@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlType;
 
@@ -20,7 +21,8 @@ public class Project {
 	public Project() {}
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@SequenceGenerator(name="seq-gen",sequenceName="nfaprojekt_id_seq" , initialValue = 1, allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")
 	@Column(name="ID")
 	private Long id;
 	

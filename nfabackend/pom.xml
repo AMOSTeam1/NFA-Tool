@@ -9,6 +9,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>nfabackend</name>
     
+    <properties>
+        <jersey.version>2.27</jersey.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    
     <build>
         <finalName>nfabackend</finalName>
         <plugins>
@@ -67,14 +72,13 @@
         	<groupId>org.hibernate</groupId>
         	<artifactId>hibernate-core</artifactId>
         	<version>5.2.12.Final</version>
-        	<scope>provided</scope>
         </dependency>
-        <dependency>
+        <!-- <dependency>
 		   <groupId>dom4j</groupId>
 		   <artifactId>dom4j</artifactId>
 		   <version>1.6.1</version>
 		   <scope>provided</scope>
-		</dependency>
+		</dependency> -->
         <dependency>
         	<groupId>org.slf4j</groupId>
         	<artifactId>slf4j-api</artifactId>
@@ -126,8 +130,5 @@
         	<version>9.1-901-1.jdbc4</version>
         </dependency>
     </dependencies>
-    <properties>
-        <jersey.version>2.27</jersey.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+    
 </project>
