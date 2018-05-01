@@ -1,0 +1,14 @@
+{
+  "nfa": {
+    "nfa-title": "NFA-Tool",
+    "home": {
+      "welcome": "Hallo zum {{name}}"
+    },
+    "header": {
+      "create-project": "Neues Projekt",
+      "open-catalog": "NFA Katalog",
+      "create-nfa-entry": "Neue NFA",
+      "create-package": "Neues Paket"
+    }
+  }
+}
