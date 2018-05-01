@@ -1,7 +1,7 @@
 # NFA-Tool 
 Tool for quality improvement in software projects
 
-(NFA - Nicht Functional Anforderungen)
+`(NFA - Nicht Functional Anforderungen)`
 
 Functions :
 	1. Create a new NFA Project

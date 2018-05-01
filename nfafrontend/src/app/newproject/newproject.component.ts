@@ -9,17 +9,17 @@ import {Project} from './project.model';
 })
 export class NewprojectComponent implements OnInit {
   projectSaveStatus = '';
-  kundenName = '';
+  customerName = '';
   constructor(private dataStorage: DataStorageService) {}
   ngOnInit() {
   }
 
   onClick() {
-    this.projectSaveStatus = 'Project was created for ' + this.kundenName ;
-    const project = new Project(this.kundenName)
+    this.projectSaveStatus = 'Project was created for ' + this.customerName ;
+    const project = new Project(this.customerName) ;
     this.dataStorage.storeProject(project).subscribe((response) => console.log(response.json())) ;
   }
   onUpdateClientName(event: Event) {
-    this.kundenName = (<HTMLInputElement>event.target).value;
+    this.customerName = (<HTMLInputElement>event.target).value;
   }
 }
