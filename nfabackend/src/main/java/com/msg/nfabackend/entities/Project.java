@@ -10,126 +10,190 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Entity-Mapping for the table 'nfaprojekt'.
+ * Entity-Mapping for the table 'NFA_PROJECT'.
  * 
  * @author <a href="mailto:alla.bors@fau.de">Alla Bors</a>
  */
 @Entity
-@Table(name="nfaprojekt")
+@Table(name="NFA_PROJECT")
 public class Project {
 	
 	public Project() {}
 	
 	@Id
-	@SequenceGenerator(name="seq-gen",sequenceName="nfaprojekt_id_seq" , initialValue = 1, allocationSize=1)
+	@SequenceGenerator(name="seq-gen",sequenceName="NFA_PROJECT_ID_SEQ" , initialValue = 1, allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")
 	@Column(name="ID")
 	private Long id;
 	
-	@Column(name="nfa_projektnummer")
-	private String nfaProjektnummer;
+	@Column(name="NFA_PROJECT_NUMBER")
+	private String nfaProjectNumber;
 	
-	@Column(name="kundenname")
-	private String kundenname;
+	@Column(name="CUSTOMER_NAME")
+	private String customerName;
 	
-	@Column(name="ansprechpartner_kunde")
-	private String ansprechpartnerKunde;
+	@Column(name="CONTACT_PERS_CUSTOMER")
+	private String contactPersCustomer;
 	
-	@Column(name="ansprechpartner_msg")
-	private String ansprechpartnerMsg;
+	@Column(name="CONTACT_PERS_MSG")
+	private String contactPersMsg;
 	
-	@Column(name="branche")
-	private String branche;
+	@Column(name="BRANCH")
+	private String branch;
 	
-	@Column(name="projektart")
-	private String projektart;
+	@Column(name="PROJECT_TYPE")
+	private String projectType;
 	
-	@Column(name="entwicklungsprozess")
-	private String entwicklungsprozess;
+	@Column(name="DEVELOPMENT_PROCESS")
+	private String developmentProcess;
 	
-	@Column(name="projektphase")
-	private String projektphase;
+	@Column(name="PROJECT_PHASE")
+	private String projectPhase;
 	
-	@Column(name="projektstatus")
-	private String projektstatus;
+	@Column(name="PROJECT_STATUS")
+	private String projectStatus;
 
+	/**
+	 * @return the id
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNfaProjektnummer() {
-		return nfaProjektnummer;
+	/**
+	 * @return the nfaProjectNumber
+	 */
+	public String getNfaProjectNumber() {
+		return nfaProjectNumber;
 	}
 
-	public void setNfaProjektnummer(String nfaProjektnummer) {
-		this.nfaProjektnummer = nfaProjektnummer;
+	/**
+	 * @param nfaProjectNumber the nfaProjectNumber to set
+	 */
+	public void setNfaProjectNumber(String nfaProjectNumber) {
+		this.nfaProjectNumber = nfaProjectNumber;
 	}
 
-	public String getKundenname() {
-		return kundenname;
+	/**
+	 * @return the customerName
+	 */
+	public String getCustomerName() {
+		return customerName;
 	}
 
-	public void setKundenname(String kundenname) {
-		this.kundenname = kundenname;
+	/**
+	 * @param customerName the customerName to set
+	 */
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 
-	public String getAnsprechpartnerKunde() {
-		return ansprechpartnerKunde;
+	/**
+	 * @return the contactPersCustomer
+	 */
+	public String getContactPersCustomer() {
+		return contactPersCustomer;
 	}
 
-	public void setAnsprechpartnerKunde(String ansprechpartnerKunde) {
-		this.ansprechpartnerKunde = ansprechpartnerKunde;
+	/**
+	 * @param contactPersCustomer the contactPersCustomer to set
+	 */
+	public void setContactPersCustomer(String contactPersCustomer) {
+		this.contactPersCustomer = contactPersCustomer;
 	}
 
-	public String getAnsprechpartnerMsg() {
-		return ansprechpartnerMsg;
+	/**
+	 * @return the contactPersMsg
+	 */
+	public String getContactPersMsg() {
+		return contactPersMsg;
 	}
 
-	public void setAnsprechpartnerMsg(String ansprechpartnerMsg) {
-		this.ansprechpartnerMsg = ansprechpartnerMsg;
+	/**
+	 * @param contactPersMsg the contactPersMsg to set
+	 */
+	public void setContactPersMsg(String contactPersMsg) {
+		this.contactPersMsg = contactPersMsg;
 	}
 
-	public String getBranche() {
-		return branche;
+	/**
+	 * @return the branch
+	 */
+	public String getBranch() {
+		return branch;
 	}
 
-	public void setBranche(String branche) {
-		this.branche = branche;
+	/**
+	 * @param branch the branch to set
+	 */
+	public void setBranch(String branch) {
+		this.branch = branch;
 	}
 
-	public String getProjektart() {
-		return projektart;
+	/**
+	 * @return the projectType
+	 */
+	public String getProjectType() {
+		return projectType;
 	}
 
-	public void setProjektart(String projektart) {
-		this.projektart = projektart;
+	/**
+	 * @param projectType the projectType to set
+	 */
+	public void setProjectType(String projectType) {
+		this.projectType = projectType;
 	}
 
-	public String getEntwicklungsprozess() {
-		return entwicklungsprozess;
+	/**
+	 * @return the developmentProcess
+	 */
+	public String getDevelopmentProcess() {
+		return developmentProcess;
 	}
 
-	public void setEntwicklungsprozess(String entwicklungsprozess) {
-		this.entwicklungsprozess = entwicklungsprozess;
+	/**
+	 * @param developmentProcess the developmentProcess to set
+	 */
+	public void setDevelopmentProcess(String developmentProcess) {
+		this.developmentProcess = developmentProcess;
 	}
 
-	public String getProjektphase() {
-		return projektphase;
+	/**
+	 * @return the projectPhase
+	 */
+	public String getProjectPhase() {
+		return projectPhase;
 	}
 
-	public void setProjektphase(String projektphase) {
-		this.projektphase = projektphase;
+	/**
+	 * @param projectPhase the projectPhase to set
+	 */
+	public void setProjectPhase(String projectPhase) {
+		this.projectPhase = projectPhase;
 	}
 
-	public String getProjektstatus() {
-		return projektstatus;
+	/**
+	 * @return the projectStatus
+	 */
+	public String getProjectStatus() {
+		return projectStatus;
 	}
 
-	public void setProjektstatus(String projektstatus) {
-		this.projektstatus = projektstatus;
+	/**
+	 * @param projectStatus the projectStatus to set
+	 */
+	public void setProjectStatus(String projectStatus) {
+		this.projectStatus = projectStatus;
 	}
+
+	
+
+
 }

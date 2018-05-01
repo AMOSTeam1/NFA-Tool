@@ -1,45 +1,65 @@
 <h2>Create NFA-Project</h2>
 <div class ="div1">
-  <form>
+  <form (ngSubmit)="onSubmit()" (input)="clearMessage()">
     <label>Customer name</label>
-    <input type="text" class="txt" name="item" placeholder="Government Agency for Work"style="float:right" [(ngModel)]="customerName"><br><br>
-    <label>Contact person for government agency</label>
-    <input type="text" class="txt" name="item" placeholder="John Doe"style="float:right"><br><br>
+    <input type="text"
+           class="txt"
+           name="customerName"
+           placeholder="Government Agency for Work"
+           style="float:right"
+           [(ngModel)]="project.customerName">
+    <br><br>
+    <label>Contact person for customer</label>
+    <input type="text"
+           class="txt"
+           name="contactPersCustomer"
+           placeholder="John Doe"
+           style="float:right"
+           [(ngModel)]="project.contactPersCustomer">
+    <br><br>
     <label>Contact person for msg</label>
-    <input type="text" class="txt" name="item" placeholder="Thomas Rauch"style="float:right"><br><br>
-  </form>
-  <select>
-    <option value="" disabled selected>Branch</option>
-    <option value="Public Sector">Public Sector</option>
-    <option value="Automotive">Automotive</option>
-    <option value="Banking">Banking</option>
-  </select><br>
-  <input type="checkbox">Public Sector<br>
-  <input type="checkbox">Automotive<br>
-  <input type="checkbox">Banking<br><br>
+    <input type="text"
+           class="txt"
+           name="contactPersMsg"
+           placeholder="Thomas Rauch"
+           style="float:right"
+           [(ngModel)]="project.contactPersMsg">
+    <br><br>
 
-  <select>
-    <option value="" disabled selected>Project type</option>
-    <option value="Communication project">Communication project</option>
-    <option value="Data exchange project">Data exchange project</option>
-  </select><br>
-  <input type="checkbox">Communication project<br>
-  <input type="checkbox">Data exchange project<br><br>
-
-  <select>
-    <option value="" disabled selected>development process</option>
-    <option value="Agile">Agile</option>
-    <option value="Classic">Classic</option>
-  </select><br>
-  <input type="checkbox">Agile<br>
-  <input type="checkbox">Classic<br><br>
-  <select>
-    <option value="" disabled selected>Project phase</option>
+    <label>Branch</label>
+    <select name="branch" style="float:right" [(ngModel)]="project.branch">
+      <option value="" disabled>Choose branch</option>
+      <option value="Public Sector">Public Sector</option>
+      <option value="Automotive">Automotive</option>
+      <option value="Banking">Banking</option>
+    </select><br><br><br>
+    <label>Project type</label>
+    <select name="projectType" style="float:right" [(ngModel)]="project.projectType">
+   	 <option value="" disabled>Choose project type</option>
+      <option value="Communication project">Communication project</option>
+      <option value="Data exchange project">Data exchange project</option>
+    </select><br><br><br>
+    <label>Development process</label>
+    <select name="developmentProcess" style="float:right" [(ngModel)]="project.developmentProcess">
+      <option value="" disabled>Choose development process</option>
+      <option value="Agile">Agile</option>
+      <option value="Classic">Classic</option>
+    </select><br><br><br>
+    <label>Project phase</label>
+    <select name="projectPhase" style="float:right" [(ngModel)]="project.projectPhase">
+     <option value="" disabled>Choose project phase</option>
     <option value="Specification Sheet">Specification Sheet</option>
     <option value="Requirements Specification">Requirements Specification</option>
-  </select><br>
-  <input type="checkbox">Specification Sheet<br>
-  <input type="checkbox">Requirements Specification<br><br>
+    </select><br><br><br>
+    <table style="width: 100%">
+    	<tr>
+    		<td align="left" style="color: purple; font-style: italic;">{{messageField}}</td>
+    		<td align="right">
+    			<button class="btn " type="submit" style="float:right">Create new project</button>
+    		</td>
+    	</tr>
+    </table>
+  </form>
 </div>
 
-<input id ="anlegen" type="submit" class="btn" value="Create NFA-Projekt" style="float:right" (click)="onClick()">
+
