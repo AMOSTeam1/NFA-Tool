@@ -2,6 +2,7 @@ package com.msg.nfabackend.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -38,6 +39,7 @@ public class ProjectResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createProject(Project project,  @Context UriInfo uriInfo) {
+		
 		Project createProject = queryService.createProject(project);
 		String newId = String.valueOf(createProject.getId());
         URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();

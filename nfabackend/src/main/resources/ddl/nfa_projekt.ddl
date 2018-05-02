@@ -1,22 +1,22 @@
-CREATE TABLE public.nfaprojekt
+CREATE TABLE NFA_PROJECT
 (
-  id bigint serial PRIMARY KEY,
-  nfa_projektnummer character varying(20),
-  kundenname character varying(20),
-  ansprechpartner_kunde character varying(20),
-  ansprechpartner_msg character varying(20),
-  branche character varying(20),
-  projektart character varying(20),
-  entwicklungsprozess character varying(20),
-  projektphase character varying(20),
-  projektstatus character varying(20)
+  ID bigint PRIMARY KEY,
+  NFA_PROJECT_NUMBER character varying(40),
+  CUSTOMER_NAME character varying(40),
+  CONTACT_PERS_CUSTOMER character varying(40),
+  CONTACT_PERS_MSG character varying(40),
+  BRANCH character varying(40),
+  PROJECT_TYPE character varying(40),
+  DEVELOPMENT_PROCESS character varying(40),
+  PROJECT_PHASE character varying(40),
+  PROJECT_STATUS character varying(40)
 )
 WITH (
   OIDS=FALSE
 );
-CREATE SEQUENCE public.nfaprojekt_id_seq
-  INCREMENT 0
+CREATE SEQUENCE NFA_PROJECT_ID_SEQ
+  INCREMENT 1
   MINVALUE 0
-  MAXVALUE 0
+  MAXVALUE 1000000000
   START 0
-  CACHE 0;
+  CACHE 1;

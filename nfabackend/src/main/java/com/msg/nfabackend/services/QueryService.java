@@ -43,7 +43,7 @@ public class QueryService {
 			tx.commit();
 		}
 		catch(Exception e) {
-			LOG.log(Level.SEVERE, "Projekt-Anlegen gescheitert...", e);
+			LOG.log(Level.SEVERE, "Creating project failed...", e);
 			tx.rollback();
 		}finally {
 			em.close();

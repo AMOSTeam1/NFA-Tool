@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { DataStorageService} from '../shared/data-storage.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {DataStorageService} from '../shared/data-storage.service';
 import {Project} from './project.model';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-newproject',
@@ -8,18 +9,24 @@ import {Project} from './project.model';
   styleUrls: ['./newproject.component.css']
 })
 export class NewprojectComponent implements OnInit {
-  projectSaveStatus = '';
-  customerName = '';
+  messageField;
+  project = new Project();
   constructor(private dataStorage: DataStorageService) {}
   ngOnInit() {
   }
 
-  onClick() {
-    this.projectSaveStatus = 'Project was created for ' + this.customerName ;
-    const project = new Project(this.customerName) ;
-    this.dataStorage.storeProject(project).subscribe((response) => console.log(response.json())) ;
+  onSubmit() {
+
+    this.dataStorage.storeProject(this.project).subscribe((response) => {
+      console.log(response.json());
+      // TODO -> check server-failure and show some message...
+      this.project = response.json();
+      this.messageField = 'A new project with ID ' + this.project.id + ' created';
+      this.project = new Project();
+    });
   }
-  onUpdateClientName(event: Event) {
-    this.customerName = (<HTMLInputElement>event.target).value;
+  
+  clearMessage() {
+    this.messageField = '';
   }
 }
