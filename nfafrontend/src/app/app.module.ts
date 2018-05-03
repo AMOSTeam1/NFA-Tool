@@ -13,11 +13,12 @@ import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
-import {Http, HttpModule} from '@angular/http';
+import {HttpModule} from '@angular/http';
 
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { CurrentProjectComponent } from './current-project/current-project.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     NfacatalogComponent,
     NewnfaComponent,
     NewpackageComponent,
-    HomeComponent
+    HomeComponent,
+    CurrentProjectComponent
   ],
   imports: [
     BrowserModule,
