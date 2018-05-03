@@ -4,7 +4,7 @@ import {Currentproject} from '../shared/currentproject.model';
 
 export class CurrentProjectService {
   projectsChanged = new Subject<Currentproject[]>();
-  //private projects: Currentproject[];
+   // private projects: Currentproject[];
   private projects: Currentproject[] = [
     new Currentproject('1', 'ArbeitAgentur', 'James', 'Thomas', 'Public Sector', 'Communication',
       'agil', 'lastenheft', 'onprocess'),

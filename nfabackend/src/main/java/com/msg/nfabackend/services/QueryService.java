@@ -65,4 +65,20 @@ public class QueryService {
 		}
 		return nfa;
 	}
+	
+	public void removeProject(Long id) {
+		
+		try {
+			tx.begin();
+			Project project = em.find(Project.class, id);
+			em.remove(project);
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		
+	}
 }
