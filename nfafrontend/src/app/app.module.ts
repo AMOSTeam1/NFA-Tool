@@ -23,6 +23,7 @@ import { ProjectListComponent } from './current-project/project-list/project-lis
 import { ProjectDetailComponent } from './current-project/project-detail/project-detail.component';
 import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
+import {CurrentProjectService} from './current-project/current-project.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { ProjectEditComponent } from './current-project/project-edit/project-edi
       }
     })
   ],
-  providers: [DataStorageService],
+  providers: [DataStorageService, CurrentProjectService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
