@@ -19,6 +19,10 @@ import {HttpModule} from '@angular/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { CurrentProjectComponent } from './current-project/current-project.component';
+import { ProjectListComponent } from './current-project/project-list/project-list.component';
+import { ProjectDetailComponent } from './current-project/project-detail/project-detail.component';
+import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
+import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,11 @@ import { CurrentProjectComponent } from './current-project/current-project.compo
     NewnfaComponent,
     NewpackageComponent,
     HomeComponent,
-    CurrentProjectComponent
+    CurrentProjectComponent,
+    ProjectListComponent,
+    ProjectDetailComponent,
+    ProjectItemComponent,
+    ProjectEditComponent
   ],
   imports: [
     BrowserModule,
