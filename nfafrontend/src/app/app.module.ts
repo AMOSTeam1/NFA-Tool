@@ -13,11 +13,17 @@ import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
-import {Http, HttpModule} from '@angular/http';
+import {HttpModule} from '@angular/http';
 
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { CurrentProjectComponent } from './current-project/current-project.component';
+import { ProjectListComponent } from './current-project/project-list/project-list.component';
+import { ProjectDetailComponent } from './current-project/project-detail/project-detail.component';
+import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
+import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
+import {CurrentProjectService} from './current-project/current-project.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +33,12 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     NfacatalogComponent,
     NewnfaComponent,
     NewpackageComponent,
-    HomeComponent
+    HomeComponent,
+    CurrentProjectComponent,
+    ProjectListComponent,
+    ProjectDetailComponent,
+    ProjectItemComponent,
+    ProjectEditComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +55,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
       }
     })
   ],
-  providers: [DataStorageService],
+  providers: [DataStorageService, CurrentProjectService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

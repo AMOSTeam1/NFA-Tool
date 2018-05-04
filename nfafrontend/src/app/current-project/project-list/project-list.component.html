@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-xs-12" style="text-align: center">
+    <span class="label label-default">Current-Projects</span>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+
+    <app-project-item
+      *ngFor="let projectEl of projects; let i = index"
+      [project]="projectEl"
+      [index]="i"></app-project-item>
+  </div>
+</div>
