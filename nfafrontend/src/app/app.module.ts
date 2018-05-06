@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { EditableTableModule } from './editable-table/editable-table.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { NewprojectComponent } from './newproject/newproject.component';
@@ -38,10 +37,12 @@ import {CurrentProjectService} from './current-project/current-project.service';
     ProjectListComponent,
     ProjectDetailComponent,
     ProjectItemComponent,
-    ProjectEditComponent
+    ProjectEditComponent,
+    
   ],
   imports: [
     BrowserModule,
+    EditableTableModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
