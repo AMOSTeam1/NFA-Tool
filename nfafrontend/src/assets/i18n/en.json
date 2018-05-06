@@ -2,7 +2,63 @@
   "nfa": {
     "nfa-title": "NFA-Tool",
     "home": {
-      "welcome": "Welcome to {{name}}"
+      "welcome": "Welcome to {{name}}",
+      "current-projects": "View Current Projects"
+    },
+    "new-project" : {
+      "create-nfa-project" : "Create NFA-Project",
+      "customer-name" : "Customer name",
+      "customer-name-example" : "Government Agency for Work",
+
+      "contact-person-customer" : "Contact person for customer",
+      "contact-person-customer-example" : "John Doe",
+
+      "contact-person-msg" : "Contact person for msg",
+      "contact-person-msg-example" : "Thomas Rauch",
+
+      "branch" : {
+        "label" : "Branch",
+        "choose" : "Choose branch",
+        "public-sector" : "Public Sector",
+        "automotive" : "Automotive",
+        "banking" : "Banking"
+      },
+
+      "project-type" : {
+        "label": "Project type",
+        "choose": "Choose project type",
+        "communication": "Communication project",
+        "exchange": "Data exchange project"
+      },
+
+
+      "development-process" : {
+        "label": "Development process",
+        "choose" : "Choose development process",
+        "agile" : "Agile",
+        "classic" : "Classic"
+      },
+
+      "project-phase" : {
+        "label": "Project phase",
+        "choose" : "Choose project phase",
+        "specification" : "Specification Sheet",
+        "requrements" : "Requirements Specification"
+      },
+
+      "create-new-project" : "Create new Project"
+    },
+    "new-nfa" : {
+      "heading" : "It is dangerous to go alone for NFR project. Take this...",
+      "factors" : "Factors",
+      "factors-expl" : "Some Factor... I guess...",
+      "criteria" : "Criteria",
+      "criteria-expl" : "Some Criteria... Probably...",
+      "metric" : "Metric",
+      "metric-expl" : "Some metrics... Possibly...",
+      "type" : "Type",
+      "type-expl" : "Type... Most likely...",
+      "send" : "Send"
     },
     "header": {
       "create-project": "New Project",
