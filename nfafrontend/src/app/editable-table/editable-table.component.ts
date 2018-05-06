@@ -52,7 +52,7 @@ import { EditableTableService } from './editable-table.service';
                     <button class={{editButtonClass}} *ngIf="service.isEditing.indexOf(row) === -1 && canEditRows" (click)="editRow(row)">
                      <i class="material-icons">mode_edit</i>{{editButtonLabel}}
                     </button>
-                    <button class={{editButtonClass}} *ngIf="!(service.isEditing.indexOf(row) == -1) && canEditRows" 
+                    <button class={{editButtonClass}} *ngIf="!(service.isEditing.indexOf(row) == -1) && canEditRows"
                       (click)="saveRow(row)">
                       <i class="material-icons">check</i>{{saveButtonLabel}}
                     </button>
