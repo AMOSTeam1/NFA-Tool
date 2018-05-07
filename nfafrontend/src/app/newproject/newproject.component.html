@@ -51,15 +51,27 @@
     <option value="Specification Sheet">{{'nfa.new-project.project-phase.specification' | translate }}</option>
     <option value="Requirements Specification">{{'nfa.new-project.project-phase.requrements' | translate }}</option>
     </select><br><br><br>
+    <label>Selecting NFAs</label>
+    <select name="NFAlists"[(ngModel)]="project.NFAlists">
+      <option *ngFor ="let NFA of nfas">{{nfa.name}}</option>
+    </select>
+    <button (click)="onSelect(NFAs)">choose NFA</button>
+    <div *ngIf="onSelect(NFAs)">
+    <h2>{{ selectedNFAs.name }} Details</h2>
+     <input type="text"
+            class="txt"
+            name="contactPersCustomer"
+            style="float:right"
+            placeholder="name"
+            [(ngModel)]="selectedNFAs.name">
+    </div>
     <table style="width: 100%">
     	<tr>
     		<td align="left" style="color: purple; font-style: italic;">{{messageField}}</td>
     		<td align="right">
-    			<button class="btn " type="submit" style="float:right">{{'nfa.new-project.create-new-project' | translate }}</button>
+    			<button class="btn " type="submit" style="float:right">Create new project</button>
     		</td>
     	</tr>
     </table>
   </form>
 </div>
-
-

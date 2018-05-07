@@ -2,6 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Project} from './project.model';
 import {NgForm} from '@angular/forms';
+import {NFA} from '../nfa';
+import {NFAs} from '../mock-nfas'
 
 @Component({
   selector: 'app-newproject',
@@ -11,6 +13,7 @@ import {NgForm} from '@angular/forms';
 export class NewprojectComponent implements OnInit {
   messageField;
   project = new Project();
+  nfas = NFAs;
   constructor(private dataStorage: DataStorageService) {}
   ngOnInit() {
   }
@@ -25,8 +28,14 @@ export class NewprojectComponent implements OnInit {
       this.project = new Project();
     });
   }
-  
+
   clearMessage() {
     this.messageField = '';
   }
+  selectedNFAs: NFA;
+
+  onSelect(nfa: NFA): void {
+    this.selectedNFAs = nfa;
+  }
+
 }
