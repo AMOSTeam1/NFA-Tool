@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Project} from './project.model';
 import {NgForm} from '@angular/forms';
+import { EditableTableService } from '../editable-table/editable-table.service';
 
 @Component({
   selector: 'app-newproject',
@@ -11,10 +12,25 @@ import {NgForm} from '@angular/forms';
 export class NewprojectComponent implements OnInit {
   messageField;
   project = new Project();
-  constructor(private dataStorage: DataStorageService) {}
+  tableHeaders = ['Project Type'];
+  tableRowsWithId: any[][] = [
+    [1, 'Type1'],
+    [2, 'Type2']
+    ];
+
+  dataType = ['option'];
+  
+  
+
+  constructor(private dataStorage: DataStorageService, private service: EditableTableService) {}
   ngOnInit() {
+    this.service.createTableWithIds(this.tableHeaders, this.tableRowsWithId, this.dataType);
   }
 
+    onRemove(row: any) {
+    console.log(row);
+  }
+  
   onSubmit() {
 
     this.dataStorage.storeProject(this.project).subscribe((response) => {
