@@ -1,3 +1,65 @@
-<p>
-  project-edit works!
-</p>
+<div class="row">
+  <div class="col-xs-12" style="text-align: center">
+    <span class="label label-default">Edit Project</span>
+  </div>
+</div>
+<hr>
+<div class ="div1">
+  <form (ngSubmit) = "onUpdateProject()">
+    <label>Customer name</label>
+    <input type="text"
+           class="txt"
+           name="customerName"
+           style="float:right"
+           [(ngModel)]="project.customerName">
+    <br><br>
+    <label>Contact person for customer</label>
+    <input type="text"
+           class="txt"
+           name="contactPersCustomer"
+           style="float:right"
+           [(ngModel)]="project.contactPersCustomer">
+    <br><br>
+    <label>Contact person for msg</label>
+    <input type="text"
+           class="txt"
+           name="contactPersMsg"
+           style="float:right"
+           [(ngModel)]="project.contactPersMsg">
+    <br><br>
+
+    <label>Branch</label>
+    <select name="branch" style="float:right"  [(ngModel)]="project.branch">
+      <option value="" disabled>Choose branch</option>
+      <option value="Public Sector">Public Sector</option>
+      <option value="Automotive">Automotive</option>
+      <option value="Banking">Banking</option>
+    </select><br><br><br>
+    <label>Project type</label>
+    <select name="projectType" style="float:right"  [(ngModel)]="project.projectType">
+   	 <option value="" disabled>Choose project type</option>
+      <option value="Communication project">Communication project</option>
+      <option value="Data exchange project">Data exchange project</option>
+    </select><br><br><br>
+    <label>Development process</label>
+    <select name="developmentProcess" style="float:right"  [(ngModel)]="project.developmentProcess">
+      <option value="" disabled>Choose development process</option>
+      <option value="Agile">Agile</option>
+      <option value="Classic">Classic</option>
+    </select><br><br><br>
+    <label>Project phase</label>
+    <select name="projectPhase" style="float:right"  [(ngModel)]="project.projectPhase">
+     <option value="" disabled>Choose project phase</option>
+    <option value="Specification Sheet">Specification Sheet</option>
+    <option value="Requirements Specification">Requirements Specification</option>
+    </select><br><br><br>
+    <table style="width: 100%">
+    	<tr>
+    		<td align="left" style="color: purple; font-style: italic;">{{messageField}}</td>
+    		<td align="right">
+    			<button class="btn btn-primary" type="submit" style="float:right">Save project</button>
+    		</td>
+    	</tr>
+    </table>
+  </form>
+</div>

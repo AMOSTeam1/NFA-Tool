@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DataStorageService} from '../../shared/data-storage.service';
-import {Currentproject} from '../../shared/currentproject.model';
+import {Project} from '../../shared/project.model';
 import {CurrentProjectService} from '../current-project.service';
 import {Response} from '@angular/http';
 
@@ -11,7 +11,7 @@ import {Response} from '@angular/http';
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
-  project: Currentproject;
+  project: Project;
   id: number;
   constructor(private route: ActivatedRoute,
               private router: Router,

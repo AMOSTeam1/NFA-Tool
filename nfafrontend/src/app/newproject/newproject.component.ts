@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataStorageService} from '../shared/data-storage.service';
-import {Project} from './project.model';
+import {Project} from '../shared/project.model';
 import {NgForm} from '@angular/forms';
 
 @Component({
@@ -10,7 +10,7 @@ import {NgForm} from '@angular/forms';
 })
 export class NewprojectComponent implements OnInit {
   messageField;
-  project = new Project();
+  project = this.initProject();
   constructor(private dataStorage: DataStorageService) {}
   ngOnInit() {
   }
@@ -22,8 +22,12 @@ export class NewprojectComponent implements OnInit {
       // TODO -> check server-failure and show some message...
       this.project = response.json();
       this.messageField = 'A new project with ID ' + this.project.id + ' created';
-      this.project = new Project();
+      this.project = this.initProject();
     });
+  }
+  
+  private initProject() {
+    return new Project(null, null, null, null, null, null, null, null, null);
   }
   
   clearMessage() {
