@@ -3,17 +3,39 @@ import {DataStorageService} from '../shared/data-storage.service';
 import {Project} from './project.model';
 import {NgForm} from '@angular/forms';
 
+
+
 @Component({
   selector: 'app-newproject',
   templateUrl: './newproject.component.html',
-  styleUrls: ['./newproject.component.css']
+  styleUrls: ['./newproject.component.css'],
+
 })
 export class NewprojectComponent implements OnInit {
   messageField;
   project = new Project();
+
+  showDialog;
   constructor(private dataStorage: DataStorageService) {}
+
+
+  fieldArray: Array<any> = [];
+  newAttribute: any = {};
+
+
+  addFieldValue() {
+    this.fieldArray.push(this.newAttribute)
+    this.newAttribute = {};
+
+  }
+
+  deleteFieldValue(index) {
+    this.fieldArray.splice(index, 1);
+  }
+
   ngOnInit() {
   }
+
 
   onSubmit() {
 
@@ -25,8 +47,9 @@ export class NewprojectComponent implements OnInit {
       this.project = new Project();
     });
   }
-  
+
   clearMessage() {
     this.messageField = '';
   }
 }
+

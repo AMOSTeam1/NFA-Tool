@@ -14,10 +14,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
 import {Http, HttpModule} from '@angular/http';
+import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     NfacatalogComponent,
     NewnfaComponent,
     NewpackageComponent,
-    HomeComponent
+    HomeComponent,
+    AppComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +40,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     ReactiveFormsModule,
     HttpClientModule,
     HttpModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -45,7 +50,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
     })
   ],
   providers: [DataStorageService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
 

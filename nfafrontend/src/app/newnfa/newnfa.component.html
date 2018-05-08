@@ -12,12 +12,29 @@
 
 <form [formGroup]="nfaform" (ngSubmit) = "onSubmit()">
   <p class="sm">Factors</p>
-  <input formControlName ="factor" type="text" name="factor" placeholder="Some factor... I guess..."> <br/> <br/>
+  <select formControlName ="factor"  name="factor">
+    <option value="factor_1">Factor 1</option>
+    <option valur="factor_2">Factor 2</option>
+    <option value="factor_3">Factor 3</option>
+  </select> <br/> <br/>
   <p class="sm">Criteria</p>
-  <input formControlName ="criteria" type="text" name="criteria" placeholder="Some criteria... Probably..."> <br/> <br/>
+  <select formControlName ="criteria"  name="criteria">
+    <option value="criteria_1">Criteria 1</option>
+    <option valur="criteria_2">Criteria 2</option>
+    <option value="criteria_3">Criteria 3</option>
+  </select> <br/> <br/>
   <p class="sm">Metric</p>
-  <input formControlName ="metric" type="text" name="metric" placeholder="Some metrics... Possibly..."> <br/> <br/>
+  <select formControlName ="metric"  name="metric">
+    <option value="metric_1">Metric 1</option>
+    <option valur="metric_2">Metric 2</option>
+    <option value="metric_3">Metric 3</option>
+  </select> <br/> <br/>
   <p class="sm">Type</p>
-  <input formControlName ="nfa_type" type="text" name="nfa_type" placeholder="Type... Most likely..."> <br/> <br/>
+  <select formControlName ="nfa_type"  name="nfa_type">
+    <option value="nfa_type_1">Type 1</option>
+    <option valur="nfa_type_2">Type 2</option>
+    <option value="nfa_type_3">Type 3</option>
+  </select> <br/> <br/>
+
   <input type="submit" class="button" value="Send">
 </form>
