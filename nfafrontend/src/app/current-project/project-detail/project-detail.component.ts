@@ -36,7 +36,7 @@ export class ProjectDetailComponent implements OnInit {
     this.currentProjectService.deleteProject(this.id);
     this.dataStorageService.deleteProject(this.project)
       .subscribe(
-        (response: Response) => {
+        (response) => {
           this.router.navigate(['../'], {relativeTo: this.route});
           this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
         }

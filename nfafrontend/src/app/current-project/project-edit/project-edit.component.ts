@@ -11,8 +11,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
   styleUrls: ['./project-edit.component.css']
 })
 export class ProjectEditComponent implements OnInit {
-  project: Project; 
-  messageField ='';
+  project: Project;
   id: number;
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -21,18 +20,29 @@ export class ProjectEditComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(
-        (params: Params) => {
+        (params) => {
           this.id = +params['id'];
-          this.project = this.currentProjectService.getProject(this.id);
-        }
-        );
+          this.project = this.copy(
+            this.currentProjectService.getProject(this.id));
+        });
    }
 
-  onUpdateProject(){
+  private copy(toEdit: Project) {
+    return new Project(toEdit.id,
+    toEdit.customerName,
+    toEdit.contactPersCustomer,
+    toEdit.contactPersMsg,
+    toEdit.branch,
+    toEdit.projectType,
+    toEdit.developmentProcess,
+    toEdit.projectPhase,
+    toEdit.projectStatus);
+  }
+
+  onUpdateProject() {
       this.dataStorage.updateProject(this.project).subscribe((response) => {
-      console.log(response.json());
-      this.messageField = 'Project with ID ' + this.project.id + ' updated';
-      
+      this.currentProjectService.updateProject(this.id, this.project);
+      this.router.navigate(['../'], {relativeTo: this.route});
     });
   }
 }
