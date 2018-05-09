@@ -16,14 +16,12 @@ import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
+
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import { DialogComponent } from './dialog/dialog.component';
-
-
-
 import { CurrentProjectComponent } from './current-project/current-project.component';
 import { ProjectListComponent } from './current-project/project-list/project-list.component';
 import { ProjectDetailComponent } from './current-project/project-detail/project-detail.component';
@@ -42,6 +40,7 @@ import {CurrentProjectService} from './current-project/current-project.service';
     HomeComponent,
     AppComponent,
     DialogComponent,
+
     CurrentProjectComponent,
     ProjectListComponent,
     ProjectDetailComponent,

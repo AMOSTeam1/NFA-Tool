@@ -72,17 +72,7 @@ public class QueryService {
 		}
 		return nfa;
 	}
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-	
-=======
-=======
-
-
-	
-
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 	
 	public void removeProject(Long id) {
 		
@@ -131,9 +121,5 @@ public class QueryService {
 			emf.close();
 		}
 	}
-<<<<<<< HEAD
->>>>>>> upstream/master
-=======
 
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 }
