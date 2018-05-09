@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Currentproject} from '../../../shared/currentproject.model';
+import {Project} from '../../../shared/project.model';
 
 @Component({
   selector: 'app-project-item',
@@ -8,7 +8,7 @@ import {Currentproject} from '../../../shared/currentproject.model';
 })
 export class ProjectItemComponent implements OnInit {
 
-  @Input() project: Currentproject;
+  @Input() project: Project;
   @Input() index: number;
 
   constructor() { }

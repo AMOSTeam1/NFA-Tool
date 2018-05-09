@@ -1,16 +1,10 @@
 import {Subject} from 'rxjs/Subject';
-import {Currentproject} from '../shared/currentproject.model';
+import {Project} from '../shared/project.model';
 
 
 export class CurrentProjectService {
-  projectsChanged = new Subject<Currentproject[]>();
-   // private projects: Currentproject[];
-  private projects: Currentproject[] = [
-    new Currentproject('1', 'ArbeitAgentur', 'James', 'Thomas', 'Public Sector', 'Communication',
-      'agil', 'lastenheft', 'onprocess'),
-    new Currentproject('2', 'XYZ Agentur', 'Greg', 'Walt', 'Automotive', 'Datenaustausch',
-      'Klassisch', 'Pflichtenheft', 'onprocess')
-  ];
+  projectsChanged = new Subject<Project[]>();
+  private projects: Project[];
 
 
   getProjects() {
@@ -21,17 +15,17 @@ export class CurrentProjectService {
     return this.projects[index];
   }
 
-  updateProject(index: number, newProject: Currentproject) {
+  updateProject(index: number, newProject: Project) {
     this.projects[index] = newProject;
     this.projectsChanged.next(this.projects.slice());
   }
-
+  
   deleteProject(index: number) {
     this.projects.splice(index,1);
     this.projectsChanged.next(this.projects.slice());
   }
 
-  setProjects(projects: Currentproject[]){
+  setProjects(projects: Project[]){
     this.projects = projects;
     this.projectsChanged.next(this.projects.slice());
   }

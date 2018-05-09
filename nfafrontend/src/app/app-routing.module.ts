@@ -18,7 +18,7 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
     {path: ':id', component: ProjectDetailComponent},
-    {path:  ':id/edit', component: ProjectEditComponent}
+    {path: ':id/edit', component: ProjectEditComponent}
   ]}
 ];
 @NgModule({
