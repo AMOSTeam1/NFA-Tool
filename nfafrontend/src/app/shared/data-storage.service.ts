@@ -18,6 +18,10 @@ export class DataStorageService {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
   getCurrentProjects() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/project');
   }
