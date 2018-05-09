@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NewprojectComponent } from './newproject.component';
+import { EditableTableModule } from '../editable-table/editable-table.module';
 
 describe('NewprojectComponent', () => {
   let component: NewprojectComponent;
@@ -8,7 +9,8 @@ describe('NewprojectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NewprojectComponent ]
+      declarations: [ NewprojectComponent ],
+      imports: [EditableTableModule]
     })
     .compileComponents();
   }));

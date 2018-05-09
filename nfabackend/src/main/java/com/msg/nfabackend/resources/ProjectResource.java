@@ -2,12 +2,13 @@ package com.msg.nfabackend.resources;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Stream;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -38,7 +39,7 @@ public class ProjectResource {
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createProject(Project project,  @Context UriInfo uriInfo) {
+	public Response createProject(Project project, @Context UriInfo uriInfo) {
 		
 		Project createProject = queryService.createProject(project);
 		String newId = String.valueOf(createProject.getId());
@@ -46,5 +47,20 @@ public class ProjectResource {
         return Response.created(uri)
                 .entity(createProject)
                 .build();
+	}
+	
+	@DELETE
+	@Path("/{ProjectId}")
+	public void deleteProject(@PathParam("ProjectId") Long Id) {
+		 queryService.removeProject(Id);
+	}
+	
+	
+	@POST
+	@Path("/edit")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void editProject(Project project, @Context UriInfo uriInfo) {
+		queryService.updateProject(project);
 	}
 } 

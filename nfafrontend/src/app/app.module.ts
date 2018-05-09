@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { EditableTableModule } from './editable-table/editable-table.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { NewprojectComponent } from './newproject/newproject.component';
@@ -19,7 +18,16 @@ import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
 import { DialogComponent } from './dialog/dialog.component';
+
+import { CurrentProjectComponent } from './current-project/current-project.component';
+import { ProjectListComponent } from './current-project/project-list/project-list.component';
+import { ProjectDetailComponent } from './current-project/project-detail/project-detail.component';
+import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
+import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
+import {CurrentProjectService} from './current-project/current-project.service';
+
 
 @NgModule({
   declarations: [
@@ -32,9 +40,17 @@ import { DialogComponent } from './dialog/dialog.component';
     HomeComponent,
     AppComponent,
     DialogComponent,
+
+    CurrentProjectComponent,
+    ProjectListComponent,
+    ProjectDetailComponent,
+    ProjectItemComponent,
+    ProjectEditComponent,
+
   ],
   imports: [
     BrowserModule,
+    EditableTableModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
@@ -49,8 +65,11 @@ import { DialogComponent } from './dialog/dialog.component';
       }
     })
   ],
-  providers: [DataStorageService],
-  bootstrap: [AppComponent],
+
+
+  providers: [DataStorageService, CurrentProjectService],
+  bootstrap: [AppComponent]
+
 })
 export class AppModule { }
 

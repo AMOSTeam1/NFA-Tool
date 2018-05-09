@@ -12,7 +12,9 @@
         "favicon.ico",
         "logo.png",
         "favic.ico",
-        "favic_small.ico"
+        "favic_small.ico",
+        "ger-48x48.png",
+        "en-48x48.png"
       ],
       "index": "index.html",
       "main": "main.ts",

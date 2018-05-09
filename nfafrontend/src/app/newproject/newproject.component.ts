@@ -1,7 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataStorageService} from '../shared/data-storage.service';
-import {Project} from './project.model';
+import {Project} from '../shared/project.model';
 import {NgForm} from '@angular/forms';
+import { EditableTableService } from '../editable-table/editable-table.service';
 
 
 
@@ -13,11 +14,18 @@ import {NgForm} from '@angular/forms';
 })
 export class NewprojectComponent implements OnInit {
   messageField;
-  project = new Project();
+
 
   showDialog;
-  constructor(private dataStorage: DataStorageService) {}
+  constructor(private dataStorage: DataStorageService, private service: EditableTableService) {}
+  project = this.initProject();
+  tableHeaders = ['Project Type'];
+  tableRowsWithId: any[][] = [
+    [1, 'Type1'],
+    [2, 'Type2']
+  ];
 
+  dataType = ['option'];
 
   fieldArray: Array<any> = [];
   newAttribute: any = {};
@@ -36,9 +44,18 @@ export class NewprojectComponent implements OnInit {
     this.fieldArray.splice(index, 1);
   }
 
+
+
+
+
   ngOnInit() {
+    this.service.createTableWithIds(this.tableHeaders, this.tableRowsWithId, this.dataType);
   }
 
+
+    onRemove(row: any) {
+    console.log(row);
+  }
 
   onSubmit() {
 
@@ -47,9 +64,15 @@ export class NewprojectComponent implements OnInit {
       // TODO -> check server-failure and show some message...
       this.project = response.json();
       this.messageField = 'A new project with ID ' + this.project.id + ' created';
-      this.project = new Project();
+      this.project = this.initProject();
     });
   }
+
+
+  private initProject() {
+    return new Project(null, null, null, null, null, null, null, null, null);
+  }
+
 
   clearMessage() {
     this.messageField = '';
