@@ -131,9 +131,5 @@ public class QueryService {
 			emf.close();
 		}
 	}
-<<<<<<< HEAD
->>>>>>> upstream/master
-=======
 
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 }
