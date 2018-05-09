@@ -15,19 +15,18 @@ import { EditableTableService } from '../editable-table/editable-table.service';
 export class NewprojectComponent implements OnInit {
   messageField;
 
-<<<<<<< HEAD
-=======
-  project = new Project();
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 
-  showDialog;
-  constructor(private dataStorage: DataStorageService, private service: EditableTableService) {}
+
   project = this.initProject();
   tableHeaders = ['Project Type'];
   tableRowsWithId: any[][] = [
     [1, 'Type1'],
     [2, 'Type2']
   ];
+
+  showDialog;
+  constructor(private dataStorage: DataStorageService, private service: EditableTableService) {}
+
 
   dataType = ['option'];
 
@@ -48,23 +47,10 @@ export class NewprojectComponent implements OnInit {
     this.fieldArray.splice(index, 1);
   }
 
-<<<<<<< HEAD
-=======
-
-  project = this.initProject();
-  tableHeaders = ['Project Type'];
-  tableRowsWithId: any[][] = [
-    [1, 'Type1'],
-    [2, 'Type2']
-    ];
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 
 
-<<<<<<< HEAD
 
-=======
-  constructor(private dataStorage: DataStorageService, private service: EditableTableService) {}
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
+
 
   ngOnInit() {
     this.service.createTableWithIds(this.tableHeaders, this.tableRowsWithId, this.dataType);
@@ -74,10 +60,7 @@ export class NewprojectComponent implements OnInit {
     onRemove(row: any) {
     console.log(row);
   }
-<<<<<<< HEAD
-=======
-  
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
+
 
   onSubmit() {
 
@@ -90,19 +73,12 @@ export class NewprojectComponent implements OnInit {
     });
   }
 
-<<<<<<< HEAD
+
 
   private initProject() {
     return new Project(null, null, null, null, null, null, null, null, null);
   }
 
-=======
-  
-  private initProject() {
-    return new Project(null, null, null, null, null, null, null, null, null);
-  }
-  
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 
   clearMessage() {
     this.messageField = '';

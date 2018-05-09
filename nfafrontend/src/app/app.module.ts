@@ -12,36 +12,24 @@ import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
-<<<<<<< HEAD
-import {Http, HttpModule} from '@angular/http';
-import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-=======
-
 import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {HttpModule} from '@angular/http';
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import { DialogComponent } from './dialog/dialog.component';
-<<<<<<< HEAD
 
-=======
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
+
+
 import { CurrentProjectComponent } from './current-project/current-project.component';
 import { ProjectListComponent } from './current-project/project-list/project-list.component';
 import { ProjectDetailComponent } from './current-project/project-detail/project-detail.component';
 import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
-<<<<<<< HEAD
-
-=======
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
 
 @NgModule({
   declarations: [
@@ -52,24 +40,14 @@ import {CurrentProjectService} from './current-project/current-project.service';
     NewnfaComponent,
     NewpackageComponent,
     HomeComponent,
-<<<<<<< HEAD
     AppComponent,
     DialogComponent,
-
-=======
-
-    AppComponent,
-    DialogComponent,
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
     CurrentProjectComponent,
     ProjectListComponent,
     ProjectDetailComponent,
     ProjectItemComponent,
     ProjectEditComponent,
-<<<<<<< HEAD
-=======
-    
->>>>>>> 64f73123a45f080cabdc43b2a9bcd679ec2201cf
+
 
   ],
   imports: [
