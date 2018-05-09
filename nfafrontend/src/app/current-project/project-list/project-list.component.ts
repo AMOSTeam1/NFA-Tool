@@ -11,17 +11,19 @@ import {CurrentProjectService} from '../current-project.service';
 })
 export class ProjectListComponent implements OnInit {
 
+  projects: Project[];
   constructor(private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService) { }
 
-  getProjects() {
-    return this.currentProjectService.getProjects();
-  }
-  
+
   ngOnInit() {
     this.dataStorageService.getCurrentProjects()
       .subscribe(
-        (response) => this.currentProjectService.setProjects(response.json())
+        (response: Response) => {
+                   const projects: Project[] = response.json();
+                    this.currentProjectService.setProjects(projects);
+                 this.projects = projects;
+                 }
       );
   }
 
