@@ -15,24 +15,26 @@ export class NewnfaComponent implements OnInit {
   constructor(private dataStorageService: DataStorageService) { }
   nfaform: FormGroup;
 
-
   ngOnInit() {
     this.initForm();
   }
+
 private initForm () {
+
    this.nfaform = new FormGroup ({
-   'factor' : new FormControl('j', Validators.required),
-    'criteria': new FormControl('j', Validators.required),
-    'metric': new FormControl('j', Validators.required),
-    'nfa_type': new FormControl('j', Validators.required),
+    'factor' : new FormControl('', Validators.required),
+    'criteria': new FormControl('', Validators.required),
+    'metric': new FormControl('', Validators.required),
+    'nfa_type': new FormControl('', Validators.required),
     });
   }
   onSubmit() {
     const nfa = new Nfa(
-    this.nfaform.value['factor'],
-     this.nfaform.value['criteria'],
-    this.nfaform.value['metric'],
-    this.nfaform.value['nfa_type']);
+      this.nfaform.value['factor'],
+      this.nfaform.value['criteria'],
+      this.nfaform.value['metric'],
+      this.nfaform.value['nfa_type'],
+    )
     this.dataStorageService.postNfa(nfa)
       .subscribe(
         (response: Response) => {

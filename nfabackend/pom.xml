@@ -12,6 +12,9 @@
     <properties>
         <jersey.version>2.27</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdbc.user>postgres</jdbc.user>
+       <jdbc.password>amos18</jdbc.password>
+       <jdbc.url>jdbc:postgresql://localhost/NFA</jdbc.url>
     </properties>
     
     <build>
@@ -23,8 +26,11 @@
                 <version>2.5.1</version>
                 <inherited>true</inherited>
                 <configuration>
-                    <source>1.8</source>
+
+                    
+           <source>1.8</source>
                     <target>1.8</target>
+
                 </configuration>
             </plugin>
         </plugins>
@@ -73,12 +79,12 @@
         	<artifactId>hibernate-core</artifactId>
         	<version>5.2.12.Final</version>
         </dependency>
-        <dependency>
+       <!--   <dependency>
 		   <groupId>dom4j</groupId>
 		   <artifactId>dom4j</artifactId>
 		   <version>1.6.1</version>
 		   <scope>provided</scope>
-		</dependency>
+		</dependency>-->
         <dependency>
         	<groupId>org.slf4j</groupId>
         	<artifactId>slf4j-api</artifactId>
