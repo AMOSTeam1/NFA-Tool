@@ -4,9 +4,11 @@ import {Http} from '@angular/http';
 import {Project} from './project.model';
 
 
+
 @Injectable()
 export class DataStorageService {
   constructor(private http: Http) {}
+
   postNfa(nfa: Nfa) {
     console.log(nfa);
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/' , nfa);
@@ -15,6 +17,7 @@ export class DataStorageService {
     console.log(newproject);
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
   }
+
 
   getCurrentProjects() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/project');
@@ -26,4 +29,5 @@ export class DataStorageService {
   updateProject(updatedProject : Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }
+
 }
