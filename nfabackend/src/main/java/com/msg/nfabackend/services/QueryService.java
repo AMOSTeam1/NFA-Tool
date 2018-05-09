@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 
 import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
+import com.msg.nfabackend.entities.nfaCatalog;
 
 
 public class QueryService {
@@ -81,4 +82,6 @@ public class QueryService {
 			}
 		
 	}
+	
+	
 }
