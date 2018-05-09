@@ -12,17 +12,26 @@ import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
+import {Http, HttpModule} from '@angular/http';
+import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import {HttpModule} from '@angular/http';
+
 
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+import { DialogComponent } from './dialog/dialog.component';
+
 import { CurrentProjectComponent } from './current-project/current-project.component';
 import { ProjectListComponent } from './current-project/project-list/project-list.component';
 import { ProjectDetailComponent } from './current-project/project-detail/project-detail.component';
 import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
+
 
 @NgModule({
   declarations: [
@@ -33,12 +42,21 @@ import {CurrentProjectService} from './current-project/current-project.service';
     NewnfaComponent,
     NewpackageComponent,
     HomeComponent,
+
+    AppComponent,
+    DialogComponent,
+
+
+    AppComponent,
+    DialogComponent,
+
     CurrentProjectComponent,
     ProjectListComponent,
     ProjectDetailComponent,
     ProjectItemComponent,
     ProjectEditComponent,
-    
+
+
   ],
   imports: [
     BrowserModule,
@@ -48,6 +66,7 @@ import {CurrentProjectService} from './current-project/current-project.service';
     ReactiveFormsModule,
     HttpClientModule,
     HttpModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -56,8 +75,11 @@ import {CurrentProjectService} from './current-project/current-project.service';
       }
     })
   ],
+
+
   providers: [DataStorageService, CurrentProjectService],
   bootstrap: [AppComponent]
+
 })
 export class AppModule { }
 

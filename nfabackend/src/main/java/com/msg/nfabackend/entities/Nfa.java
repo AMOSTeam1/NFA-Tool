@@ -28,6 +28,8 @@ public class Nfa {
 	
 	@Column (name ="nfa_type")
 	private String nfa_type;
+	
+	
 
 	public Long getNfa_id() {
 		return nfa_id;
@@ -69,6 +71,5 @@ public class Nfa {
 		this.nfa_type = nfa_type;
 	}
 	
-	
-	
+
 }
