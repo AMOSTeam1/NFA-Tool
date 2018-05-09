@@ -1,6 +1,6 @@
 <div class="container color-dark">
   <div class="col">
-    <p>It is dangerous to go alone for NFR project. Take this...</p>
+    <p>{{ 'nfa.new-nfa.heading' | translate}}</p>
   </div>
 </div>
 <br/>
@@ -11,6 +11,7 @@
 </div>
 
 <form [formGroup]="nfaform" (ngSubmit) = "onSubmit()">
+
   <p class="sm">Factors</p>
   <select formControlName ="factor"  name="factor">
     <option value="factor_1">Factor 1</option>
@@ -37,4 +38,15 @@
   </select> <br/> <br/>
 
   <input type="submit" class="button" value="Send">
+
+  <p class="sm">{{ 'nfa.new-nfa.factors' | translate }}</p>
+  <input formControlName ="factor" type="text" name="factor" placeholder="{{ 'nfa.new-nfa.factors-expl' | translate }}"> <br/> <br/>
+  <p class="sm">{{ 'nfa.new-nfa.criteria' | translate }}</p>
+  <input formControlName ="criteria" type="text" name="criteria" placeholder="{{ 'nfa.new-nfa.criteria-expl' | translate }}"> <br/> <br/>
+  <p class="sm">{{ 'nfa.new-nfa.metric' | translate }}</p>
+  <input formControlName ="metric" type="text" name="metric" placeholder="{{ 'nfa.new-nfa.metric-expl' | translate }}"> <br/> <br/>
+  <p class="sm">{{ 'nfa.new-nfa.type' | translate }}</p>
+  <input formControlName ="nfa_type" type="text" name="nfa_type" placeholder="{{ 'nfa.new-nfa.type-expl' | translate }}"> <br/> <br/>
+  <input type="submit" class="button" value="{{ 'nfa.new-nfa.send' | translate }}">
+
 </form>
