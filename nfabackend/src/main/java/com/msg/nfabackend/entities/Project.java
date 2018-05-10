@@ -7,6 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Entity-Mapping for the table 'NFA_PROJECT'.
@@ -192,7 +199,28 @@ public class Project {
 		this.projectStatus = projectStatus;
 	}
 
-	
+	/**
+	 * Relation between the project and types
+	 */
+	 @ManyToMany(cascade = { 
+		        CascadeType.PERSIST, 
+		        CascadeType.MERGE
+		    })
+		    @JoinTable(name = "ProjectTypes",
+		        joinColumns = @JoinColumn(name = "ProjectId"),
+		        inverseJoinColumns = @JoinColumn(name = "TypeId")
+		    )
+	  private List<Type> types = new ArrayList<>();
+	 
+	  public void addType(Type type) {
+		    types.add(type);
+	        type.getProjects().add(this);
+	    }
+	 
+	    public void removeType(Type type) {
+	        types.remove(type);
+	        type.getProjects().remove(this);
+	    }
 
 
 }
