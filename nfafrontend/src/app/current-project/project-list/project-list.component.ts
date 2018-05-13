@@ -27,4 +27,7 @@ export class ProjectListComponent implements OnInit {
       );
   }
 
+  onSearch(frominput: HTMLInputElement) {
+    console.log(frominput.value);
+  }
 }
