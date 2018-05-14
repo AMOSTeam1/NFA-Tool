@@ -1,8 +1,7 @@
 import {Nfa} from './nfa.model';
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {Project} from '../newproject/project.model';
-import {Currentproject} from './currentproject.model';
+import {Project} from './project.model';
 
 
 @Injectable()
@@ -20,11 +19,15 @@ export class DataStorageService {
   getCurrentProjects() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/project');
   }
-  deleteProject(project: Currentproject) {
+  deleteProject(project: Project) {
     return this.http.delete('http://localhost:8080/nfabackend/webapi/project/' + project.id);
   }
   getNfas() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_catalog');
   }
 
+
+  updateProject(updatedProject : Project) {
+    return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
+  }
 }
