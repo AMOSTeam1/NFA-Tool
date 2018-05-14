@@ -2,7 +2,6 @@ package com.msg.nfabackend.resources;
 
 import java.net.URI;
 
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,10 +20,6 @@ import com.msg.nfabackend.services.QueryService;
 public class NfaResource {
 	QueryService queryService = new QueryService();
 	
-	
-	
-	
-	
 	@POST
 	public Response postNfa (Nfa nfa, @Context UriInfo uriInfo) {
 		Nfa newNfa = queryService.addNfa(nfa);
@@ -34,8 +29,5 @@ public class NfaResource {
                 .entity(newNfa)
                 .build();
 	}
-	
-	
-	 
 
 }

@@ -10,6 +10,8 @@ export class NfacatalogComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
+
 
 }

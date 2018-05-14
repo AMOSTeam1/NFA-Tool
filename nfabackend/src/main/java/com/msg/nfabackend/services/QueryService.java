@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 
 import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
+import com.msg.nfabackend.entities.nfaCatalog;
 
 
 public class QueryService {
@@ -89,7 +90,7 @@ public class QueryService {
 			}
 		
 	}
-	
+
 	/**
 	 * Updates a project by finding it by id first
 	 * @param id
@@ -97,9 +98,9 @@ public class QueryService {
 	public void updateProject(Project editedProject) {
 		try {
 			tx.begin();
-			
+
 			Project project = em.find(Project.class, editedProject.getId());
-			
+
 			project.setCustomerName(editedProject.getCustomerName());
 		    project.setBranch(editedProject.getBranch());
 			project.setContactPersCustomer(editedProject.getContactPersCustomer());
@@ -109,8 +110,8 @@ public class QueryService {
 			project.setProjectStatus(editedProject.getProjectStatus());
 			project.setProjectType(editedProject.getProjectType());
 
-			
-			
+
+
 			em.merge(editedProject);
 			tx.commit();
 		}catch(Exception e){
