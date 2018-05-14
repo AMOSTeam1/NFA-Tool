@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {DataStorageService} from '../shared/data-storage.service';
-import {Nfa} from '../shared/nfa.model';
-import {Response} from '@angular/http';
-import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 
 @Component({
   selector: 'app-nfacatalog',
@@ -11,18 +7,10 @@ import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 })
 export class NfacatalogComponent implements OnInit {
 
-  nfas: Nfa[];
-  nfaCatalog: NfaCatalogModel[];
-  constructor(private dataStorageService: DataStorageService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.dataStorageService.getNfas()
-      .subscribe(
-        (response: Response) => {
-          this.nfas = response.json();
-          this.nfaCatalog=response.json();
-        }
-      );
+
   }
 
 
