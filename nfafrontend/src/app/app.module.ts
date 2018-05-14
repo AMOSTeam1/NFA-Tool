@@ -40,9 +40,7 @@ import {NfacatalogItemComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-i
     NewnfaComponent,
     NewpackageComponent,
     HomeComponent,
-    AppComponent,
     DialogComponent,
-
     CurrentProjectComponent,
     ProjectListComponent,
     ProjectDetailComponent,
@@ -50,8 +48,6 @@ import {NfacatalogItemComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-i
     ProjectEditComponent,
     NfacatalogListComponent,
     NfacatalogItemComponent,
-
-
   ],
   imports: [
     BrowserModule,
@@ -70,11 +66,8 @@ import {NfacatalogItemComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-i
       }
     })
   ],
-
-
   providers: [DataStorageService, CurrentProjectService],
   bootstrap: [AppComponent]
-
 })
 export class AppModule { }
 
