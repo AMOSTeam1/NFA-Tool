@@ -1,9 +1,11 @@
 
-import {Nfa} from "../shared/nfa.model";
+import {Subject} from "rxjs/Subject";
+import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 
 
 export class NfacatalogService {
-  private nfaCatalog: Nfa[];
+  private nfaCatalog: NfaCatalogModel[];
+  nfaCatalogChanged = new Subject<NfaCatalogModel[]>();
 
 
   getnfaCatalogs() {
@@ -14,5 +16,8 @@ export class NfacatalogService {
     return this.nfaCatalog[index];
   }
 
-
+  setnfaCatalogs(nfaCatalogs: NfaCatalogModel[]){
+    this.nfaCatalog = nfaCatalogs;
+    this.nfaCatalogChanged.next(this.nfaCatalog.slice());
+  }
 }

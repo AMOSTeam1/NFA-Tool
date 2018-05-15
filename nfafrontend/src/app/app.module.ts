@@ -25,6 +25,7 @@ import { ProjectEditComponent } from './current-project/project-edit/project-edi
 import {CurrentProjectService} from './current-project/current-project.service';
 import {NfacatalogListComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-list.component";
 import {NfacatalogItemComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-item/nfacatalog-item.component";
+import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {NfacatalogItemComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-i
     ProjectDetailComponent,
     ProjectItemComponent,
     ProjectEditComponent,
+    NfacatalogComponent,
     NfacatalogListComponent,
     NfacatalogItemComponent,
 
@@ -60,7 +62,7 @@ import {NfacatalogItemComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-i
       }
     })
   ],
-  providers: [DataStorageService, CurrentProjectService],
+  providers: [DataStorageService, CurrentProjectService, NfacatalogService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
