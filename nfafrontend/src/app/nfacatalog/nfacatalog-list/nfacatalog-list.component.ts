@@ -1,10 +1,10 @@
 
 import { Component, OnInit } from '@angular/core';
-import {Nfa} from "../../shared/nfa.model";
 import {NfaCatalogModel} from "../../shared/nfaCatalog.model";
 import {DataStorageService} from "../../shared/data-storage.service";
 
 import {NfacatalogService} from "../nfacatalog.service";
+import {Response} from "@angular/http";
 
 
 @Component({
@@ -14,16 +14,18 @@ import {NfacatalogService} from "../nfacatalog.service";
 })
 export class NfacatalogListComponent implements OnInit {
 
-  nfas: Nfa[];
+
   nfaCatalog: NfaCatalogModel[];
   constructor(private nfaCatalogService: NfacatalogService,
               private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
-    this.dataStorageService.getNfas()
+    this.dataStorageService.getNfaCatalog()
       .subscribe(
-        (response) => {
-          this.nfas = response.json();
+        (response: Response) => {
+          const nfaCatalog: NfaCatalogModel[]=response.json();
+          this.nfaCatalogService.setnfaCatalogs(nfaCatalog);
+          this.nfaCatalog = response.json();
         }
       );
   }
