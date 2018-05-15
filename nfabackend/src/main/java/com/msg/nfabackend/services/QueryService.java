@@ -58,6 +58,8 @@ public class QueryService {
 		return project;
 	}
 	
+	
+	
 	public Nfa addNfa (Nfa nfa) {
 		try {
 			tx.begin();
@@ -71,6 +73,7 @@ public class QueryService {
 		}
 		return nfa;
 	}
+
 	
 	public void removeProject(Long id) {
 		
@@ -119,4 +122,5 @@ public class QueryService {
 			emf.close();
 		}
 	}
+
 }

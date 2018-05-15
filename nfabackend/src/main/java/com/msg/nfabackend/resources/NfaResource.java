@@ -29,8 +29,5 @@ public class NfaResource {
                 .entity(newNfa)
                 .build();
 	}
-	
-	
-
 
 }
