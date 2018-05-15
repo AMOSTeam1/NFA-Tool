@@ -2,6 +2,7 @@ import {Nfa} from './nfa.model';
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Project} from './project.model';
+import {Type} from './type.model';
 
 
 
@@ -13,11 +14,10 @@ export class DataStorageService {
     console.log(nfa);
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/' , nfa);
   }
-  storeProject(newproject: Project) {
+  storeProject(newproject: Project, type: Type[]) {
     console.log(newproject);
-    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject:type);
   }
-
 
   getCurrentProjects() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/project');
@@ -29,5 +29,7 @@ export class DataStorageService {
   updateProject(updatedProject : Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }
-
+  getAllTypes() {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/types');
+  }
 }

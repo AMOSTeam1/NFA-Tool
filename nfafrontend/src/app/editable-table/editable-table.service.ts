@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { TableRow } from '../util/table-row';
 import { TableCell } from '../util/table-cell';
+import {Project} from '../shared/project.model';
+import {Type} from '../shared/type.model';
 
 @Injectable()
 export class EditableTableService {
@@ -9,7 +11,7 @@ export class EditableTableService {
   tableHeadersObjects: TableCell[] = [];
   tableRowsObjects: TableRow[] = [];
   dataType = [];
-
+selectedTypes = [];
   isEditing: TableRow[] = [];
   constructor() { }
 
@@ -111,4 +113,18 @@ export class EditableTableService {
       this.dataType = dataType;
     }
   }
+  getSelectOptions(t)
+  {
+    const tobject = t.value();
+  }
+
+addSelectedTypes(type)
+{
+this.selectedTypes.push(type);
+}
+
+getSelectedTypes()
+{
+return this.selectedTypes;
+}
 }
