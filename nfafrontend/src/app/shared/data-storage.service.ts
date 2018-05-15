@@ -25,6 +25,10 @@ export class DataStorageService {
   deleteProject(project: Project) {
     return this.http.delete('http://localhost:8080/nfabackend/webapi/project/' + project.id);
   }
+  getNfaCatalog() {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_catalog');
+  }
+
 
   updateProject(updatedProject : Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);

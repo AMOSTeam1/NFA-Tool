@@ -1,139 +1,158 @@
-
-<div class="hero-unit">
-  <p>Qualität im Gebrauch</p>
-</div>
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    1.  Effecktivität
-  </a>
-
+<app-nfacatalog-list></app-nfacatalog-list>
+<!--
+<div class="row" *ngFor="let nfa of nfas; let i = index">
+  {{NfacatalogComponent.nfaCatalogId}}
+  {{NfaCatalogModel.nfaCatalogType}}
 </div>
 
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    2. Effizienz
-  </a>
+<div class="row">
+  <div class="col-md-5">
+  <app-nfacatalog-list></app-nfacatalog-list>
 
-</div>
-
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    3. Zufriedenheit
-  </a>
-  <a href="#" class="list-group-item">3.1 Nützlichkeit</a>
-  <a href="#" class="list-group-item">3.2 Vertrauen</a>
-  <a href="#" class="list-group-item">3.3 Freude im Umgang mit dem System</a>
-  <a href="#" class="list-group-item">3.4 Komfort</a>
-</div>
-
-
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    4.  Riskofreiheit
-  </a>
-  <a href="#" class="list-group-item">4.1 Verringerung der ökonomischen Risken</a>
-  <a href="#" class="list-group-item">4.2 Verringerung der Risiken hinsichtlich Gesundheit und Sicherheit</a>
-  <a href="#" class="list-group-item">4.3 Verringerung der Umweltrisiken</a>
-
-</div>
-
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    5.  Umgebungsabdeckung
-  </a>
-  <a href="#" class="list-group-item">5.1 Komplette Abdeckung aller Umgebungsanforungen</a>
-  <a href="#" class="list-group-item">5.2 Flexibilitat</a>
+  </div>
+  <div class="col-md-7">
+    <router-outlet></router-outlet>
+  </div>
 
 </div>
 
 <div class="hero-unit">
-  <p>Productqualitätsmodell</p>
+<p>Qualität im Gebrauch</p>
 </div>
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    6.  Funktionale Eignung
-  </a>
-  <a href="#" class="list-group-item">6.1 Funktionale Vollständigkeit</a>
-  <a href="#" class="list-group-item">6.2 Funktionale Korrektheit</a>
-  <a href="#" class="list-group-item">6.3 Funktionale Angemessenheit</a>
+<a href="#" class="list-group-item active">
+1.  Effecktivität
+</a>
 
 </div>
 
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    7.  Leistungseffizienz
-  </a>
-  <a href="#" class="list-group-item">7.1 Zeitverhalten</a>
-  <a href="#" class="list-group-item">7.2 Ressourcennutzung</a>
-  <a href="#" class="list-group-item">7.3 Kapazität</a>
+<a href="#" class="list-group-item active">
+2. Effizienz
+</a>
 
 </div>
 
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    8.  Kompatibilität
-  </a>
-  <a href="#" class="list-group-item">8.1 Koexistenz</a>
-  <a href="#" class="list-group-item">8.2 Interoperabilität</a>
+<a href="#" class="list-group-item active">
+3. Zufriedenheit
+</a>
+<a href="#" class="list-group-item">3.1 Nützlichkeit</a>
+<a href="#" class="list-group-item">3.2 Vertrauen</a>
+<a href="#" class="list-group-item">3.3 Freude im Umgang mit dem System</a>
+<a href="#" class="list-group-item">3.4 Komfort</a>
+</div>
+
+
+<div class="list-group">
+<a href="#" class="list-group-item active">
+4.  Riskofreiheit
+</a>
+<a href="#" class="list-group-item">4.1 Verringerung der ökonomischen Risken</a>
+<a href="#" class="list-group-item">4.2 Verringerung der Risiken hinsichtlich Gesundheit und Sicherheit</a>
+<a href="#" class="list-group-item">4.3 Verringerung der Umweltrisiken</a>
 
 </div>
 
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    9.  Usability
-  </a>
-  <a href="#" class="list-group-item">9.1 Erkennbarkeit der Eignung</a>
-  <a href="#" class="list-group-item">9.2 Lernfähigkeit </a>
-  <a href="#" class="list-group-item">	9.3 Bedienbarkeit</a>
-  <a href="#" class="list-group-item">9.4 Schutz der Nutzer, Fehler zu begehen </a>
-  <a href="#" class="list-group-item">9.5 Ästhetik des User-Interfaces</a>
-  <a href="#" class="list-group-item">9.6 Erreichbarkeit </a>
+<a href="#" class="list-group-item active">
+5.  Umgebungsabdeckung
+</a>
+<a href="#" class="list-group-item">5.1 Komplette Abdeckung aller Umgebungsanforungen</a>
+<a href="#" class="list-group-item">5.2 Flexibilitat</a>
+
+</div>
+
+<div class="hero-unit">
+<p>Productqualitätsmodell</p>
+</div>
+<div class="list-group">
+<a href="#" class="list-group-item active">
+6.  Funktionale Eignung
+</a>
+<a href="#" class="list-group-item">6.1 Funktionale Vollständigkeit</a>
+<a href="#" class="list-group-item">6.2 Funktionale Korrektheit</a>
+<a href="#" class="list-group-item">6.3 Funktionale Angemessenheit</a>
 
 </div>
 
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    10. Zuverlässigkeit
-  </a>
-  <a href="#" class="list-group-item">10.1  Reife</a>
-  <a href="#" class="list-group-item">10.2  Verfügbarkeit </a>
-  <a href="#" class="list-group-item">10.3  Fehlertoleranz</a>
-  <a href="#" class="list-group-item">10.4  Wiederherstellbarkeit</a>
+<a href="#" class="list-group-item active">
+7.  Leistungseffizienz
+</a>
+<a href="#" class="list-group-item">7.1 Zeitverhalten</a>
+<a href="#" class="list-group-item">7.2 Ressourcennutzung</a>
+<a href="#" class="list-group-item">7.3 Kapazität</a>
 
 </div>
 
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    11. Sicherheit
-  </a>
-  <a href="#" class="list-group-item">11.1  Vertraulichkeit</a>
-  <a href="#" class="list-group-item">11.2  Integrität </a>
-  <a href="#" class="list-group-item">11.3  Nicht-Ablehnung</a>
-  <a href="#" class="list-group-item">11.4  Rechenschaft</a>
-  <a href="#" class="list-group-item">	11.5  Authentizität</a>
+<a href="#" class="list-group-item active">
+8.  Kompatibilität
+</a>
+<a href="#" class="list-group-item">8.1 Koexistenz</a>
+<a href="#" class="list-group-item">8.2 Interoperabilität</a>
 
 </div>
 
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    12. Wartbarkeit
-  </a>
-  <a href="#" class="list-group-item">12.1  Modularität</a>
-  <a href="#" class="list-group-item">12.2  Wiederverwendbarkeit </a>
-  <a href="#" class="list-group-item">	12.3  Analysierbarkeit</a>
-  <a href="#" class="list-group-item">12.4  Modifizierbarkeit </a>
-  <a href="#" class="list-group-item">12.5  Stabilität</a>
-  <a href="#" class="list-group-item">	12.6  Testbarkeit</a>
+<a href="#" class="list-group-item active">
+9.  Usability
+</a>
+<a href="#" class="list-group-item">9.1 Erkennbarkeit der Eignung</a>
+<a href="#" class="list-group-item">9.2 Lernfähigkeit </a>
+<a href="#" class="list-group-item">	9.3 Bedienbarkeit</a>
+<a href="#" class="list-group-item">9.4 Schutz der Nutzer, Fehler zu begehen </a>
+<a href="#" class="list-group-item">9.5 Ästhetik des User-Interfaces</a>
+<a href="#" class="list-group-item">9.6 Erreichbarkeit </a>
 
 </div>
 
 <div class="list-group">
-  <a href="#" class="list-group-item active">
-    13.  Übertragbarkeit
-  </a>
-  <a href="#" class="list-group-item">13.1  Anpassbarkeit</a>
-  <a href="#" class="list-group-item">13.2  Installierbarkeit </a>
-  <a href="#" class="list-group-item">	13.3  Ersetzbarkeit</a>
+<a href="#" class="list-group-item active">
+10. Zuverlässigkeit
+</a>
+<a href="#" class="list-group-item">10.1  Reife</a>
+<a href="#" class="list-group-item">10.2  Verfügbarkeit </a>
+<a href="#" class="list-group-item">10.3  Fehlertoleranz</a>
+<a href="#" class="list-group-item">10.4  Wiederherstellbarkeit</a>
+
+</div>
+
+<div class="list-group">
+<a href="#" class="list-group-item active">
+11. Sicherheit
+</a>
+<a href="#" class="list-group-item">11.1  Vertraulichkeit</a>
+<a href="#" class="list-group-item">11.2  Integrität </a>
+<a href="#" class="list-group-item">11.3  Nicht-Ablehnung</a>
+<a href="#" class="list-group-item">11.4  Rechenschaft</a>
+<a href="#" class="list-group-item">	11.5  Authentizität</a>
+
+</div>
+
+<div class="list-group">
+<a href="#" class="list-group-item active">
+12. Wartbarkeit
+</a>
+<a href="#" class="list-group-item">12.1  Modularität</a>
+<a href="#" class="list-group-item">12.2  Wiederverwendbarkeit </a>
+<a href="#" class="list-group-item">	12.3  Analysierbarkeit</a>
+<a href="#" class="list-group-item">12.4  Modifizierbarkeit </a>
+<a href="#" class="list-group-item">12.5  Stabilität</a>
+<a href="#" class="list-group-item">	12.6  Testbarkeit</a>
+
+</div>
+
+<div class="list-group">
+<a href="#" class="list-group-item active">
+13.  Übertragbarkeit
+</a>
+<a href="#" class="list-group-item">13.1  Anpassbarkeit</a>
+<a href="#" class="list-group-item">13.2  Installierbarkeit </a>
+<a href="#" class="list-group-item">	13.3  Ersetzbarkeit</a>
 </div>
 
 
+
+-->
