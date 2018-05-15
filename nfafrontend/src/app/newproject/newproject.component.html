@@ -51,11 +51,11 @@
     <option value="Specification Sheet">{{'nfa.new-project.project-phase.specification' | translate }}</option>
     <option value="Requirements Specification">{{'nfa.new-project.project-phase.requrements' | translate }}</option>
     </select><br><br><br>
-    <label>{{'nfa.new-project.nfaCatalog.label' | translate }}</label>
-    <select name="NfaCatalog" style="float:right" [(ngModel)]="project.projectType">
-      <option value="" disabled>{{'nfa.new-project.project-type.choose' | translate }}</option>
-      <option value="Communication project">{{'nfa.new-project.project-type.communication' | translate }}</option>
-      <option value="Data exchange project">{{'nfa.new-project.project-type.exchange' | translate }}</option>
+    <label>{{"NFA Catalog" }}</label>
+    <select name="NfaCatalog" style="float:right"  >
+      <option value="" disabled>{{"Choose from Nfa Catalog"}}</option>
+      <option value="Communication project">{{"1st Catalog"}}</option>
+      <option value="Data exchange project">{{"2nd Cstalog" }}</option>
     </select><br><br><br>
   <div>
   <nv-editable-table [table-headers]="tableHeaders" [table-rows-with-id]="tableRowsWithId" [data-type]="dataType" (onRemove)="onRemove($event)"
