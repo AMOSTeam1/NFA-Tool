@@ -5,8 +5,18 @@
 </div>
 <hr>
 <div class="row">
+  <div class="col-xs-3" style="text-align: center">
+    <label>Name</label>
+  </div>
+  <div class="col-xs-6" style="text-align: center">
+    <input class="col-xs-12" #inp>
+  </div>
+  <div class="col-xs-3" style="text-align: right">
+    <button class="btn" (click)="onSearch(inp)">Search</button>
+  </div>
+</div>
+<div class="row">
   <div class="col-xs-12">
-
     <app-project-item
       *ngFor="let projectEl of projects let i = index"
       [project]="projectEl"

@@ -3,58 +3,76 @@
 
 
 
-<div class ="div1">
+<div class ="row">
+
   <form (ngSubmit)="onSubmit()" (input)="clearMessage()">
-    <label>{{'nfa.new-project.customer-name' | translate }}</label>
+    <div class="col-md-6"><label>{{'nfa.new-project.customer-name' | translate }}</label></div>
+    <div class="col-md-6">
     <input type="text"
            class="txt"
            name="customerName"
            placeholder="{{'nfa.new-project.customer-name-example' | translate }}"
-           style="float:right"
+           style="float:left"
            [(ngModel)]="project.customerName">
+    </div>
     <br><br>
-    <label>{{'nfa.new-project.contact-person-customer' | translate }}</label>
+    <div class="col-md-6">
+      <label>{{'nfa.new-project.contact-person-customer' | translate }}</label></div>
+    <div class="col-md-6">
     <input type="text"
            class="txt"
            name="contactPersCustomer"
            placeholder="{{'nfa.new-project.contact-person-customer-example' | translate }}"
-           style="float:right"
+           style="float:left"
            [(ngModel)]="project.contactPersCustomer">
+    </div>
     <br><br>
-    <label>{{'nfa.new-project.contact-person-msg' | translate }}</label>
+    <div class="col-md-6">
+      <label>{{'nfa.new-project.contact-person-msg' | translate }}</label></div>
+    <div class="col-md-6">
     <input type="text"
            class="txt"
            name="contactPersMsg"
            placeholder="{{'nfa.new-project.contact-person-msg-example' | translate }}"
-           style="float:right"
+           style="float:left"
            [(ngModel)]="project.contactPersMsg">
+    </div>
     <br><br>
-
-    <label>{{'nfa.new-project.branch.label' | translate }}</label>
-    <select name="branch" style="float:right" [(ngModel)]="project.branch">
+    <div class="col-md-6">
+      <label>{{'nfa.new-project.branch.label' | translate }}</label></div>
+    <div class="col-md-6">
+    <select name="branch" style="float:left" [(ngModel)]="project.branch">
       <option value="" disabled>{{'nfa.new-project.branch.choose' | translate }}</option>
       <option value="Public Sector">{{'nfa.new-project.branch.public-sector' | translate }}</option>
       <option value="Automotive">{{'nfa.new-project.branch.automotive' | translate }}</option>
       <option value="Banking">{{'nfa.new-project.branch.banking' | translate }}</option>
-    </select><br><br><br>
-    <label>{{'nfa.new-project.project-type.label' | translate }}</label>
-    <select name="projectType" style="float:right" [(ngModel)]="project.projectType">
+    </select>
+    </div><br><br>
+    <div class="col-md-6">
+      <label>{{'nfa.new-project.project-type.label' | translate }}</label></div>
+    <div class="col-md-6" style="float:left">
+    <select name="projectType" class="container-fluid" [(ngModel)]="project.projectType">
    	 <option value="" disabled>{{'nfa.new-project.project-type.choose' | translate }}</option>
       <option value="Communication project">{{'nfa.new-project.project-type.communication' | translate }}</option>
       <option value="Data exchange project">{{'nfa.new-project.project-type.exchange' | translate }}</option>
-    </select><br><br><br>
-    <label>{{'nfa.new-project.development-process.label' | translate }}</label>
-    <select name="developmentProcess" style="float:right" [(ngModel)]="project.developmentProcess">
+    </select>
+    </div><br><br>
+    <div class="col-md-6">
+      <label>{{'nfa.new-project.development-process.label' | translate }}</label></div>
+    <div class="col-md-6">
+    <select name="developmentProcess" style="float:left" [(ngModel)]="project.developmentProcess">
       <option value="" disabled>{{'nfa.new-project.development-process.choose' | translate }}</option>
       <option value="Agile">{{'nfa.new-project.development-process.agile' | translate }}</option>
       <option value="Classic">{{'nfa.new-project.development-process.classic' | translate }}</option>
-    </select><br><br><br>
-    <label>{{'nfa.new-project.project-phase.label' | translate }}</label>
-    <select name="projectPhase" style="float:right" [(ngModel)]="project.projectPhase">
+    </select></div><br><br>
+    <div class="col-md-6">
+      <label>{{'nfa.new-project.project-phase.label' | translate }}</label></div>
+    <div class="col-md-6">
+    <select name="projectPhase" style="float:left" [(ngModel)]="project.projectPhase">
      <option value="" disabled>{{'nfa.new-project.project-phase.choose' | translate }}</option>
     <option value="Specification Sheet">{{'nfa.new-project.project-phase.specification' | translate }}</option>
     <option value="Requirements Specification">{{'nfa.new-project.project-phase.requrements' | translate }}</option>
-    </select><br><br><br>
+    </select></div><br><br><br>
 
 
     <table class="table table-striped table-bordered">

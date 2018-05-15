@@ -2,6 +2,7 @@ import {Nfa} from './nfa.model';
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Project} from './project.model';
+import {HttpParams} from '@angular/common/http';
 
 
 
@@ -26,8 +27,11 @@ export class DataStorageService {
     return this.http.delete('http://localhost:8080/nfabackend/webapi/project/' + project.id);
   }
 
-  updateProject(updatedProject : Project) {
+  updateProject(updatedProject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }
 
+  getProjectByName(param: string) {
+   return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?lookupCustName=' + param);
+  }
 }

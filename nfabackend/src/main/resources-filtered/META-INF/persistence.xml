@@ -6,6 +6,7 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>com.msg.nfabackend.entities.Project</class>
 		<class>com.msg.nfabackend.entities.Nfa</class>
+		<class>com.msg.nfabackend.entities.Type</class>
 		<properties>
 			<property name="javax.persistence.jdbc.user" value="${jdbc.user}"/>
 			<property name="javax.persistence.jdbc.password" value="${jdbc.password}"/>

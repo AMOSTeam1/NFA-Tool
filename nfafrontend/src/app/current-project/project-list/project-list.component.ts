@@ -27,4 +27,13 @@ export class ProjectListComponent implements OnInit {
       );
   }
 
+  onSearch(frominput: HTMLInputElement) {
+    this.dataStorageService.getProjectByName(frominput.value).subscribe(
+      (response: Response) => {
+        const projects: Project[] = response.json();
+        this.currentProjectService.setProjects(projects);
+        this.projects = projects;
+      }
+    );
+  }
 }

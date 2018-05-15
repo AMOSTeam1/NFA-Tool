@@ -8,6 +8,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.criterion.Restrictions;
 
 import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
@@ -35,6 +40,29 @@ public class QueryService {
 			}
 		return listProject;
     }
+	
+	public List<Project> findProject(String lookupCustName) {
+		List<Project> listProject = null;
+		try {
+			tx.begin();
+			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+			
+			CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
+			Root<Project> fromProject = criteria.from(Project.class);
+			if (lookupCustName != null) {
+				criteria.where(criteriaBuilder.like(fromProject.<String>get("customerName"), "%"+lookupCustName+"%"));
+			}
+			listProject = em.createQuery(criteria).getResultList();
+			
+			tx.commit();
+		}catch(Exception e){
+			tx.rollback();
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return listProject;
+	}
 	
 	/**
 	 * Create new project
