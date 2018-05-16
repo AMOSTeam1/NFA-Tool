@@ -127,7 +127,8 @@ public class QueryService {
 			tx.begin();
 			
 			Project project = em.find(Project.class, editedProject.getId());
-			
+
+			project.setArchived(editedProject.isArchived());
 			project.setCustomerName(editedProject.getCustomerName());
 		    project.setBranch(editedProject.getBranch());
 			project.setContactPersCustomer(editedProject.getContactPersCustomer());

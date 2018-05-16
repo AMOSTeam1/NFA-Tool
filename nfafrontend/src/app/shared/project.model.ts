@@ -2,6 +2,7 @@ export class Project {
 
   constructor(
     public id: string,
+    public archived: boolean,
     public customerName: string,
     public contactPersCustomer: string,
     public contactPersMsg: string,
