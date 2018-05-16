@@ -1,64 +1,116 @@
 <div class="row">
-  <div class="col-xs-12" style="text-align: center">
-    <span class="label label-default">Edit Project</span>
-  </div>
-</div>
-<hr>
-<div class ="div1">
-  <form (ngSubmit) = "onUpdateProject()">
-    <label>Customer name</label>
-    <input type="text"
-           class="txt"
-           name="customerName"
-           style="float:right"
-           [(ngModel)]="project.customerName">
-    <br><br>
-    <label>Contact person for customer</label>
-    <input type="text"
-           class="txt"
-           name="contactPersCustomer"
-           style="float:right"
-           [(ngModel)]="project.contactPersCustomer">
-    <br><br>
-    <label>Contact person for msg</label>
-    <input type="text"
-           class="txt"
-           name="contactPersMsg"
-           style="float:right"
-           [(ngModel)]="project.contactPersMsg">
-    <br><br>
+  <div class="col-xs-12">
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid">Save</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="customerName"><small>Customer Name</small></label>
+            <input type="text"
+                   id="customerName"
+                   formControlName="customerName"
+                   class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="customerContact"><small>customerContact</small></label>
+            <input type="text"
+                   id="customerContact"
+                   formControlName="customerContact"
+                   class="form-control">
+          </div>
+        </div>
+      </div>
 
-    <label>Branch</label>
-    <select name="branch" style="float:right"  [(ngModel)]="project.branch">
-      <option value="" disabled>Choose branch</option>
-      <option value="Public Sector">Public Sector</option>
-      <option value="Automotive">Automotive</option>
-      <option value="Banking">Banking</option>
-    </select><br><br><br>
-    <label>Project type</label>
-    <select name="projectType" style="float:right"  [(ngModel)]="project.projectType">
-   	 <option value="" disabled>Choose project type</option>
-      <option value="Communication project">Communication project</option>
-      <option value="Data exchange project">Data exchange project</option>
-    </select><br><br><br>
-    <label>Development process</label>
-    <select name="developmentProcess" style="float:right"  [(ngModel)]="project.developmentProcess">
-      <option value="" disabled>Choose development process</option>
-      <option value="Agile">Agile</option>
-      <option value="Classic">Classic</option>
-    </select><br><br><br>
-    <label>Project phase</label>
-    <select name="projectPhase" style="float:right"  [(ngModel)]="project.projectPhase">
-     <option value="" disabled>Choose project phase</option>
-    <option value="Specification Sheet">Specification Sheet</option>
-    <option value="Requirements Specification">Requirements Specification</option>
-    </select><br><br><br>
-    <table style="width: 100%">
-    	<tr>
-    		<td align="right">
-    			<button class="btn btn-primary" type="submit" style="float:right">Save project</button>
-    		</td>
-    	</tr>
-    </table>
-  </form>
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="msgContact"><small>msgContact</small></label>
+            <input type="text"
+                   id="msgContact"
+                   formControlName="msgContact"
+                   class="form-control">
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="branch"><small>{{'nfa.new-project.branch.label' | translate }}</small></label>
+            <select  id="branch" formControlName="branch" class="form-control">
+              <option value="" disabled>{{'nfa.new-project.branch.choose' | translate }}</option>
+              <option value="Public Sector">{{'nfa.new-project.branch.public-sector' | translate }}</option>
+              <option value="Automotive">{{'nfa.new-project.branch.automotive' | translate }}</option>
+              <option value="Banking">{{'nfa.new-project.branch.banking' | translate }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="devProcess"><small>{{'nfa.new-project.development-process.label' | translate }}</small></label>
+            <select  id="devProcess" formControlName="devProcess" class="form-control">
+              <option value="" disabled>{{'nfa.new-project.development-process.choose' | translate }}</option>
+              <option value="Agile">{{'nfa.new-project.development-process.agile' | translate }}</option>
+              <option value="Classic">{{'nfa.new-project.development-process.classic' | translate }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="projectPhase"><small>{{'nfa.new-project.project-phase.label' | translate }}</small></label>
+            <select  id="projectPhase" formControlName="projectPhase" class="form-control">
+              <option value="" disabled>{{'nfa.new-project.project-phase.choose' | translate }}</option>
+              <option value="Specification Sheet">{{'nfa.new-project.project-phase.specification' | translate }}</option>
+              <option value="Requirements Specification">{{'nfa.new-project.project-phase.requrements' | translate }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="projectStatus"><small>projectStatus</small></label>
+            <select  id="projectStatus" formControlName="projectStatus" class="form-control">
+              <option value="" disabled>choose</option>
+              <option value="On Process">On Process</option>
+              <option value="Archived">Archived</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <h3 style="text-align: center"> Project Types</h3>
+      <hr>
+      <div class="row">
+        <div class="col-xs-12" formArrayName="types">
+          <div class="row" *ngFor="let questionCtrl of getControls(); let i = index" [formGroupName]="i" style="margin-top: 10px;">
+            <div class="col-xs-6">
+              <div class="form-group">
+                <select class="form-control" id="id" formControlName="id">
+                  <option *ngFor="let typeEl of types; let j = index" [value]="typeEl.id">{{typeEl.name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <button type="button" class="btn btn-danger" (click)="onDeleteType(i)">X</button>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" class="btn btn-success" (click)="onAddType()"> <span class="glyphicon glyphicon-plus"> </span> Add Type</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

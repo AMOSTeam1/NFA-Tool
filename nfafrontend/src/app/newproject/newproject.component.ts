@@ -75,7 +75,7 @@ export class NewprojectComponent implements OnInit {
 
 
   private initProject() {
-    return new Project(null, null, null, null, null, null, null, null, null, null);
+    return new Project(null, null, null, null, null, null, null, null, null);
   }
 
 

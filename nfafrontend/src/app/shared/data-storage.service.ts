@@ -15,7 +15,6 @@ export class DataStorageService {
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/' , nfa);
   }
   storeProject(newproject: Project) {
-    console.log(newproject);
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
   }
 
@@ -34,4 +33,9 @@ export class DataStorageService {
   getProjectByName(param: string) {
    return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?lookupCustName=' + param);
   }
+
+  getTypes() {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/types');
+  }
+
 }

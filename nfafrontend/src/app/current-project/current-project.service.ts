@@ -1,18 +1,13 @@
 import {Subject} from 'rxjs/Subject';
 import {Project} from '../shared/project.model';
+import {ProjectType} from '../shared/type.model';
 
 
 export class CurrentProjectService {
   projectsChanged = new Subject<Project[]>();
   private projects: Project[];
+  private types: ProjectType[];
 
-
-  // getProjects(archived = false) {
-  //   return this.projects.slice().filter(
-  //
-  //     value => value.isArchived === archived
-  //   );
-  // }
 
   getProjects() {
     return this.projects.slice();
@@ -20,6 +15,11 @@ export class CurrentProjectService {
 
   getProject(index: number) {
     return this.projects[index];
+  }
+
+  addProject(project: Project) {
+    this.projects.push(project);
+    this.projectsChanged.next(this.projects.slice());
   }
 
   updateProject(index: number, newProject: Project) {
@@ -36,4 +36,14 @@ export class CurrentProjectService {
     this.projects = projects;
     this.projectsChanged.next(this.projects.slice());
   }
+
+  getTypes() {
+    return this.types.slice();
+  }
+
+  setTypes(types: ProjectType[]){
+    this.types = types;
+  }
+
+
 }

@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
+import com.msg.nfabackend.entities.Type;
 
 
 public class QueryService {
@@ -128,7 +129,6 @@ public class QueryService {
 			
 			Project project = em.find(Project.class, editedProject.getId());
 
-			project.setArchived(editedProject.isArchived());
 			project.setCustomerName(editedProject.getCustomerName());
 		    project.setBranch(editedProject.getBranch());
 			project.setContactPersCustomer(editedProject.getContactPersCustomer());
@@ -136,7 +136,7 @@ public class QueryService {
 			project.setDevelopmentProcess(editedProject.getDevelopmentProcess());
 			project.setProjectPhase(editedProject.getProjectPhase());
 			project.setProjectStatus(editedProject.getProjectStatus());
-			project.setProjectType(editedProject.getProjectType());
+			project.setProjectTypes(editedProject.getProjectTypes());
 
 			
 			
@@ -150,5 +150,20 @@ public class QueryService {
 			emf.close();
 		}
 	}
+	
+	public List<Type> getAllType() {
+		List<Type> listType = null;
+		try {
+			tx.begin();
+			listType = em.createQuery("from Type",Type.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listType;
+    }
 
 }

@@ -3,6 +3,7 @@ import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 import {Response} from '@angular/http';
 import {CurrentProjectService} from '../current-project.service';
+import {ProjectType} from '../../shared/type.model';
 
 @Component({
   selector: 'app-project-list',
@@ -11,9 +12,6 @@ import {CurrentProjectService} from '../current-project.service';
 })
 export class ProjectListComponent implements OnInit {
 
-  @Input() archivedView = false;
-
-  viewname : string;
 
   projects: Project[];
   constructor(private currentProjectService: CurrentProjectService,
@@ -24,23 +22,24 @@ export class ProjectListComponent implements OnInit {
     this.dataStorageService.getCurrentProjects()
       .subscribe(
         (response: Response) => {
-                   const projects: Project[] = response.json().filter(
-                     value => value.archived == this.archivedView
-                   );
+                   const projects: Project[] = response.json();
                    this.currentProjectService.setProjects(projects);
                    this.projects = projects;
-
-                   this.viewname = (!this.archivedView) ? "Current-Projects" : "Archived-Projects" ;
                  }
+      );
+    this.dataStorageService.getTypes()
+      .subscribe(
+        (response: Response) => {
+          const types: ProjectType[] = response.json();
+          this.currentProjectService.setTypes(types);
+        }
       );
   }
 
   onSearch(frominput: HTMLInputElement) {
     this.dataStorageService.getProjectByName(frominput.value).subscribe(
       (response: Response) => {
-        const projects: Project[] = response.json().filter(
-          value => value.archived == this.archivedView
-        );
+        const projects: Project[] = response.json();
         this.currentProjectService.setProjects(projects);
         this.projects = projects;
       }
