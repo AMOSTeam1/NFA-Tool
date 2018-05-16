@@ -3,8 +3,7 @@ import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Project} from './project.model';
 import {HttpParams} from '@angular/common/http';
-
-
+import {Type} from './type.model';
 
 @Injectable()
 export class DataStorageService {
@@ -16,9 +15,8 @@ export class DataStorageService {
   }
   storeProject(newproject: Project) {
     console.log(newproject);
-    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create');
   }
-
 
   getCurrentProjects() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/project');
@@ -34,4 +32,6 @@ export class DataStorageService {
   getProjectByName(param: string) {
    return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?lookupCustName=' + param);
   }
+    getAllTypes() {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/types');
 }

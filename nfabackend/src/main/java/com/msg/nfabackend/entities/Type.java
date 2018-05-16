@@ -3,8 +3,10 @@ package com.msg.nfabackend.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,8 +18,7 @@ import javax.persistence.Table;
  * Entity-Mapping for the table 'ProjectTypes'.
  * 
  */
-
-@Entity (name="Types")
+@Entity
 @Table(name="Types")
 public class Type {
 	
@@ -81,11 +82,11 @@ public class Type {
 	}
 	
 	/**
-	 * relation between projects and projec Type
+	 * relation between projects and project Type
 	 */
 	
-    @ManyToMany(mappedBy = "types")
-	private List<Project> projects = new ArrayList<>();
+	 @ManyToMany(fetch = FetchType.EAGER,mappedBy = "types",cascade = CascadeType.ALL)
+	    private List<Project> projects = new ArrayList<>();
 
 
 	public List<Project> getProjects() {

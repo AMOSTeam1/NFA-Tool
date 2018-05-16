@@ -3,7 +3,8 @@ import {DataStorageService} from '../shared/data-storage.service';
 import {Project} from '../shared/project.model';
 import {NgForm} from '@angular/forms';
 import { EditableTableService } from '../editable-table/editable-table.service';
-
+import {HttpClient} from '@angular/common/http';
+import {Type} from '../shared/type.model';
 
 
 @Component({
@@ -14,26 +15,21 @@ import { EditableTableService } from '../editable-table/editable-table.service';
 })
 export class NewprojectComponent implements OnInit {
   messageField;
-
-
-
   project = this.initProject();
   tableHeaders = ['Project Type'];
-  tableRowsWithId: any[][] = [
-    [1, 'Type1'],
-    [2, 'Type2']
-  ];
+  tableRowsWithId: any[][] = [[1, 'Add Project Type']];
+
+  selectedTypes: Type[];
 
   showDialog;
-  constructor(private dataStorage: DataStorageService, private service: EditableTableService) {}
+  constructor(private dataStorage: DataStorageService, private service: EditableTableService ) {
 
 
   dataType = ['option'];
 
   fieldArray: Array<any> = [];
   newAttribute: any = {};
-
-
+  allTypes: Type[];
 
   addFieldValue() {
     this.fieldArray.push(this.newAttribute);
@@ -61,10 +57,17 @@ export class NewprojectComponent implements OnInit {
     console.log(row);
   }
 
+onSelect(types: any[]){
+this.selectedTypes = types;
+}
+
 
   onSubmit() {
-
-    this.dataStorage.storeProject(this.project).subscribe((response) => {
+  debugger;
+  console.log(this.service.getSelectedTypes());
+    //this.project.types= this.service.getSelectOptions(t);
+   // this.project.types = this.selectedTypes;// types
+      this.dataStorage.storeProject(this.project).subscribe((response) => {
       console.log(response.json());
       // TODO -> check server-failure and show some message...
       this.project = response.json();
@@ -73,14 +76,13 @@ export class NewprojectComponent implements OnInit {
     });
   }
 
-
   private initProject() {
-    return new Project(null, null, null, null, null, null, null, null, null, null);
+    return new Project(null, null,null,null,null,null,null,null,null, null);
   }
-
 
   clearMessage() {
     this.messageField = '';
   }
-}
+  }
+
 
