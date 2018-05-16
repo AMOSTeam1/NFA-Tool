@@ -14,6 +14,8 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.criterion.Restrictions;
 
+import org.hibernate.cfg.NotYetImplementedException;
+
 import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Type;

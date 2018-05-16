@@ -3,7 +3,7 @@ export class NfaCatalogModel {
     public nfaCatalogId: string,
     public nfaCatalogType: string,
     public nfaCatalogBezeichnung: string,
-    public rechlicheVerbindlichkeit: string,
+    public rechtlicheVerbindlichkeit: string,
     public nfaCatalogWert: string,
     public nfaCatalogFormulierung : string,
     public nfaCatalogErklärung: string,

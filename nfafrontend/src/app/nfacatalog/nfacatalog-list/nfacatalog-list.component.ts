@@ -25,7 +25,7 @@ export class NfacatalogListComponent implements OnInit {
         (response: Response) => {
           const nfaCatalog: NfaCatalogModel[]=response.json();
           this.nfaCatalogService.setnfaCatalogs(nfaCatalog);
-          this.nfaCatalog = response.json();
+          this.nfaCatalog = nfaCatalog;
         }
       );
   }

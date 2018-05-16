@@ -69,6 +69,7 @@ import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
     })
   ],
   providers: [DataStorageService, CurrentProjectService, NfacatalogService],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

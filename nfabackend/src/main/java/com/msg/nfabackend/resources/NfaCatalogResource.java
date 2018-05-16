@@ -18,9 +18,9 @@ public class NfaCatalogResource {
 	
 	QueryService queryService = new QueryService();
 	
-	//@GET
-	//public List<nfaCatalog> getAllNfa() {
-	//	return queryService.getAllNfa();
-	//}
+	@GET
+	public List<nfaCatalog> getAllNfa() {
+		return queryService.getAllNfa();
+	}
 
 }
