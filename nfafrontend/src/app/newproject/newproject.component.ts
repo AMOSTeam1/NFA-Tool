@@ -24,8 +24,8 @@ export class NewprojectComponent implements OnInit {
   showDialog;
   constructor(private dataStorage: DataStorageService, private service: EditableTableService ) {
 
-  }
-  dataType = ['string'];
+
+  dataType = ['option'];
 
   fieldArray: Array<any> = [];
   newAttribute: any = {};
@@ -34,13 +34,25 @@ export class NewprojectComponent implements OnInit {
   addFieldValue() {
     this.fieldArray.push(this.newAttribute);
     this.newAttribute = {};
+
+
   }
+
+
   deleteFieldValue(index) {
     this.fieldArray.splice(index, 1);
   }
+
+
+
+
+
+
   ngOnInit() {
     this.service.createTableWithIds(this.tableHeaders, this.tableRowsWithId, this.dataType);
   }
+
+
     onRemove(row: any) {
     console.log(row);
   }
@@ -65,7 +77,7 @@ this.selectedTypes = types;
   }
 
   private initProject() {
-    return new Project(null, null,null,null,null,null,null,null,null);
+    return new Project(null, null,null,null,null,null,null,null,null, null);
   }
 
   clearMessage() {

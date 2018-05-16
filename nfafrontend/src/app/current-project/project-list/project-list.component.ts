@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 import {Response} from '@angular/http';
@@ -11,6 +11,10 @@ import {CurrentProjectService} from '../current-project.service';
 })
 export class ProjectListComponent implements OnInit {
 
+  @Input() archivedView = false;
+
+  viewname : string;
+
   projects: Project[];
   constructor(private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService) { }
@@ -20,9 +24,13 @@ export class ProjectListComponent implements OnInit {
     this.dataStorageService.getCurrentProjects()
       .subscribe(
         (response: Response) => {
-                   const projects: Project[] = response.json();
-                    this.currentProjectService.setProjects(projects);
-                 this.projects = projects;
+                   const projects: Project[] = response.json().filter(
+                     value => value.archived == this.archivedView
+                   );
+                   this.currentProjectService.setProjects(projects);
+                   this.projects = projects;
+
+                   this.viewname = (!this.archivedView) ? "Current-Projects" : "Archived-Projects" ;
                  }
       );
   }
@@ -30,7 +38,9 @@ export class ProjectListComponent implements OnInit {
   onSearch(frominput: HTMLInputElement) {
     this.dataStorageService.getProjectByName(frominput.value).subscribe(
       (response: Response) => {
-        const projects: Project[] = response.json();
+        const projects: Project[] = response.json().filter(
+          value => value.archived == this.archivedView
+        );
         this.currentProjectService.setProjects(projects);
         this.projects = projects;
       }

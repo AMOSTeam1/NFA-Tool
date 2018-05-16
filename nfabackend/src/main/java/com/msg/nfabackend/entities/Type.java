@@ -15,10 +15,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * Entity-Mapping for the table 'Types'.
+ * Entity-Mapping for the table 'ProjectTypes'.
  * 
  */
-@Entity 
+@Entity
 @Table(name="Types")
 public class Type {
 	
