@@ -16,6 +16,7 @@ import javax.persistence.Table;
  * Entity-Mapping for the table 'ProjectTypes'.
  * 
  */
+
 @Entity (name="Types")
 @Table(name="Types")
 public class Type {
@@ -83,8 +84,8 @@ public class Type {
 	 * relation between projects and projec Type
 	 */
 	
-	 @ManyToMany(mappedBy = "types")
-	    private List<Project> projects = new ArrayList<>();
+    @ManyToMany(mappedBy = "types")
+	private List<Project> projects = new ArrayList<>();
 
 
 	public List<Project> getProjects() {

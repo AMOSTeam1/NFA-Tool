@@ -1,6 +1,7 @@
 CREATE TABLE NFA_PROJECT
 (
   ID bigint PRIMARY KEY,
+  IS_ARCHIVED boolean,
   NFA_PROJECT_NUMBER character varying(40),
   CUSTOMER_NAME character varying(40),
   CONTACT_PERS_CUSTOMER character varying(40),

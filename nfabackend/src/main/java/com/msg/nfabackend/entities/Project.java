@@ -32,6 +32,9 @@ public class Project {
 	@Column(name="ID")
 	private Long id;
 	
+	@Column(name="IS_ARCHIVED")
+	private boolean isArchived;
+	
 	@Column(name="NFA_PROJECT_NUMBER")
 	private String nfaProjectNumber;
 	
@@ -71,6 +74,14 @@ public class Project {
 	 */
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public boolean isArchived() {
+		return isArchived;
+	}
+
+	public void setArchived(boolean isArchived) {
+		this.isArchived = isArchived;
 	}
 
 	/**

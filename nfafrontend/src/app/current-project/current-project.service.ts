@@ -7,6 +7,13 @@ export class CurrentProjectService {
   private projects: Project[];
 
 
+  // getProjects(archived = false) {
+  //   return this.projects.slice().filter(
+  //
+  //     value => value.isArchived === archived
+  //   );
+  // }
+
   getProjects() {
     return this.projects.slice();
   }
@@ -19,7 +26,7 @@ export class CurrentProjectService {
     this.projects[index] = newProject;
     this.projectsChanged.next(this.projects.slice());
   }
-  
+
   deleteProject(index: number) {
     this.projects.splice(index,1);
     this.projectsChanged.next(this.projects.slice());

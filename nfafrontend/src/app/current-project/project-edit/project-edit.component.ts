@@ -29,6 +29,7 @@ export class ProjectEditComponent implements OnInit {
 
   private copy(toEdit: Project) {
     return new Project(toEdit.id,
+    toEdit.archived,
     toEdit.customerName,
     toEdit.contactPersCustomer,
     toEdit.contactPersMsg,
