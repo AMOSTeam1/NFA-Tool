@@ -16,6 +16,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
+import com.msg.nfabackend.entities.Type;
 
 
 public class QueryService {
@@ -83,10 +84,7 @@ public class QueryService {
 			emf.close();
 		}
 		return project;
-	}
-	
-	
-	
+	}	
 	public Nfa addNfa (Nfa nfa) {
 		try {
 			tx.begin();
@@ -144,6 +142,41 @@ public class QueryService {
 			tx.commit();
 		}catch(Exception e){
 			LOG.log(Level.SEVERE, "Searching project failed...", e);
+			tx.rollback();
+		}finally {
+			em.close();
+			emf.close();
+		}
+	}
+	public List<Type> getAllTypes() {
+		List<Type> listTypes = null;
+		try {
+			tx.begin();
+			listTypes = em.createQuery("from Type",Type.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listTypes;
+    }
+	/**
+	 * addTypes to project   
+	 * 
+	 */
+	public void addTypes(Long projectId,Long typeId) {
+		try {
+			tx.begin();
+			
+			Project project = em.find(Project.class,projectId);
+			Type type = em.find(Type.class,typeId);
+			project.addType(type);
+			em.merge(project);
+			tx.commit();
+		}catch(Exception e){
+			LOG.log(Level.SEVERE, "Add Types is failed...", e);
 			tx.rollback();
 		}finally {
 			em.close();

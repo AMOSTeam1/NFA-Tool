@@ -218,20 +218,25 @@ public class Project {
 		        CascadeType.MERGE
 		    })
 		    @JoinTable(name = "ProjectTypes",
-		        joinColumns = @JoinColumn(name = "ProjectId"),
-		        inverseJoinColumns = @JoinColumn(name = "TypeId")
+		        joinColumns = @JoinColumn(name = "ProjectId",referencedColumnName = "id"),
+		        inverseJoinColumns = @JoinColumn(name = "TypeId", referencedColumnName = "id")
 		    )
 	  private List<Type> types = new ArrayList<>();
 	 
-	  public void addType(Type type) {
+	  public List<Type> getTypes() {
+		return types;
+	}
+
+	public void setTypes(List<Type> types) {
+		this.types = types;
+	}
+
+	public void addType(Type type) {
 		    types.add(type);
-	        type.getProjects().add(this);
 	    }
-	 
-	    public void removeType(Type type) {
-	        types.remove(type);
-	        type.getProjects().remove(this);
-	    }
+    public void removeType(Type type) {
+        types.remove(type);
+        }
 
 
 }

@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * 
  */
 
-@Entity (name="Types")
+@Entity
 @Table(name="Types")
 public class Type {
 	
@@ -80,21 +80,7 @@ public class Type {
 		this.englishName = englishName;
 	}
 	
-	/**
-	 * relation between projects and projec Type
-	 */
 	
-    @ManyToMany(mappedBy = "types")
-	private List<Project> projects = new ArrayList<>();
-
-
-	public List<Project> getProjects() {
-		return projects;
-	}
-
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
 
 	@Override
 	public int hashCode() {
@@ -103,7 +89,6 @@ public class Type {
 		result = prime * result + ((englishName == null) ? 0 : englishName.hashCode());
 		result = prime * result + ((germanName == null) ? 0 : germanName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((projects == null) ? 0 : projects.hashCode());
 		return result;
 	}
 
@@ -131,18 +116,7 @@ public class Type {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (projects == null) {
-			if (other.projects != null)
-				return false;
-		} else if (!projects.equals(other.projects))
-			return false;
 		return true;
 	}
-	
-	
-	
-	
-	 
-	 
 	
 }
