@@ -10,6 +10,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name ="nfa_catalog")
 public class nfaCatalog {
+	
+	public nfaCatalog() {}
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name ="id")
@@ -32,14 +35,14 @@ public class nfaCatalog {
 		this.nfaCatalogWert = nfaCatalogWert;
 	}
 
-	@Column (name ="rechliche_verbindlichkeit")
+	@Column (name ="rechtliche_verbindlichkeit")
 	private String rechlicheVerbindlichkeit;
 	
 	@Column (name ="formulierung")
 	private String nfaCatalogFormulierung;
 	
-	@Column (name ="erklärung")
-	private String nfaCatalogErklärung;
+	@Column (name ="erklaerung")
+	private String nfaCatalogErklaerung;
 	
 	@Column (name ="referenz")
 	private String nfaCatalogReferenz;
@@ -47,7 +50,7 @@ public class nfaCatalog {
 	@Column (name ="referenzierte_projekte")
 	private String nfaCatalogReferenzierteProjekte;
 	
-	@Column (name ="kritikalität")
+	@Column (name ="kritikalitaet")
 	private String nfaCatalogKritikalität;
 	
 	@Column (name ="dokument")
@@ -94,11 +97,11 @@ public class nfaCatalog {
 	}
 
 	public String getNfaCatalogErklärung() {
-		return nfaCatalogErklärung;
+		return nfaCatalogErklaerung;
 	}
 
 	public void setNfaCatalogErklärung(String nfaCatalogErklärung) {
-		this.nfaCatalogErklärung = nfaCatalogErklärung;
+		this.nfaCatalogErklaerung = nfaCatalogErklärung;
 	}
 
 	public String getNfaCatalogReferenz() {

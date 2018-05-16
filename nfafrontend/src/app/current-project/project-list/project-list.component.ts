@@ -20,10 +20,10 @@ export class ProjectListComponent implements OnInit {
     this.dataStorageService.getCurrentProjects()
       .subscribe(
         (response: Response) => {
-                   const projects: Project[] = response.json();
-                    this.currentProjectService.setProjects(projects);
-                 this.projects = projects;
-                 }
+                const projects: Project[] = response.json();
+                this.currentProjectService.setProjects(projects);
+                this.projects = projects;
+        }
       );
   }
 

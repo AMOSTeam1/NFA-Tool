@@ -9,8 +9,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import org.hibernate.cfg.NotYetImplementedException;
+
 import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.Project;
+import com.msg.nfabackend.entities.Type;
 import com.msg.nfabackend.entities.nfaCatalog;
 
 
@@ -121,6 +124,35 @@ public class QueryService {
 			em.close();
 			emf.close();
 		}
+	}
+
+	
+	public List<Type> getAllTypes() {
+		// TODO Auto-generated method stub
+	 	System.out.println("getAllTypes stub");
+	 	throw new NotYetImplementedException();
+		//return null;
+	}
+
+	public List<nfaCatalog> getAllNfa() {
+		List<nfaCatalog> listNFA = null;
+		try {
+			tx.begin();
+			System.out.println("pre commit");
+			listNFA = em.createQuery("from nfaCatalog", nfaCatalog.class).getResultList();
+			
+			tx.commit();
+			System.out.println("post commit");
+			
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+				tx.rollback();
+				System.out.println("ROOOOOOOLLLLLL");
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listNFA;
 	}
 
 }

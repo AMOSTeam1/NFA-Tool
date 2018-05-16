@@ -138,10 +138,4 @@ public class Type {
 		return true;
 	}
 	
-	
-	
-	
-	 
-	 
-	
 }
