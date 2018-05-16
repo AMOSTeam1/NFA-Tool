@@ -24,15 +24,16 @@ export class ProjectListComponent implements OnInit {
     this.dataStorageService.getCurrentProjects()
       .subscribe(
         (response: Response) => {
-                   const projects: Project[] = response.json().filter(
-                     value => value.archived == this.archivedView
-                   );
-                   this.currentProjectService.setProjects(projects);
-                   this.projects = projects;
-
-                   this.viewname = (!this.archivedView) ? "Current-Projects" : "Archived-Projects" ;
-                 }
+            const projects: Project[] = response.json().filter(
+             value => value.archived == this.archivedView
+            );
+            this.currentProjectService.setProjects(projects);
+            this.projects = projects;
+          }
       );
+
+      this.viewname = (!this.archivedView) ? "Current-Projects" : "Archived-Projects";
+
   }
 
   onSearch(frominput: HTMLInputElement) {
