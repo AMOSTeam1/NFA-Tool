@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-current-project',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CurrentProjectComponent implements OnInit {
 
-  constructor() { }
+  archived = false;
+
+  constructor(private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
+
+    this.route.params.subscribe(
+      params => console.log(<boolean> params.hasOwnProperty("archived") && params.archived)
+    );
+
+    this.route.params.subscribe(
+      params => this.archived = (<boolean> params.hasOwnProperty("archived") && params.archived)
+    );
+    console.log(this.route);
+    console.log(this.archived);
+
+
+
   }
 
 }
