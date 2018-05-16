@@ -10,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,7 +22,6 @@ import com.msg.nfabackend.services.QueryService;
 /**
  * JAX-RS-Resource for Entity 'project'
  * 
- * @author <a href="mailto:alla.bors@fau.de">Alla Bors</a>
  */
 @Path("/project")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -55,7 +55,6 @@ public class ProjectResource {
 		 queryService.removeProject(Id);
 	}
 	
-	
 	@POST
 	@Path("/edit")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -63,4 +62,11 @@ public class ProjectResource {
 	public void editProject(Project project, @Context UriInfo uriInfo) {
 		queryService.updateProject(project);
 	}
+	
+	@GET
+	@Path("/search")
+	public List<Project> searchProject(@QueryParam(value = "lookupCustName") String lookupCustName) {
+		return queryService.findProject(lookupCustName);
+	}
+	
 } 

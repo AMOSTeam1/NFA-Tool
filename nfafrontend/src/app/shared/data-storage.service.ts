@@ -2,9 +2,8 @@ import {Nfa} from './nfa.model';
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Project} from './project.model';
+import {HttpParams} from '@angular/common/http';
 import {Type} from './type.model';
-
-
 
 @Injectable()
 export class DataStorageService {
@@ -14,9 +13,9 @@ export class DataStorageService {
     console.log(nfa);
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/' , nfa);
   }
-  storeProject(newproject: Project, type: Type[]) {
+  storeProject(newproject: Project) {
     console.log(newproject);
-    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject:type);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create');
   }
 
   getCurrentProjects() {
@@ -26,10 +25,13 @@ export class DataStorageService {
     return this.http.delete('http://localhost:8080/nfabackend/webapi/project/' + project.id);
   }
 
-  updateProject(updatedProject : Project) {
+  updateProject(updatedProject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }
-  getAllTypes() {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/types');
+
+  getProjectByName(param: string) {
+   return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?lookupCustName=' + param);
   }
+    getAllTypes() {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/types');
 }

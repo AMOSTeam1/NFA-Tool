@@ -29,6 +29,7 @@ import { ProjectItemComponent } from './current-project/project-list/project-ite
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,6 @@ import {CurrentProjectService} from './current-project/current-project.service';
     ProjectDetailComponent,
     ProjectItemComponent,
     ProjectEditComponent,
-
 
   ],
   imports: [
