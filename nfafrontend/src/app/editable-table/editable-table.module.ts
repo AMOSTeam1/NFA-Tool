@@ -7,7 +7,8 @@ import { EditableTableService } from './editable-table.service';
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    
   ],
   declarations: [
     EditableTableComponent,

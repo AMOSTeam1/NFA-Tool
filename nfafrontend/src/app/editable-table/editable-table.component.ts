@@ -3,9 +3,13 @@ import { Observable } from 'rxjs/Observable';
 
 import { TableRow } from '../util/table-row';
 import { TableCell } from '../util/table-cell';
- 
+
 
 import { EditableTableService } from './editable-table.service';
+import {Response} from '@angular/http';
+import {Type} from '../shared/type.model';
+import {DataStorageService} from '../shared/data-storage.service';
+//import {Parent} from '../newproject/newproject.component';
 
 
 @Component({
@@ -13,42 +17,35 @@ import { EditableTableService } from './editable-table.service';
   template: `
           <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
           <table class="{{class}}">
-              <thead>
-                <tr>
-                  <th *ngFor="let title of service.tableHeadersObjects">{{title.content}}</th>
-                  <th *ngIf="canEditRows||canDeleteRows"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="{{trClass}}" *ngFor="let row of service.tableRowsObjects">
-                  <td class="{{tdClass}}" *ngFor="let cell of row.cells">
+            <thead>
+            <tr>
+              <th *ngFor="let title of service.tableHeadersObjects">{{title.content}}</th>
+              <th *ngIf="canEditRows||canDeleteRows"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="{{trClass}}" *ngFor="let row of service.tableRowsObjects">
+              <td class="{{tdClass}}" *ngFor="let cell of row.cells">
                     <span *ngIf="service.isEditing.indexOf(row) === -1 && service.checkTypeOf(cell.content) !== 'boolean'">
                       {{cell.content}}
                     </span>
-                    <span *ngIf="service.isEditing.indexOf(row) === -1 && service.checkTypeOf(cell.content) == 'boolean'">
+                <span *ngIf="service.isEditing.indexOf(row) === -1 && service.checkTypeOf(cell.content) == 'boolean'">
                       {{cell.content ? 'Activo' : 'Inactivo'}}
                     </span>
-                    <div class="ui input" *ngIf="!(service.isEditing.indexOf(row) == -1) && service.checkTypeOf(cell.content) !== 'boolean' 
-                     && !isRequired">
-                      <input ng2focus type="text" [(ngModel)]="cell.content" [name]="cell.content">
-                    </div>
-                        <div class="ui input requiredInput" [ngClass]="{errorClass: !cell.content && cell.touched}" 
-                        *ngIf="!(service.isEditing.indexOf(row) == -1) && service.checkTypeOf(cell.content) !== 'boolean' && isRequired">
-                          <select ng2focus type="text" [(ngModel)]="cell.content"  #[cell.content]="ngModel" required ></select>
-                            <div [ngClass]="{'show': !cell.content && cell.touched, 
+                <div class="ui input requiredInput" [ngClass]="{errorClass: !cell.content && cell.touched}"
+                     *ngIf="!(service.isEditing.indexOf(row) == -1) && service.checkTypeOf(cell.content) !== 'boolean' && isRequired">
+                  <select class="form-control" id="type" name="projecttypes" [(ngModel)]="cell.content" [name]="cell.content" canEditRows = "true">
+                    <option value="">--Select--</option>
+                    <option *ngFor="let t of types" [value]="t.englishName" >{{t.englishName}}</option>
+                  </select>
+                  <br>
+                  <div [ngClass]="{'show': !cell.content && cell.touched, 
                                       'hide': cell.content}" class="divmessage" style="Color: red;" [hidden]="cell.content">
-                                  <div>{{requiredMessage}}</div>
-                              </div>
-                            </div>
-                          <div *ngIf="!(service.isEditing.indexOf(row) == -1) && service.checkTypeOf(cell.content) === 'boolean'" 
-                          class="field checkboxContainer">
-                              <div class="ui toggle checkbox">
-                                  <input type="checkbox" name="public" [(ngModel)]="cell.content" name="active">
-                                  <label>{{cell.content ? 'Activo' : 'Inactivo'}}</label>
-                              </div>
-                          </div>
-                  </td>
-                  <td class={{buttonsTdClass}} *ngIf="canEditRows||canDeleteRows">
+                    <div>{{requiredMessage}}</div>
+                  </div>
+                </div>
+              </td>      
+          <td class={{buttonsTdClass}} *ngIf="canEditRows||canDeleteRows">
                     <button class={{editButtonClass}} *ngIf="service.isEditing.indexOf(row) === -1 && canEditRows" (click)="editRow(row)">
                      <i class="material-icons">mode_edit</i>{{editButtonLabel}}
                     </button>
@@ -71,7 +68,7 @@ import { EditableTableService } from './editable-table.service';
                 <tr>
                   <th *ngFor="let title of service.tableHeadersObjects"></th>
                   <th *ngIf="canEditRows||canDeleteRows">
-                      <button class={{addButtonClass}} (click)="addRow()" *ngIf="canAddRows">
+                      <button class={{addButtonClass}} (click)="addRow(); $event.preventDefault()" *ngIf="canAddRows">
                          <i class="material-icons">add</i>{{addButtonLabel}}
                       </button>
                   </th>
@@ -88,7 +85,7 @@ import { EditableTableService } from './editable-table.service';
 })
 export class EditableTableComponent implements OnInit {
 
-  @Input('table-headers') tableHeaders: string[] = [];
+  @Input('table-headers') tableHeaders: string[] = ['Project Type'];
   @Input('table-rows') tableRows: any[][] = [];
   @Input('table-rows-with-id') tableRowsWithId: any[][] = [];
   @Input('can-delete-rows') canDeleteRows = true;
@@ -118,16 +115,21 @@ export class EditableTableComponent implements OnInit {
 
   @Input() errorClass = 'myerror';
   @Input() isRequired = true;
-  @Input() requiredMessage = 'Campo Requerido';
+  @Input() requiredMessage = 'This field cannot be empty';
 
 
   @Output() onSave = new EventEmitter<any>();
   @Output() onRemove = new EventEmitter<any>();
+ @Output() onSelect= new EventEmitter<any>();
 
   service: EditableTableService;
-
-  constructor(service: EditableTableService) {
+  types: Type[];
+  selectedTypes: Type[];
+  projectTypeName: string[];
+  selectedOption: Type[];
+  constructor(service: EditableTableService, private dataStorageService: DataStorageService) {
     this.service = service;
+    
   }
 
   ngOnInit() {
@@ -136,7 +138,18 @@ export class EditableTableComponent implements OnInit {
     } else if (this.tableRowsWithId.length > 0 || (this.tableRowsWithId !== undefined && this.tableRows.length === 0)) {
       this.service.createTableWithIds(this.tableHeaders, this.tableRowsWithId, this.dataType);
     }
+
+this.selectedTypes = [];
+    this.dataStorageService.getAllTypes()
+      .subscribe(
+        (response: Response) => {
+          const types: Type[] = response.json();
+          this.types = types;
+        }
+      );
+
   }
+
 
   addRow() {
     this.service.addRow();
@@ -151,6 +164,7 @@ export class EditableTableComponent implements OnInit {
   }
 
   saveRow(selectedRow: TableRow) {
+    debugger;
     for (const cell of selectedRow.cells) {
       if ((cell.content == null || cell.content === '') && this.isRequired) {
         return;
@@ -162,8 +176,17 @@ export class EditableTableComponent implements OnInit {
     for (let i = 0; i < selectedRow.cells.length; i++) {
       dir.push(selectedRow.cells[i].content);
     }
+  
+    console.log(this.selectedTypes);
     const obj = { id: selectedRow.id, cells: dir };
-
+    var x = this.types.find(function(element){
+    return element.englishName == dir;
+    });
+    this.selectedTypes.push(x);
+    this.onSelect.emit(this.selectedTypes);
+    //this.service.addSelectedTypes(x);
+    //this.Parent.selectedTypes.push(x);
+    //this.selectedOption.push(cell.content);
     this.onSave.emit(obj);
   }
 
@@ -177,5 +200,9 @@ export class EditableTableComponent implements OnInit {
     const obj = { id: selectedRow.id, cells: dir };
 
     this.onRemove.emit(obj);
+
   }
+
+
+
 }
