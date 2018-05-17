@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
+import {NfaFactorModel} from "../../../shared/nfaFactor.model";
 
 @Component({
   selector: 'app-nfacatalog-item',
@@ -8,7 +9,7 @@ import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 })
 export class NfacatalogItemComponent implements OnInit {
 
-  @Input() nfaCatalog: NfaCatalogModel;
+  @Input() nfaFactor: NfaFactorModel;
   @Input() index: number;
 
   constructor() { }

@@ -1,7 +1,3 @@
-<!--
--->
-<div>this is it</div>
-
 <div class="row">
   <div class="col-xs-12" style="text-align: center">
     <span class="label label-default">NFA Catalogs</span>
@@ -12,8 +8,8 @@
   <div class="col-xs-12">
 
     <app-nfacatalog-item
-      *ngFor="let nfaCatalogEl of nfaCatalog let i = index"
-      [nfaCatalog]="nfaCatalogEl"
+      *ngFor="let nfaFactorEl of nfaFactors let i = index"
+      [nfaFactor]="nfaFactorEl"
       [index]="i"></app-nfacatalog-item>
   </div>
 </div>

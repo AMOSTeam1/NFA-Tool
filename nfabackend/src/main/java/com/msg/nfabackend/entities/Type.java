@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -23,7 +22,7 @@ public class Type {
 	
 	@Id
 	@SequenceGenerator(name="type-seq-gen",sequenceName="TYPE_ID_SEQ" , initialValue = 1, allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="type-seq-gen")
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="type-seq-gen")
 	@Column(name="ID")
 	private Long id;
 	

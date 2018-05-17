@@ -5,7 +5,7 @@ import {DataStorageService} from "../../shared/data-storage.service";
 
 import {NfacatalogService} from "../nfacatalog.service";
 import {Response} from "@angular/http";
-
+import {NfaFactorModel} from "../../shared/nfaFactor.model";
 
 @Component({
   selector: 'app-nfacatalog-list',
@@ -15,17 +15,18 @@ import {Response} from "@angular/http";
 export class NfacatalogListComponent implements OnInit {
 
 
-  nfaCatalog: NfaCatalogModel[];
+  // nfaCatalog: NfaCatalogModel[];
+  nfaFactors: NfaFactorModel[];
   constructor(private nfaCatalogService: NfacatalogService,
               private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
-    this.dataStorageService.getNfaCatalog()
+    this.dataStorageService.getNfaFactor()
       .subscribe(
         (response: Response) => {
-          const nfaCatalog: NfaCatalogModel[]=response.json();
-          this.nfaCatalogService.setnfaCatalogs(nfaCatalog);
-          this.nfaCatalog = nfaCatalog;
+          const nfaFactors: NfaFactorModel[]=response.json();
+          this.nfaCatalogService.setNfaFactors(nfaFactors);
+          this.nfaFactors = nfaFactors;
         }
       );
   }

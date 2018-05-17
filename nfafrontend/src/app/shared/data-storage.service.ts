@@ -28,6 +28,9 @@ export class DataStorageService {
   getNfaCatalog() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_catalog');
   }
+  getNfaFactor() {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_factor');
+  }
 
 
   updateProject(updatedProject: Project) {

@@ -12,11 +12,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.criterion.Restrictions;
-
 import org.hibernate.cfg.NotYetImplementedException;
 
 import com.msg.nfabackend.entities.Nfa;
+import com.msg.nfabackend.entities.NfaCriteria;
+import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Type;
 import com.msg.nfabackend.entities.nfaCatalog;
@@ -89,8 +89,6 @@ public class QueryService {
 		}
 		return project;
 	}
-	
-	
 	
 	public Nfa addNfa (Nfa nfa) {
 		try {
@@ -168,5 +166,42 @@ public class QueryService {
 			}
 		return listType;
     }
+	
+	public List<nfaCatalog> getAllNfa() {
+		List<nfaCatalog> listType = null;
+		try {
+			tx.begin();
+			listType = em.createQuery("from nfaCatalog",nfaCatalog.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listType;
+    }
+	
+	public List<NfaFactor> getAllFactors() {
+		List<NfaFactor> listType = null;
+		try {
+			tx.begin();
+			listType = em.createQuery("from NfaFactor",NfaFactor.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listType;
+    }
+
+	public List<NfaCriteria> getAllCriteriasForFactor(NfaFactor factor) {
+		// TODO Auto-generated method stub
+		
+		throw new NotYetImplementedException();
+//		return null;
+	}
 
 }

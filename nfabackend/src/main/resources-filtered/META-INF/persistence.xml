@@ -8,6 +8,8 @@
 		<class>com.msg.nfabackend.entities.Nfa</class>
 		<class>com.msg.nfabackend.entities.Type</class>
 		<class>com.msg.nfabackend.entities.nfaCatalog</class>
+		<class>com.msg.nfabackend.entities.NfaFactor</class>
+		<class>com.msg.nfabackend.entities.NfaCriteria</class>
 		<properties>
 			<property name="javax.persistence.jdbc.user" value="postgres"/>
 			<property name="javax.persistence.jdbc.password" value="amos18"/>
