@@ -1,0 +1,19 @@
+<!--
+-->
+<div>this is it</div>
+
+<div class="row">
+  <div class="col-xs-12" style="text-align: center">
+    <span class="label label-default">NFA Catalogs</span>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+
+    <app-nfacatalog-item
+      *ngFor="let nfaCatalogEl of nfas let i = index"
+      [nfaCatalog]="nfaCatalogEl"
+      [index]="i"></app-nfacatalog-item>
+  </div>
+</div>
