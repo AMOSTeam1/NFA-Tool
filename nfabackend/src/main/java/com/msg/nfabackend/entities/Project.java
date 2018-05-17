@@ -51,7 +51,6 @@ public class Project {
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "PROJECT_TYPE", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "TYPE_ID"))
 	private List<Type> projectTypes = new ArrayList<Type>();
-	
 	@Column(name="DEVELOPMENT_PROCESS")
 	private String developmentProcess;
 	
@@ -188,6 +187,21 @@ public class Project {
 	public void setProjectStatus(String projectStatus) {
 		this.projectStatus = projectStatus;
 	}
+	 
+	  public List<Type> getTypes() {
+		return types;
+	}
+
+	public void setTypes(List<Type> types) {
+		this.types = types;
+	}
+
+	public void addType(Type type) {
+		    types.add(type);
+	    }
+    public void removeType(Type type) {
+        types.remove(type);
+        }
 
 	public List<Type> getProjectTypes() {
 		return projectTypes;
@@ -196,9 +210,4 @@ public class Project {
 	public void setProjectTypes(List<Type> projectTypes) {
 		this.projectTypes = projectTypes;
 	}
-	
-	
-
-
-
 }

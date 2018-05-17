@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Project} from '../shared/project.model';
+import {Type} from '../shared/Type.model';
 import {NgForm} from '@angular/forms';
 import { EditableTableService } from '../editable-table/editable-table.service';
 
@@ -19,11 +20,7 @@ export class NewprojectComponent implements OnInit {
 
   project = this.initProject();
   tableHeaders = ['Project Type'];
-  tableRowsWithId: any[][] = [
-    [1, 'Type1'],
-    [2, 'Type2']
-  ];
-
+  selectedTypes: Type[];
   showDialog;
   constructor(private dataStorage: DataStorageService, private service: EditableTableService) {}
 
@@ -62,16 +59,28 @@ export class NewprojectComponent implements OnInit {
   }
 
 
-  onSubmit() {
+//////////////get the added rows 
+onSelect(types: any[]){
+this.selectedTypes = types;
+}
 
-    this.dataStorage.storeProject(this.project).subscribe((response) => {
+
+  onSubmit() {
+  console.log(this.service.getSelectedTypes());
+      this.dataStorage.storeProject(this.project ).subscribe((response) => {
       console.log(response.json());
       // TODO -> check server-failure and show some message...
       this.project = response.json();
       this.messageField = 'A new project with ID ' + this.project.id + ' created';
-      this.project = this.initProject();
+      for (let i in this.selectedTypes) {
+      this.dataStorage.addTypes(this.project,this.selectedTypes[i] ).subscribe((response) => {
+      console.log(response.json());    
+       this.project = this.initProject();});
+       
+        } 
     });
   }
+
 
 
   private initProject() {

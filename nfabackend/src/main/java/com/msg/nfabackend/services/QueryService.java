@@ -85,10 +85,7 @@ public class QueryService {
 			emf.close();
 		}
 		return project;
-	}
-	
-	
-	
+	}	
 	public Nfa addNfa (Nfa nfa) {
 		try {
 			tx.begin();
@@ -150,7 +147,7 @@ public class QueryService {
 			emf.close();
 		}
 	}
-	
+  
 	public List<Type> getAllType() {
 		List<Type> listType = null;
 		try {
@@ -163,7 +160,28 @@ public class QueryService {
 				em.close();
 				emf.close();
 			}
-		return listType;
+		return listTypes;
     }
+	/**
+	 * addTypes to project   
+	 * 
+	 */
+	public void addTypes(Long projectId,Long typeId) {
+		try {
+			tx.begin();
+			
+			Project project = em.find(Project.class,projectId);
+			Type type = em.find(Type.class,typeId);
+			project.addType(type);
+			em.merge(project);
+			tx.commit();
+		}catch(Exception e){
+			LOG.log(Level.SEVERE, "Add Types is failed...", e);
+			tx.rollback();
+		}finally {
+			em.close();
+			emf.close();
+		}
+	}
 
 }

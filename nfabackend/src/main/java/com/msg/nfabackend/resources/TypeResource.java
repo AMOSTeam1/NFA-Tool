@@ -23,7 +23,9 @@ public class TypeResource {
 	
 	@GET
 	public List<Type> getAllTypes() {
+
 		return queryService.getAllType();
+
 	}
 	
 } 

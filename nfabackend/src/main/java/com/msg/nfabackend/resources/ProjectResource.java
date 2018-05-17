@@ -69,4 +69,14 @@ public class ProjectResource {
 		return queryService.findProject(lookupCustName);
 	}
 	
+	@POST
+	@Path("/addtypes/{projectId}/{typeId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public void addTypes(@PathParam("projectId") Long projectId
+			,@PathParam("typeId")Long typeId
+			, @Context UriInfo uriInfo) {
+		queryService.addTypes(projectId, typeId);
+	}
+	
 } 

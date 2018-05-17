@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Type")
+
 public class Type {
 	
 	public Type() {}
@@ -38,6 +39,33 @@ public class Type {
 		this.id = id;
 	}
 
+	public String getEnglishName() {
+		return englishName;
+	}
+
+	/**
+	 * @param GermanName to set
+	 */
+	
+	public void setGermanName(String germanName) {
+		this.germanName = germanName;
+	}
+	
+	/**
+	 * @return the EnglishName
+	 */
+	public String getGermanName() {
+		return germanName;
+	}
+
+	/**
+	 * @param   EnglishName to set
+	 */
+	
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -46,7 +74,6 @@ public class Type {
 		this.name = name;
 	}
 
-	
-	 
+
 	
 }
