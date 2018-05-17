@@ -1,9 +1,8 @@
-export class Type {
 
+export class ProjectType {
   constructor(
-    public id: string,
-    public englishName: string,
-    public germanName: string,
+    public id: number,
+    public name: string
   ) {}
 }
 

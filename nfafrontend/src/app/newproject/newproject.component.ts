@@ -84,7 +84,7 @@ this.selectedTypes = types;
 
 
   private initProject() {
-    return new Project(null, null, null, null, null, null, null, null, null, null);
+    return new Project(null, null, null, null, null, null, null, null, null);
   }
 
 

@@ -17,6 +17,7 @@ const appRoutes: Routes = [
   {path: 'nfacatalog', component: NfacatalogComponent},
   {path: 'home', component: HomeComponent},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
+    {path:  'new', component: ProjectEditComponent},
     {path: ':id', component: ProjectDetailComponent},
     {path: ':id/edit', component: ProjectEditComponent}
   ]}
