@@ -61,7 +61,7 @@
       "send" : "Senden"
     },
     "header": {
-      "create-project": "Neues Projekt",
+      "create-project": "Projekte",
       "open-catalog": "NFA Katalog",
       "create-nfa-entry": "Neue NFA",
       "create-package": "Neues Paket"

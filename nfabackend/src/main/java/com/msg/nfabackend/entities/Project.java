@@ -2,6 +2,7 @@ package com.msg.nfabackend.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,9 +33,6 @@ public class Project {
 	@Column(name="ID")
 	private Long id;
 	
-	@Column(name="IS_ARCHIVED")
-	private boolean isArchived;
-	
 	@Column(name="NFA_PROJECT_NUMBER")
 	private String nfaProjectNumber;
 	
@@ -50,8 +48,9 @@ public class Project {
 	@Column(name="BRANCH")
 	private String branch;
 	
-	@Column(name="PROJECT_TYPE")
-	private String projectType;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "PROJECT_TYPE", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "TYPE_ID"))
+	private List<Type> projectTypes = new ArrayList<Type>();
 	
 	@Column(name="DEVELOPMENT_PROCESS")
 	private String developmentProcess;
@@ -76,13 +75,6 @@ public class Project {
 		this.id = id;
 	}
 
-	public boolean isArchived() {
-		return isArchived;
-	}
-
-	public void setArchived(boolean isArchived) {
-		this.isArchived = isArchived;
-	}
 
 	/**
 	 * @return the nfaProjectNumber
@@ -154,19 +146,6 @@ public class Project {
 		this.branch = branch;
 	}
 
-	/**
-	 * @return the projectType
-	 */
-	public String getProjectType() {
-		return projectType;
-	}
-
-	/**
-	 * @param projectType the projectType to set
-	 */
-	public void setProjectType(String projectType) {
-		this.projectType = projectType;
-	}
 
 	/**
 	 * @return the developmentProcess
@@ -210,28 +189,16 @@ public class Project {
 		this.projectStatus = projectStatus;
 	}
 
-	/**
-	 * Relation between the project and types
-	 */
-	 @ManyToMany(cascade = { 
-		        CascadeType.PERSIST, 
-		        CascadeType.MERGE
-		    })
-		    @JoinTable(name = "ProjectTypes",
-		        joinColumns = @JoinColumn(name = "ProjectId"),
-		        inverseJoinColumns = @JoinColumn(name = "TypeId")
-		    )
-	  private List<Type> types = new ArrayList<>();
-	 
-	  public void addType(Type type) {
-		    types.add(type);
-	        type.getProjects().add(this);
-	    }
-	 
-	    public void removeType(Type type) {
-	        types.remove(type);
-	        type.getProjects().remove(this);
-	    }
+	public List<Type> getProjectTypes() {
+		return projectTypes;
+	}
+
+	public void setProjectTypes(List<Type> projectTypes) {
+		this.projectTypes = projectTypes;
+	}
+	
+	
+
 
 
 }

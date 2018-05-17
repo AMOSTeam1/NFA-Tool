@@ -23,8 +23,7 @@ public class TypeResource {
 	
 	@GET
 	public List<Type> getAllTypes() {
-		return Collections.emptyList();
-//		return queryService.getAllTypes();
+		return queryService.getAllType();
 	}
 	
 } 
