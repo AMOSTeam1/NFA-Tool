@@ -6,13 +6,29 @@
 <hr>
 <div class="row form-group">
   <div class="col-xs-3 small" style="text-align: center">
-    <label for="search">Name</label>
+    <label for="search">Name :</label>
   </div>
   <div class="col-xs-6" style="text-align: center">
     <input id="search" class="col-xs-12 form-control" #inp>
   </div>
   <div class="col-xs-3" style="text-align: right">
     <button class="btn btn-primary" (click)="onSearch(inp)">Search</button>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="col-xs-6 text-center"><label for="filter" class="small">Filter : </label> </div>
+    <div class="col-xs-6 btn-group pull-left">
+      <button type="button" id="filter" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{status}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a (click)="onAll()">All</a></li>
+        <li><a (click)="onProcess()">On Process</a></li>
+        <li><a (click)="onArchived()">Archived</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 <hr>
