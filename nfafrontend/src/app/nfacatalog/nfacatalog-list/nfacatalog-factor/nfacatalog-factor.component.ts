@@ -1,13 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {NfaFactorModel} from "../../../shared/nfaFactor.model";
+import {NfaCriteriaModel} from "../../../shared/nfaCriteria.model";
 
 @Component({
-  selector: 'app-nfacatalog-item',
-  templateUrl: './nfacatalog-item.component.html',
-  styleUrls: ['./nfacatalog-item.component.css']
+  selector: 'app-nfacatalog-factor',
+  templateUrl: './nfacatalog-factor.component.html',
+  styleUrls: ['./nfacatalog-factor.component.css']
 })
-export class NfacatalogItemComponent implements OnInit {
+export class NfacatalogFactorComponent implements OnInit {
 
   @Input() nfaFactor: NfaFactorModel;
   @Input() index: number;

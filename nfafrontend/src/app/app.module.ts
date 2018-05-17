@@ -29,8 +29,9 @@ import { ProjectItemComponent } from './current-project/project-list/project-ite
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
 import {NfacatalogListComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-list.component";
-import {NfacatalogItemComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-item/nfacatalog-item.component";
+import {NfacatalogFactorComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-factor.component";
 import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
+import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-criteria/nfacatalog-criteria.component";
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
     ProjectEditComponent,
     NfacatalogComponent,
     NfacatalogListComponent,
-    NfacatalogItemComponent,
+    NfacatalogFactorComponent,
+    NfacatalogCriteriaComponent,
   ],
   imports: [
     BrowserModule,
