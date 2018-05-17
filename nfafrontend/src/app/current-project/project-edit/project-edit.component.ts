@@ -18,6 +18,11 @@ export class ProjectEditComponent implements OnInit {
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
+
+  fieldArray: Array<any> = [];
+  newAttribute: any = {};
+  showDialog;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private currentProjectService: CurrentProjectService,
@@ -144,6 +149,19 @@ export class ProjectEditComponent implements OnInit {
         'name' : new FormControl(null)
       })
     );
+  }
+
+
+  addFieldValue() {
+    this.fieldArray.push(this.newAttribute);
+    this.newAttribute = {};
+
+
+  }
+
+
+  deleteFieldValue(index) {
+    this.fieldArray.splice(index, 1);
   }
 
   /*onUpdateProject() {

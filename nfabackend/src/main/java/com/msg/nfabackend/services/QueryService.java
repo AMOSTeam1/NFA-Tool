@@ -73,11 +73,12 @@ public class QueryService {
 	public Project createProject(Project project) {
 		try {
 			tx.begin();
-			em.persist(project);
+			em.merge(project);
 			tx.commit();
 		}
 		catch(Exception e) {
 			LOG.log(Level.SEVERE, "Creating project failed...", e);
+			System.out.println(e);
 			tx.rollback();
 		}finally {
 			em.close();
@@ -108,6 +109,7 @@ public class QueryService {
 		try {
 			tx.begin();
 			Project project = em.find(Project.class, id);
+			project.getProjectTypes().clear();
 			em.remove(project);
 			tx.commit();
 			}catch(Exception e){
@@ -138,8 +140,6 @@ public class QueryService {
 			project.setProjectStatus(editedProject.getProjectStatus());
 			project.setProjectTypes(editedProject.getProjectTypes());
 
-			
-			
 			em.merge(editedProject);
 			tx.commit();
 		}catch(Exception e){

@@ -1,20 +1,21 @@
 <div class="row">
-  <div class="col-xs-12" style="text-align: center">
-    <span class="label label-default">Projects</span>
+  <div class="col-xs-12">
+    <button class="btn btn-success" (click)="onNewProject()" > Add New Project </button>
   </div>
 </div>
 <hr>
-<div class="row">
-  <div class="col-xs-3" style="text-align: center">
-    <label>Name</label>
+<div class="row form-group">
+  <div class="col-xs-3 small" style="text-align: center">
+    <label for="search">Name</label>
   </div>
   <div class="col-xs-6" style="text-align: center">
-    <input class="col-xs-12" #inp>
+    <input id="search" class="col-xs-12 form-control" #inp>
   </div>
   <div class="col-xs-3" style="text-align: right">
-    <button class="btn" (click)="onSearch(inp)">Search</button>
+    <button class="btn btn-primary" (click)="onSearch(inp)">Search</button>
   </div>
 </div>
+<hr>
 <div class="row">
   <div class="col-xs-12">
     <app-project-item

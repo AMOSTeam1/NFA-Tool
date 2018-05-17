@@ -4,6 +4,7 @@ import {Project} from '../../shared/project.model';
 import {Response} from '@angular/http';
 import {CurrentProjectService} from '../current-project.service';
 import {ProjectType} from '../../shared/type.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-project-list',
@@ -15,6 +16,8 @@ export class ProjectListComponent implements OnInit {
 
   projects: Project[];
   constructor(private currentProjectService: CurrentProjectService,
+              private route: ActivatedRoute,
+              private router: Router,
               private dataStorageService: DataStorageService) { }
 
 
@@ -44,5 +47,9 @@ export class ProjectListComponent implements OnInit {
         this.projects = projects;
       }
     );
+  }
+
+  onNewProject(){
+    this.router.navigate(['new'], {relativeTo: this.route});
   }
 }
