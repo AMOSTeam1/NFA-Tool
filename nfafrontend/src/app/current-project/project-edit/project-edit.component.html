@@ -121,7 +121,7 @@
       <thead>
       <tr class="small">
         <th >Stakeholder</th>
-        <th >Criteria</th>
+        <th >Factor</th>
         <th >Action</th>
       </tr>
       </thead>
@@ -132,7 +132,7 @@
         </td>
 
         <td>
-          <input readonly [(ngModel)]="field.criteria" class="form-control" type="text" name="{{field.criteria}}" />
+          <input readonly [(ngModel)]="field.factor" class="form-control" type="text" name="{{field.factor}}" />
         </td>
         <td>
           <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Delete</button>
@@ -144,7 +144,7 @@
           <input type="text" readonly class="form-control"  id="newAttributeCode" [(ngModel)]="newAttribute.code" name="newAttributeCode"/>
         </td>
         <td>
-          <input type="text" readonly class="form-control"  id="newAttributeCriteria" [(ngModel)]="newAttribute.criteria" name="newAttributeCriteria"/>
+          <input type="text" readonly class="form-control"  id="newAttributeFactor" [(ngModel)]="newAttribute.factor" name="newAttributeFactor"/>
         </td>
         <td>
           <button class="btn btn-default" type="button" (click)="showDialog = !showDialog">Add</button>
@@ -169,11 +169,9 @@
             </select> </td>
           <br>
           <td>
-            <label>Criteria</label>
-            <select multiple  class="form-control"  [(ngModel)]="newAttribute.criteria" name="newAttributeCriteria" >
-              <option value="Criteria_1">Criteria 1</option>
-              <option value="Criteria_2">Criteria 2</option>
-              <option value="Criteria_3">Criteria 3</option>
+            <label>Factor</label>
+            <select multiple class="form-control" id="factorTest" [(ngModel)]="newAttribute.factor" name="newAttributeFactor" >
+              <option *ngFor="let fac of nfaFactors" [value]="fac.factor">{{fac.factor}}</option>
             </select>
           </td>
         </tr>

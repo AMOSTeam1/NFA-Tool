@@ -6,6 +6,8 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
+import {NfaFactorModel} from "../../shared/nfaFactor.model";
+import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
 
 
 @Component({
@@ -19,6 +21,8 @@ export class ProjectEditComponent implements OnInit {
   projectForm: FormGroup;
   types: ProjectType[] = [];
 
+  nfaFactors: NfaFactorModel[];
+
   fieldArray: Array<any> = [];
   newAttribute: any = {};
   showDialog;
@@ -26,7 +30,8 @@ export class ProjectEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private currentProjectService: CurrentProjectService,
-              private dataStorageService: DataStorageService,) { }
+              private dataStorageService: DataStorageService,
+              private nfaCatalogService: NfacatalogService,) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -36,6 +41,15 @@ export class ProjectEditComponent implements OnInit {
           this.types = this.currentProjectService.getTypes();
           this.initForm();
         });
+
+    this.dataStorageService.getNfaFactor()
+      .subscribe(
+        (response: Response) => {
+          const nfaFactors: NfaFactorModel[]=response.json();
+          this.nfaCatalogService.setNfaFactors(nfaFactors);
+          this.nfaFactors = nfaFactors;
+        }
+      );
    }
   private initForm() {
     let projectTypes = new FormArray([]);

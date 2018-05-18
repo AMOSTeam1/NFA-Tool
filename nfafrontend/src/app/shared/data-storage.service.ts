@@ -18,7 +18,6 @@ export class DataStorageService {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
   }
 
-
   getCurrentProjects() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/project');
   }
@@ -31,7 +30,6 @@ export class DataStorageService {
   getNfaFactor() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_factor');
   }
-
 
   updateProject(updatedProject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
