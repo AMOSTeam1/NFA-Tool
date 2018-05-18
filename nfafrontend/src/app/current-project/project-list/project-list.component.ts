@@ -7,14 +7,22 @@ import {ProjectType} from '../../shared/type.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
+enum STATUS {
+  ALL = 'All',
+  ON_PROCESS = 'On Process',
+  ARCHIVED = 'Archived',
+}
+
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
+
 export class ProjectListComponent implements OnInit {
 
-  status = 'All';
+  status = STATUS.ALL;
+
   projects: Project[];
   subscription: Subscription;
 
@@ -61,7 +69,14 @@ export class ProjectListComponent implements OnInit {
   onNewProject(){
     this.router.navigate(['new'], {relativeTo: this.route});
   }
-  onAll() {this.status = 'All';
+
+  onAll() {
+
+    if(STATUS.ALL != this.status){
+      this.router.navigate([this.route.snapshot.routeConfig.path]);
+    }
+    this.status = STATUS.ALL;
+
     this.dataStorageService.getCurrentProjects()
       .subscribe(
         (response: Response) => {
@@ -69,28 +84,39 @@ export class ProjectListComponent implements OnInit {
           this.currentProjectService.setProjects(projects);
           this.projects = projects;
         }
-      ); }
+      );
+  }
   onProcess() {
-    this.status = 'On Process';
+
+    if(STATUS.ON_PROCESS != this.status) {
+      this.router.navigate([this.route.snapshot.routeConfig.path]);
+      this.status = STATUS.ON_PROCESS;
+    }
+
     this.dataStorageService.getCurrentProjects()
       .subscribe(
         (response: Response) => {
           const projects: Project[] = response.json();
           let projs : Project[] = [];
-          projects.forEach((x) => { if ( x.projectStatus === 'On Process') { projs.push(x); }})
+          projects.forEach((x) => { if ( x.projectStatus === STATUS.ON_PROCESS) { projs.push(x); }});
           this.currentProjectService.setProjects(projs);
         }
       );
   }
   onArchived() {
-    this.status = 'Archived';
+    if(STATUS.ARCHIVED != this.status){
+      this.router.navigate([this.route.snapshot.routeConfig.path]);
+      this.status = STATUS.ARCHIVED;
+    }
+
     this.dataStorageService.getCurrentProjects()
       .subscribe(
         (response: Response) => {
           const projects: Project[] = response.json();
           let projs : Project[] = [];
-          projects.forEach((x) => { if ( x.projectStatus === 'Archived') { projs.push(x); }})
+          projects.forEach((x) => { if ( x.projectStatus === STATUS.ARCHIVED) { projs.push(x); }});
           this.currentProjectService.setProjects(projs);
         }
-      );}
+    );
+  }
 }
