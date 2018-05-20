@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { EditableTableModule } from './editable-table/editable-table.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { NewprojectComponent } from './newproject/newproject.component';
 import { NfacatalogComponent } from './nfacatalog/nfacatalog.component';
 import { NewnfaComponent } from './newnfa/newnfa.component';
 import { NewpackageComponent } from './newpackage/newpackage.component';
@@ -37,7 +36,6 @@ import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-list/nfacatal
   declarations: [
     AppComponent,
     HeaderComponent,
-    NewprojectComponent,
     NfacatalogComponent,
     NewnfaComponent,
     NewpackageComponent,
