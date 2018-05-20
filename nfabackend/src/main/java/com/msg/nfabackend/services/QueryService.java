@@ -12,11 +12,14 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.cfg.NotYetImplementedException;
 
 import com.msg.nfabackend.entities.Nfa;
+import com.msg.nfabackend.entities.NfaCriteria;
+import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Type;
+import com.msg.nfabackend.entities.nfaCatalog;
 
 
 public class QueryService {
@@ -41,20 +44,20 @@ public class QueryService {
 			}
 		return listProject;
     }
-	
+
 	public List<Project> findProject(String lookupCustName) {
 		List<Project> listProject = null;
 		try {
 			tx.begin();
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-			
+
 			CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
 			Root<Project> fromProject = criteria.from(Project.class);
 			if (lookupCustName != null) {
 				criteria.where(criteriaBuilder.like(fromProject.<String>get("customerName"), "%"+lookupCustName+"%"));
 			}
 			listProject = em.createQuery(criteria).getResultList();
-			
+
 			tx.commit();
 		}catch(Exception e){
 			tx.rollback();
@@ -64,7 +67,7 @@ public class QueryService {
 		}
 		return listProject;
 	}
-	
+
 	/**
 	 * Create new project
 	 * @param project
@@ -86,8 +89,6 @@ public class QueryService {
 		}
 		return project;
 	}
-	
-	
 	
 	public Nfa addNfa (Nfa nfa) {
 		try {
@@ -120,7 +121,7 @@ public class QueryService {
 			}
 		
 	}
-	
+
 	/**
 	 * Updates a project by finding it by id first
 	 * @param id
@@ -128,7 +129,7 @@ public class QueryService {
 	public void updateProject(Project editedProject) {
 		try {
 			tx.begin();
-			
+
 			Project project = em.find(Project.class, editedProject.getId());
 
 			project.setCustomerName(editedProject.getCustomerName());
@@ -150,7 +151,7 @@ public class QueryService {
 			emf.close();
 		}
 	}
-	
+
 	public List<Type> getAllType() {
 		List<Type> listType = null;
 		try {
@@ -165,5 +166,42 @@ public class QueryService {
 			}
 		return listType;
     }
+	
+	public List<nfaCatalog> getAllNfa() {
+		List<nfaCatalog> listType = null;
+		try {
+			tx.begin();
+			listType = em.createQuery("from nfaCatalog",nfaCatalog.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listType;
+    }
+	
+	public List<NfaFactor> getAllFactors() {
+		List<NfaFactor> listType = null;
+		try {
+			tx.begin();
+			listType = em.createQuery("from NfaFactor",NfaFactor.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listType;
+    }
+
+	public List<NfaCriteria> getAllCriteriasForFactor(NfaFactor factor) {
+		// TODO Auto-generated method stub
+		
+		throw new NotYetImplementedException();
+//		return null;
+	}
 
 }
