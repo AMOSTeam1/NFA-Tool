@@ -1,13 +1,15 @@
-<a class="list-group-item clearfix"
+<div class="hero-unit">
+<a
    [routerLink] = "[index]"
    routerLinkActive="active"
    style="cursor: pointer;">
-  <div class="pull-left" >
-    <h3 class="list-group-item-heading">{{nfaFactor.nfa_id}} {{ nfaFactor.factor}}</h3>
+  <div class="pull-left" class="list-group">
+    <h3 class="list-group-item active">{{nfaFactor.nfa_id}}  {{ nfaFactor.factor}}</h3>
   </div>
   <span class="pull-right">
 	</span>
 </a>
+</div>
   <app-nfacatalog-criteria
     *ngFor="let nfaCriteriaEl of nfaFactor.criteriaList let i = index"
     [nfaCriteria]="nfaCriteriaEl"
