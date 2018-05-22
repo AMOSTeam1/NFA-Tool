@@ -21,7 +21,7 @@ enum STATUS {
 
 export class ProjectListComponent implements OnInit {
 
-  status = STATUS. ON_PROCESS;
+  status = STATUS.ON_PROCESS;
   projects: Project[];
   subscription: Subscription;
 
