@@ -10,18 +10,15 @@
       "customer-name" : "Kundenname",
       "customer-name-example" : "Bundesargentur für Arbeit",
 
-      "contact-person-customer" : "Kontakt Person des Kunden",
+      "contact-person-customer" : "Kontaktperson des Kunden",
       "contact-person-customer-example" : "Max Mustermann",
 
-      "contact-person-msg" : "Kontakt Person msg",
+      "contact-person-msg" : "Kontaktperson msg",
       "contact-person-msg-example" : "Thomas Rauch",
 
       "branch" : {
         "label" : "Branche",
-        "choose" : "Branche auswählen",
-        "public-sector" : "Öffentlicher Sektor",
-        "automotive" : "Automobil-Branche",
-        "banking" : "Bankwesen"
+        "choose" : "Branche auswählen"
       },
 
       "project-type" : {
@@ -32,17 +29,17 @@
       },
 
       "development-process" : {
-        "label": "Entwicklungs Prozess",
+        "label": "Entwicklungsprozess",
         "choose" : "Prozess wählen",
         "agile" : "Agil",
         "classic" : "Klassisch"
       },
 
       "project-phase" : {
-        "label": "Projekt Phase",
-        "choose" : "Projekt Phase auswählen",
-        "specification" : "Spezifikations Document",
-        "requrements" : "Anforderungs Spezifizierung"
+        "label": "Projektphase",
+        "choose" : "Projektphase auswählen",
+        "specification" : "Spezifikations Dokument",
+        "requrements" : "Anforderungsspezifizierung"
       },
 
 
