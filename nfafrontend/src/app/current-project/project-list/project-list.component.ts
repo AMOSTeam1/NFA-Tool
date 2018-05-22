@@ -22,7 +22,6 @@ enum STATUS {
 export class ProjectListComponent implements OnInit {
 
   status = STATUS.ALL;
-
   projects: Project[];
   subscription: Subscription;
 
@@ -57,11 +56,13 @@ export class ProjectListComponent implements OnInit {
   }
 
   onSearch(frominput: HTMLInputElement) {
-    this.dataStorageService.getProjectByName(frominput.value).subscribe(
+  
+    this.dataStorageService.getProjectByName(this.status,frominput.value).subscribe(
       (response: Response) => {
         const projects: Project[] = response.json();
-        this.currentProjectService.setProjects(projects);
         this.projects = projects;
+        this.currentProjectService.setProjects(this.projects);
+       
       }
     );
   }
@@ -70,52 +71,51 @@ export class ProjectListComponent implements OnInit {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
-  onAll() {
+  onAll(frominput: HTMLInputElement) {
 
     if(STATUS.ALL != this.status){
       this.router.navigate([this.route.snapshot.routeConfig.path]);
     }
     this.status = STATUS.ALL;
 
-    this.dataStorageService.getCurrentProjects()
+    this.dataStorageService.getProjectByName(this.status,frominput.value)
       .subscribe(
         (response: Response) => {
           const projects: Project[] = response.json();
-          this.currentProjectService.setProjects(projects);
           this.projects = projects;
+          this.currentProjectService.setProjects(this.projects)
+          
         }
       );
   }
-  onProcess() {
+  onProcess(frominput: HTMLInputElement) {
 
     if(STATUS.ON_PROCESS != this.status) {
       this.router.navigate([this.route.snapshot.routeConfig.path]);
       this.status = STATUS.ON_PROCESS;
     }
 
-    this.dataStorageService.getCurrentProjects()
+    this.dataStorageService.getProjectByName(this.status,frominput.value)
       .subscribe(
         (response: Response) => {
           const projects: Project[] = response.json();
-          let projs : Project[] = [];
-          projects.forEach((x) => { if ( x.projectStatus === STATUS.ON_PROCESS) { projs.push(x); }});
-          this.currentProjectService.setProjects(projs);
+          this.projects = projects
+          this.currentProjectService.setProjects(this.projects);
         }
       );
   }
-  onArchived() {
+  onArchived(frominput: HTMLInputElement) {
     if(STATUS.ARCHIVED != this.status){
       this.router.navigate([this.route.snapshot.routeConfig.path]);
       this.status = STATUS.ARCHIVED;
     }
 
-    this.dataStorageService.getCurrentProjects()
+    this.dataStorageService.getProjectByName(this.status,frominput.value)
       .subscribe(
         (response: Response) => {
           const projects: Project[] = response.json();
-          let projs : Project[] = [];
-          projects.forEach((x) => { if ( x.projectStatus === STATUS.ARCHIVED) { projs.push(x); }});
-          this.currentProjectService.setProjects(projs);
+          this.projects = projects
+          this.currentProjectService.setProjects(this.projects);
         }
     );
   }

@@ -35,8 +35,8 @@ export class DataStorageService {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }
 
-  getProjectByName(param: string) {
-   return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?lookupCustName=' + param);
+  getProjectByName(status: string, param: string ) {
+   return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?status=' + status +'&lookupCustName=' + param );
   }
 
   getTypes() {
