@@ -47,15 +47,15 @@
             <label for="branch"><small>{{'nfa.new-project.branch.label' | translate }}</small></label>
             <select  id="branch" formControlName="branch" class="form-control">
               <option value="" disabled>{{'nfa.new-project.branch.choose' | translate }}</option>
-              <option value="Automotive">{{'nfa.new-project.branch.automotive'}}</option>
-              <option value="Banking">{{'nfa.new-project.branch.banking'}}</option>
-              <option value="Food">{{'nfa.new-project.branch.food'}}</option>
-              <option value="Insurance">{{'nfa.new-project.branch.insurance'}}</option>
-              <option value="Public Sector">{{'nfa.new-project.branch.public-sector'}}</option>
-              <option value="Life Science & Healthcare">{{'nfa.new-project.branch.life-science-healthcare'}}</option>
-              <option value="Telecommunications">{{'nfa.new-project.branch.telecommunications'}}</option>
-              <option value="Travel & Logistics">{{'nfa.new-project.branch.travel-logistics'}}</option>
-              <option value="Utilities">{{'nfa.new-project.branch.utilities'}}</option>
+              <option value="Automotive">{{'nfa.new-project.branch.automotive' | translate }}</option>
+              <option value="Banking">{{'nfa.new-project.branch.banking' | translate }}</option>
+              <option value="Food">{{'nfa.new-project.branch.food' | translate }}</option>
+              <option value="Insurance">{{'nfa.new-project.branch.insurance' | translate }}</option>
+              <option value="Public Sector">{{'nfa.new-project.branch.public-sector' | translate }}</option>
+              <option value="Life Science & Healthcare">{{'nfa.new-project.branch.life-science-healthcare' | translate }}</option>
+              <option value="Telecommunications">{{'nfa.new-project.branch.telecommunications' | translate }}</option>
+              <option value="Travel & Logistics">{{'nfa.new-project.branch.travel-logistics' | translate }}</option>
+              <option value="Utilities">{{'nfa.new-project.branch.utilities' | translate }}</option>
             </select>
           </div>
         </div>
@@ -65,18 +65,18 @@
         <div class="col-xs-6">
           <div class="form-group">
             <label for="devProcess"><small>{{'nfa.new-project.development-process.label' | translate }}</small></label>
-            <select  id="devProcess" formControlName="devProcess" class="form-control">
+            <select id="devProcess" formControlName="devProcess" class="form-control">
               <option value="" disabled>{{'nfa.new-project.development-process.choose' | translate }}</option>
-              <option value="Agile">{{'nfa.new-project.development-process.agile' | translate }}</option>
-              <option value="Classic">{{'nfa.new-project.development-process.classic' | translate }}</option>
+              <option value="Agile" (click)="disablePhaseSelection(true)">{{'nfa.new-project.development-process.agile' | translate }}</option>
+              <option value="Classic" (click)="disablePhaseSelection(false)">{{'nfa.new-project.development-process.classic' | translate }}</option>
             </select>
           </div>
         </div>
         <div class="col-xs-6">
           <div class="form-group">
             <label for="projectPhase"><small>{{'nfa.new-project.project-phase.label' | translate }}</small></label>
-            <select  id="projectPhase" formControlName="projectPhase" class="form-control">
-              <option value="" disabled>{{'nfa.new-project.project-phase.choose' | translate }}</option>
+            <select id="projectPhase" formControlName="projectPhase" class="form-control">
+              <option selected="selected" value="" disabled>{{'nfa.new-project.project-phase.choose' | translate }}</option>
               <option value="Specification Sheet">{{'nfa.new-project.project-phase.specification' | translate }}</option>
               <option value="Requirements Specification">{{'nfa.new-project.project-phase.requrements' | translate }}</option>
             </select>
@@ -88,7 +88,7 @@
         <div class="col-xs-6">
           <div class="form-group">
             <label for="projectStatus"><small>Project Status</small></label>
-            <select  id="projectStatus" formControlName="projectStatus" class="form-control">
+            <select id="projectStatus" formControlName="projectStatus" class="form-control">
               <option value="" disabled>choose</option>
               <option value="On Process">On Process</option>
               <option value="Archived">Archived</option>
@@ -96,7 +96,7 @@
           </div>
         </div>
       </div>
-      <h3 style="text-align: center"> Project Types</h3>
+      <h3 style="text-align: center">Project Types</h3>
       <hr>
       <div class="row">
         <div class="col-xs-12" formArrayName="types">

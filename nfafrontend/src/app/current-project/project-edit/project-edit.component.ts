@@ -8,6 +8,7 @@ import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
 import {NfaFactorModel} from "../../shared/nfaFactor.model";
 import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
+import {nodeValue} from "@angular/core/src/view";
 
 
 @Component({
@@ -95,7 +96,7 @@ export class ProjectEditComponent implements OnInit {
       'msgContact': new FormControl(msgContact, Validators.required),
       'branch': new FormControl(branch, Validators.required),
       'devProcess': new FormControl(devProcess, Validators.required),
-      'projectPhase': new FormControl(projectPhase, Validators.required),
+      'projectPhase': new FormControl({value:projectPhase, disabled: devProcess != "Classic"}, Validators.required),
       'projectStatus': new FormControl(projectStatus, Validators.required)
     });
   }
@@ -165,14 +166,19 @@ export class ProjectEditComponent implements OnInit {
     );
   }
 
+  disablePhaseSelection(disable: boolean){
+    if(disable){
+      this.projectForm.controls['projectPhase'].disable({onlySelf: true});
+      this.projectForm.controls['projectPhase'].setValue("");
+    }else{
+      this.projectForm.controls['projectPhase'].enable({onlySelf: true});
+    }
+  }
 
   addFieldValue() {
     this.fieldArray.push(this.newAttribute);
     this.newAttribute = {};
-
-
   }
-
 
   deleteFieldValue(index) {
     this.fieldArray.splice(index, 1);
