@@ -21,7 +21,7 @@ enum STATUS {
 
 export class ProjectListComponent implements OnInit {
 
-  status = STATUS.ALL;
+  status = STATUS. ON_PROCESS;
   projects: Project[];
   subscription: Subscription;
 
@@ -32,7 +32,7 @@ export class ProjectListComponent implements OnInit {
 
 
   ngOnInit() {
-    this.dataStorageService.getCurrentProjects()
+    this.dataStorageService.getProjectByName(this.status,"")
       .subscribe(
         (response: Response) => {
                    const projects: Project[] = response.json();
