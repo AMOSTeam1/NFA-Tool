@@ -163,9 +163,7 @@
           <td>
             <label>Known Stakeholders</label>
             <select  class="form-control"  [(ngModel)]="newAttribute.code" name="newAttributeCode" >
-              <option value="CEO">CEO</option>
-              <option value="Manager">Manager</option>
-              <option value="HR">HR</option>
+              <option *ngFor="let stak of stakeholder" [value]="stak.stakeholder">{{stak.stakeholder_id}}{{stak.stakeholder}}</option>
             </select> </td>
           <br>
           <td>

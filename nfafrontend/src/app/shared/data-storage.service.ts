@@ -31,6 +31,11 @@ export class DataStorageService {
     return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_factor');
   }
 
+  getStakeholder(){
+    return this.http.get('http://localhost:8080/nfabackend/webapi/stakeholder');
+  }
+
+
   updateProject(updatedProject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }

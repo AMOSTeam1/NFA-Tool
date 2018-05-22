@@ -6,9 +6,9 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
-import {NfaFactorModel} from "../../shared/nfaFactor.model";
-import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
-
+import {NfaFactorModel} from '../../shared/nfaFactor.model';
+import {NfacatalogService} from '../../nfacatalog/nfacatalog.service';
+import {StakeholderModel} from '../../shared/stakeholder.model';
 
 @Component({
   selector: 'app-project-edit',
@@ -20,8 +20,8 @@ export class ProjectEditComponent implements OnInit {
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
-
   nfaFactors: NfaFactorModel[];
+  stakeholder: StakeholderModel[];
 
   fieldArray: Array<any> = [];
   newAttribute: any = {};
@@ -32,6 +32,7 @@ export class ProjectEditComponent implements OnInit {
               private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService,
               private nfaCatalogService: NfacatalogService,) { }
+
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -45,11 +46,21 @@ export class ProjectEditComponent implements OnInit {
     this.dataStorageService.getNfaFactor()
       .subscribe(
         (response: Response) => {
-          const nfaFactors: NfaFactorModel[]=response.json();
+          const nfaFactors: NfaFactorModel[] = response.json();
           this.nfaCatalogService.setNfaFactors(nfaFactors);
           this.nfaFactors = nfaFactors;
         }
       );
+
+    this.dataStorageService.getStakeholder()
+      .subscribe(
+        (response: Response) => {
+          const stakeholder: StakeholderModel[] = response.json();
+          this.stakeholder = stakeholder;
+        }
+      );
+
+
    }
   private initForm() {
     let projectTypes = new FormArray([]);
@@ -60,6 +71,7 @@ export class ProjectEditComponent implements OnInit {
     let devProcess = '';
     let projectPhase = '';
     let projectStatus = '';
+    let stakeholder_name ='';
     if (this.editMode) {
       const project = this.currentProjectService.getProject(this.id);
 
@@ -81,6 +93,8 @@ export class ProjectEditComponent implements OnInit {
       devProcess = project.developmentProcess;
       projectPhase = project.projectPhase;
       projectStatus = project.projectStatus;
+      stakeholder_name = project.stakeholder_name;
+
     } else {
         projectTypes.push(
           new FormGroup({
@@ -96,7 +110,8 @@ export class ProjectEditComponent implements OnInit {
       'branch': new FormControl(branch, Validators.required),
       'devProcess': new FormControl(devProcess, Validators.required),
       'projectPhase': new FormControl(projectPhase, Validators.required),
-      'projectStatus': new FormControl(projectStatus, Validators.required)
+      'projectStatus': new FormControl(projectStatus, Validators.required),
+      'stakeholder_name': new FormControl(stakeholder_name, Validators.required),
     });
   }
 
@@ -111,7 +126,8 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['types'],
       this.projectForm.value['devProcess'],
       this.projectForm.value['projectPhase'],
-      this.projectForm.value['projectStatus']
+      this.projectForm.value['projectStatus'],
+      this.projectForm.value['stakeholder_name']
     );
     for (let i = 0; i < newProject.projectTypes.length; i++){
       this.types.forEach((x) => {
@@ -172,7 +188,6 @@ export class ProjectEditComponent implements OnInit {
 
 
   }
-
 
   deleteFieldValue(index) {
     this.fieldArray.splice(index, 1);
