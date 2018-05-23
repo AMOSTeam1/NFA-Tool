@@ -3,7 +3,7 @@
     "nfa-title": "NFA-Tool",
     "home": {
       "welcome": "Hallo zum {{name}}",
-      "current-projects": "Aktuelle Projekte ansehen"
+      "current-projects": "Projekte ansehen"
     },
     "new-project" : {
       "create-nfa-project" : "Erstelle NFA-Projekt",
