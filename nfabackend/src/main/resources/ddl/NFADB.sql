@@ -262,3 +262,217 @@ DROP TABLE IF EXISTS nfa_catalog;CREATE TABLE public.nfa_catalog
  KRITIKALITAET character varying(40),    
 DOKUMENT character varying(40));
 INSERT INTO nfa_catalog VALUES (1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+
+--Matric
+
+DROP TABLE IF EXISTS nfa_matric CASCADE;
+CREATE TABLE public.nfa_matric
+(
+	matric_id serial PRIMARY KEY,
+	matric_num int NOT NULL,
+	matric varchar(80) NOT NULL
+);
+DROP TABLE IF EXISTS matric_criteria;
+CREATE TABLE public.matric_criteria
+(
+    
+    criteria_id bigint NOT NULL,
+	matric_id bigint NOT NULL,
+        CONSTRAINT criteria_fk FOREIGN KEY (criteria_id)
+        REFERENCES public.nfa_criteria (criteria_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT matric_fk FOREIGN KEY (matric_id)
+        REFERENCES public.nfa_matric (matric_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	PRIMARY KEY(criteria_id, matric_id)
+);
+-- 1	Effektivität
+INSERT INTO nfa_matric VALUES (1,1,'Effektivität 1');
+INSERT INTO nfa_matric VALUES (2,2,'Effektivität 2');
+INSERT INTO nfa_matric VALUES (3,3,'Effektivität 3');
+INSERT INTO nfa_matric VALUES (4,4,'Effektivität 4');
+INSERT INTO nfa_matric VALUES (5,5,'Effektivität 5');
+
+
+
+-- 2	Effizienz
+INSERT INTO nfa_matric VALUES (6,1,'Effizienz 1');
+INSERT INTO nfa_matric VALUES (7,2,'Effizienz 2');
+INSERT INTO nfa_matric VALUES (8,3,'Effizienz 3');
+INSERT INTO nfa_matric VALUES (9,4,'Effizienz 4');
+INSERT INTO nfa_matric VALUES (10,5,'Effizienz 5');
+INSERT INTO nfa_matric VALUES (11,6,'Effizienz 6');
+INSERT INTO nfa_matric VALUES (12,7,'Effizienz 7');
+INSERT INTO nfa_matric VALUES (13,8,'Effizienz 8');
+
+
+-- 3	Zufriedenheit
+INSERT INTO nfa_matric VALUES (14,1, 'Zufriedenheit 1');
+
+INSERT INTO nfa_matric VALUES (15,2, 'Nützlichkeit 1');
+INSERT INTO nfa_matric VALUES (16,3,'Nützlichkeit 2');
+INSERT INTO nfa_matric VALUES (17,4,'Nützlichkeit 3');
+INSERT INTO nfa_matric VALUES (18,5,'Nützlichkeit 4');
+INSERT INTO nfa_matric VALUES (19,6, 'Nützlichkeit 5');
+
+INSERT INTO nfa_matric VALUES (20,7, 'Vertraun 1');
+
+INSERT INTO nfa_matric VALUES (21,8, ' Freude im Umgang mit dem System 1');
+
+INSERT INTO nfa_matric VALUES (22,9, 'Komfort 1');
+
+
+
+INSERT INTO public.matric_criteria VALUES (3,14);
+INSERT INTO public.matric_criteria VALUES (3,15);
+INSERT INTO public.matric_criteria VALUES (3,16);
+INSERT INTO public.matric_criteria VALUES (3,17);
+INSERT INTO public.matric_criteria VALUES (3,18);
+INSERT INTO public.matric_criteria VALUES (3,19);
+INSERT INTO public.matric_criteria VALUES (3,20);
+INSERT INTO public.matric_criteria VALUES (3,21);
+INSERT INTO public.matric_criteria VALUES (3,22);
+
+
+
+-- 4	Risikofreiheit
+INSERT INTO nfa_matric VALUES (23,1,'Verringerung der ökonomischen Risiken 1');
+INSERT INTO nfa_matric VALUES (24,2,'Verringerung der ökonomischen Risiken 2');
+INSERT INTO nfa_matric VALUES (25,3,'Verringerung der ökonomischen Risiken 3');
+INSERT INTO nfa_matric VALUES (26,4,'Verringerung der ökonomischen Risiken 4');
+INSERT INTO nfa_matric VALUES (27,5,'Verringerung der ökonomischen Risiken 5');
+INSERT INTO nfa_matric VALUES (28,6,'Verringerung der ökonomischen Risiken 6');
+INSERT INTO nfa_matric VALUES (29,7,'Verringerung der ökonomischen Risiken 7');
+INSERT INTO nfa_matric VALUES (30,8,'Verringerung der ökonomischen Risiken 8');
+INSERT INTO nfa_matric VALUES (31,9,'Verringerung der ökonomischen Risiken 9');
+INSERT INTO nfa_matric VALUES (32,10,'Verringerung der ökonomischen Risiken 10');
+INSERT INTO nfa_matric VALUES (33,11,'Verringerung der ökonomischen Risiken 11');
+INSERT INTO nfa_matric VALUES (34,12,'Verringerung der ökonomischen Risiken 12');
+INSERT INTO nfa_matric VALUES (35,13,'Verringerung der ökonomischen Risiken 13');
+INSERT INTO nfa_matric VALUES (36,14,'Verringerung der ökonomischen Risiken 14');
+
+INSERT INTO public.matric_criteria VALUES (4,23);
+INSERT INTO public.matric_criteria VALUES (4,24);
+INSERT INTO public.matric_criteria VALUES (4,25);
+INSERT INTO public.matric_criteria VALUES (4,26);
+INSERT INTO public.matric_criteria VALUES (4,27);
+INSERT INTO public.matric_criteria VALUES (4,28);
+INSERT INTO public.matric_criteria VALUES (4,29);
+INSERT INTO public.matric_criteria VALUES (4,30);
+INSERT INTO public.matric_criteria VALUES (4,31);
+INSERT INTO public.matric_criteria VALUES (4,32);
+INSERT INTO public.matric_criteria VALUES (4,33);
+INSERT INTO public.matric_criteria VALUES (4,34);
+INSERT INTO public.matric_criteria VALUES (4,35);
+INSERT INTO public.matric_criteria VALUES (4,36);
+
+
+
+
+INSERT INTO nfa_matric VALUES (37,15,' Verringerung der Risiken hinsichtlich Gesundheit und Sicherheit 1');
+INSERT INTO nfa_matric VALUES (38,16,' Verringerung der Risiken hinsichtlich Gesundheit und Sicherheit 2');
+INSERT INTO nfa_matric VALUES (39,17,' Verringerung der Risiken hinsichtlich Gesundheit und Sicherheit 3');
+INSERT INTO nfa_matric VALUES (40,18,' Verringerung der Risiken hinsichtlich Gesundheit und Sicherheit 4');
+INSERT INTO nfa_matric VALUES (41,19,' Verringerung der Risiken hinsichtlich Gesundheit und Sicherheit 5');
+
+
+INSERT INTO public.matric_criteria VALUES (4,37);
+INSERT INTO public.matric_criteria VALUES (4,38);
+INSERT INTO public.matric_criteria VALUES (4,39);
+INSERT INTO public.matric_criteria VALUES (4,40);
+INSERT INTO public.matric_criteria VALUES (4,41);
+
+
+INSERT INTO nfa_matric VALUES (42, 20, 'Verringerung der Umweltrisiken 1');
+INSERT INTO nfa_matric VALUES (43, 21, 'Verringerung der Umweltrisiken 2');
+INSERT INTO nfa_matric VALUES (44, 22, 'Verringerung der Umweltrisiken 3');
+
+INSERT INTO public.matric_criteria VALUES (4,42);
+INSERT INTO public.matric_criteria VALUES (4,43);
+INSERT INTO public.matric_criteria VALUES (4,44);
+
+
+-- 5	Umgebungsabdeckung
+
+INSERT INTO nfa_matric VALUES (45 ,1, 'Komplette Abdeckung aller Umgebungsanforderungen 1');
+
+INSERT INTO public.matric_criteria VALUES (5, 45);
+
+
+INSERT INTO nfa_matric VALUES (46,2, 'Flexibilität 1');
+INSERT INTO nfa_matric VALUES (47,3, 'Flexibilität 2');
+INSERT INTO nfa_matric VALUES (48,4, 'Flexibilität 3');
+INSERT INTO nfa_matric VALUES (49,5, 'Flexibilität 4');
+INSERT INTO nfa_matric VALUES (50,6, 'Flexibilität 5');
+INSERT INTO nfa_matric VALUES (51,7, 'Flexibilität 6');
+INSERT INTO nfa_matric VALUES (52,8, 'Flexibilität 7');
+INSERT INTO nfa_matric VALUES (53,9, 'Flexibilität 8');
+
+
+INSERT INTO public.matric_criteria VALUES (5, 46);
+INSERT INTO public.matric_criteria VALUES (5, 47);
+INSERT INTO public.matric_criteria VALUES (5, 48);
+INSERT INTO public.matric_criteria VALUES (5, 49);
+INSERT INTO public.matric_criteria VALUES (5, 50);
+INSERT INTO public.matric_criteria VALUES (5, 51);
+INSERT INTO public.matric_criteria VALUES (5, 52);
+INSERT INTO public.matric_criteria VALUES (5, 53);
+
+	
+-- 6	Funktionale Eignung
+
+INSERT INTO nfa_matric VALUES (54, 1, 'Funktionale Vollständigkeit 1');
+INSERT INTO nfa_matric VALUES (55, 2, 'Funktionale Vollständigkeit 2');
+INSERT INTO nfa_matric VALUES (56, 3, 'Funktionale Vollständigkeit 3');
+INSERT INTO nfa_matric VALUES (57, 4, 'Funktionale Vollständigkeit 4');
+
+INSERT INTO public.matric_criteria VALUES (6, 54);
+INSERT INTO public.matric_criteria VALUES (6, 55);
+INSERT INTO public.matric_criteria VALUES (6, 56);
+INSERT INTO public.matric_criteria VALUES (6, 57);
+
+
+
+INSERT INTO nfa_matric VALUES (58, 5, 'Funktionale Korrektheit 1');
+INSERT INTO nfa_matric VALUES (59, 6, 'Funktionale Korrektheit 2');
+INSERT INTO nfa_matric VALUES (60, 7, 'Funktionale Korrektheit 3');
+INSERT INTO nfa_matric VALUES (61, 8, 'Funktionale Korrektheit 4');
+INSERT INTO nfa_matric VALUES (62, 9, 'Funktionale Korrektheit 5');
+INSERT INTO nfa_matric VALUES (63, 10, 'Funktionale Korrektheit 6');
+INSERT INTO nfa_matric VALUES (64, 11, 'Funktionale Korrektheit 7');
+
+
+
+INSERT INTO public.matric_criteria VALUES (6, 58);
+INSERT INTO public.matric_criteria VALUES (6, 59);
+INSERT INTO public.matric_criteria VALUES (6, 60);
+INSERT INTO public.matric_criteria VALUES (6, 61);
+INSERT INTO public.matric_criteria VALUES (6, 62);
+INSERT INTO public.matric_criteria VALUES (6, 63);
+INSERT INTO public.matric_criteria VALUES (6, 64);
+
+
+INSERT INTO nfa_matric VALUES (65, 12, 'Funktionale Angemessenheit 1');
+INSERT INTO nfa_matric VALUES (66, 13, 'Funktionale Angemessenheit 2');
+INSERT INTO nfa_matric VALUES (67, 14, 'Funktionale Angemessenheit 3');
+INSERT INTO nfa_matric VALUES (68, 15, 'Funktionale Angemessenheit 4');
+INSERT INTO nfa_matric VALUES (69, 16, 'Funktionale Angemessenheit 5');
+INSERT INTO nfa_matric VALUES (70, 17, 'Funktionale Angemessenheit 6');
+INSERT INTO nfa_matric VALUES (71, 18, 'Funktionale Angemessenheit 7');
+INSERT INTO nfa_matric VALUES (72, 19, 'Funktionale Angemessenheit 8');
+INSERT INTO nfa_matric VALUES (73, 20, 'Funktionale Angemessenheit 9');
+
+
+INSERT INTO public.matric_criteria VALUES (6, 65);
+INSERT INTO public.matric_criteria VALUES (6, 66);
+INSERT INTO public.matric_criteria VALUES (6, 67);
+INSERT INTO public.matric_criteria VALUES (6, 68);
+INSERT INTO public.matric_criteria VALUES (6, 69);
+INSERT INTO public.matric_criteria VALUES (6, 70);
+INSERT INTO public.matric_criteria VALUES (6, 71);
+INSERT INTO public.matric_criteria VALUES (6, 72);
+INSERT INTO public.matric_criteria VALUES (6, 73);
+
+
