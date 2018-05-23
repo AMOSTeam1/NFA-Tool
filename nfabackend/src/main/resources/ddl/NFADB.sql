@@ -12,7 +12,9 @@ CREATE TABLE public.nfa_project
   BRANCH character varying(40),
   DEVELOPMENT_PROCESS character varying(40),
   PROJECT_PHASE character varying(40),
-  PROJECT_STATUS character varying(40)	
+  PROJECT_STATUS character varying(40),
+  stakeholder_name character(40) ,
+    stakeholder_factor character(40)
 );
 INSERT INTO nfa_project VALUES (1,'1234','ArbeitAgentur','Tom','Alex','Public Sector','Agile','Specification Sheet','On Process');
 INSERT INTO nfa_project VALUES (2,'1234','XYZ','Bob','Alex','Public Sector','Agile','Specification Sheet','Archived');
@@ -65,7 +67,7 @@ INSERT INTO public.project_type VALUES (3,1);
 INSERT INTO public.project_type VALUES (4,2);
 
 
---------------------------------------------------------------
+--------------------------------------------------------------/
 /*                 NFA CATALOG STUFF                        */
 --------------------------------------------------------------
 
@@ -75,7 +77,12 @@ CREATE TABLE public.nfa_factor
 	factor_id serial PRIMARY KEY,
 	factor varchar(45) NOT NULL
 );
-
+CREATE TABLE public.stakeholder
+(
+    stakeholder_id integer NOT NULL,
+    stakeholder character(150) COLLATE pg_catalog."default",
+    CONSTRAINT stakeholder_pkey PRIMARY KEY (stakeholder_id)
+);
 DROP TABLE IF EXISTS nfa_criteria CASCADE;
 CREATE TABLE public.nfa_criteria
 (
