@@ -65,8 +65,8 @@ public class ProjectResource {
 	
 	@GET
 	@Path("/search")
-	public List<Project> searchProject(@QueryParam(value = "lookupCustName") String lookupCustName) {
-		return queryService.findProject(lookupCustName);
+	public List<Project> searchProject(@QueryParam(value = "status") String status,@QueryParam(value = "lookupCustName") String lookupCustName) {
+		return queryService.findProject(status,lookupCustName);
 	}
 	
 } 

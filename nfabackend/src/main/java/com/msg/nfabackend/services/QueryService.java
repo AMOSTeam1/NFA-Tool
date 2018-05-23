@@ -10,6 +10,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.cfg.NotYetImplementedException;
@@ -45,19 +46,29 @@ public class QueryService {
 		return listProject;
     }
 
-	public List<Project> findProject(String lookupCustName) {
+	public List<Project> findProject( String status,String lookupCustName) {
 		List<Project> listProject = null;
 		try {
 			tx.begin();
 			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-
 			CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
-			Root<Project> fromProject = criteria.from(Project.class);
-			if (lookupCustName != null) {
-				criteria.where(criteriaBuilder.like(fromProject.<String>get("customerName"), "%"+lookupCustName+"%"));
+			Root<Project> root = criteria.from(Project.class);
+			Predicate statusQry= criteriaBuilder.like(root.<String>get("projectStatus"),status);
+			Predicate lookupQry = criteriaBuilder.like(root.<String>get("customerName"), "%"+lookupCustName+"%");
+			criteria.select(root);
+			if (!lookupCustName.isEmpty() && status.equalsIgnoreCase("All")) {
+			   
+			    criteria.where(lookupQry);
+			}
+			else if  (!lookupCustName.isEmpty()&& !status.equalsIgnoreCase("All")) {
+				
+				 Predicate qry = criteriaBuilder.and(lookupQry, statusQry);
+				 criteria.where(qry);
+			}
+			else if (lookupCustName.isEmpty()&& !status.equalsIgnoreCase("All")){
+				 criteria.where(statusQry);
 			}
 			listProject = em.createQuery(criteria).getResultList();
-
 			tx.commit();
 		}catch(Exception e){
 			tx.rollback();
@@ -203,5 +214,26 @@ public class QueryService {
 		throw new NotYetImplementedException();
 //		return null;
 	}
+	
+	public List<Project> getProjectsByStatus(String status) {
+		List<Project> listProject = null;
+		try {
+			tx.begin();
+			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+			CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
+			Root<Project> fromProject = criteria.from(Project.class);
+			criteria.where(criteriaBuilder.like(fromProject.<String>get("projectStatus"), status));
+			listProject = em.createQuery(criteria).getResultList();
+			tx.commit();
+		}catch(Exception e){
+			tx.rollback();
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return listProject;
+	}
+
 
 }
