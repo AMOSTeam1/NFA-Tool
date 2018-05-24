@@ -120,8 +120,6 @@ export class ProjectEditComponent implements OnInit {
     }
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
-      console.log(newProject.projectTypes);
-      console.log(this.types);
       this.currentProjectService.updateProject(this.id, newProject);
       this.dataStorageService.updateProject(newProject)
         .subscribe(
@@ -163,6 +161,12 @@ export class ProjectEditComponent implements OnInit {
         'name' : new FormControl(null)
       })
     );
+  }
+
+  isAgileCheck() {
+    const no_phase = new FormControl('None', Validators.required );
+    if (this.projectForm.value['devProcess'] === 'Agile') { this.projectForm.setControl('projectPhase', no_phase); return true;}
+    //return false;
   }
 
 
