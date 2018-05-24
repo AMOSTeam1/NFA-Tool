@@ -163,10 +163,19 @@ export class ProjectEditComponent implements OnInit {
     );
   }
 
-  isAgileCheck() {
+  updatePhase(){
     const no_phase = new FormControl('None', Validators.required );
-    if (this.projectForm.value['devProcess'] === 'Agile') { this.projectForm.setControl('projectPhase', no_phase); return true;}
-    //return false;
+    const choose_phase = new FormControl('', Validators.required );
+    if (this.projectForm.value['devProcess'] === 'Agile')
+    { this.projectForm.setControl('projectPhase', no_phase);}
+    else
+    {this.projectForm.setControl('projectPhase', choose_phase);}
+  }
+  isAgileCheck() {
+    if (this.projectForm.value['devProcess'] === 'Agile')
+      { return true;}
+    else
+      {return false;}
   }
 
 

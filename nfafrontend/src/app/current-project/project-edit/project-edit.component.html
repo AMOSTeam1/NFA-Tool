@@ -59,7 +59,7 @@
         <div class="col-xs-6">
           <div class="form-group">
             <label for="devProcess"><small>{{'nfa.new-project.development-process.label' | translate }}</small></label>
-            <select  id="devProcess" formControlName="devProcess" class="form-control" (change)="isAgileCheck()">
+            <select  id="devProcess" formControlName="devProcess" class="form-control" (change)="updatePhase()">
               <option value="" disabled>{{'nfa.new-project.development-process.choose' | translate }}</option>
               <option value="Agile">{{'nfa.new-project.development-process.agile' | translate }}</option>
               <option value="Classic">{{'nfa.new-project.development-process.classic' | translate }}</option>
