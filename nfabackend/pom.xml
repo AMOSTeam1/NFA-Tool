@@ -12,20 +12,6 @@
     <properties>
         <jersey.version>2.27</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <!--
-    HELLO DEAR DEVEELOPER (DIMITRI AND OTHERS)
-    This here is the central build file, where
-    data like the one at the bottom isn't suitable to place.
-    REASON: Every Team-Developer has his/her own configuration
-    usually. If he/she wants to connect it with the generic
-    definition in the persistence.xml and so on, he/she can
-    place it in the settings.xml-file in the own maven configuration
-    or create an own (locally placed too) run-configuration for maven.
-    THANKS ;)
-    -->
-<!--         <jdbc.user>postgres</jdbc.user> -->
-<!--        <jdbc.password>amos18</jdbc.password> -->
-<!--        <jdbc.url>jdbc:postgresql://localhost/NFA</jdbc.url> -->
     </properties>
     
     <build>

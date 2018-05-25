@@ -14,10 +14,10 @@ CREATE TABLE public.nfa_project
   PROJECT_PHASE character varying(40),
   PROJECT_STATUS character varying(40)	
 );
-INSERT INTO nfa_project VALUES (1,'1234','ArbeitAgentur','Tom','Alex','Public Sector','Agile','Specification Sheet','On Process');
-INSERT INTO nfa_project VALUES (2,'1234','XYZ','Bob','Alex','Public Sector','Agile','Specification Sheet','Archived');
-INSERT INTO nfa_project VALUES (3,'1234','ABC','John','Alex','Public Sector','Agile','Specification Sheet','On Process');
-INSERT INTO nfa_project VALUES (4,'1234','ASDF','Andre','Alex','Public Sector','Agile','Specification Sheet','Archived');
+INSERT INTO nfa_project VALUES (1,'1234','ArbeitAgentur','Tom','Alex','Public Sector','Agile','None','On Process');
+INSERT INTO nfa_project VALUES (2,'1234','XYZ','Bob','Alex','Public Sector','Classic','Specification Sheet','Archived');
+INSERT INTO nfa_project VALUES (3,'1234','ABC','John','Alex','Public Sector','Agile','None','On Process');
+INSERT INTO nfa_project VALUES (4,'1234','ASDF','Andre','Alex','Public Sector','Classic','Requirements Specification','Archived');
   
 DROP TABLE IF EXISTS new_nfa;
 

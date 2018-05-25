@@ -120,8 +120,6 @@ export class ProjectEditComponent implements OnInit {
     }
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
-      console.log(newProject.projectTypes);
-      console.log(this.types);
       this.currentProjectService.updateProject(this.id, newProject);
       this.dataStorageService.updateProject(newProject)
         .subscribe(
@@ -163,6 +161,21 @@ export class ProjectEditComponent implements OnInit {
         'name' : new FormControl(null)
       })
     );
+  }
+
+  updatePhase(){
+    const no_phase = new FormControl('None', Validators.required );
+    const choose_phase = new FormControl('', Validators.required );
+    if (this.projectForm.value['devProcess'] === 'Agile')
+    { this.projectForm.setControl('projectPhase', no_phase);}
+    else
+    {this.projectForm.setControl('projectPhase', choose_phase);}
+  }
+  isAgileCheck() {
+    if (this.projectForm.value['devProcess'] === 'Agile')
+      { return true;}
+    else
+      {return false;}
   }
 
 
