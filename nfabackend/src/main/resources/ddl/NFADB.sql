@@ -32,6 +32,35 @@ CREATE TABLE new_nfa (
 
 INSERT INTO new_nfa VALUES (1,'any factor','any criteria','any metric','any nfatype');
 
+DROP TABLE IF EXISTS stakeholder;
+
+CREATE TABLE stakeholder (
+  stakeholder_id bigserial NOT NULL,
+  stakeholder_name varchar(45) NOT NULL,
+  PRIMARY KEY (stakeholder_id)
+);
+
+INSERT INTO stakeholder VALUES (1,'any factor');
+INSERT INTO stakeholder VALUES (2,'test');
+
+DROP TABLE IF EXISTS project_stakeholder;
+CREATE TABLE public.project_stakeholder
+(
+    project_id bigint NOT NULL,
+    stakeholder_id bigint NOT NULL,
+    CONSTRAINT project_fk FOREIGN KEY (project_id)
+        REFERENCES public.nfa_project (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT stakeholder_fk FOREIGN KEY (stakeholder_id)
+        REFERENCES public.stakeholder (stakeholder_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+INSERT INTO public.project_stakeholder VALUES (1,1);
+INSERT INTO public.project_stakeholder VALUES (2,2);
+
 DROP TABLE IF EXISTS public.type;
 CREATE TABLE public.type
 (

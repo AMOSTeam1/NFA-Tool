@@ -10,10 +10,14 @@
 		<class>com.msg.nfabackend.entities.nfaCatalog</class>
 		<class>com.msg.nfabackend.entities.NfaFactor</class>
 		<class>com.msg.nfabackend.entities.NfaCriteria</class>
+		<class>com.msg.nfabackend.entities.Stakeholder</class>
 		<properties>
-			<property name="javax.persistence.jdbc.user" value="${jdbc.user}"/>
+			<!-- <property name="javax.persistence.jdbc.user" value="${jdbc.user}"/>
 			<property name="javax.persistence.jdbc.password" value="${jdbc.password}"/>
-			<property name="javax.persistence.jdbc.url" value="${jdbc.url}"/>
+			<property name="javax.persistence.jdbc.url" value="${jdbc.url}"/> -->
+			<property name="javax.persistence.jdbc.user" value="postgres"/>
+			<property name="javax.persistence.jdbc.password" value="amos18"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/NFA"/>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="hibernate.show_sql" value="true"/>

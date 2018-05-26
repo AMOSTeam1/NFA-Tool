@@ -13,7 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -50,7 +52,7 @@ public class Project {
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "PROJECT_TYPE", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "TYPE_ID"))
-	private List<Type> projectTypes = new ArrayList<Type>();
+	private Set<Type> projectTypes = new HashSet<Type>();
 	
 	@Column(name="DEVELOPMENT_PROCESS")
 	private String developmentProcess;
@@ -60,6 +62,10 @@ public class Project {
 	
 	@Column(name="PROJECT_STATUS")
 	private String projectStatus;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "project_stakeholder", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "stakeholder_id"))
+	private Set<Stakeholder> projectStakeholder = new HashSet<Stakeholder>();
 
 	/**
 	 * @return the id
@@ -189,16 +195,22 @@ public class Project {
 		this.projectStatus = projectStatus;
 	}
 
-	public List<Type> getProjectTypes() {
+
+	public Set<Type> getProjectTypes() {
 		return projectTypes;
 	}
 
-	public void setProjectTypes(List<Type> projectTypes) {
+	public void setProjectTypes(Set<Type> projectTypes) {
 		this.projectTypes = projectTypes;
 	}
-	
-	
 
+	public Set<Stakeholder> getProjectStakeholder() {
+		return projectStakeholder;
+	}
 
+	public void setProjectStakeholder(Set<Stakeholder> projectStakeholder) {
+		this.projectStakeholder = projectStakeholder;
+	}
+	
 
 }

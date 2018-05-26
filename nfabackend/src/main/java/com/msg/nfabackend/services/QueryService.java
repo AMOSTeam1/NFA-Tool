@@ -19,6 +19,7 @@ import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
+import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
 import com.msg.nfabackend.entities.nfaCatalog;
 
@@ -234,6 +235,21 @@ public class QueryService {
 		}
 		return listProject;
 	}
+	
+	public List<Stakeholder> getAllStakeholder() {
+		List<Stakeholder> listStakeholder = null;
+		try {
+			tx.begin();
+			listStakeholder = em.createQuery("from Stakeholder",Stakeholder.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listStakeholder;
+    }
 
 
 }
