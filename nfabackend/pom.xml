@@ -12,6 +12,9 @@
     <properties>
         <jersey.version>2.27</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jdbc.user>postgres</jdbc.user>
+        <jdbc.password>kvshs4692KH</jdbc.password>
+        <jdbc.url>jdbc:postgresql://localhost/NFADB</jdbc.url>
     </properties>
     
     <build>

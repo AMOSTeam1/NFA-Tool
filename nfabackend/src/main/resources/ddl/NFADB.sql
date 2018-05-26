@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS project_type;
+DROP TABLE IF EXISTS project_stakeholder;
+DROP TABLE IF EXISTS stakeholder_factor;
 DROP TABLE IF EXISTS nfa_project;
 
 
@@ -40,8 +42,9 @@ CREATE TABLE stakeholder (
   PRIMARY KEY (stakeholder_id)
 );
 
-INSERT INTO stakeholder VALUES (1,'any factor');
-INSERT INTO stakeholder VALUES (2,'test');
+INSERT INTO stakeholder VALUES (1,'CEO');
+INSERT INTO stakeholder VALUES (2,'HR');
+INSERT INTO stakeholder VALUES (3,'Developer');
 
 DROP TABLE IF EXISTS project_stakeholder;
 CREATE TABLE public.project_stakeholder
@@ -59,7 +62,9 @@ CREATE TABLE public.project_stakeholder
 );
 
 INSERT INTO public.project_stakeholder VALUES (1,1);
-INSERT INTO public.project_stakeholder VALUES (2,2);
+INSERT INTO public.project_stakeholder VALUES (1,2);
+INSERT INTO public.project_stakeholder VALUES (2,3);
+
 
 DROP TABLE IF EXISTS public.type;
 CREATE TABLE public.type
@@ -104,6 +109,7 @@ CREATE TABLE public.nfa_factor
 	factor_id serial PRIMARY KEY,
 	factor varchar(45) NOT NULL
 );
+
 
 DROP TABLE IF EXISTS nfa_criteria CASCADE;
 CREATE TABLE public.nfa_criteria
@@ -291,3 +297,23 @@ DROP TABLE IF EXISTS nfa_catalog;CREATE TABLE public.nfa_catalog
  KRITIKALITAET character varying(40),    
 DOKUMENT character varying(40));
 INSERT INTO nfa_catalog VALUES (1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+
+DROP TABLE IF EXISTS stakeholder_factor;
+CREATE TABLE public.stakeholder_factor
+(
+    stakeholder_id bigint NOT NULL,
+    factor_id      bigint NOT NULL,
+    CONSTRAINT stakeholder_fk FOREIGN KEY (stakeholder_id)
+        REFERENCES public.stakeholder (stakeholder_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT factor_fk FOREIGN KEY (factor_id)
+        REFERENCES public.nfa_factor (factor_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+INSERT INTO public.stakeholder_factor VALUES (1,1);
+INSERT INTO public.stakeholder_factor VALUES (1,2);
+INSERT INTO public.stakeholder_factor VALUES (2,11);
+INSERT INTO public.stakeholder_factor VALUES (3,6);

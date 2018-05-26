@@ -74,6 +74,19 @@ export class ProjectEditComponent implements OnInit {
             })
           );
         }}
+
+      for(const holder of project.projectStakeholder){
+        /*this.newAttribute.stakeholder_name = holder.stakeholder_name;
+        this.newAttribute.factor = [];
+        for(const fac of holder.stakeholderFactors){
+          this.newAttribute.factor.push(fac.factor);
+        }*/
+        this.newAttribute = holder;
+        this.fieldArray.push(this.newAttribute);
+        this.newAttribute = {};
+      }
+
+
       customerName = project.customerName;
       customerContact = project.contactPersCustomer;
       msgContact = project.contactPersMsg;
@@ -109,6 +122,7 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['msgContact'],
       this.projectForm.value['branch'],
       this.projectForm.value['types'],
+      this.fieldArray,
       this.projectForm.value['devProcess'],
       this.projectForm.value['projectPhase'],
       this.projectForm.value['projectStatus']

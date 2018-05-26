@@ -1,4 +1,5 @@
 import {ProjectType} from './type.model';
+import {Stakeholder} from './stakeholder.model';
 
 export class Project {
 
@@ -9,6 +10,7 @@ export class Project {
     public contactPersMsg: string,
     public branch: string,
     public projectTypes: ProjectType[],
+    public projectStakeholder: Stakeholder[],
     public developmentProcess: string,
     public projectPhase: string,
     public projectStatus: string,
