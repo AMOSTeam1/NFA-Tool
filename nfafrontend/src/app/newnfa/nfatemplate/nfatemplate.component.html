@@ -1,0 +1,66 @@
+<form #f="ngForm"(submit)="onSubmit(f)">
+  <table width="80%">
+    <tr>
+      <td><label for="characteristicInput">Characteristic</label></td>
+      <td><input type="text" id="characteristicInput" name="character" [(ngModel)]="characteristicInput"></td>
+    </tr>
+    <tr>
+      <td><label for="propertyInput">Property</label></td>
+      <td><input type="text" id="propertyInput" name="propertyMatter" ngModel></td>
+    </tr>
+    <tr>
+      <td><label for="modalVerbInput">Modal Verb</label></td>
+      <td>
+        <input type="text" id="modalVerbInput" name="modalVerb" [disabled]="true" placeholder="<Modal Verb>" ngModel >
+      </td>
+    </tr>
+    <tr>
+      <td><label for="qualifyingExInput">Qualifying expression</label></td>
+      <td><input type="text" id="qualifyingExInput" name="qualifyingExpr" ngModel></td>
+    </tr>
+    <tr>
+      <td><label for="valueInput">Value</label></td>
+      <td><input type="text" id="valueInput" name="valueExpr" [disabled]="true" placeholder="<Value>" ngModel ></td>
+    </tr>
+  </table>
+  <table id="t1" width="80%">
+    <tr>
+      <td></td>
+      <td></td>
+      <td><button type="button" class="btntemp" style="width: 100%">shall</button></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><button type="button" class="btntemp" style="width: 100%">{{definition.characteristic}}</button></td>
+      <td><button type="button" class="btntemp" style="width: 100%">{{definition.propertyMatter}}</button></td>
+      <td><button type="button" class="btntemp" style="width: 100%">should</button></td>
+      <td><button type="button" class="btntemp" style="width: 100%">be</button></td>
+      <td><button type="button" class="btntemp" style="width: 100%">{{definition.qualifyingExpr}}</button></td>
+      <td><button type="button" class="btntemp" style="width: 100%">{{definition.valueExpr}}</button></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td><button type="button" class="btntemp" style="width: 100%">can</button></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td>
+        <div class="send">
+          <button type="submit">Add NFA</button>
+        </div>
+      </td>
+      <td>
+        <button type="reset" (click)="Reset()">Cancel</button>
+      </td>
+    </tr>
+  </table>
+</form>
+
+

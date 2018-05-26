@@ -1,0 +1,12 @@
+th, td {
+  padding: 15px;
+}
+table#t1 {
+  background: aliceblue;
+ }
+
+.btntemp {
+  background: #56a3bc;
+  border-radius: 7px;
+  border-color: #56a3bc;
+}
