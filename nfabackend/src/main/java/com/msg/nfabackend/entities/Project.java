@@ -11,7 +11,9 @@ import javax.persistence.Table;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SecondaryTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +62,9 @@ public class Project {
 	
 	@Column(name="PROJECT_STATUS")
 	private String projectStatus;
+
+	@Column(name="stakeholder_name")
+	private String stakeholder_name;
 
 	/**
 	 * @return the id
@@ -197,6 +202,16 @@ public class Project {
 		this.projectTypes = projectTypes;
 	}
 	
+	public void setStakeholder_name(String stakeholder_name) {
+		this.stakeholder_name = stakeholder_name;
+	}
+
+	/**
+	 * @return the stakeholder_name
+	 */
+	public String getStakeholder_name() {
+		return stakeholder_name;
+	}
 	
 
 
