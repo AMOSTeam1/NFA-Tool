@@ -1,13 +1,3 @@
-<div class="container color-dark">
-  <div class="col">
-    <p>{{ 'nfa.new-nfa.heading' | translate}}</p>
-  </div>
-</div>
-<br/>
-<div class="container color-light">
-
-</div>
-
 <form [formGroup]="nfaform" (ngSubmit) = "onSubmit()">
 
   <p class="sm">Factors</p>
@@ -37,17 +27,12 @@
   <p class="sm">Type</p>
   <select formControlName ="nfa_type"  name="nfa_type">
     <option value="nfa_type_1">Type 1</option>
-    <option valur="nfa_type_2">Type 2</option>
+    <option value="nfa_type_2">Type 2</option>
     <option value="nfa_type_3">Type 3</option>
   </select> <br/> <br/>
 
-  <p class="sm" >Content</p>
-  <textarea rows="4" cols="50" formControlName ="nfa_content"  name="nfa_content">
-    Insert Text here
-  </textarea>
-
-  <br/> <br/>
-
+  <app-nfatemplate *ngIf="nfaform.get('nfa_type').value==='nfa_type_1'"></app-nfatemplate>
+  <br/><br/>
   <input type="submit" class="button" value="Send">
-
 </form>
+
