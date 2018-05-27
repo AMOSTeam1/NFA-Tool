@@ -75,16 +75,16 @@ export class ProjectEditComponent implements OnInit {
           );
         }}
 
-      for(const holder of project.projectStakeholder){
-        /*this.newAttribute.stakeholder_name = holder.stakeholder_name;
+      /*for(const holder of project.projectStakeholder){
+        this.newAttribute.stakeholder_name = holder.stakeholder_name;
         this.newAttribute.factor = [];
         for(const fac of holder.stakeholderFactors){
           this.newAttribute.factor.push(fac.factor);
-        }*/
-        this.newAttribute = holder;
+        }
+        //this.newAttribute = holder;
         this.fieldArray.push(this.newAttribute);
         this.newAttribute = {};
-      }
+      }*/
 
 
       customerName = project.customerName;
@@ -122,7 +122,7 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['msgContact'],
       this.projectForm.value['branch'],
       this.projectForm.value['types'],
-      this.fieldArray,
+      null,
       this.projectForm.value['devProcess'],
       this.projectForm.value['projectPhase'],
       this.projectForm.value['projectStatus']
@@ -134,6 +134,7 @@ export class ProjectEditComponent implements OnInit {
     }
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
+      newProject.projectStakeholders = this.currentProjectService.getProject(this.id).projectStakeholders;
       this.currentProjectService.updateProject(this.id, newProject);
       this.dataStorageService.updateProject(newProject)
         .subscribe(
@@ -144,6 +145,7 @@ export class ProjectEditComponent implements OnInit {
           }
         );
     } else {
+      newProject.id = null;
       this.currentProjectService.addProject(newProject);
       this.dataStorageService.storeProject(newProject)
         .subscribe(
@@ -190,6 +192,14 @@ export class ProjectEditComponent implements OnInit {
       { return true;}
     else
       {return false;}
+  }
+
+  isMinimum(i:number){
+    return ((<FormArray>this.projectForm.get('types')).length === 1);
+  }
+
+  onEditStakeholder(){
+    this.router.navigate(['stakeholder'], {relativeTo: this.route});
   }
 
 

@@ -32,6 +32,7 @@ export class DataStorageService {
   }
 
   updateProject(updatedProject: Project) {
+    console.log(updatedProject);
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }
 

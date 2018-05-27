@@ -24,21 +24,33 @@ public class NfaCriteria {
 	
 	@Column (name ="criteria")
 	private String criteria;
-		
-	public Long getCriteriaId() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setCriteriaId(Long critId) {
-		this.id = critId;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getCriteriaNumber() {
+		return criteriaNumber;
+	}
+
+	public void setCriteriaNumber(Long criteriaNumber) {
+		this.criteriaNumber = criteriaNumber;
 	}
 
 	public String getCriteria() {
 		return criteria;
 	}
 
-	public void setCriteria(String someCriteria) {
-		this.criteria = someCriteria;
+	public void setCriteria(String criteria) {
+		this.criteria = criteria;
 	}
+		
+	
+	
+	
 
 }

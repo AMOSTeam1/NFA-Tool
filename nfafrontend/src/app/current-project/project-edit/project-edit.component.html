@@ -90,6 +90,9 @@
             </select>
           </div>
         </div>
+        <div class="col-xs-6">
+        <button type="button" class="btn btn-primary" *ngIf="editMode" (click)="onEditStakeholder()" [disabled]="!projectForm.valid" style="margin-top: 37px"> <span class="glyphicon glyphicon-pencil">  </span> Stakeholder</button>
+        </div>
       </div>
       <h3 style="text-align: center"> Project Types</h3>
       <hr>
@@ -104,7 +107,7 @@
               </div>
             </div>
             <div class="col-xs-2">
-              <button type="button" class="btn btn-danger" (click)="onDeleteType(i)">X</button>
+              <button type="button" class="btn btn-danger" [disabled]="isMinimum(i)" (click)="onDeleteType(i)">X</button>
             </div>
           </div>
 
@@ -136,7 +139,7 @@
         </td>
 
         <td>
-          <input readonly [(ngModel)]="field.factor" class="form-control" type="text" name="{{field.factor}}" />
+          <input readonly [(ngModel)]="field.factor" class="form-control" type="text"  />
         </td>
         <td>
           <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Delete</button>

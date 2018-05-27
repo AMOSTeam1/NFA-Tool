@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS nfa_project;
 
 CREATE TABLE public.nfa_project
 (
-  ID bigserial PRIMARY KEY,
+  ID serial PRIMARY KEY,
   NFA_PROJECT_NUMBER character varying(40),
   CUSTOMER_NAME character varying(40),
   CONTACT_PERS_CUSTOMER character varying(40),
@@ -42,9 +42,6 @@ CREATE TABLE stakeholder (
   PRIMARY KEY (stakeholder_id)
 );
 
-INSERT INTO stakeholder VALUES (1,'CEO');
-INSERT INTO stakeholder VALUES (2,'HR');
-INSERT INTO stakeholder VALUES (3,'Developer');
 
 DROP TABLE IF EXISTS project_stakeholder;
 CREATE TABLE public.project_stakeholder
@@ -61,9 +58,6 @@ CREATE TABLE public.project_stakeholder
         ON DELETE NO ACTION
 );
 
-INSERT INTO public.project_stakeholder VALUES (1,1);
-INSERT INTO public.project_stakeholder VALUES (1,2);
-INSERT INTO public.project_stakeholder VALUES (2,3);
 
 
 DROP TABLE IF EXISTS public.type;
@@ -312,8 +306,3 @@ CREATE TABLE public.stakeholder_factor
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
-
-INSERT INTO public.stakeholder_factor VALUES (1,1);
-INSERT INTO public.stakeholder_factor VALUES (1,2);
-INSERT INTO public.stakeholder_factor VALUES (2,11);
-INSERT INTO public.stakeholder_factor VALUES (3,6);

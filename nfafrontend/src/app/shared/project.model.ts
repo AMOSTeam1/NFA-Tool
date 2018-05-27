@@ -10,7 +10,7 @@ export class Project {
     public contactPersMsg: string,
     public branch: string,
     public projectTypes: ProjectType[],
-    public projectStakeholder: Stakeholder[],
+    public projectStakeholders: Stakeholder[],
     public developmentProcess: string,
     public projectPhase: string,
     public projectStatus: string,

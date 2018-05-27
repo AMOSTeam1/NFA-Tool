@@ -29,9 +29,11 @@ public class Project {
 	
 	public Project() {}
 	
-	@Id
+	/*@Id
 	@SequenceGenerator(name="seq-gen",sequenceName="NFA_PROJECT_ID_SEQ" , initialValue = 1, allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")*/
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Long id;
 	
@@ -65,7 +67,7 @@ public class Project {
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "project_stakeholder", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "stakeholder_id"))
-	private Set<Stakeholder> projectStakeholder = new HashSet<Stakeholder>();
+	private Set<Stakeholder> projectStakeholders = new HashSet<Stakeholder>();
 
 	/**
 	 * @return the id
@@ -204,13 +206,15 @@ public class Project {
 		this.projectTypes = projectTypes;
 	}
 
-	public Set<Stakeholder> getProjectStakeholder() {
-		return projectStakeholder;
+	public Set<Stakeholder> getProjectStakeholders() {
+		return projectStakeholders;
 	}
 
-	public void setProjectStakeholder(Set<Stakeholder> projectStakeholder) {
-		this.projectStakeholder = projectStakeholder;
+	public void setProjectStakeholders(Set<Stakeholder> projectStakeholders) {
+		this.projectStakeholders = projectStakeholders;
 	}
+
+	
 	
 
 }
