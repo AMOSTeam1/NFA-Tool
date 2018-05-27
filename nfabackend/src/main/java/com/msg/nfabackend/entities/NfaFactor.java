@@ -11,7 +11,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -31,13 +33,16 @@ public class NfaFactor {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "FACTOR_CRITERIA", joinColumns = @JoinColumn(name = "FACTOR_ID"), inverseJoinColumns = @JoinColumn(name = "CRITERIA_ID"))
-	private List<NfaCriteria> criteriaList = new ArrayList<NfaCriteria>();
+	private Set<NfaCriteria> criteriaList = new HashSet<NfaCriteria>();
 	
-	public List<NfaCriteria> getCriteriaList() {
+	
+	
+
+	public Set<NfaCriteria> getCriteriaList() {
 		return criteriaList;
 	}
 
-	public void setCriteriaList(List<NfaCriteria> criteriaList) {
+	public void setCriteriaList(Set<NfaCriteria> criteriaList) {
 		this.criteriaList = criteriaList;
 	}
 

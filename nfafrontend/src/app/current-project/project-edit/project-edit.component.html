@@ -90,6 +90,9 @@
             </select>
           </div>
         </div>
+        <div class="col-xs-6">
+        <button type="button" class="btn btn-primary" *ngIf="editMode" (click)="onEditStakeholder()" [disabled]="!projectForm.valid" style="margin-top: 37px"> <span class="glyphicon glyphicon-pencil">  </span> Stakeholder</button>
+        </div>
       </div>
       <h3 style="text-align: center"> Project Types</h3>
       <hr>
@@ -104,7 +107,7 @@
               </div>
             </div>
             <div class="col-xs-2">
-              <button type="button" class="btn btn-danger" (click)="onDeleteType(i)">X</button>
+              <button type="button" class="btn btn-danger" [disabled]="isMinimum(i)" (click)="onDeleteType(i)">X</button>
             </div>
           </div>
 
@@ -116,6 +119,9 @@
           <hr>
         </div>
       </div>
+
+
+
     </form>
 
     <table class="table table-striped table-bordered">
@@ -129,11 +135,11 @@
       <tbody>
       <tr *ngFor="let field of fieldArray; let i = index ">
         <td>
-          <input readonly [(ngModel)]="field.code" class="form-control" type="text" name="{{field.code}}" />
+          <input readonly [(ngModel)]="field.stakeholder_name" class="form-control" type="text" name="{{field.stakeholder_name}}" />
         </td>
 
         <td>
-          <input readonly [(ngModel)]="field.factor" class="form-control" type="text" name="{{field.factor}}" />
+          <input readonly [(ngModel)]="field.factor" class="form-control" type="text"  />
         </td>
         <td>
           <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Delete</button>
@@ -142,7 +148,7 @@
 
       <tr>
         <td>
-          <input type="text" readonly class="form-control"  id="newAttributeCode" [(ngModel)]="newAttribute.code" name="newAttributeCode"/>
+          <input type="text" readonly class="form-control"  id="newAttributeCode" [(ngModel)]="newAttribute.stakeholder_name" name="newAttributeCode"/>
         </td>
         <td>
           <input type="text" readonly class="form-control"  id="newAttributeFactor" [(ngModel)]="newAttribute.factor" name="newAttributeFactor"/>
@@ -163,7 +169,7 @@
         <tr>
           <td>
             <label>Known Stakeholders</label>
-            <select  class="form-control"  [(ngModel)]="newAttribute.code" name="newAttributeCode" >
+            <select  class="form-control"  [(ngModel)]="newAttribute.stakeholder_name" name="newAttributeCode" >
               <option value="CEO">CEO</option>
               <option value="Manager">Manager</option>
               <option value="HR">HR</option>
@@ -178,7 +184,7 @@
         </tr>
         <br><br>
         <label>New stakeholder</label>
-        <input class="form-control" type="text" [(ngModel)]="newAttribute.code"  name="newAttributeCode" /> <br><br>
+        <input class="form-control" type="text" [(ngModel)]="newAttribute.stakeholder_name"  name="newAttributeCode" /> <br><br>
         <br><br>
         <tr>
           <td>

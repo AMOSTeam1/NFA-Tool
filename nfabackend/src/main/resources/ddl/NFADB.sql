@@ -1,10 +1,12 @@
 DROP TABLE IF EXISTS project_type;
+DROP TABLE IF EXISTS project_stakeholder;
+DROP TABLE IF EXISTS stakeholder_factor;
 DROP TABLE IF EXISTS nfa_project;
 
 
 CREATE TABLE public.nfa_project
 (
-  ID bigserial PRIMARY KEY,
+  ID serial PRIMARY KEY,
   NFA_PROJECT_NUMBER character varying(40),
   CUSTOMER_NAME character varying(40),
   CONTACT_PERS_CUSTOMER character varying(40),
@@ -31,6 +33,32 @@ CREATE TABLE new_nfa (
 );
 
 INSERT INTO new_nfa VALUES (1,'any factor','any criteria','any metric','any nfatype');
+
+DROP TABLE IF EXISTS stakeholder;
+
+CREATE TABLE stakeholder (
+  stakeholder_id bigserial NOT NULL,
+  stakeholder_name varchar(45) NOT NULL,
+  PRIMARY KEY (stakeholder_id)
+);
+
+
+DROP TABLE IF EXISTS project_stakeholder;
+CREATE TABLE public.project_stakeholder
+(
+    project_id bigint NOT NULL,
+    stakeholder_id bigint NOT NULL,
+    CONSTRAINT project_fk FOREIGN KEY (project_id)
+        REFERENCES public.nfa_project (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT stakeholder_fk FOREIGN KEY (stakeholder_id)
+        REFERENCES public.stakeholder (stakeholder_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);
+
+
 
 DROP TABLE IF EXISTS public.type;
 CREATE TABLE public.type
@@ -75,6 +103,7 @@ CREATE TABLE public.nfa_factor
 	factor_id serial PRIMARY KEY,
 	factor varchar(45) NOT NULL
 );
+
 
 DROP TABLE IF EXISTS nfa_criteria CASCADE;
 CREATE TABLE public.nfa_criteria
@@ -262,3 +291,18 @@ DROP TABLE IF EXISTS nfa_catalog;CREATE TABLE public.nfa_catalog
  KRITIKALITAET character varying(40),    
 DOKUMENT character varying(40));
 INSERT INTO nfa_catalog VALUES (1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+
+DROP TABLE IF EXISTS stakeholder_factor;
+CREATE TABLE public.stakeholder_factor
+(
+    stakeholder_id bigint NOT NULL,
+    factor_id      bigint NOT NULL,
+    CONSTRAINT stakeholder_fk FOREIGN KEY (stakeholder_id)
+        REFERENCES public.stakeholder (stakeholder_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT factor_fk FOREIGN KEY (factor_id)
+        REFERENCES public.nfa_factor (factor_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);

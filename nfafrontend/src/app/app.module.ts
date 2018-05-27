@@ -31,6 +31,7 @@ import {NfacatalogListComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-l
 import {NfacatalogFactorComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-factor.component";
 import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
 import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-criteria/nfacatalog-criteria.component";
+import { StakeHolderComponent } from './current-project/stake-holder/stake-holder.component';
 import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component';
 
 @NgModule({
@@ -51,6 +52,7 @@ import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component
     NfacatalogListComponent,
     NfacatalogFactorComponent,
     NfacatalogCriteriaComponent,
+    StakeHolderComponent,
     NfatemplateComponent,
   ],
   imports: [

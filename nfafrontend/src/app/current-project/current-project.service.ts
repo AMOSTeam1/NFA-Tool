@@ -1,6 +1,7 @@
 import {Subject} from 'rxjs/Subject';
 import {Project} from '../shared/project.model';
 import {ProjectType} from '../shared/type.model';
+import {Stakeholder} from '../shared/stakeholder.model';
 
 
 export class CurrentProjectService {
@@ -43,6 +44,11 @@ export class CurrentProjectService {
 
   setTypes(types: ProjectType[]){
     this.types = types;
+  }
+
+  updateStakeholder(index: number, stakeholder: Stakeholder[]) {
+    this.projects[index].projectStakeholders = stakeholder;
+    this.projectsChanged.next(this.projects.slice());
   }
 
 

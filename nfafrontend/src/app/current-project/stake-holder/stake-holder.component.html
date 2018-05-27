@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+      <div class= "row">
+        <div class= "col-xs-12">
+          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid"> <span class="glyphicon glyphicon-floppy-disk"> </span> Save</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+
+        <div class="col-xs-12" formArrayName="projectStakeholders">
+          <div class="row" *ngFor="let stakeholderCtrl of getStakeControls(); let i = index" [formGroupName]="i" style="margin-top: 10px;">
+
+            <!--<label for="stakeholder" class="small">: StakeHolder {{i+1}}</label>-->
+            <div class="col-xs-8">
+              <input type="text" id="stakeholder" class="form-control" formControlName="stakeholder_name">
+            </div>
+
+
+            <div class="col-xs-2">
+              <button type="button" class="btn btn-danger" (click)="onDeleteStakeholder(i)">X</button>
+            </div>
+
+            <!-- <div class="row"> -->
+            <div class="col-xs-12" formArrayName="stakeholderFactors">
+              <div class ="row" *ngFor="let factorCtrl of getFactorControls(i); let j = index" [formGroupName]="j" style="margin-top: 10px;">
+                <label for="factor" class="small">: Factor </label>
+                <div class="col-xs-4" >
+                  <!--<input type="text" id="factor" class="form-control" formControlName="nam">-->
+                  <div class="form-group">
+                    <select class="form-control" id="factor" formControlName="nfa_id">
+                      <option *ngFor="let fact of nfaFactors; let j = index"
+                              [value]="fact.nfa_id">
+                        {{fact.factor}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="col-xs-2">
+                  <button type="button" class="btn btn-danger" [disabled]="isMinimum(i, j)" (click)="onDeleteFactor(i, j)">X</button>
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+
+            <div class="col-xs-12" style="margin-top: 10px;">
+              <button type="button" class="btn btn-success" [disabled]="isMaximum(i, j)" (click)="onAddFactor(i)"> <span class="glyphicon glyphicon-plus"> </span> Add Factor</button>
+              <hr>
+            </div>
+
+
+          </div>
+
+
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" class="btn btn-success" (click)="onAddStakeholder()"> <span class="glyphicon glyphicon-plus"> </span> Add Stakeholder</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
