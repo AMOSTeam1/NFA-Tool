@@ -8,6 +8,7 @@ import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
 import {NfaFactorModel} from "../../shared/nfaFactor.model";
 import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
+import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
 
 
 @Component({
