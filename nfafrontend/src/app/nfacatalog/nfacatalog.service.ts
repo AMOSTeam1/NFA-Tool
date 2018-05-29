@@ -2,6 +2,7 @@
 import {Subject} from "rxjs/Subject";
 import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 import {NfaFactorModel} from "../shared/nfaFactor.model";
+import {NfaCriteriaModel} from "../shared/nfaCriteria.model";
 
 
 export class NfacatalogService {
@@ -10,6 +11,9 @@ export class NfacatalogService {
 
   private nfaFactors: NfaFactorModel[];
   nfaFactorChanged = new Subject<NfaFactorModel[]>();
+
+  private nfaCriterias: NfaCriteriaModel[];
+  nfaCriteriaChanged = new Subject<NfaCriteriaModel[]>();
 
 
   getnfaCatalogs() {
@@ -37,5 +41,18 @@ export class NfacatalogService {
 
   getNfaFactor(index: number) {
     return this.nfaFactors[index];
+  }
+
+  setNfaCriterias(nfaCriterias: NfaCriteriaModel[]){
+    this.nfaCriterias = nfaCriterias;
+    this.nfaCriteriaChanged.next(this.nfaCriterias.slice());
+  }
+
+  getNfaCriteirias() {
+    return this.nfaCriterias.slice();
+  }
+
+  getNfaCriteiras(index: number) {
+    return this.nfaCriterias[index];
   }
 }

@@ -207,6 +207,8 @@ public class QueryService {
 			}
 		return listType;
     }
+	
+	
 
 	public List<NfaCriteria> getAllCriteriasForFactor(NfaFactor factor) {
 		// TODO Auto-generated method stub
