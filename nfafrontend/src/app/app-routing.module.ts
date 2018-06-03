@@ -8,12 +8,21 @@ import {CurrentProjectComponent} from './current-project/current-project.compone
 import {ProjectEditComponent} from './current-project/project-edit/project-edit.component';
 import {ProjectDetailComponent} from './current-project/project-detail/project-detail.component';
 import {StakeHolderComponent} from './current-project/stake-holder/stake-holder.component';
+import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-list.component';
+import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component';
+import {NfacatalogCriteriaListComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-list.component';
+import {NfacatalogMetricComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 
 const appRoutes: Routes = [
   {path: '' , redirectTo: '/home', pathMatch: 'full'},
   {path: 'newpackage', component: NewpackageComponent},
   {path: 'newnfa', component: NewnfaComponent},
-  {path: 'nfacatalog', component: NfacatalogComponent},
+  {path: 'nfacatalog', component: NfacatalogComponent, children: [
+    {path: 'list', component: NfacatalogListComponent},
+    {path: 'list/:id', component: NfacatalogCriteriaComponent, children: [
+      {path: ':criteria_id', component: NfacatalogMetricComponent}
+    ]}
+  ]},
   {path: 'home', component: HomeComponent},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
     {path:  'new', component: ProjectEditComponent},

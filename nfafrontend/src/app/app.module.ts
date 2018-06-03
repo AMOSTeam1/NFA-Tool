@@ -28,11 +28,14 @@ import { ProjectItemComponent } from './current-project/project-list/project-ite
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
 import {NfacatalogListComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-list.component";
-import {NfacatalogFactorComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-factor.component";
 import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
-import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-criteria/nfacatalog-criteria.component";
+import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component";
 import { StakeHolderComponent } from './current-project/stake-holder/stake-holder.component';
 import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component';
+import { NfacatalogItemComponent } from './nfacatalog/nfacatalog-list/nfacatalog-item/nfacatalog-item.component';
+import { NfacatalogCriteriaListComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-list.component';
+import { NfacatalogCriteriaItemComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-item/nfacatalog-criteria-item.component';
+import { NfacatalogMetricComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 
 @NgModule({
   declarations: [
@@ -50,10 +53,13 @@ import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component
     ProjectEditComponent,
     NfacatalogComponent,
     NfacatalogListComponent,
-    NfacatalogFactorComponent,
     NfacatalogCriteriaComponent,
     StakeHolderComponent,
     NfatemplateComponent,
+    NfacatalogItemComponent,
+    NfacatalogCriteriaListComponent,
+    NfacatalogCriteriaItemComponent,
+    NfacatalogMetricComponent,
   ],
   imports: [
     BrowserModule,
