@@ -2,6 +2,9 @@ DROP TABLE IF EXISTS project_type;
 DROP TABLE IF EXISTS project_stakeholder;
 DROP TABLE IF EXISTS stakeholder_factor;
 DROP TABLE IF EXISTS nfa_project;
+DROP TABLE IF EXISTS metric_nfa;
+DROP TABLE IF EXISTS criteria_metric;
+
 
 
 CREATE TABLE public.nfa_project
@@ -315,7 +318,7 @@ INSERT INTO public.criteria_metric VALUES (43, 4);
 DROP TABLE IF EXISTS nfa CASCADE;
 CREATE TABLE public.nfa
 (
- ID bigserial PRIMARY KEY,
+ nfa_id serial PRIMARY KEY,
  NFA_NUMBER int NOT NULL,
  NFA_TYPE character varying(40),
  BEZEICHNUNG character varying(40),
@@ -328,7 +331,6 @@ CREATE TABLE public.nfa
  KRITIKALITAET character varying(40),    
 DOKUMENT character varying(40));
 INSERT INTO nfa VALUES (1,1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
-
 INSERT INTO nfa VALUES (2,1,'Type:1','Qualität der Arbeit','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss dem bzw. der Anwender_in dabei unterstützen, ihre bzw. seine Aufgaben mit hoher Qualität, Genauigkeit und Effizienz zu erledigen.','JUAC','CbCR','kritikalitaet', 'document1');
 INSERT INTO nfa VALUES (3,1,'Type:1','Fehleranteil','Verbindlichkeit:1','12.22','Formulierung:1','Die Anzahl der Fehler darf nicht höher sein als 0,1% aller durchgeführten Operationen eines bzw. einer Anwender_in im System.','','','kritikalitaet', 'document1');
 
@@ -342,7 +344,7 @@ CREATE TABLE public.metric_nfa
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 	CONSTRAINT nfa_fk FOREIGN KEY (nfa_id)
-        REFERENCES public.nfa (id) MATCH SIMPLE
+        REFERENCES public.nfa (nfa_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 	PRIMARY KEY( metric_id, nfa_id)
