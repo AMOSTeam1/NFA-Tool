@@ -283,13 +283,14 @@ CREATE TABLE public.metric
 	ID serial PRIMARY KEY,
 	METRIC_NUMBER int NOT NULL,
 	BEZEICHNUNG character varying(40),
-	FORMEL character varying(500)
+	FORMEL character varying(500),
+	ERKLAERUNG_MESSGROESSE character varying(500)
 );
 
-INSERT INTO metric VALUES (1,1,'Effektivität der Arbeit');
-INSERT INTO metric VALUES (2,2,'Fehler bei der Arbeit');
-INSERT INTO metric VALUES (3,3,'Fehlerhafte Arbeit');
-INSERT INTO metric VALUES (4,4,'Fehlerhafte Arbeit');
+INSERT INTO metric VALUES (1,1,'Effektivität der Arbeit','','Wie genau das spezifizierte Ziel erreicht ist. Hierbei wird die Anzahl der exakt vollendeten Aufgaben mit Gesamtanzahl aller Aufgaben verglichen.');
+INSERT INTO metric VALUES (2,2,'Fehler bei der Arbeit','','Wie hoch die Anzahl der Fehler ist. Hierbei wird die Anzahl der Fehler gemessen.');
+INSERT INTO metric VALUES (3,3,'Fehlerhafte Arbeit','','Bei wie vielen Aufgaben Fehler gemacht wur-den. Hierbei wird die Anzahl der fehlerhaften Aufgaben mit der Gesamtzahl aller Aufgaben verglichen');
+INSERT INTO metric VALUES (4,4,'Fehlerintensität','','Wie viele Nutzer einen Fehler gemacht haben. Hierbei wird die Anzahl der Nutzer, die einen Fehler gemacht haben, mit der Gesamtzahl der Nutzer, die eine Aufgabe durchführen, vergli-chen.');
 
 DROP TABLE IF EXISTS criteria_metric CASCADE;
 CREATE TABLE public.criteria_metric

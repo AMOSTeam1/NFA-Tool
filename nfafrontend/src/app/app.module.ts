@@ -36,6 +36,7 @@ import { NfacatalogItemComponent } from './nfacatalog/nfacatalog-list/nfacatalog
 import { NfacatalogCriteriaListComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-list.component';
 import { NfacatalogCriteriaItemComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-item/nfacatalog-criteria-item.component';
 import { NfacatalogMetricComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
+import { NfacatalogNfaComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { NfacatalogMetricComponent } from './nfacatalog/nfacatalog-criteria/nfac
     NfacatalogCriteriaListComponent,
     NfacatalogCriteriaItemComponent,
     NfacatalogMetricComponent,
+    NfacatalogNfaComponent,
   ],
   imports: [
     BrowserModule,

@@ -34,6 +34,9 @@ public class Metric {
 	@Column (name ="BEZEICHNUNG")
 	private String bezeichnung;
 	
+	@Column (name ="ERKLAERUNG_MESSGROESSE")
+	private String erklaerungMessgroesse;
+	
 	@Column (name ="FORMEL")
 	private String formel;
 	
@@ -81,6 +84,16 @@ public class Metric {
 	public void setNfaList(Set<Nfa> nfaList) {
 		this.nfaList = nfaList;
 	}
+
+	public String getErklaerungMessgroesse() {
+		return erklaerungMessgroesse;
+	}
+
+	public void setErklaerungMessgroesse(String erklaerungMessgroesse) {
+		this.erklaerungMessgroesse = erklaerungMessgroesse;
+	}
+	
+	
 	
 	
 	

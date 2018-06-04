@@ -28,6 +28,7 @@ export class NfacatalogCriteriaListComponent implements OnInit {
           this.id = +params['id'];
           this.nfaFactor = this.nfaCatalogService.getNfaFactor(this.id);
           this.nfaCriterias = this.nfaCatalogService.getNfaFactor(this.id).criteriaList;
+          this.nfaCatalogService.setNfaCriterias(this.nfaCriterias);
         }
       );
   }

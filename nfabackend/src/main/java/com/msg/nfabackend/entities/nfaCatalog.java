@@ -148,8 +148,6 @@ public class nfaCatalog {
 		this.nfaCatalogErklaerung = nfaCatalogErklaerung;
 	}
 	
-	
 
-	
 
 }
