@@ -15,7 +15,7 @@ public class nfaCatalog {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column (name ="id")
+	@Column (name ="nfa_id")
 	private Long nfaCatalogId;
 	
 	@Column (name ="NFA_NUMBER")

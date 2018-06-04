@@ -28,6 +28,7 @@ export class NfacatalogMetricComponent implements OnInit {
           this.criteria_id = +params['criteria_id'];
           console.log(this.criteria_id);
           this.nfaMetrics = this.nfaCatalogService.getNfaCriteria(this.criteria_id).metricList;
+          console.log(this.nfaMetrics);
         }
       );
 

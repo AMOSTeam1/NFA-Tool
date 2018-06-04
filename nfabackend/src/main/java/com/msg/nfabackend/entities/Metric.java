@@ -43,7 +43,7 @@ public class Metric {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "METRIC_NFA", joinColumns = @JoinColumn(name = "METRIC_ID"), inverseJoinColumns = @JoinColumn(name = "NFA_ID"))
 	//@OrderBy("NFA_NUMBER ASC")
-	private Set<Nfa> nfaList = new HashSet<Nfa>();
+	private Set<nfaCatalog> nfaList = new HashSet<nfaCatalog>();
 
 	public Long getId() {
 		return id;
@@ -77,11 +77,13 @@ public class Metric {
 		this.formel = formel;
 	}
 
-	public Set<Nfa> getNfaList() {
+	
+
+	public Set<nfaCatalog> getNfaList() {
 		return nfaList;
 	}
 
-	public void setNfaList(Set<Nfa> nfaList) {
+	public void setNfaList(Set<nfaCatalog> nfaList) {
 		this.nfaList = nfaList;
 	}
 
