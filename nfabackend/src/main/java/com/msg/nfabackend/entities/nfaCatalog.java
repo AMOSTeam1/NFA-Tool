@@ -8,15 +8,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="nfa_catalog")
+@Table(name ="nfa")
 public class nfaCatalog {
 	
 	public nfaCatalog() {}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column (name ="id")
+	@Column (name ="nfa_id")
 	private Long nfaCatalogId;
+	
+	@Column (name ="NFA_NUMBER")
+	private Long nfaNumber;
 	
 	@Column (name ="nfa_type")
 	private String nfaCatalogType;
@@ -26,14 +29,6 @@ public class nfaCatalog {
 	
 	@Column (name ="wert")
 	private Long nfaCatalogWert;
-	
-	public Long getNfaCatalogWert() {
-		return nfaCatalogWert;
-	}
-
-	public void setNfaCatalogWert(Long nfaCatalogWert) {
-		this.nfaCatalogWert = nfaCatalogWert;
-	}
 
 	@Column (name ="rechtliche_verbindlichkeit")
 	private String rechlicheVerbindlichkeit;
@@ -96,13 +91,6 @@ public class nfaCatalog {
 		this.nfaCatalogFormulierung = nfaCatalogFormulierung;
 	}
 
-	public String getNfaCatalogErklärung() {
-		return nfaCatalogErklaerung;
-	}
-
-	public void setNfaCatalogErklärung(String nfaCatalogErklärung) {
-		this.nfaCatalogErklaerung = nfaCatalogErklärung;
-	}
 
 	public String getNfaCatalogReferenz() {
 		return nfaCatalogReferenz;
@@ -135,7 +123,31 @@ public class nfaCatalog {
 	public void setNfaCatalogDokument(String nfaCatalogDokument) {
 		this.nfaCatalogDokument = nfaCatalogDokument;
 	}
-
 	
+	public Long getNfaCatalogWert() {
+		return nfaCatalogWert;
+	}
+
+	public void setNfaCatalogWert(Long nfaCatalogWert) {
+		this.nfaCatalogWert = nfaCatalogWert;
+	}
+
+	public Long getNfaNumber() {
+		return nfaNumber;
+	}
+
+	public void setNfaNumber(Long nfaNumber) {
+		this.nfaNumber = nfaNumber;
+	}
+
+	public String getNfaCatalogErklaerung() {
+		return nfaCatalogErklaerung;
+	}
+
+	public void setNfaCatalogErklaerung(String nfaCatalogErklaerung) {
+		this.nfaCatalogErklaerung = nfaCatalogErklaerung;
+	}
+	
+
 
 }

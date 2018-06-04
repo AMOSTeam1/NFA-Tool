@@ -1,0 +1,63 @@
+<!--<div class="row" *ngFor="let metric of nfaMetrics let i = index">
+  {{metric.bezeichnung}}
+</div>-->
+
+<div class="row" *ngIf ="onView">
+  <div class="col-xs-12">
+    <button class="btn btn-default btn-lg col-xs-1 col-xs-offset-1" (click)="onPrev()" [disabled] = "metricIdx == 0"> < </button>
+    <button class="btn btn-default btn-lg col-xs-4 col-xs-offset-2"
+            style="text-align: center"
+            (click)="onView = !onView">
+      {{nfaMetrics[metricIdx].bezeichnung}}</button>
+    <button class="btn btn-default btn-lg col-xs-1 col-xs-offset-2" (click)="onNext()" [disabled] = "metricIdx == nfaMetrics.length-1"> > </button>
+  </div>
+</div>
+
+<div class="col-xs-12" *ngIf="!onView">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Metrics</h3>
+    </div>
+    <div class="panel-body">
+      <div class="row text-center" *ngFor="let metric of nfaMetrics; let j = index">
+        <button class="btn btn-default small" style="margin:0 0 1px" (click)="onGoto(j)">
+          {{metric.metricNumber}}. {{metric.bezeichnung}}
+        </button>
+        <hr>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+<div class="panel panel-primary" *ngIf ="onView">
+  <div class="panel-heading">
+    <h3 class="panel-title">Erklärung der Messgröße</h3>
+  </div>
+  <div class="panel-body">
+    <p class="small">{{nfaMetrics[metricIdx].erklaerungMessgroesse}}</p>
+  </div>
+</div>
+<div class="panel panel-primary" *ngIf ="onView">
+  <div class="panel-heading">
+    <h3 class="panel-title">Formel</h3>
+  </div>
+  <div class="panel-body">
+    <p class="small">{{nfaMetrics[metricIdx].formel}}</p>
+  </div>
+</div>
+<div class="panel panel-primary" *ngIf ="onView">
+  <div class="panel-heading">
+    <h3 class="panel-title">Interpretation</h3>
+  </div>
+  <div class="panel-body">
+    <p class="small">{{nfaMetrics[metricIdx].interpretation}}</p>
+  </div>
+</div>
+<div class="row" *ngIf ="onView">
+  <div class="col-xs-12 text-center">
+    <button type="button" class="btn btn-primary" (click)="onNfa()"> View Nfa</button>
+  </div>
+</div>
+
+

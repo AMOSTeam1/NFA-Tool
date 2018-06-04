@@ -211,6 +211,21 @@ public class QueryService {
 			}
 		return listType;
     }
+	
+	public List<NfaCriteria> getAllNfaCriterias() {
+		List<NfaCriteria> listNfaCriteria = null;
+		try {
+			tx.begin();
+			listNfaCriteria = em.createQuery("from NfaCriteria",NfaCriteria.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listNfaCriteria;
+    }
 
 	public List<NfaCriteria> getAllCriteriasForFactor(NfaFactor factor) {
 		// TODO Auto-generated method stub

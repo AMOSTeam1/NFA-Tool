@@ -2,6 +2,9 @@ DROP TABLE IF EXISTS project_type;
 DROP TABLE IF EXISTS project_stakeholder;
 DROP TABLE IF EXISTS stakeholder_factor;
 DROP TABLE IF EXISTS nfa_project;
+DROP TABLE IF EXISTS metric_nfa;
+DROP TABLE IF EXISTS criteria_metric;
+
 
 
 CREATE TABLE public.nfa_project
@@ -132,10 +135,12 @@ CREATE TABLE public.factor_criteria
 
 -- 1	Effektivität
 INSERT INTO nfa_factor VALUES (1,'Effektivität');
-
+INSERT INTO nfa_criteria VALUES (43,1, 'Effektivität');
+INSERT INTO public.factor_criteria VALUES (1,43);
 -- 2	Effizienz
 INSERT INTO nfa_factor VALUES (2,'Effizienz');
-
+INSERT INTO nfa_criteria VALUES (44,1, 'Effizienz');
+INSERT INTO public.factor_criteria VALUES (2,44);
 -- 3	Zufriedenheit
 INSERT INTO nfa_factor VALUES (3,'Zufriedenheit');
 
@@ -275,22 +280,83 @@ INSERT INTO public.factor_criteria VALUES (13, 40);
 INSERT INTO public.factor_criteria VALUES (13, 41);
 INSERT INTO public.factor_criteria VALUES (13, 42);
 
-
-
-DROP TABLE IF EXISTS nfa_catalog;CREATE TABLE public.nfa_catalog
+DROP TABLE IF EXISTS metric CASCADE;
+CREATE TABLE public.metric
 (
- ID bigserial PRIMARY KEY,
+	ID serial PRIMARY KEY,
+	METRIC_NUMBER int NOT NULL,
+	BEZEICHNUNG character varying(40),
+	FORMEL character varying(500),
+	INTERPRETATION character varying(500),
+	ERKLAERUNG_MESSGROESSE character varying(500)
+);
+
+INSERT INTO metric VALUES (1,1,'Effektivität der Arbeit','{X = 1-ΣAi | X≥0}; Ai = Antei-liger Wert von jedem feh-lenden oder fehlerhaften Ziel am Ende der Arbeit (maximaler Wert = 1)','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie genau das spezifizierte Ziel erreicht ist. Hierbei wird die Anzahl der exakt vollendeten Aufgaben mit Gesamtanzahl aller Aufgaben verglichen.');
+INSERT INTO metric VALUES (2,2,'Fehler bei der Arbeit','X = A; A = Anzahl der Fehler','{X | 0 < X}; Je kleiner der Wert ist, desto besser.','Wie hoch die Anzahl der Fehler ist. Hierbei wird die Anzahl der Fehler gemessen.');
+INSERT INTO metric VALUES (3,3,'Fehlerhafte Arbeit','X = A/B; A = Anzahl der fehlerhaften Aufgaben; B = Gesamtzahl an Aufgaben','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Bei wie vielen Aufgaben Fehler gemacht wur-den. Hierbei wird die Anzahl der fehlerhaften Aufgaben mit der Gesamtzahl aller Aufgaben verglichen');
+INSERT INTO metric VALUES (4,4,'Fehlerintensität','X = A/B; A = Anzahl der Nutzer, die einen Fehler gemacht haben; B = Ge-samtzahl der Nutzer, die eine Aufgabe durchführen','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie viele Nutzer einen Fehler gemacht haben. Hierbei wird die Anzahl der Nutzer, die einen Fehler gemacht haben, mit der Gesamtzahl der Nutzer, die eine Aufgabe durchführen, vergli-chen.');
+
+DROP TABLE IF EXISTS criteria_metric CASCADE;
+CREATE TABLE public.criteria_metric
+(
+    criteria_id bigint NOT NULL,
+	metric_id bigint NOT NULL,
+    CONSTRAINT criteria_fk FOREIGN KEY (criteria_id)
+        REFERENCES public.nfa_criteria (criteria_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT metric_fk FOREIGN KEY (metric_id)
+        REFERENCES public.metric (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	PRIMARY KEY( criteria_id, metric_id)
+);
+INSERT INTO public.criteria_metric VALUES (43, 1);
+INSERT INTO public.criteria_metric VALUES (43, 2);
+INSERT INTO public.criteria_metric VALUES (43, 3);
+INSERT INTO public.criteria_metric VALUES (43, 4);
+
+DROP TABLE IF EXISTS nfa CASCADE;
+CREATE TABLE public.nfa
+(
+ nfa_id serial PRIMARY KEY,
+ NFA_NUMBER int NOT NULL,
  NFA_TYPE character varying(40),
  BEZEICHNUNG character varying(40),
  RECHTLICHE_VERBINDLICHKEIT character varying(40),
  WERT real,
  FORMULIERUNG character varying(40),
- ERKLAERUNG character varying(40),
+ ERKLAERUNG character varying(500),
  REFERENZ character varying(40),
  REFERENZIERTE_PROJEKTE character varying(40),
  KRITIKALITAET character varying(40),    
 DOKUMENT character varying(40));
-INSERT INTO nfa_catalog VALUES (1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (1,1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (2,1,'Type:1','Qualität der Arbeit','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss dem bzw. der Anwender_in dabei unterstützen, ihre bzw. seine Aufgaben mit hoher Qualität, Genauigkeit und Effizienz zu erledigen.','JUAC','CbCR','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (3,1,'Type:1','Fehleranteil','Verbindlichkeit:1','12.22','Formulierung:1','Die Anzahl der Fehler darf nicht höher sein als 0,1% aller durchgeführten Operationen eines bzw. einer Anwender_in im System.','','','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (4,1,'Type:1','Entstehende Fehler','Verbindlichkeit:1','12.22','Formulierung:1','Bei der Bearbeitung von Aufgaben mit dem Sys-tem sollen möglichst keine Fehler entstehen.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (5,1,'Type:1','Fehlerfreie Bedienung','Verbindlichkeit:1','12.22','Formulierung:1','Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+
+DROP TABLE IF EXISTS metric_nfa;
+CREATE TABLE public.metric_nfa
+(
+    metric_id bigint NOT NULL,
+	nfa_id bigint NOT NULL,
+    CONSTRAINT metrik_fk FOREIGN KEY (metric_id)
+        REFERENCES public.metric (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT nfa_fk FOREIGN KEY (nfa_id)
+        REFERENCES public.nfa (nfa_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	PRIMARY KEY( metric_id, nfa_id)
+);
+
+INSERT INTO public.metric_nfa VALUES (1, 2);
+INSERT INTO public.metric_nfa VALUES (2, 3);
+INSERT INTO public.metric_nfa VALUES (3, 4);
+INSERT INTO public.metric_nfa VALUES (4, 5);
 
 DROP TABLE IF EXISTS stakeholder_factor;
 CREATE TABLE public.stakeholder_factor
