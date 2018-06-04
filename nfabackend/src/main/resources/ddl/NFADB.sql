@@ -1,10 +1,22 @@
 DROP TABLE IF EXISTS project_type;
+
 DROP TABLE IF EXISTS project_stakeholder;
 DROP TABLE IF EXISTS stakeholder_factor;
+
+DROP TABLE IF EXISTS stakeholder;
 DROP TABLE IF EXISTS nfa_project;
 DROP TABLE IF EXISTS metric_nfa;
-DROP TABLE IF EXISTS criteria_metric;
 
+DROP TABLE IF EXISTS type;
+DROP TABLE IF EXISTS new_nfa;
+DROP TABLE IF EXISTS nfa;
+
+DROP TABLE IF EXISTS criteria_metric;
+DROP TABLE IF EXISTS metric;
+
+DROP TABLE IF EXISTS factor_criteria;
+DROP TABLE IF EXISTS nfa_factor;
+DROP TABLE IF EXISTS nfa_criteria;
 
 
 CREATE TABLE public.nfa_project
@@ -17,16 +29,15 @@ CREATE TABLE public.nfa_project
   BRANCH character varying(40),
   DEVELOPMENT_PROCESS character varying(40),
   PROJECT_PHASE character varying(40),
-  PROJECT_STATUS character varying(40)	
+  PROJECT_STATUS character varying(40)
 );
 INSERT INTO nfa_project VALUES (1,'1234','ArbeitAgentur','Tom','Alex','Public Sector','Agile','None','On Process');
 INSERT INTO nfa_project VALUES (2,'1234','XYZ','Bob','Alex','Public Sector','Classic','Specification Sheet','Archived');
 INSERT INTO nfa_project VALUES (3,'1234','ABC','John','Alex','Public Sector','Agile','None','On Process');
 INSERT INTO nfa_project VALUES (4,'1234','ASDF','Andre','Alex','Public Sector','Classic','Requirements Specification','Archived');
-  
-DROP TABLE IF EXISTS new_nfa;
 
-CREATE TABLE new_nfa (
+
+CREATE TABLE public.new_nfa (
   nfa_id serial NOT NULL,
   factor varchar(45) NOT NULL,
   criteria varchar(45) NOT NULL,
@@ -37,16 +48,14 @@ CREATE TABLE new_nfa (
 
 INSERT INTO new_nfa VALUES (1,'any factor','any criteria','any metric','any nfatype');
 
-DROP TABLE IF EXISTS stakeholder;
 
-CREATE TABLE stakeholder (
+CREATE TABLE public.stakeholder (
   stakeholder_id bigserial NOT NULL,
   stakeholder_name varchar(45) NOT NULL,
   PRIMARY KEY (stakeholder_id)
 );
 
 
-DROP TABLE IF EXISTS project_stakeholder;
 CREATE TABLE public.project_stakeholder
 (
     project_id bigint NOT NULL,
@@ -63,7 +72,7 @@ CREATE TABLE public.project_stakeholder
 
 
 
-DROP TABLE IF EXISTS public.type;
+
 CREATE TABLE public.type
 (
     id bigserial NOT NULL,
@@ -74,7 +83,6 @@ CREATE TABLE public.type
 INSERT INTO public.type VALUES (1,'Communication Project');
 INSERT INTO public.type VALUES (2,'Data Exchange Project');	
 
-DROP TABLE IF EXISTS project_type;
 CREATE TABLE public.project_type
 (
     project_id bigint NOT NULL,
@@ -100,15 +108,12 @@ INSERT INTO public.project_type VALUES (4,2);
 /*                 NFA CATALOG STUFF                        */
 --------------------------------------------------------------
 
-DROP TABLE IF EXISTS nfa_factor CASCADE;
 CREATE TABLE public.nfa_factor
 (
 	factor_id serial PRIMARY KEY,
 	factor varchar(45) NOT NULL
 );
 
-
-DROP TABLE IF EXISTS nfa_criteria CASCADE;
 CREATE TABLE public.nfa_criteria
 (
 	criteria_id serial PRIMARY KEY,
@@ -117,7 +122,6 @@ CREATE TABLE public.nfa_criteria
 );
 
 
-DROP TABLE IF EXISTS factor_criteria;
 CREATE TABLE public.factor_criteria
 (
     factor_id bigint NOT NULL,
@@ -280,7 +284,6 @@ INSERT INTO public.factor_criteria VALUES (13, 40);
 INSERT INTO public.factor_criteria VALUES (13, 41);
 INSERT INTO public.factor_criteria VALUES (13, 42);
 
-DROP TABLE IF EXISTS metric CASCADE;
 CREATE TABLE public.metric
 (
 	ID serial PRIMARY KEY,
@@ -296,7 +299,6 @@ INSERT INTO metric VALUES (2,2,'Fehler bei der Arbeit','X = A; A = Anzahl der Fe
 INSERT INTO metric VALUES (3,3,'Fehlerhafte Arbeit','X = A/B; A = Anzahl der fehlerhaften Aufgaben; B = Gesamtzahl an Aufgaben','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Bei wie vielen Aufgaben Fehler gemacht wur-den. Hierbei wird die Anzahl der fehlerhaften Aufgaben mit der Gesamtzahl aller Aufgaben verglichen');
 INSERT INTO metric VALUES (4,4,'Fehlerintensität','X = A/B; A = Anzahl der Nutzer, die einen Fehler gemacht haben; B = Ge-samtzahl der Nutzer, die eine Aufgabe durchführen','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie viele Nutzer einen Fehler gemacht haben. Hierbei wird die Anzahl der Nutzer, die einen Fehler gemacht haben, mit der Gesamtzahl der Nutzer, die eine Aufgabe durchführen, vergli-chen.');
 
-DROP TABLE IF EXISTS criteria_metric CASCADE;
 CREATE TABLE public.criteria_metric
 (
     criteria_id bigint NOT NULL,
@@ -316,7 +318,6 @@ INSERT INTO public.criteria_metric VALUES (43, 2);
 INSERT INTO public.criteria_metric VALUES (43, 3);
 INSERT INTO public.criteria_metric VALUES (43, 4);
 
-DROP TABLE IF EXISTS nfa CASCADE;
 CREATE TABLE public.nfa
 (
  nfa_id serial PRIMARY KEY,
@@ -337,7 +338,6 @@ INSERT INTO nfa VALUES (3,1,'Type:1','Fehleranteil','Verbindlichkeit:1','12.22',
 INSERT INTO nfa VALUES (4,1,'Type:1','Entstehende Fehler','Verbindlichkeit:1','12.22','Formulierung:1','Bei der Bearbeitung von Aufgaben mit dem Sys-tem sollen möglichst keine Fehler entstehen.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
 INSERT INTO nfa VALUES (5,1,'Type:1','Fehlerfreie Bedienung','Verbindlichkeit:1','12.22','Formulierung:1','Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
 
-DROP TABLE IF EXISTS metric_nfa;
 CREATE TABLE public.metric_nfa
 (
     metric_id bigint NOT NULL,
@@ -358,7 +358,6 @@ INSERT INTO public.metric_nfa VALUES (2, 3);
 INSERT INTO public.metric_nfa VALUES (3, 4);
 INSERT INTO public.metric_nfa VALUES (4, 5);
 
-DROP TABLE IF EXISTS stakeholder_factor;
 CREATE TABLE public.stakeholder_factor
 (
     stakeholder_id bigint NOT NULL,
