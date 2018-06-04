@@ -32,10 +32,26 @@
 <hr>
 <div class="panel panel-primary" *ngIf ="onView">
   <div class="panel-heading">
-    <h3 class="panel-title">Erklaerung</h3>
+    <h3 class="panel-title">Erklärung der Messgröße</h3>
   </div>
   <div class="panel-body">
     <p class="small">{{nfaMetrics[metricIdx].erklaerungMessgroesse}}</p>
+  </div>
+</div>
+<div class="panel panel-primary" *ngIf ="onView">
+  <div class="panel-heading">
+    <h3 class="panel-title">Formel</h3>
+  </div>
+  <div class="panel-body">
+    <p class="small">{{nfaMetrics[metricIdx].formel}}</p>
+  </div>
+</div>
+<div class="panel panel-primary" *ngIf ="onView">
+  <div class="panel-heading">
+    <h3 class="panel-title">Interpretation</h3>
+  </div>
+  <div class="panel-body">
+    <p class="small">{{nfaMetrics[metricIdx].interpretation}}</p>
   </div>
 </div>
 <div class="row" *ngIf ="onView">

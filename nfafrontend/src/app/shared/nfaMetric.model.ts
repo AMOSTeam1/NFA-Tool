@@ -8,6 +8,7 @@ export class NfaMetric{
     public bezeichnung: string,
     public erklaerungMessgroesse: string,
     public formel: string,
+    public interpretation: string,
     public nfaList: NfaCatalogModel[]
   ) {}
 }

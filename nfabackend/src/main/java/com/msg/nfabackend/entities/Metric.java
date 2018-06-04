@@ -40,6 +40,9 @@ public class Metric {
 	@Column (name ="FORMEL")
 	private String formel;
 	
+	@Column (name ="INTERPRETATION")
+	private String interpretation;
+	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "METRIC_NFA", joinColumns = @JoinColumn(name = "METRIC_ID"), inverseJoinColumns = @JoinColumn(name = "NFA_ID"))
 	//@OrderBy("NFA_NUMBER ASC")
@@ -77,7 +80,13 @@ public class Metric {
 		this.formel = formel;
 	}
 
-	
+	public String getInterpretation() {
+		return interpretation;
+	}
+
+	public void setInterpretation(String interpretation) {
+		this.interpretation = interpretation;
+	}
 
 	public Set<nfaCatalog> getNfaList() {
 		return nfaList;

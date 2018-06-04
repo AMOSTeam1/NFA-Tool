@@ -287,13 +287,14 @@ CREATE TABLE public.metric
 	METRIC_NUMBER int NOT NULL,
 	BEZEICHNUNG character varying(40),
 	FORMEL character varying(500),
+	INTERPRETATION character varying(500),
 	ERKLAERUNG_MESSGROESSE character varying(500)
 );
 
-INSERT INTO metric VALUES (1,1,'Effektivität der Arbeit','','Wie genau das spezifizierte Ziel erreicht ist. Hierbei wird die Anzahl der exakt vollendeten Aufgaben mit Gesamtanzahl aller Aufgaben verglichen.');
-INSERT INTO metric VALUES (2,2,'Fehler bei der Arbeit','','Wie hoch die Anzahl der Fehler ist. Hierbei wird die Anzahl der Fehler gemessen.');
-INSERT INTO metric VALUES (3,3,'Fehlerhafte Arbeit','','Bei wie vielen Aufgaben Fehler gemacht wur-den. Hierbei wird die Anzahl der fehlerhaften Aufgaben mit der Gesamtzahl aller Aufgaben verglichen');
-INSERT INTO metric VALUES (4,4,'Fehlerintensität','','Wie viele Nutzer einen Fehler gemacht haben. Hierbei wird die Anzahl der Nutzer, die einen Fehler gemacht haben, mit der Gesamtzahl der Nutzer, die eine Aufgabe durchführen, vergli-chen.');
+INSERT INTO metric VALUES (1,1,'Effektivität der Arbeit','{X = 1-ΣAi | X≥0}; Ai = Antei-liger Wert von jedem feh-lenden oder fehlerhaften Ziel am Ende der Arbeit (maximaler Wert = 1)','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie genau das spezifizierte Ziel erreicht ist. Hierbei wird die Anzahl der exakt vollendeten Aufgaben mit Gesamtanzahl aller Aufgaben verglichen.');
+INSERT INTO metric VALUES (2,2,'Fehler bei der Arbeit','X = A; A = Anzahl der Fehler','{X | 0 < X}; Je kleiner der Wert ist, desto besser.','Wie hoch die Anzahl der Fehler ist. Hierbei wird die Anzahl der Fehler gemessen.');
+INSERT INTO metric VALUES (3,3,'Fehlerhafte Arbeit','X = A/B; A = Anzahl der fehlerhaften Aufgaben; B = Gesamtzahl an Aufgaben','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Bei wie vielen Aufgaben Fehler gemacht wur-den. Hierbei wird die Anzahl der fehlerhaften Aufgaben mit der Gesamtzahl aller Aufgaben verglichen');
+INSERT INTO metric VALUES (4,4,'Fehlerintensität','X = A/B; A = Anzahl der Nutzer, die einen Fehler gemacht haben; B = Ge-samtzahl der Nutzer, die eine Aufgabe durchführen','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie viele Nutzer einen Fehler gemacht haben. Hierbei wird die Anzahl der Nutzer, die einen Fehler gemacht haben, mit der Gesamtzahl der Nutzer, die eine Aufgabe durchführen, vergli-chen.');
 
 DROP TABLE IF EXISTS criteria_metric CASCADE;
 CREATE TABLE public.criteria_metric
@@ -333,6 +334,8 @@ DOKUMENT character varying(40));
 INSERT INTO nfa VALUES (1,1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
 INSERT INTO nfa VALUES (2,1,'Type:1','Qualität der Arbeit','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss dem bzw. der Anwender_in dabei unterstützen, ihre bzw. seine Aufgaben mit hoher Qualität, Genauigkeit und Effizienz zu erledigen.','JUAC','CbCR','kritikalitaet', 'document1');
 INSERT INTO nfa VALUES (3,1,'Type:1','Fehleranteil','Verbindlichkeit:1','12.22','Formulierung:1','Die Anzahl der Fehler darf nicht höher sein als 0,1% aller durchgeführten Operationen eines bzw. einer Anwender_in im System.','','','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (4,1,'Type:1','Entstehende Fehler','Verbindlichkeit:1','12.22','Formulierung:1','Bei der Bearbeitung von Aufgaben mit dem Sys-tem sollen möglichst keine Fehler entstehen.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (5,1,'Type:1','Fehlerfreie Bedienung','Verbindlichkeit:1','12.22','Formulierung:1','Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
 
 DROP TABLE IF EXISTS metric_nfa;
 CREATE TABLE public.metric_nfa
@@ -352,7 +355,8 @@ CREATE TABLE public.metric_nfa
 
 INSERT INTO public.metric_nfa VALUES (1, 2);
 INSERT INTO public.metric_nfa VALUES (2, 3);
-
+INSERT INTO public.metric_nfa VALUES (3, 4);
+INSERT INTO public.metric_nfa VALUES (4, 5);
 
 DROP TABLE IF EXISTS stakeholder_factor;
 CREATE TABLE public.stakeholder_factor
