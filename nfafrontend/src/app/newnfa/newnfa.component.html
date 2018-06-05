@@ -2,33 +2,27 @@
 
   <p class="sm">Factors</p>
   <select formControlName ="factor" name="factor" required [(ngModel)]='selectedFactor'>
-    <!--<option value="factor_none">None</option>-->
-    <option *ngFor="let fac of nfaFactors" [value]="fac.factor">{{fac.nfa_id}}. {{fac.factor}}</option>
+    <option *ngFor="let fac of nfaFactors" [ngValue]="fac">{{fac.nfa_id}}. {{fac.factor}}</option>
   </select> <br/> <br/>
 
-  <!--<div [hidden]="selectedFactor">-->
+  <div *ngIf="factorHasCriteria()">
     <p class="sm" id="criteriaSelect">Criteria</p>
     <select formControlName ="criteria" name="criteria" required [(ngModel)]='selectedCriteria'>
-      <option *ngFor="let crit of selectedFactor.criteriaList" [value]="crit.criteria">{{selectedFactor.nfa_id}}.{{crit.criteriaId}} {{crit.criteria}}</option>
-      <option value="criteria_1">Criteria 1</option>
-      <option valur="criteria_2">Criteria 2</option>
-      <option value="criteria_3">Criteria 3</option>
+      <option *ngFor="let crit of selectedFactor.criteriaList" [ngValue]="crit">{{selectedFactor.nfa_id}}.{{crit.criteriaNumber}} {{crit.criteria}}</option>
     </select> <br/> <br/>
-  <!--</div>-->
-  <!--<div [hidden]="!selectedCriteria">-->
+  </div>
+  <div *ngIf="criteriaHasMetric()">
     <p class="sm">Metric</p>
-    <select formControlName ="metric"  name="metric">
-      <option value="metric_1">Metric 1</option>
-      <option value="metric_2">Metric 2</option>
-      <option value="metric_3">Metric 3</option>
+    <select formControlName ="metric" name="metric" required [(ngModel)]='selectedMetric'>
+      <option *ngFor="let met of selectedCriteria.metricList" [ngValue]="met">{{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{met.metricNumber}} {{met.bezeichnung}}</option>
     </select> <br/> <br/>
-  <!--</div>-->
+  </div>
 
   <p class="sm">Type</p>
   <select formControlName ="nfa_type"  name="nfa_type">
     <option value="nfa_type_1">Type 1</option>
     <option value="nfa_type_2">Type 2</option>
-    <option value="nfa_type_3">Type 3</option>
+    <!--<option value="nfa_type_3">Type 3</option>-->
   </select> <br/> <br/>
 
   <app-nfatemplate *ngIf="nfaform.get('nfa_type').value==='nfa_type_1'"></app-nfatemplate>
