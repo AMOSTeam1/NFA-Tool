@@ -19,9 +19,15 @@
       "branch" : {
         "label" : "Branch",
         "choose" : "Choose branch",
-        "public-sector" : "Public Sector",
         "automotive" : "Automotive",
-        "banking" : "Banking"
+        "banking" : "Banking",
+        "food" : "Food",
+        "insurance" : "Insurance",
+        "public-sector" : "Public Sector",
+        "life-science-healthcare" : "Life Science & Healthcare",
+        "telecommunications" : "Telecommunications",
+        "travel-logistics" : "Travel & Logistics",
+        "utilities" : "Utilities"
       },
 
       "project-type" : {
