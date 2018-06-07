@@ -1,44 +1,96 @@
-import { Component, OnInit } from '@angular/core';
-import {FormGroup, FormControl, NgForm} from '@angular/forms';
+import {Component, Input, OnInit} from '@angular/core';
+import {FormGroup, FormControl, NgForm, Validators, FormArray, FormBuilder} from '@angular/forms';
+import {DenfaformComponent} from './denfaform/denfaform.component';
+import {EnnfaformComponent} from './ennfaform/ennfaform.component';
 
 @Component({
   selector: 'app-nfatemplate',
   templateUrl: './nfatemplate.component.html',
   styleUrls: ['./nfatemplate.component.css']
 })
-export class NfatemplateComponent {
+export class NfatemplateComponent implements OnInit {
+
+  blueprintForm: FormGroup;
+  blueprintEnForm: FormGroup;
+  blueprintDe: FormGroup;
+  checked = false;
   submitted = false;
-  characteristicInput: string;
+  modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
+
   definition = {
     characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>'
   };
 
-  // let info = new FormGroup({first: new FormControl(''), second: new FormControl('')})
+ constructor() {
 
+ }
+  ngOnInit() {
 
-  //constructor(private modalService: ModalService) { }
+    this.blueprintForm = new FormGroup({
+      'chbox': new FormControl(null),
+      'nameNFA': new FormControl(null),
+      'characteristic': new FormControl(null),
+      'property': new FormControl(null),
+      'modalVerb': new FormControl({value: null}),
+      'qualifyingEx': new FormControl(null),
+      'valueInput': new FormControl({value: null}),
+      'verb': new FormControl(null)
+    });
 
- /* public close() {
-    this.modalService.destroy();
-    console.log(this.definition);
+    this.blueprintEnForm = new FormGroup({
+      'nameNFA': new FormControl(null),
+      'characteristic': new FormControl(null),
+      'property': new FormControl(null),
+      'modalVerb': new FormControl({value: null}),
+      'qualifyingEx': new FormControl(null),
+      'valueInput': new FormControl({value: null}),
+      'verb': new FormControl(null)
+    });
 
-  }*/
+    this.blueprintForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '[Eigenschaft]', 'property': '[Bertachtungs-' +
+      'gegenstand]',
+      'modalVerb': null, 'qualifyingEx': 'some', 'valueInput': '[Wert]', 'verb': 'null' });
+   }
+  onSubmit() {
+    this.submitted = !this.submitted;
+    this.checked = true;
 
-  onSubmit(form: NgForm) {
-    this.submitted = true;
-    console.log(form);
+    /*this.submitted = true;
+    console.log(this.blueprintForm.value);
+    this.somearray = this.blueprintForm.value;
+    this.definition.characteristic = this.blueprintForm.get('characteristic').value;
     const modalVerb = '<Modal Verb>';
     const valueOf = '<Value>';
-    this.definition.characteristic = form.value.character;
-    this.definition.propertyMatter = form.value.propertyMatter;
+    this.definition.propertyMatter = this.blueprintForm.get('property').value;
     this.definition.modalVerb = modalVerb;
-    this.definition.qualifyingExpr = form.value.qualifyingExpr;
-    this.definition.valueExpr = valueOf;
+    this.definition.qualifyingExpr = this.blueprintForm.get('qualiftingEx').value;
+    this.definition.valueExpr = valueOf;*/
+
   }
 
+    receiveData(event: any) {
+      console.log(event);
+      this.blueprintForm.setValue(event);
+      console.log(this.blueprintForm.value);
+    }
+
+      receiveData2(event: any) {
+        console.log(event);
+        this.blueprintEnForm.setValue(event);
+        console.log(this.blueprintForm.value);
+
+
+    }
+ /* receiveData2(event: FormGroup) {
+    console.log(event);
+    this.blueprintEn.setValue(event.value);
+    console.log(this.blueprintEn.value);*/
+
+
   Reset() {
-    this.definition = {characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>'
-    };
+  // console.log(new DenfaformComponent().deForm.controls.valueOf());
+  //  this.definition = {characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>'
+   // };
   }
 
 }

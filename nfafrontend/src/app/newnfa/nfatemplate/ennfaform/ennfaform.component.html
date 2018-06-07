@@ -1,0 +1,44 @@
+<form [formGroup]="enForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+  <div class="col-md-12">
+    <br>
+  </div>
+  <div class="form-group">
+    <label for="nameNFA" class="control-label col-xs-6">Name</label>
+    <div class="col-xs-6">
+      <input type="text" class="form-control" id="nameNFA" name="nameNFA" formControlName="nameNFA">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="characteristicInput" class="control-label col-xs-6">Characteristic</label>
+    <div class="col-xs-6">
+      <input type="text" class="form-control" id="characteristicInput" name="characteristicInput" formControlName="characteristic">
+    </div>
+  </div>
+  <div class="form-group" >
+    <label for="propertyInput" class="control-label col-xs-6">Property</label>
+    <div class="col-xs-6">
+      <input type="text" class="form-control" id="propertyInput" name="propertyInput" formControlName="property">
+    </div>
+  </div>
+  <div class="form-group" >
+    <label for="modalVerbInput" class="control-label col-xs-6">Modal</label>
+    <div class="col-xs-6">
+       <input readonly type="text" class="form-control" id="modalVerbInput" name="modalVerbInput" formControlName="modalVerb">
+        <!--<option [value] = "">{{}}</option>-->
+    </div>
+  </div>
+  <div class="form-group" >
+    <label for="qualifyingExInput" class="control-label col-xs-6">Qualifying expression</label>
+    <div class="col-xs-6">
+      <input type="text" class="form-control" id="qualifyingExInput" name="qualifyingExInput" formControlName="qualifyingEx">
+    </div>
+  </div>
+  <div class="form-group" >
+    <label for="valueInput" class="control-label col-xs-6">Value</label>
+    <div class="col-xs-6">
+      <input readonly type="text" class="form-control" id="valueInput" name="valueInput" formControlName="valueInput">
+    </div>
+  </div>
+</form>
+
+

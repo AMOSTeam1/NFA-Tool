@@ -13,7 +13,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import  {DataexchangeService} from './shared/dataexchange.service';
 
 
 // import ngx-translate and the http loader
@@ -27,11 +27,14 @@ import { ProjectDetailComponent } from './current-project/project-detail/project
 import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
-import {NfacatalogListComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-list.component";
-import {NfacatalogFactorComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-factor.component";
-import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
-import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-criteria/nfacatalog-criteria.component";
+import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-list.component';
+import {NfacatalogFactorComponent} from './nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-factor.component';
+import {NfacatalogService} from './nfacatalog/nfacatalog.service';
+import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-criteria/nfacatalog-criteria.component';
 import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component';
+import { DenfaformComponent } from './newnfa/nfatemplate/denfaform/denfaform.component';
+import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.component';
+
 
 @NgModule({
   declarations: [
@@ -52,6 +55,8 @@ import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component
     NfacatalogFactorComponent,
     NfacatalogCriteriaComponent,
     NfatemplateComponent,
+    DenfaformComponent,
+    EnnfaformComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,7 +75,7 @@ import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component
       }
     })
   ],
-  providers: [DataStorageService, CurrentProjectService, NfacatalogService],
+  providers: [DataStorageService, CurrentProjectService, NfacatalogService, DataexchangeService],
 
   bootstrap: [AppComponent]
 })

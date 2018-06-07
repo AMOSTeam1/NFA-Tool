@@ -1,0 +1,57 @@
+  <form [formGroup]="deForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+    <div class="form-group">
+      <label for="verbindlichkeit" class="control-label col-xs-6" style="font-size: 17px">Verbindlichkeit</label>
+      <div class="col-xs-6">
+        <input type="checkbox" id="verbindlichkeit" name="verbindlichkeit" formControlName="chbox" (change)="isChecked($event)">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="nameNFA" class="control-label col-xs-6">Name</label>
+      <div class="col-xs-6">
+        <input type="text" class="form-control" id="nameNFA" name="nameNFA" formControlName="nameNFA">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="characteristicInput" class="control-label col-xs-6">Eigenschaft</label>
+      <div class="col-xs-6">
+        <input type="text" class="form-control" id="characteristicInput" name="characteristicInput" formControlName="characteristic">
+      </div>
+    </div>
+    <div class="form-group" >
+      <label for="propertyInput" class="control-label col-xs-6">Betrachtungs-
+        gegenstand</label>
+      <div class="col-xs-6">
+        <input type="text" class="form-control" id="propertyInput" name="propertyInput" formControlName="property">
+      </div>
+    </div>
+    <div class="form-group" >
+      <label for="modalVerbInput" class="control-label col-xs-6">Anforderungsgrad</label>
+      <div class="col-xs-6">
+        <select class="form-control" id="modalVerbInput" name="modalVerbInput" formControlName="modalVerb"  (change)="newMessage($event)">
+          <option [value]=i *ngFor="let i of modalVerbDe">{{i}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group" >
+      <label for="qualifyingExInput" class="control-label col-xs-6">Vergleichsoperator</label>
+      <div class="col-xs-6">
+        <input type="text" class="form-control" id="qualifyingExInput" name="qualifyingExInput" formControlName="qualifyingEx">
+      </div>
+    </div>
+    <div class="form-group" >
+      <label for="valueInput" class="control-label col-xs-6">Wert</label>
+      <div class="col-xs-6">
+        <input type="text" class="form-control" id="valueInput" name="valueInput" formControlName="valueInput" (change)="newMessage($event)">
+      </div>
+    </div>
+    <div class="form-group" >
+      <label for="verbInput" class="control-label col-xs-6">Vollverb</label>
+      <div class="col-xs-6">
+        <select class="form-control" id="verbInput" name="verbInput" formControlName="verb">
+          <option value="sein">sein</option>
+          <option value="betragen">betragen</option>
+        </select>
+      </div>
+    </div>
+  </form>
+

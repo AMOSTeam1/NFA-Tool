@@ -5,8 +5,17 @@ table#t1 {
   background: aliceblue;
  }
 
-.btntemp {
+.bptdiv{
+
   background: #56a3bc;
-  border-radius: 7px;
-  border-color: #56a3bc;
+  border-radius: 8px;
+  padding: 1px;
+  box-shadow: 4px 4px 3px #356777;
 }
+.bpt {
+  display: flex;
+  justify-content: center;
+
+
+}
+

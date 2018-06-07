@@ -1,54 +1,85 @@
-<form #f="ngForm"(submit)="onSubmit(f)">
-  <table width="80%">
+<div class="container">
+  <form (submit)="onSubmit()">
+  <div class="row">
+    <!--------Deutsch Form----->
+    <div class="col-md-6">
+<app-denfaform [send]="submitted" (submitEvent)="receiveData($event)"></app-denfaform>
+    </div>
+   <!---------Englisch Form-------->
+
+<div class="col-md-6">
+  <app-ennfaform [send]="submitted " (submitEvent)="receiveData2($event)"></app-ennfaform>
+</div>
+  </div>
+
+  <!---Blueprint Deutsch--->
+ <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2" ><span class="bpt">muss</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">muessen</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">soll</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintForm.get('characteristic').value}}</span></div>
+  <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintForm.get('property').value}}</span></div>
+  <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverb">sollen</span>
+    <ng-template #seeverb>
+      <span class="bpt">{{blueprintForm.get('modalVerb').value}}</span>
+    </ng-template>
+  </div>
+  <div class="row">
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintForm.get('qualifyingEx').value}}</span></div>
+    <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintForm.get('valueInput').value}}</span></div>
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintForm.get('verb').value}}</span></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">kann</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">koennen</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+
+
+  <div class="table-responsive">
+  <table id="t1">
     <tr>
-      <td><label for="characteristicInput">Characteristic</label></td>
-      <td><input type="text" id="characteristicInput" name="character" [(ngModel)]="characteristicInput"></td>
+      <td></td>
+      <td></td>
+      <td><div class="bptdiv">shall</div></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
     <tr>
-      <td><label for="propertyInput">Property</label></td>
-      <td><input type="text" id="propertyInput" name="propertyMatter" ngModel></td>
+      <td><div class="bptdiv">{{definition.characteristic}}</div></td>
+      <td><div class="bptdiv">{{definition.propertyMatter}}</div></td>
+      <td><div class="bptdiv">should</div></td>
+      <td><div class="bptdiv">be</div></td>
+      <td><div class="bptdiv">{{definition.qualifyingExpr}}</div></td>
+      <td><div class="bptdiv">{{definition.valueExpr}}</div></td>
     </tr>
     <tr>
-      <td><label for="modalVerbInput">Modal Verb</label></td>
-      <td>
-        <input type="text" id="modalVerbInput" name="modalVerb" [disabled]="true" placeholder="<Modal Verb>" ngModel >
-      </td>
-    </tr>
-    <tr>
-      <td><label for="qualifyingExInput">Qualifying expression</label></td>
-      <td><input type="text" id="qualifyingExInput" name="qualifyingExpr" ngModel></td>
-    </tr>
-    <tr>
-      <td><label for="valueInput">Value</label></td>
-      <td><input type="text" id="valueInput" name="valueExpr" [disabled]="true" placeholder="<Value>" ngModel ></td>
+      <td></td>
+      <td></td>
+      <td><div class="bptdiv">can</div></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
   </table>
-  <table id="t1" width="80%">
-    <tr>
-      <td></td>
-      <td></td>
-      <td><button type="button" class="btntemp" style="width: 100%">shall</button></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.characteristic}}</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.propertyMatter}}</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">should</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">be</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.qualifyingExpr}}</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.valueExpr}}</button></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td><button type="button" class="btntemp" style="width: 100%">can</button></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
+   </div>
   <table>
     <tr>
       <td>
@@ -62,5 +93,5 @@
     </tr>
   </table>
 </form>
-
+</div>
 
