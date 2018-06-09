@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-xs-12" style="text-align: center">
+    <span class="label label-default">Project: {{project.customerName}}</span>
+    <button class="btn btn-success" (click)="AssignNfa()" > Assign NFA </button>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+
+    <app-nfa-item
+      *ngFor="let nfaCatalogEl of nfaCatalogs let i = index"
+      [nfaCatalog]="nfaCatalogEl"
+      [index]="i"></app-nfa-item>
+  </div>
+</div>

@@ -12,6 +12,9 @@ import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-l
 import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component';
 import {NfacatalogMetricComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 import {NfacatalogNfaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
+import {AssignNfaComponent} from './current-project/assign-nfa/assign-nfa.component';
+import {ChooseNfaComponent} from './current-project/assign-nfa/choose-nfa/choose-nfa.component';
+import {NfaDetailComponent} from './current-project/assign-nfa/nfa-detail/nfa-detail.component';
 
 const appRoutes: Routes = [
   {path: '' , redirectTo: '/home', pathMatch: 'full'},
@@ -25,12 +28,18 @@ const appRoutes: Routes = [
     ]}
   ]},
   {path: 'home', component: HomeComponent},
+  {path:  'curr-projects/:id/edit/assignnfa', component: AssignNfaComponent, children:[
+    {path:  'choose', component: ChooseNfaComponent},
+    {path:  ':nfa_id', component: NfaDetailComponent}
+
+  ]},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
     {path:  'new', component: ProjectEditComponent},
     {path: ':id', component: ProjectDetailComponent},
     {path: ':id/edit', component: ProjectEditComponent},
     {path: ':id/edit/stakeholder', component: StakeHolderComponent}
   ]}
+
 ];
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],

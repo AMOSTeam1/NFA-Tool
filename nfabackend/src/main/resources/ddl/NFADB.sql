@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS project_type;
-
+DROP TABLE IF EXISTS project_nfa;
 DROP TABLE IF EXISTS project_stakeholder;
 DROP TABLE IF EXISTS stakeholder_factor;
 
@@ -357,6 +357,26 @@ INSERT INTO public.metric_nfa VALUES (1, 2);
 INSERT INTO public.metric_nfa VALUES (2, 3);
 INSERT INTO public.metric_nfa VALUES (3, 4);
 INSERT INTO public.metric_nfa VALUES (4, 5);
+
+CREATE TABLE public.project_nfa
+(
+    project_id bigint NOT NULL,
+	nfa_id bigint NOT NULL,
+    CONSTRAINT project_fk FOREIGN KEY (project_id)
+        REFERENCES public.nfa_project (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT nfa_fk FOREIGN KEY (nfa_id)
+        REFERENCES public.nfa (nfa_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	PRIMARY KEY( project_id, nfa_id)
+);
+
+INSERT INTO public.project_nfa VALUES (1, 2);
+INSERT INTO public.project_nfa VALUES (2, 3);
+INSERT INTO public.project_nfa VALUES (3, 4);
+INSERT INTO public.project_nfa VALUES (4, 5);
 
 CREATE TABLE public.stakeholder_factor
 (

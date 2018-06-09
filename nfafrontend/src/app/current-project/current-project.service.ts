@@ -8,6 +8,7 @@ export class CurrentProjectService {
   projectsChanged = new Subject<Project[]>();
   private projects: Project[];
   private types: ProjectType[];
+  private project: Project;
 
 
   getProjects() {
@@ -36,6 +37,10 @@ export class CurrentProjectService {
   setProjects(projects: Project[]){
     this.projects = projects;
     this.projectsChanged.next(this.projects.slice());
+  }
+
+  setProject(index: number){
+    this.project = this.projects[index];
   }
 
   getTypes() {
