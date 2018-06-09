@@ -5,9 +5,10 @@ import { CurrentProjectService } from '../current-project.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
+import {Stakeholder} from '../../shared/stakeholder.model';
 import {Response} from '@angular/http';
-import {NfaFactorModel} from "../../shared/nfaFactor.model";
-import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
+import {NfaFactorModel} from '../../shared/nfaFactor.model';
+import {NfacatalogService} from '../../nfacatalog/nfacatalog.service';
 import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
 
 
@@ -21,7 +22,7 @@ export class ProjectEditComponent implements OnInit {
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
-
+  stakeholder: Stakeholder[] = [];
   nfaFactors: NfaFactorModel[];
 
   fieldArray: Array<any> = [];
@@ -40,6 +41,7 @@ export class ProjectEditComponent implements OnInit {
           this.id = +params['id'];
           this.editMode = params['id'] != null;
           this.types = this.currentProjectService.getTypes();
+          this.stakeholder = this.currentProjectService.getStakeholder();
           this.initForm();
         });
 
@@ -54,6 +56,8 @@ export class ProjectEditComponent implements OnInit {
    }
   private initForm() {
     let projectTypes = new FormArray([]);
+    let projectStakeholders = new FormArray([]);
+    let stakeholderFactors = new FormArray([]);
     let customerName = '';
     let customerContact = '';
     let msgContact = '';
@@ -75,6 +79,36 @@ export class ProjectEditComponent implements OnInit {
             })
           );
         }}
+
+        if(project['stakeholderFactors']) {
+
+        stakeholderFactors = new FormArray([]);
+        for(const factor of project.stakeholderFactors) {
+
+          stakeholderFactors.push(
+            new FormGroup({
+              'nfa_id' : new FormControl(factor.nfa_id, Validators.required),
+              'factor' : new FormControl(factor.factor)
+            })
+
+          )
+        }
+      }
+      if (project['projectStakeholder']){
+
+        projectStakeholders = new FormArray([]);
+        for(const stakeholder of project.projectStakeholders) {
+          projectStakeholders.push(
+            new FormGroup({
+              'stakeholder_id' : new FormControl(stakeholder.stakeholder_id, Validators.required),
+              'stakeholder_name' : new FormControl(stakeholder.stakeholder_name, Validators.required),
+              'stakeholder_factors': new FormControl (stakeholder.stakeholderFactors, Validators.required)
+            })
+          );
+        }}
+
+
+
 
       /*for(const holder of project.projectStakeholder){
         this.newAttribute.stakeholder_name = holder.stakeholder_name;
@@ -101,9 +135,18 @@ export class ProjectEditComponent implements OnInit {
             'id' : new FormControl('', Validators.required),
             'name' : new FormControl('')
           }));
+
+        projectStakeholders.push (
+          new FormGroup ({
+            'stakeholder_id': new FormControl ('', Validators.required),
+            'stakeholder_name': new FormControl (''),
+            'stakeholder_factors': new FormControl ('')
+          }));
+
     }
     this.projectForm = new FormGroup({
       'types' : projectTypes,
+      'stakeholder': projectStakeholders,
       'customerName': new FormControl(customerName, Validators.required),
       'customerContact': new FormControl(customerContact, Validators.required),
       'msgContact': new FormControl(msgContact, Validators.required),
@@ -123,15 +166,24 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['msgContact'],
       this.projectForm.value['branch'],
       this.projectForm.value['types'],
-      null,
+      this.projectForm.value['stakeholder'],
       this.projectForm.value['devProcess'],
       this.projectForm.value['projectPhase'],
       this.projectForm.value['projectStatus']
     );
-    for (let i = 0; i < newProject.projectTypes.length; i++){
+    for (let i = 0; i < newProject.projectTypes.length; i++) {
       this.types.forEach((x) => {
         if (x.id.toString() === newProject.projectTypes[i].id.toString()) {newProject.projectTypes[i].name = x.name; }
       });
+    }
+
+    for (let i = 0; i < newProject.projectStakeholders.length; i++) {
+      for (let j = 0; j < newProject.projectStakeholders[i].stakeholderFactors.length; j++){
+        this.nfaFactors.forEach((x) => {
+          if (x.nfa_id.toString() === newProject.projectStakeholders[i].stakeholderFactors[j].nfa_id.toString())
+          {newProject.projectStakeholders[i].stakeholderFactors[j] = x; }
+        });
+      }
     }
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
@@ -167,6 +219,12 @@ export class ProjectEditComponent implements OnInit {
     return (<FormArray>this.projectForm.get('types')).controls;
   }
 
+  getStakeholderControls (){
+    return (<FormArray>this.projectForm.get('stakeholder')).controls;
+  }
+  getFactorControls(i: number){
+    return (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).controls;
+  }
   onDeleteType(index: number){
     (<FormArray>this.projectForm.get('types')).removeAt(index);
   }
@@ -178,6 +236,34 @@ export class ProjectEditComponent implements OnInit {
         'name' : new FormControl(null)
       })
     );
+  }
+  onDeleteStakeholder (index: number){
+    (<FormArray>this.projectForm.get('stakeholder')).removeAt(index);
+  }
+
+  onAddStakeholder(){
+    (<FormArray>this.projectForm.get('stakeholder')).push(
+      new FormGroup({
+        'stakeholder_id' : new FormControl(null),
+        'stakeholder_name' : new FormControl(null, Validators.required),
+        'stakeholderFactors' : new FormArray([new FormGroup({'nfa_id': new FormControl(null, Validators.required),
+          'factor': new FormControl(null)}),
+          new FormGroup({'nfa_id': new FormControl(null, Validators.required),
+            'factor': new FormControl(null)})])
+      })
+    );
+  }
+  onAddFactor(i: number){
+    (<FormArray>(<FormArray>this.projectForm.get('stakeholder')).at(i).get('stakeholderFactors')).push(
+      new FormGroup({
+        'nfa_id': new FormControl(null, Validators.required),
+        'factor' : new FormControl(null)
+      })
+    );
+  }
+
+  onDeleteFactor(i: number, j: number){
+    (<FormArray>(<FormArray>this.projectForm.get('stakeholder')).at(i).get('stakeholderFactors')).removeAt(j);
   }
 
   updatePhase(){
@@ -197,6 +283,10 @@ export class ProjectEditComponent implements OnInit {
 
   isMinimum(i:number){
     return ((<FormArray>this.projectForm.get('types')).length === 1);
+  }
+
+  isStakeholderMinimum(i:number){
+    return ((<FormArray>this.projectForm.get('stakeholder')).length === 1);
   }
 
   onEditStakeholder(){

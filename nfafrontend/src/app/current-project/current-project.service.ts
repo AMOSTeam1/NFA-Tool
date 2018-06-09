@@ -8,6 +8,7 @@ export class CurrentProjectService {
   projectsChanged = new Subject<Project[]>();
   private projects: Project[];
   private types: ProjectType[];
+  private stakeholder: Stakeholder[];
 
 
   getProjects() {
@@ -46,10 +47,18 @@ export class CurrentProjectService {
     this.types = types;
   }
 
+  getStakeholder () {
+    return this.stakeholder.slice();
+  }
+
+  setStakeholder (stakeholder: Stakeholder[]){
+    this.stakeholder = stakeholder;
+  }
+  /*
   updateStakeholder(index: number, stakeholder: Stakeholder[]) {
     this.projects[index].projectStakeholders = stakeholder;
     this.projectsChanged.next(this.projects.slice());
   }
 
-
+*/
 }
