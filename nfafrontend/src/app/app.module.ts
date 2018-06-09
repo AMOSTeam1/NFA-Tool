@@ -14,6 +14,7 @@ import {DataStorageService} from './shared/data-storage.service';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import  {DataexchangeService} from './shared/dataexchange.service';
+import {Inst} from './shared/inst.model';
 
 
 // import ngx-translate and the http loader

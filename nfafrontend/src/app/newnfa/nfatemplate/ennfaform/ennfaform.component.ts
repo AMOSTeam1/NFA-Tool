@@ -14,7 +14,6 @@ export class EnnfaformComponent implements OnInit , OnChanges {
   checked = false;
   @Input() send = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
-  message: string;
   enForm: FormGroup;
 
 
@@ -31,29 +30,24 @@ export class EnnfaformComponent implements OnInit , OnChanges {
       'property': new FormControl(null, Validators.required),
       'modalVerb': new FormControl(null),
       'qualifyingEx': new FormControl(null),
-      'valueInput': new FormControl({value: null}),
+      'valueInput': new FormControl(null),
       'verb': new FormControl(null)
     });
-
     this.data.currentMessage.subscribe(message => {
-      this.message = message;
-      if (isNaN(parseFloat(this.message))) {
-        if ((this.message === 'muessen') || (this.message === 'muss')) {
-          this.enForm.get('modalVerb').reset('shall');
-        }
-        if ((this.message === 'sollen') || (this.message === 'soll')) {
-          this.enForm.get('modalVerb').reset('should');
-        }
-        if ((this.message === 'koennen') || (this.message === 'kann')) {
-          this.enForm.get('modalVerb').reset('can');
-        }
-      } else {
-        this.enForm.get('valueInput').reset(parseFloat(this.message));
+      if ((message.verb === 'muessen') || (message.verb === 'muss')) {
+        this.enForm.get('modalVerb').reset('shall');
       }
+      if ((message.verb === 'sollen') || (message.verb === 'soll')) {
+        this.enForm.get('modalVerb').reset('should');
+      }
+      if ((message.verb === 'koennen') || (message.verb === 'kann')) {
+        this.enForm.get('modalVerb').reset('can');
+      }
+      this.enForm.get('valueInput').reset(message.wert);
     });
-    this.enForm.setValue({'nameNFA': null, 'characteristic': '[Eigenschaft]', 'property': '[Bertachtungs-' +
+    /*this.enForm.setValue({'nameNFA': null, 'characteristic': '[Eigenschaft]', 'property': '[Bertachtungs-' +
       'gegenstand]',
-      'modalVerb': null, 'qualifyingEx': 'some', 'valueInput': '[Wert]', 'verb': 'null' });
+      'modalVerb': null, 'qualifyingEx': 'some', 'valueInput': '[Wert]', 'verb': 'null' });*/
   }
   onSubmit() {
     this.submitEvent.emit(this.enForm.value);

@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataexchangeService} from '../../../shared/dataexchange.service';
+import {Inst} from '../../../shared/inst.model';
+import {ifTrue} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-denfaform',
@@ -9,7 +11,6 @@ import {DataexchangeService} from '../../../shared/dataexchange.service';
 })
 export class DenfaformComponent implements OnInit, OnChanges {
   deForm: FormGroup;
-  message: string;
   @Input() send = false;
   @Input() reseted = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
@@ -17,22 +18,22 @@ export class DenfaformComponent implements OnInit, OnChanges {
   constructor(private data: DataexchangeService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(this.send === true){
-     this.onSubmit();}
+    console.log(this.send+' from de simple change 1');
+   this.onSubmit();
+
+   console.log(this.send+' from de simple change 2');
   }
   ngOnInit() {
     this.deForm = new FormGroup({
       'chbox': new FormControl(null),
       'nameNFA': new FormControl(null),
-      'characteristic': new FormControl(null, Validators.required),
-      'property': new FormControl(null, Validators.required),
+      'characteristic': new FormControl(null),
+      'property': new FormControl(null),
       'modalVerb': new FormControl({value: null, disabled: true}),
       'qualifyingEx': new FormControl(null),
       'valueInput': new FormControl({value: null, disabled: true}),
       'verb': new FormControl(null)
     });
-
-    this.data.currentMessage.subscribe(message => this.message = message);
   }
   isChecked(event: any) {
      if (event.currentTarget.checked === true) {
@@ -44,15 +45,23 @@ export class DenfaformComponent implements OnInit, OnChanges {
     }
   }
   onSubmit() {
+    console.log(this.deForm.value);
     this.submitEvent.emit(this.deForm.value);
   }
 
-  Reset() {
-  this.deForm.reset();
-  }
-
   newMessage(event: any) {
-    this.data.changeMessage(event.currentTarget.value);
-    // this.data.changeMessage(this.deForm);
+   //this.data.changeMessage(event.currentTarget);
+   /* let val: number;
+    let verb: string;
+    if(this.deForm.get('valueInput').value)
+      number = this.deForm.get('valueInput').value;
+    if(this.deForm.get('modalVerb').value)
+      verb = this.deForm.get('modalVerb').value;*/
+   if(this.deForm.get('chbox')){
+    this.data.changeMessage(new Inst(
+      this.deForm.get('valueInput').value,
+      this.deForm.get('modalVerb').value
+    ))};
+
     }
 }

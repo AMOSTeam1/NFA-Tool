@@ -31,9 +31,9 @@ export class NfatemplateComponent implements OnInit {
       'nameNFA': new FormControl(null),
       'characteristic': new FormControl(null),
       'property': new FormControl(null),
-      'modalVerb': new FormControl({value: null}),
+      'modalVerb': new FormControl({value: null, disabled: true}),
       'qualifyingEx': new FormControl(null),
-      'valueInput': new FormControl({value: null}),
+      'valueInput': new FormControl({value: null, disabled: true}),
       'verb': new FormControl(null)
     });
 
@@ -52,6 +52,7 @@ export class NfatemplateComponent implements OnInit {
       'modalVerb': null, 'qualifyingEx': 'some', 'valueInput': '[Wert]', 'verb': 'null' });
    }
   onSubmit() {
+   console.log(this.submitted+' from nfatemplate');
     this.submitted = !this.submitted;
     this.checked = true;
 
@@ -68,16 +69,16 @@ export class NfatemplateComponent implements OnInit {
 
   }
 
+
     receiveData(event: any) {
       console.log(event);
-      this.blueprintForm.setValue(event);
-      console.log(this.blueprintForm.value);
-    }
+      this.blueprintForm.patchValue(event);
+      }
 
       receiveData2(event: any) {
         console.log(event);
-        this.blueprintEnForm.setValue(event);
-        console.log(this.blueprintForm.value);
+        this.blueprintEnForm.patchValue(event);
+        console.log(this.blueprintEnForm.value);
 
 
     }
