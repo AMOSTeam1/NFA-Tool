@@ -126,6 +126,54 @@
         </div>
       </div>
 
+      <h3 style="text-align: center">Stakeholders</h3>
+      <hr>
+      <div class="row">
+        <div class="col-xs-12" formArrayName="stakeholder">
+          <div class="row" *ngFor="let questionCtrl of getStakeholderControls(); let i = index" [formGroupName]="i" style="margin-top: 10px;">
+            <div class="col-xs-6">
+              <div class="form-group">
+                <select class="form-control" id="stakeholder_id" formControlName="stakeholder_id">
+                  <option *ngFor="let stak of stakeholder; let j = index" [value]="stak.stakeholder_id">{{stak.stakeholder_name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <button type="button" class="btn btn-danger" [disabled]="isStakeholderMinimum(i)" (click)="onDeleteStakeholder(i)">X</button>
+            </div>
+          </div>
+
+          <div class="col-xs-12" formArrayName="stakeholderFactors">
+            <div class ="row" *ngFor="let factorCtrl of getFactorControls(i); let j = index" [formGroupName]="j" style="margin-top: 10px;">
+              <label for="factor" class="small">: Factor </label>
+              <div class="col-xs-4" >
+                <!--<input type="text" id="factor" class="form-control" formControlName="nam">-->
+                <div class="form-group">
+                  <select class="form-control" id="factor" formControlName="nfa_id">
+                    <option *ngFor="let fact of nfaFactors; let j = index"
+                            [value]="fact.nfa_id">
+                      {{fact.factor}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-2">
+                <button type="button" class="btn btn-danger" [disabled]="isMinimum(i, j)" (click)="onDeleteFactor(i, j)">X</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" class="btn btn-success" (click)="onAddStakeholder()"> <span class="glyphicon glyphicon-plus"> </span>Add Stakeholder</button>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#projectNFA">
   Project NFA
@@ -154,79 +202,8 @@
 
 
     </form>
-    
-    <table class="table table-striped table-bordered">
-      <thead>
-      <tr class="small">
-        <th >Stakeholder</th>
-        <th >Factor</th>
-        <th >Action</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let field of fieldArray; let i = index ">
-        <td>
-          <input readonly [(ngModel)]="field.stakeholder_name" class="form-control" type="text" name="{{field.stakeholder_name}}" />
-        </td>
-
-        <td>
-          <input readonly [(ngModel)]="field.factor" class="form-control" type="text"  />
-        </td>
-        <td>
-          <button class="btn btn-default"  type="button" (click)="deleteFieldValue(i)">Delete</button>
-        </td>
 
 
-      <tr>
-        <td>
-          <input type="text" readonly class="form-control"  id="newAttributeCode" [(ngModel)]="newAttribute.stakeholder_name" name="newAttributeCode"/>
-        </td>
-        <td>
-          <input type="text" readonly class="form-control"  id="newAttributeFactor" [(ngModel)]="newAttribute.factor" name="newAttributeFactor"/>
-        </td>
-        <td>
-          <button class="btn btn-default" type="button" (click)="showDialog = !showDialog">Add</button>
-
-        </td>
-      </tr>
-      </tbody>
-    </table>
-
-
-    <app-dialog [(visible)]="showDialog"  #dialog="dialog">
-
-      <br><br>
-      <table>
-        <tr>
-          <td>
-            <label>Known Stakeholders</label>
-            <select  class="form-control"  [(ngModel)]="newAttribute.stakeholder_name" name="newAttributeCode" >
-              <option value="CEO">CEO</option>
-              <option value="Manager">Manager</option>
-              <option value="HR">HR</option>
-            </select> </td>
-          <br>
-          <td>
-            <label>Factor</label>
-            <select multiple class="form-control" id="factorTest" [(ngModel)]="newAttribute.factor" name="newAttributeFactor" >
-              <option *ngFor="let fac of nfaFactors" [value]="fac.factor">{{fac.nfa_id}}. {{fac.factor}}</option>
-            </select>
-          </td>
-        </tr>
-        <br><br>
-        <label>New stakeholder</label>
-        <input class="form-control" type="text" [(ngModel)]="newAttribute.stakeholder_name"  name="newAttributeCode" /> <br><br>
-        <br><br>
-        <tr>
-          <td>
-            <!--  <button (click)="dialog.close()" class="btn">Close</button> -->
-          </td>
-          <td>
-            <button (click)="addFieldValue()" class="btn">Add</button>
-          </td>
-        </tr></table>
-
-    </app-dialog>
 
   </div>
 </div>
