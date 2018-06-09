@@ -36,4 +36,8 @@ export class NfaListComponent implements OnInit {
     this.router.navigate(['choose'], {relativeTo: this.route});
   }
 
+  onCancel(){
+      this.router.navigate(['../'], {relativeTo: this.route});
+  }
+
 }

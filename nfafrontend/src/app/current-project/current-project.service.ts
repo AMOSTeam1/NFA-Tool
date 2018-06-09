@@ -42,6 +42,9 @@ export class CurrentProjectService {
   setProject(index: number){
     this.project = this.projects[index];
   }
+  getNfa(index: number){
+    return this.project.projectNfas[index];
+  }
 
   getTypes() {
     return this.types.slice();
