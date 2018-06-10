@@ -1,4 +1,3 @@
-<!--<div class="row pre-scrollable" style="max-height: 600px">-->
 <div class="row">
   <div class="col-xs-12">
     <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
@@ -9,7 +8,6 @@
           <hr>
         </div>
       </div>
-      <!--<div class="row pre-scrollable" style="max-height: 600px">-->
       <div class="row">
         <div class="col-xs-6">
           <div class="form-group">
@@ -88,7 +86,7 @@
       </div>
 
       <div class="row">
-        <div class="col-xs-4">
+        <div class="col-xs-6">
           <div class="form-group">
             <label for="projectStatus"><small>Project Status</small></label>
             <select  id="projectStatus" formControlName="projectStatus" class="form-control">
@@ -98,18 +96,13 @@
             </select>
           </div>
         </div>
-        <div class="col-xs-4">
+        <div class="col-xs-6">
         <button type="button" class="btn btn-primary" *ngIf="editMode" (click)="onEditStakeholder()" [disabled]="!projectForm.valid" style="margin-top: 37px"> <span class="glyphicon glyphicon-pencil">  </span> Stakeholder</button>
-        </div>
-        <div class="col-xs-4" >
-          <button type="button" class="btn btn-primary" style="margin-top: 37px" (click)="onChooseNfa()">
-            <span class="glyphicon glyphicon-pencil">  </span> Choose NFA
-          </button>
         </div>
       </div>
       <h3 style="text-align: center"> Project Types</h3>
       <hr>
-      <div class="row pre-scrollable">
+      <div class="row">
         <div class="col-xs-12" formArrayName="types">
           <div class="row" *ngFor="let questionCtrl of getControls(); let i = index" [formGroupName]="i" style="margin-top: 10px;">
             <div class="col-xs-6">
@@ -132,11 +125,13 @@
           <hr>
         </div>
       </div>
-      <!--</div>-->
+
 <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#projectNFA">
+  Project NFA
+</button>
 
-
-<!-- Modal
+<!-- Modal -->
 <div class="modal fade" id="projectNFA" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -155,12 +150,12 @@
       </div>
     </div>
   </div>
-</div>-->
+</div>
 
 
     </form>
-
-    <!--<table class="table table-striped table-bordered">
+    
+    <table class="table table-striped table-bordered">
       <thead>
       <tr class="small">
         <th >Stakeholder</th>
@@ -224,7 +219,7 @@
         <br><br>
         <tr>
           <td>
-            &lt;!&ndash;  <button (click)="dialog.close()" class="btn">Close</button> &ndash;&gt;
+            <!--  <button (click)="dialog.close()" class="btn">Close</button> -->
           </td>
           <td>
             <button (click)="addFieldValue()" class="btn">Add</button>
@@ -234,4 +229,4 @@
     </app-dialog>
 
   </div>
-</div>-->
+</div>

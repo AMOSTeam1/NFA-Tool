@@ -156,7 +156,6 @@ public class QueryService {
 			project.setProjectStatus(editedProject.getProjectStatus());
 			project.setProjectTypes(editedProject.getProjectTypes());
 			project.setProjectStakeholders(editedProject.getProjectStakeholders());
-			project.setProjectNfas(editedProject.getProjectNfas());
 			em.merge(editedProject);
 			tx.commit();
 		}catch(Exception e){
