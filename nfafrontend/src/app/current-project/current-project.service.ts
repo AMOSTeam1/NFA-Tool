@@ -10,7 +10,6 @@ export class CurrentProjectService {
   private types: ProjectType[];
   private selectedProjectId: number;
 
-
   getProjects() {
     return this.projects.slice();
   }

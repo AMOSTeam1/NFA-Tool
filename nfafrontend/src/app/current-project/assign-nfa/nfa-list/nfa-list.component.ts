@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {CurrentProjectService} from '../../current-project.service';
 import {DataStorageService} from '../../../shared/data-storage.service';
@@ -12,7 +12,7 @@ import {Response} from '@angular/http';
   templateUrl: './nfa-list.component.html',
   styleUrls: ['./nfa-list.component.css']
 })
-export class NfaListComponent implements OnInit {
+export class NfaListComponent implements OnInit , OnDestroy{
 
   nfaCatalogs : NfaCatalogModel[];
   project: Project;
@@ -66,6 +66,10 @@ export class NfaListComponent implements OnInit {
           this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
         }
       );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

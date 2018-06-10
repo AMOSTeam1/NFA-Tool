@@ -9,6 +9,8 @@ import {Response} from '@angular/http';
 import {NfaFactorModel} from "../../shared/nfaFactor.model";
 import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
 import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
+import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
+import {Nfa} from '../../shared/nfa.model';
 
 
 @Component({
@@ -21,7 +23,6 @@ export class ProjectEditComponent implements OnInit {
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
-
   nfaFactors: NfaFactorModel[];
 
   fieldArray: Array<any> = [];
@@ -127,7 +128,7 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['devProcess'],
       this.projectForm.value['projectPhase'],
       this.projectForm.value['projectStatus'],
-      null
+      []
     );
     for (let i = 0; i < newProject.projectTypes.length; i++){
       this.types.forEach((x) => {
@@ -149,13 +150,21 @@ export class ProjectEditComponent implements OnInit {
         );
     } else {
       newProject.id = null;
-      this.currentProjectService.addProject(newProject);
+      //this.currentProjectService.addProject(newProject);
       this.dataStorageService.storeProject(newProject)
         .subscribe(
           (response: Response) => {
-            this.currentProjectService.updateProject(this.currentProjectService.getProjects().length - 1, response.json());
-            this.onCancel();
-            this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+            this.dataStorageService.getProjectByName('On Process',"")
+              .subscribe(
+                (respons: Response) => {
+                  const projects: Project[] = respons.json();
+                  this.currentProjectService.setProjects(projects);
+                  this.onCancel();
+                }
+              );
+            //this.currentProjectService.updateProject(this.currentProjectService.getProjects().length - 1, response.json());
+            //this.onCancel();
+            //this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
           }
         );
     }
