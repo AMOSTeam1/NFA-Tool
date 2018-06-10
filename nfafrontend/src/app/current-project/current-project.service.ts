@@ -9,8 +9,14 @@ export class CurrentProjectService {
   private projects: Project[];
   private types: ProjectType[];
   private selectedProjectId: number;
+  private status: string;
 
-
+  getStatus(){
+    return this.status;
+  }
+  setStatus(status: string){
+    this.status = status;
+  }
   getProjects() {
     return this.projects.slice();
   }

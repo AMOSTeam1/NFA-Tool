@@ -126,6 +126,8 @@ public class QueryService {
 			tx.begin();
 			Project project = em.find(Project.class, id);
 			project.getProjectTypes().clear();
+			project.getProjectNfas().clear();
+			project.getProjectStakeholders().clear();
 			em.remove(project);
 			tx.commit();
 			}catch(Exception e){
