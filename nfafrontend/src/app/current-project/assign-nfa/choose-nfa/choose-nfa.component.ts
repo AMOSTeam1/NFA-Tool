@@ -105,16 +105,4 @@ export class ChooseNfaComponent implements OnInit {
       );
   }
 
-  onRemove(i: number){
-    const editedProject = this.currentProjectService.getProject(this.id);
-    editedProject.projectNfas.splice(i,1);
-    this.currentProjectService.updateProject(this.id, editedProject);
-    this.dataStorageService.updateProject(editedProject)
-      .subscribe(
-        (response: Response) => {
-          this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
-        }
-      );
-  }
-
 }
