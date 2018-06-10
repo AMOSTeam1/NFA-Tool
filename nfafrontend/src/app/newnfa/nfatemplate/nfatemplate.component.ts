@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormGroup, FormControl, NgForm, Validators, FormArray, FormBuilder} from '@angular/forms';
 import {DenfaformComponent} from './denfaform/denfaform.component';
 import {EnnfaformComponent} from './ennfaform/ennfaform.component';
@@ -8,7 +8,7 @@ import {EnnfaformComponent} from './ennfaform/ennfaform.component';
   templateUrl: './nfatemplate.component.html',
   styleUrls: ['./nfatemplate.component.css']
 })
-export class NfatemplateComponent implements OnInit {
+export class NfatemplateComponent implements OnInit, AfterViewInit {
 
   blueprintForm: FormGroup;
   blueprintEnForm: FormGroup;
@@ -16,12 +16,17 @@ export class NfatemplateComponent implements OnInit {
   checked = false;
   submitted = false;
   modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
+  @ViewChild (DenfaformComponent) deform;
+  @ViewChild (EnnfaformComponent) enform;
 
   definition = {
     characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>'
   };
 
  constructor() {
+
+ }
+ ngAfterViewInit() {
 
  }
   ngOnInit() {
@@ -31,9 +36,9 @@ export class NfatemplateComponent implements OnInit {
       'nameNFA': new FormControl(null),
       'characteristic': new FormControl(null),
       'property': new FormControl(null),
-      'modalVerb': new FormControl({value: null, disabled: true}),
+      'modalVerb': new FormControl(null),
       'qualifyingEx': new FormControl(null),
-      'valueInput': new FormControl({value: null, disabled: true}),
+      'valueInput': new FormControl(null),
       'verb': new FormControl(null)
     });
 
@@ -41,10 +46,10 @@ export class NfatemplateComponent implements OnInit {
       'nameNFA': new FormControl(null),
       'characteristic': new FormControl(null),
       'property': new FormControl(null),
-      'modalVerb': new FormControl({value: null}),
+      'modalVerb': new FormControl(null),
       'qualifyingEx': new FormControl(null),
-      'valueInput': new FormControl({value: null}),
-      'verb': new FormControl(null)
+      'valueInput': new FormControl(null),
+      'verb': new FormControl('be')
     });
 
     this.blueprintForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '[Eigenschaft]', 'property': '[Bertachtungs-' +
@@ -52,9 +57,8 @@ export class NfatemplateComponent implements OnInit {
       'modalVerb': null, 'qualifyingEx': 'some', 'valueInput': '[Wert]', 'verb': 'null' });
    }
   onSubmit() {
-   console.log(this.submitted+' from nfatemplate');
-    this.submitted = !this.submitted;
-    this.checked = true;
+    this.deform.onSubmit();
+    this.enform.onSubmit();
 
     /*this.submitted = true;
     console.log(this.blueprintForm.value);
@@ -71,16 +75,13 @@ export class NfatemplateComponent implements OnInit {
 
 
     receiveData(event: any) {
-      console.log(event);
       this.blueprintForm.patchValue(event);
-      }
+      console.log(this.blueprintForm.value);
+    }
 
       receiveData2(event: any) {
-        console.log(event);
-        this.blueprintEnForm.patchValue(event);
+      this.blueprintEnForm.patchValue(event);
         console.log(this.blueprintEnForm.value);
-
-
     }
  /* receiveData2(event: FormGroup) {
     console.log(event);
@@ -90,8 +91,9 @@ export class NfatemplateComponent implements OnInit {
 
   Reset() {
   // console.log(new DenfaformComponent().deForm.controls.valueOf());
-  //  this.definition = {characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>'
-   // };
+  //  this.definition = {characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>
+
+    
   }
 
 }
