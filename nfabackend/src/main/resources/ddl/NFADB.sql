@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS project_type;
-
+DROP TABLE IF EXISTS project_nfa;
 DROP TABLE IF EXISTS project_stakeholder;
 DROP TABLE IF EXISTS stakeholder_factor;
 
@@ -288,7 +288,7 @@ CREATE TABLE public.metric
 (
 	ID serial PRIMARY KEY,
 	METRIC_NUMBER int NOT NULL,
-	BEZEICHNUNG character varying(40),
+	BEZEICHNUNG character varying(100),
 	FORMEL character varying(500),
 	INTERPRETATION character varying(500),
 	ERKLAERUNG_MESSGROESSE character varying(500)
@@ -298,6 +298,14 @@ INSERT INTO metric VALUES (1,1,'Effektivität der Arbeit','{X = 1-ΣAi | X≥0};
 INSERT INTO metric VALUES (2,2,'Fehler bei der Arbeit','X = A; A = Anzahl der Fehler','{X | 0 < X}; Je kleiner der Wert ist, desto besser.','Wie hoch die Anzahl der Fehler ist. Hierbei wird die Anzahl der Fehler gemessen.');
 INSERT INTO metric VALUES (3,3,'Fehlerhafte Arbeit','X = A/B; A = Anzahl der fehlerhaften Aufgaben; B = Gesamtzahl an Aufgaben','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Bei wie vielen Aufgaben Fehler gemacht wur-den. Hierbei wird die Anzahl der fehlerhaften Aufgaben mit der Gesamtzahl aller Aufgaben verglichen');
 INSERT INTO metric VALUES (4,4,'Fehlerintensität','X = A/B; A = Anzahl der Nutzer, die einen Fehler gemacht haben; B = Ge-samtzahl der Nutzer, die eine Aufgabe durchführen','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie viele Nutzer einen Fehler gemacht haben. Hierbei wird die Anzahl der Nutzer, die einen Fehler gemacht haben, mit der Gesamtzahl der Nutzer, die eine Aufgabe durchführen, vergli-chen.');
+
+-- 4	Risikofreiheit
+INSERT INTO metric VALUES (5,1,'Einnahmen durch den einzelnen Kunden','X = A; A = Einnahmen durch den einzelnen Kunden','{X | 0 ≤ X < ∞}; Je größer der Wert ist, desto besser.','Wie hoch die Einnahmen durch den einzelnen Kunden sind. Hierbei werden die Einnahmen jedes einzelnen Kunden gemessen, wobei an-hand von verschiedenen Kundenmerkmalen Möglichkeiten zur Systemevaluierung für be-stimmte Nutzergruppen abgeleitet werden kön-nen.');
+INSERT INTO metric VALUES (6,1,'Häufigkeit an krank-heitsbedingten Ausfäl-len der Nutzer','X = A/B; A = Anzahl der Nutzer, die von gesundheit-lichen Beschwerden auf Grund der Nutzung berich-ten; B = Gesamtzahl aller Nutzer','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie groß der Anteil an Nutzern eines Produkts oder Systems ist, die von gesundheitlichen Be-schwerden auf Grund der Nutzung berichten. Hierbei wird die Anzahl an Nutzern, die von ge-sundheitlichen Beschwerden auf Grund der Nut-zung berichten, mit der Gesamtzahl aller Nutzer verglichen, wobei die Berechnung anhand der Nutzungsdauer gewichtet werden kann.');
+INSERT INTO metric VALUES (7,2,'Auswirkung auf Ge-sundheit und Sicherheit für den Nutzer','n = Anzahl der betroffenen Nutzer; Tai = Dauer, für die der i-te Nutzer betroffen ist; Si = Grad der Auswir-kung für den i-ten Nutzer; Länge der Zeit von Beginn der Systemnutzung an','{X | 0 ≤ X}; Je kleiner der Wert ist, desto besser.','Wie groß die Auswirkung auf Gesundheit und Sicherheit der Nutzer eines Produkts oder Sys-tems ist. Hierbei wird die Summe aus den mulit-plizierten Faktoren Länge und Grad der Auswir-kung mit der Länge der Zeit von Beginn der Sys-temnutzung an verglichen.');
+INSERT INTO metric VALUES (8,3,'Anteil der Sicherheits-gefährdungen','X = A/B; A = Anzahl der Nutzer, die gefährdet wurden; B = Gesamtzahl der Nutzer, die gefährdet werden könnten','{X | 0 ≤ X ≤ 1}; Je näher der Wert an "0" ist, desto besser.','Wie groß die Sicherheitsrisiken für die Nutzer des Systems gemessen an der Gesamtzahl der potentiell gefährdeten Nutzer sind. Hierbei wird die Anzahl der Nutzer, die gefährdet wurden, mit der Gesamtzahl der Nutzer, die gefährdet wer-den könnten, verglichen.');
+
+
 
 CREATE TABLE public.criteria_metric
 (
@@ -317,6 +325,11 @@ INSERT INTO public.criteria_metric VALUES (43, 1);
 INSERT INTO public.criteria_metric VALUES (43, 2);
 INSERT INTO public.criteria_metric VALUES (43, 3);
 INSERT INTO public.criteria_metric VALUES (43, 4);
+
+INSERT INTO public.criteria_metric VALUES (6, 5);
+INSERT INTO public.criteria_metric VALUES (7, 6);
+INSERT INTO public.criteria_metric VALUES (7, 7);
+INSERT INTO public.criteria_metric VALUES (7, 8);
 
 CREATE TABLE public.nfa
 (
@@ -338,6 +351,13 @@ INSERT INTO nfa VALUES (3,1,'Type:1','Fehleranteil','Verbindlichkeit:1','12.22',
 INSERT INTO nfa VALUES (4,1,'Type:1','Entstehende Fehler','Verbindlichkeit:1','12.22','Formulierung:1','Bei der Bearbeitung von Aufgaben mit dem Sys-tem sollen möglichst keine Fehler entstehen.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
 INSERT INTO nfa VALUES (5,1,'Type:1','Fehlerfreie Bedienung','Verbindlichkeit:1','12.22','Formulierung:1','Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
 
+INSERT INTO nfa VALUES (6,1,'Type:1','Umsatz je Kunde','Verbindlichkeit:1','12.22','Formulierung:1','Das System erwirtschaftet einen messbaren Umsatz je Kunde.','JUAC','referenzierte_projekt:1','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (7,1,'Type:1','Kranke Nutzer','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss eine Erhöhung Anzahl der krankheitsbedingten Ausfälle der Anwen-der_innen, die unmittelbar durch die Systemnut-zung verursacht werden, verhindern.','referenz','referenzierte_projekt:1','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (8,1,'Type:1','Störung des Wohlbefin-dens','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss die Störung des Wohlbefindens eines bzw. einer Anwender_in verhindern.','JUAC','referenzierte_projekt:1','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (9,2,'Type:1','Vermeidung von epilep-tischen Anfällen 1','Verbindlichkeit:1','12.22','Formulierung:1','Inhalte müssen so zu gestaltet sein, dass keine epileptischen Anfälle ausgelöst werden.','DIN EN ISO 9241-171: 2008; BITV','CbCR','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (10,3,'Type:1','Anpassung der taktilen Ausgabe','Verbindlichkeit:1','12.22','Formulierung:1','Die Software sollte aus dem täglichen Leben vertraute Muster bereitstellen, um Meldungen taktiler Art zu beschreiben.','DIN EN ISO 9241-171','','kritikalitaet', 'document1');
+
+
 CREATE TABLE public.metric_nfa
 (
     metric_id bigint NOT NULL,
@@ -357,6 +377,32 @@ INSERT INTO public.metric_nfa VALUES (1, 2);
 INSERT INTO public.metric_nfa VALUES (2, 3);
 INSERT INTO public.metric_nfa VALUES (3, 4);
 INSERT INTO public.metric_nfa VALUES (4, 5);
+
+INSERT INTO public.metric_nfa VALUES (5, 6);
+INSERT INTO public.metric_nfa VALUES (6, 7);
+INSERT INTO public.metric_nfa VALUES (7, 8);
+INSERT INTO public.metric_nfa VALUES (7, 9);
+INSERT INTO public.metric_nfa VALUES (7, 10);
+
+CREATE TABLE public.project_nfa
+(
+    project_id bigint NOT NULL,
+	nfa_id bigint NOT NULL,
+    CONSTRAINT project_fk FOREIGN KEY (project_id)
+        REFERENCES public.nfa_project (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT nfa_fk FOREIGN KEY (nfa_id)
+        REFERENCES public.nfa (nfa_id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	PRIMARY KEY( project_id, nfa_id)
+);
+
+INSERT INTO public.project_nfa VALUES (1, 2);
+INSERT INTO public.project_nfa VALUES (2, 3);
+INSERT INTO public.project_nfa VALUES (3, 4);
+INSERT INTO public.project_nfa VALUES (4, 5);
 
 CREATE TABLE public.stakeholder_factor
 (

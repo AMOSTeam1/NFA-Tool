@@ -1,11 +1,11 @@
 <div class="row" *ngIf ="onView">
   <div class="col-xs-12">
-    <button class="btn btn-default btn-lg col-xs-1 col-xs-offset-1" (click)="onPrev()" [disabled] = "nfaIdx == 0"> < </button>
-    <button class="btn btn-default btn-lg col-xs-4 col-xs-offset-2"
+    <button class="btn btn-default btn-lg col-xs-1" (click)="onPrev()" [disabled] = "nfaIdx == 0"> < </button>
+    <button class="btn btn-default btn-lg col-xs-10"
             style="text-align: center"
             (click)="onView = !onView">
       {{nfas[nfaIdx].nfaCatalogBezeichnung}}</button>
-    <button class="btn btn-default btn-lg col-xs-1 col-xs-offset-2" (click)="onNext()" [disabled] = "nfaIdx == nfas.length-1"> > </button>
+    <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "nfaIdx == nfas.length-1"> > </button>
   </div>
 </div>
 

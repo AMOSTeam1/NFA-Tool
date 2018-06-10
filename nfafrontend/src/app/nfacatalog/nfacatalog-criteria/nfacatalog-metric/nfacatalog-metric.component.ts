@@ -20,13 +20,14 @@ export class NfacatalogMetricComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    this.metricIdx = 0;
-    this.nfaIdx = 0;
+
     this.route.params
       .subscribe(
         (params: Params) => {
           this.criteria_id = +params['criteria_id'];
           this.nfaMetrics = this.nfaCatalogService.getNfaCriteria(this.criteria_id).metricList;
+          this.metricIdx = 0;
+          this.nfaIdx = 0;
         }
       );
 

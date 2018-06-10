@@ -126,7 +126,8 @@ export class ProjectEditComponent implements OnInit {
       null,
       this.projectForm.value['devProcess'],
       this.projectForm.value['projectPhase'],
-      this.projectForm.value['projectStatus']
+      this.projectForm.value['projectStatus'],
+      null
     );
     for (let i = 0; i < newProject.projectTypes.length; i++){
       this.types.forEach((x) => {
@@ -136,6 +137,7 @@ export class ProjectEditComponent implements OnInit {
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
       newProject.projectStakeholders = this.currentProjectService.getProject(this.id).projectStakeholders;
+      newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
       this.currentProjectService.updateProject(this.id, newProject);
       this.dataStorageService.updateProject(newProject)
         .subscribe(
@@ -201,6 +203,10 @@ export class ProjectEditComponent implements OnInit {
 
   onEditStakeholder(){
     this.router.navigate(['stakeholder'], {relativeTo: this.route});
+  }
+
+  onChooseNfa(){
+    this.router.navigate(['assignnfa'], {relativeTo: this.route});
   }
 
 
