@@ -23,7 +23,6 @@ export class ProjectEditComponent implements OnInit {
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
-  emptyNfaCatalogs: NfaCatalogModel[] = [];
   nfaFactors: NfaFactorModel[];
 
   fieldArray: Array<any> = [];
