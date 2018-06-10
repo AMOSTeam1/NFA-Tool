@@ -8,6 +8,8 @@ import {NfaFactorModel} from '../../../shared/nfaFactor.model';
 import {NfaCriteriaModel} from '../../../shared/nfaCriteria.model';
 import {NfaMetric} from '../../../shared/nfaMetric.model';
 import {Response} from '@angular/http';
+import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
+import {Project} from '../../../shared/project.model';
 
 @Component({
   selector: 'app-choose-nfa',
@@ -15,10 +17,9 @@ import {Response} from '@angular/http';
   styleUrls: ['./choose-nfa.component.css']
 })
 export class ChooseNfaComponent implements OnInit {
-
+  id: number;
   nfaform: FormGroup;
   nfaFactors: NfaFactorModel[];
-
   selectedFactor : NfaFactorModel = undefined;
   selectedCriteria : NfaCriteriaModel = undefined;
   selectedMetric: NfaMetric = undefined;
@@ -31,6 +32,7 @@ export class ChooseNfaComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.id = this.currentProjectService.getSelectedProjectId();
     this.dataStorageService.getNfaFactor()
       .subscribe(
         (response: Response) => {
@@ -48,6 +50,15 @@ export class ChooseNfaComponent implements OnInit {
       'criteria': new FormControl('', Validators.required),
       'metric': new FormControl('', Validators.required)
     });
+  }
+
+  isAlreadyAdded(nfa: NfaCatalogModel){
+    const referProjectNfas = this.currentProjectService.getProject(this.id).projectNfas;
+    let flag = false;
+    referProjectNfas.forEach((x) => {
+      if (x.nfaCatalogId === nfa.nfaCatalogId) {flag = true;}
+    });
+    return flag;
   }
 
   factorHasCriteria() {
@@ -75,6 +86,35 @@ export class ChooseNfaComponent implements OnInit {
   updateFactor(){
     this.selectedCriteria = this.selectedFactor.criteriaList[0];
     this.selectedMetric = this.selectedCriteria.metricList[0];
+  }
+
+  onAddOrRemove(nfa: NfaCatalogModel){
+    const editedProject = this.currentProjectService.getProject(this.id);
+    const ind = editedProject.projectNfas.findIndex((x) => x.nfaCatalogId === nfa.nfaCatalogId)
+    if (ind !== -1) {
+      editedProject.projectNfas.splice(ind,1);
+    } else {
+      editedProject.projectNfas.push(nfa);
+    }
+    this.currentProjectService.updateProject(this.id, editedProject);
+    this.dataStorageService.updateProject(editedProject)
+      .subscribe(
+        (response: Response) => {
+          this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+        }
+      );
+  }
+
+  onRemove(i: number){
+    const editedProject = this.currentProjectService.getProject(this.id);
+    editedProject.projectNfas.splice(i,1);
+    this.currentProjectService.updateProject(this.id, editedProject);
+    this.dataStorageService.updateProject(editedProject)
+      .subscribe(
+        (response: Response) => {
+          this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+        }
+      );
   }
 
 }

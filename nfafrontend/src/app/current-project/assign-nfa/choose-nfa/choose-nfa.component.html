@@ -18,7 +18,7 @@
           </div></div></div>
 
       <div class="row" *ngIf="factorHasCriteria()">
-        <div class="col-xs-6">
+        <div class="col-xs-10">
           <div class="form-group">
               <label for="criteri"><small>Criteria</small></label>
               <select formControlName ="criteria" class="form-control" id="criteri" name="criteria" required [(ngModel)]='selectedCriteria' (change)="updateCriteria()">
@@ -27,7 +27,7 @@
           </div></div></div>
 
       <div class="row" *ngIf="criteriaHasMetric()">
-        <div class="col-xs-6">
+        <div class="col-xs-10">
           <div class="form-group">
               <label for="metri"><small>Metric</small></label>
               <select formControlName ="metric" class="form-control" id="metri" name="metric" required [(ngModel)]='selectedMetric'>
@@ -36,9 +36,16 @@
           </div></div></div>
     </form>
     <div *ngIf="MetricHasNfa()">
-    <div class="row" *ngFor="let nfa of selectedMetric.nfaList">
-      <div class="col-xs-12">
+    <div class="row" *ngFor="let nfa of selectedMetric.nfaList let i = index">
+      <hr>
+      <div class="col-xs-10 small">
         {{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{selectedMetric.metricNumber}}.{{nfa.nfaNumber}} {{nfa.nfaCatalogBezeichnung}}
+      </div>
+      <div class="col-xs-2" *ngIf="!isAlreadyAdded(nfa)">
+        <button type="button" class="btn btn-success" (click)="onAddOrRemove(nfa)">+</button>
+      </div>
+      <div class="col-xs-2" *ngIf="isAlreadyAdded(nfa)">
+        <button type="button" class="btn btn-danger" (click)="onAddOrRemove(nfa)">X</button>
       </div>
     </div>
     </div>

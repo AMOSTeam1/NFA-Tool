@@ -8,7 +8,7 @@ export class CurrentProjectService {
   projectsChanged = new Subject<Project[]>();
   private projects: Project[];
   private types: ProjectType[];
-  private project: Project;
+  private selectedProjectId: number;
 
 
   getProjects() {
@@ -39,11 +39,14 @@ export class CurrentProjectService {
     this.projectsChanged.next(this.projects.slice());
   }
 
-  setProject(index: number){
-    this.project = this.projects[index];
+  setSelectedProjectId(index: number){
+    this.selectedProjectId = index;
+  }
+  getSelectedProjectId(){
+    return this.selectedProjectId;
   }
   getNfa(index: number){
-    return this.project.projectNfas[index];
+    return this.projects[this.selectedProjectId].projectNfas[index];
   }
 
   getTypes() {
