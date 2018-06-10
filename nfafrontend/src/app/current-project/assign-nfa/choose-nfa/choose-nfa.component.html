@@ -1,3 +1,46 @@
-<p>
-  choose-nfa works!
-</p>
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="nfaform" >
+      <div class="row">
+        <div class="col-xs-12">
+          <span class="label label-default">Add NFA to project</span>
+          <hr>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <div class="form-group">
+            <label for="facto"><small>Factor</small></label>
+            <select formControlName ="factor" class="form-control" id="facto" name="factor" required  [(ngModel)]='selectedFactor' (change)="updateFactor()">
+              <option *ngFor="let fac of nfaFactors" [ngValue]="fac">{{fac.nfa_id}}. {{fac.factor}}</option>
+            </select>
+          </div></div></div>
+
+      <div class="row" *ngIf="factorHasCriteria()">
+        <div class="col-xs-6">
+          <div class="form-group">
+              <label for="criteri"><small>Criteria</small></label>
+              <select formControlName ="criteria" class="form-control" id="criteri" name="criteria" required [(ngModel)]='selectedCriteria' (change)="updateCriteria()">
+                <option *ngFor="let crit of selectedFactor.criteriaList" [ngValue]="crit">{{selectedFactor.nfa_id}}.{{crit.criteriaNumber}} {{crit.criteria}}</option>
+              </select>
+          </div></div></div>
+
+      <div class="row" *ngIf="criteriaHasMetric()">
+        <div class="col-xs-6">
+          <div class="form-group">
+              <label for="metri"><small>Metric</small></label>
+              <select formControlName ="metric" class="form-control" id="metri" name="metric" required [(ngModel)]='selectedMetric'>
+                <option *ngFor="let met of selectedCriteria.metricList" [ngValue]="met">{{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{met.metricNumber}} {{met.bezeichnung}}</option>
+              </select>
+          </div></div></div>
+    </form>
+    <div *ngIf="MetricHasNfa()">
+    <div class="row" *ngFor="let nfa of selectedMetric.nfaList">
+      <div class="col-xs-12">
+        {{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{selectedMetric.metricNumber}}.{{nfa.nfaNumber}} {{nfa.nfaCatalogBezeichnung}}
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
