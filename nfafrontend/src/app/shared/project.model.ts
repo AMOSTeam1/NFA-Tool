@@ -1,6 +1,5 @@
 import {ProjectType} from './type.model';
 import {Stakeholder} from './stakeholder.model';
-import {NfaCatalogModel} from './nfaCatalog.model';
 
 export class Project {
 
@@ -15,6 +14,5 @@ export class Project {
     public developmentProcess: string,
     public projectPhase: string,
     public projectStatus: string,
-    public projectNfas: NfaCatalogModel[]
   ) {}
 }

@@ -17,7 +17,7 @@ import {NfaMetric} from "../shared/nfaMetric.model";
 export class NewnfaComponent implements OnInit {
 
   constructor(private dataStorageService: DataStorageService,
-              private nfaCatalogService: NfacatalogService) { }
+              private nfaCatalogService: NfacatalogService,) { }
   nfaform: FormGroup;
   nfaFactors: NfaFactorModel[];
 

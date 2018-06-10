@@ -37,11 +37,6 @@ import { NfacatalogCriteriaListComponent } from './nfacatalog/nfacatalog-criteri
 import { NfacatalogCriteriaItemComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-item/nfacatalog-criteria-item.component';
 import { NfacatalogMetricComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 import { NfacatalogNfaComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
-import { AssignNfaComponent } from './current-project/assign-nfa/assign-nfa.component';
-import { NfaListComponent } from './current-project/assign-nfa/nfa-list/nfa-list.component';
-import { NfaItemComponent } from './current-project/assign-nfa/nfa-list/nfa-item/nfa-item.component';
-import { ChooseNfaComponent } from './current-project/assign-nfa/choose-nfa/choose-nfa.component';
-import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-detail.component';
 
 @NgModule({
   declarations: [
@@ -67,11 +62,6 @@ import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-
     NfacatalogCriteriaItemComponent,
     NfacatalogMetricComponent,
     NfacatalogNfaComponent,
-    AssignNfaComponent,
-    NfaListComponent,
-    NfaItemComponent,
-    ChooseNfaComponent,
-    NfaDetailComponent,
   ],
   imports: [
     BrowserModule,
