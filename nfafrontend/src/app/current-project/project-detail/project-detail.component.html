@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12" style="text-align: center">
-    <small><span class="label label-default">Project Details</span></small>
+    <small><span class="label label-default">{{'nfa.project-details.heading' | translate }}</span></small>
   </div>
 </div>
 <div class="row">
@@ -8,27 +8,27 @@
     <hr>
 
       <div class="row">
-        <h3 class="col-xs-6 pull-left" > <strong>CustomerName:</strong></h3>
+        <h3 class="col-xs-6 pull-left" > <strong>{{'nfa.project-details.customer-name' | translate }}:</strong></h3>
         <h3 class="col-xs-6"> : {{project.customerName}}</h3>
       </div>
     <div class="row">
-      <h3 class="col-xs-6 pull-left" ><strong>ContactPersCustomer:</strong></h3>
+      <h3 class="col-xs-6 pull-left" ><strong>{{'nfa.project-details.contact-person-customer' | translate }}:</strong></h3>
       <h3 class="col-xs-6"> : {{project.contactPersCustomer}}</h3>
     </div>
     <div class="row">
-      <h3 class="col-xs-6 pull-left" ><strong>Branch:</strong></h3>
+      <h3 class="col-xs-6 pull-left" ><strong>{{'nfa.project-details.branch.label' | translate }}:</strong></h3>
       <h3 class="col-xs-6"> : {{project.branch}}</h3>
     </div>
     <div class="row">
-      <h3 class="col-xs-6 pull-left" ><strong>ContactPersMsg:</strong></h3>
+      <h3 class="col-xs-6 pull-left" ><strong>{{'nfa.project-details.contact-person-msg' | translate }}:</strong></h3>
       <h3 class="col-xs-6"> : {{project.contactPersMsg}}</h3>
     </div>
     <div class="row">
-      <h3 class="col-xs-6 pull-left" ><strong>projectPhase:</strong></h3>
+      <h3 class="col-xs-6 pull-left" ><strong>{{'nfa.project-details.project-phase.label' | translate }}:</strong></h3>
       <h3 class="col-xs-6"> : {{project.projectPhase}}</h3>
     </div>
     <div class="row">
-      <h3 class="col-xs-6 pull-left" ><strong>projectStatus:</strong></h3>
+      <h3 class="col-xs-6 pull-left" ><strong>{{'nfa.project-details.status' | translate }}:</strong></h3>
       <h3 class="col-xs-6"> : {{project.projectStatus}}</h3>
     </div>
 
@@ -41,14 +41,14 @@
       <button
         type="button"
         class="btn btn-primary" (click)="onEditProject()">
-        Edit Project
+        {{'nfa.project-details.edit-project' | translate }}
       </button>
     </div>
     <div class="col-xs-6 text-center" >
       <button
         type="button"
         class="btn btn-danger" (click)="onDeleteProject()" >
-        Delete Project
+        {{'nfa.project-details.delete-project' | translate }}
       </button>
     </div>
   </div>

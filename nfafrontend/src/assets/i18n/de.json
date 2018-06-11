@@ -6,23 +6,65 @@
       "current-projects": "Projekte ansehen"
     },
     "new-project" : {
-      "create-nfa-project" : "Erstelle NFA-Projekt",
-      "customer-name" : "Kundenname",
+      "create-nfa-project" : "Erstelle neues NFA-Projekt",
+
       "customer-name-example" : "Bundesargentur für Arbeit",
-
-      "contact-person-customer" : "Kontaktperson des Kunden",
       "contact-person-customer-example" : "Max Mustermann",
-
-      "contact-person-msg" : "Kontaktperson msg",
       "contact-person-msg-example" : "Thomas Rauch",
+
+      "create-new-project" : "Erstelle neues Projekt"
+    },
+    "new-nfa" : {
+      "heading" : "Es ist gefährlich alleine ein NFA Projekt zu machen. Nimm dies.",
+      "factors-expl" : "Irgendwelche Faktoren.. .Schätze ich mal...",
+      "criteria-expl" : "Einige Kriterien... Wahrscheinlich...",
+      "metric-expl" : "Einige Metriken.... Möglicherweise...",
+      "type-expl" : "Der Typ...  Höchstwahrscheinlich...",
+      "send" : "Senden"
+    },
+    "assign-nfa" : {
+      "heading" : "Füge NFA zum Projekt hinzu",
+      "title" : "NFAs von ",
+      "details" : "NFA Details",
+      "explanation" : "Erklärung",
+      "reference" : "Referenz",
+      "related-projects" : "Projekte, in denen die NFA gefordert wurde"
+    },
+    "search-project" : {
+      "label" : "Suchen",
+      "name" : "Name",
+      "filter" : "Filtern",
+      "filter-all" : "Alle"
+    },
+    "project-details" : {
+      "heading" : "Projekt Details",
+      "customer-name" : "Kundenname",
+      "contact-person-customer" : "Kontaktperson des Kunden",
+      "contact-person-msg" : "Kontaktperson msg",
+
+      "status" : "Project Status",
+      "edit-project" : "Projekt bearbeiten",
+      "delete-project" : "Projekt löschen",
+
+      "choose-nfr" : "NFA auswählen",
+      "add-type" : "Typ hinzufügen",
 
       "branch" : {
         "label" : "Branche",
-        "choose" : "Branche auswählen"
+        "choose" : "Branche auswählen",
+        "automotive" : "Automotive",
+        "banking" : "Banking",
+        "food" : "Food",
+        "insurance" : "Insurance",
+        "public-sector" : "Public Sector",
+        "life-science-healthcare" : "Life Science & Healthcare",
+        "telecommunications" : "Telecommunications",
+        "travel-logistics" : "Travel & Logistics",
+        "utilities" : "Utilities"
       },
 
       "project-type" : {
-        "label": "Typ",
+        "label": "Projekttyp",
         "choose": "Typ wählen",
         "communication": "Kommuniktaions-Projekt",
         "exchange": "Datenaustausch-Projekt"
@@ -39,29 +81,41 @@
         "label": "Projektphase",
         "choose" : "Projektphase auswählen",
         "specification" : "Spezifikations Dokument",
-        "requrements" : "Anforderungsspezifizierung"
+        "requirements" : "Anforderungsspezifizierung"
       },
 
-
-      "create-new-project" : "Erstelle neues Projekt"
+      "project-status" : {
+        "label" : "Projekt Status",
+        "on-process" : "Aktiv",
+        "archived" : "Archiviert"
+      }
     },
-    "new-nfa" : {
-      "heading" : "Es ist gefährlich alleine ein NFA Projekt zu machen. Nimm dies.",
-      "factors" : "Faktoren",
-      "factors-expl" : "Irgendwelche Faktoren.. .Schätze ich mal...",
-      "criteria" : "Kriterium",
-      "criteria-expl" : "Einige Kriterien... Wahrscheinlich...",
-      "metric" : "Metriken",
-      "metric-expl" : "Einige Metriken.... Möglicherweise...",
-      "type" : "Typ",
-      "type-expl" : "Der Typ...  Höchstwahrscheinlich...",
-      "send" : "Senden"
+    "catalog": {
+      "title" : "NFA Faktoren",
+      "explanation" : "Erklärung der Messgröße",
+      "formula" : "Formel",
+      "interpretation" : "Interpretation",
+      "view-nfa" : "Zeige Nfa",
+      "add-nfa" : "Füge Nfa hinzu"
+
+    },
+    "stakeholder" : {
+      "stakeholder" : "Stakeholder",
+      "add-stakeholder" : "Stakeholder hinzufügen",
+      "add-factor" : "Faktoren hinzufügen"
     },
     "header": {
       "create-project": "Projekte",
       "open-catalog": "NFA Katalog",
       "create-nfa-entry": "Neue NFA",
       "create-package": "Neues Paket"
-    }
+    },
+    "factor" : "Faktoren",
+    "criteria" : "Kriterium",
+    "metric" : "Metric",
+    "type" : "Typ",
+    "cancel" : "Abbrechen",
+    "save" : "Speichern",
+    "none" : "Keine"
   }
 }
