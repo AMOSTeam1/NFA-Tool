@@ -6,6 +6,7 @@ import {CurrentProjectService} from '../current-project.service';
 import {ProjectType} from '../../shared/type.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
+import {TranslateService} from "@ngx-translate/core";
 
 enum STATUS {
   ALL = 'All',
@@ -28,7 +29,8 @@ export class ProjectListComponent implements OnInit {
   constructor(private currentProjectService: CurrentProjectService,
               private route: ActivatedRoute,
               private router: Router,
-              private dataStorageService: DataStorageService) { }
+              private dataStorageService: DataStorageService,
+              private tranlateService: TranslateService) { }
 
 
   ngOnInit() {
@@ -99,7 +101,7 @@ export class ProjectListComponent implements OnInit {
       .subscribe(
         (response: Response) => {
           const projects: Project[] = response.json();
-          this.projects = projects
+          this.projects = projects;
           this.currentProjectService.setProjects(this.projects);
         }
       );
@@ -114,9 +116,30 @@ export class ProjectListComponent implements OnInit {
       .subscribe(
         (response: Response) => {
           const projects: Project[] = response.json();
-          this.projects = projects
+          this.projects = projects;
           this.currentProjectService.setProjects(this.projects);
         }
     );
+  }
+
+  getStringByStatus(status : STATUS) : string{
+
+    let retVal :string = '';
+    switch (status){
+      case STATUS.ON_PROCESS:
+        this.tranlateService.get('nfa.project-details.project-status.on-process')
+          .subscribe(value => retVal = value);
+        break;
+      case STATUS.ARCHIVED:
+        this.tranlateService.get('nfa.project-details.project-status.archived')
+          .subscribe(value => retVal = value);
+        break;
+      case STATUS.ALL:
+        this.tranlateService.get('nfa.search-project.filter-all')
+          .subscribe(value => retVal = value);
+        break;
+    }
+
+    return retVal;
   }
 }
