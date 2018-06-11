@@ -56,17 +56,17 @@ export class ProjectListComponent implements OnInit {
   }
 
   onSearch(frominput: HTMLInputElement) {
-  
+
     this.dataStorageService.getProjectByName(this.status,frominput.value).subscribe(
       (response: Response) => {
         const projects: Project[] = response.json();
         this.projects = projects;
         this.currentProjectService.setProjects(this.projects);
-       
+
       }
     );
   }
-  
+
   onNewProject(){
     this.router.navigate(['new'], {relativeTo: this.route});
   }
@@ -84,11 +84,11 @@ export class ProjectListComponent implements OnInit {
           const projects: Project[] = response.json();
           this.projects = projects;
           this.currentProjectService.setProjects(this.projects)
-          
+
         }
       );
   }
-  
+
   onProcess(frominput: HTMLInputElement) {
     if(STATUS.ON_PROCESS != this.status) {
       this.router.navigate([this.route.snapshot.routeConfig.path]);

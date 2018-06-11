@@ -1,4 +1,6 @@
 import {ProjectType} from './type.model';
+import {Stakeholder} from './stakeholder.model';
+import {NfaCatalogModel} from './nfaCatalog.model';
 
 export class Project {
 
@@ -9,8 +11,10 @@ export class Project {
     public contactPersMsg: string,
     public branch: string,
     public projectTypes: ProjectType[],
+    public projectStakeholders: Stakeholder[],
     public developmentProcess: string,
     public projectPhase: string,
     public projectStatus: string,
+    public projectNfas: NfaCatalogModel[]
   ) {}
 }

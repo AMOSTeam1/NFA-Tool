@@ -1,19 +1,19 @@
 package com.msg.nfabackend.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.JoinColumn;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Table;
 
 
 /**
@@ -27,9 +27,11 @@ public class Project {
 	
 	public Project() {}
 	
-	@Id
+	/*@Id
 	@SequenceGenerator(name="seq-gen",sequenceName="NFA_PROJECT_ID_SEQ" , initialValue = 1, allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")*/
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
 	private Long id;
 	
@@ -50,7 +52,7 @@ public class Project {
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "PROJECT_TYPE", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "TYPE_ID"))
-	private List<Type> projectTypes = new ArrayList<Type>();
+	private Set<Type> projectTypes = new HashSet<Type>();
 	
 	@Column(name="DEVELOPMENT_PROCESS")
 	private String developmentProcess;
@@ -60,6 +62,14 @@ public class Project {
 	
 	@Column(name="PROJECT_STATUS")
 	private String projectStatus;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "project_stakeholder", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "stakeholder_id"))
+	private Set<Stakeholder> projectStakeholders = new HashSet<Stakeholder>();
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "project_nfa", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "nfa_id"))
+	private Set<nfaCatalog> projectNfas = new HashSet<nfaCatalog>();
 
 	/**
 	 * @return the id
@@ -189,16 +199,34 @@ public class Project {
 		this.projectStatus = projectStatus;
 	}
 
-	public List<Type> getProjectTypes() {
+
+	public Set<Type> getProjectTypes() {
 		return projectTypes;
 	}
 
-	public void setProjectTypes(List<Type> projectTypes) {
+	public void setProjectTypes(Set<Type> projectTypes) {
 		this.projectTypes = projectTypes;
+	}
+
+	public Set<Stakeholder> getProjectStakeholders() {
+		return projectStakeholders;
+	}
+
+	public void setProjectStakeholders(Set<Stakeholder> projectStakeholders) {
+		this.projectStakeholders = projectStakeholders;
+	}
+
+	public Set<nfaCatalog> getProjectNfas() {
+		return projectNfas;
+	}
+
+	public void setProjectNfas(Set<nfaCatalog> projectNfas) {
+		this.projectNfas = projectNfas;
 	}
 	
 	
 
-
+	
+	
 
 }

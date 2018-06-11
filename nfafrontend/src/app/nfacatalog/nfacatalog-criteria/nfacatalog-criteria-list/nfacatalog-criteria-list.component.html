@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-xs-12" style="text-align: center">
+    <small><span class="label label-default">{{nfaFactor.factor}} - Criterias</span></small>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-xs-12">
+
+    <app-nfacatalog-criteria-item
+      *ngFor="let nfaCriteriaEl of nfaCriterias let i = index"
+      [nfaCriteria]="nfaCriteriaEl"
+      [index]="i"></app-nfacatalog-criteria-item>
+  </div>
+</div>

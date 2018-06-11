@@ -1,12 +1,13 @@
 export class NfaCatalogModel {
   constructor(
-    public nfaCatalogId: string,
+    public nfaCatalogId: number,
+    public nfaNumber: number,
     public nfaCatalogType: string,
     public nfaCatalogBezeichnung: string,
     public rechtlicheVerbindlichkeit: string,
     public nfaCatalogWert: string,
     public nfaCatalogFormulierung : string,
-    public nfaCatalogErklärung: string,
+    public nfaCatalogErklaerung: string,
     public nfaCatalogReferenz: string,
     public nfaCatalogReferenzierteProjekte: string,
     public nfaCatalogKritikalität: string,

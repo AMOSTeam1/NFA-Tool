@@ -3,9 +3,10 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Nfa} from '../shared/nfa.model';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Response} from '@angular/http';
-import {NfaFactorModel} from "../shared/nfaFactor.model";
 import {NfacatalogService} from "../nfacatalog/nfacatalog.service";
+import {NfaFactorModel} from "../shared/nfaFactor.model";
 import {NfaCriteriaModel} from "../shared/nfaCriteria.model";
+import {NfaMetric} from "../shared/nfaMetric.model";
 
 
 @Component({
@@ -16,13 +17,13 @@ import {NfaCriteriaModel} from "../shared/nfaCriteria.model";
 export class NewnfaComponent implements OnInit {
 
   constructor(private dataStorageService: DataStorageService,
-              private nfaCatalogService: NfacatalogService,) { }
+              private nfaCatalogService: NfacatalogService) { }
   nfaform: FormGroup;
   nfaFactors: NfaFactorModel[];
 
-  selectedFactor = NfaFactorModel;
-  selectedCriteria = NfaCriteriaModel;
-  selectedMetric: any;
+  selectedFactor : NfaFactorModel = undefined;
+  selectedCriteria : NfaCriteriaModel = undefined;
+  selectedMetric: NfaMetric = undefined;
   selectedType: any;
 
   ngOnInit() {
@@ -64,4 +65,15 @@ private initForm () {
 
   }
 
+  factorHasCriteria() {
+    return (this.selectedFactor != null
+      && this.selectedFactor.criteriaList != null
+      && this.selectedFactor.criteriaList.length > 0);
+  }
+
+  criteriaHasMetric() {
+    return (this.selectedCriteria != null
+      && this.selectedCriteria.metricList != null
+      && this.selectedCriteria.metricList.length > 0);
+  }
 }

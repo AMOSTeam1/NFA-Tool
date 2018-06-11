@@ -13,8 +13,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import  {DataexchangeService} from './shared/dataexchange.service';
-import {Inst} from './shared/inst.model';
+
 
 
 // import ngx-translate and the http loader
@@ -28,14 +27,25 @@ import { ProjectDetailComponent } from './current-project/project-detail/project
 import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
-import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-list.component';
-import {NfacatalogFactorComponent} from './nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-factor.component';
-import {NfacatalogService} from './nfacatalog/nfacatalog.service';
-import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-list/nfacatalog-factor/nfacatalog-criteria/nfacatalog-criteria.component';
+import {NfacatalogListComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-list.component";
+import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
+import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component";
+import { StakeHolderComponent } from './current-project/stake-holder/stake-holder.component';
 import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component';
+import { NfacatalogItemComponent } from './nfacatalog/nfacatalog-list/nfacatalog-item/nfacatalog-item.component';
+import { NfacatalogCriteriaListComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-list.component';
+import { NfacatalogCriteriaItemComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-item/nfacatalog-criteria-item.component';
+import { NfacatalogMetricComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
+import { NfacatalogNfaComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
+import { AssignNfaComponent } from './current-project/assign-nfa/assign-nfa.component';
+import { NfaListComponent } from './current-project/assign-nfa/nfa-list/nfa-list.component';
+import { NfaItemComponent } from './current-project/assign-nfa/nfa-list/nfa-item/nfa-item.component';
+import { ChooseNfaComponent } from './current-project/assign-nfa/choose-nfa/choose-nfa.component';
+import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-detail.component';
+import { DataexchangeService } from './shared/dataexchange.service';
+import {Inst} from './shared/inst.model';
 import { DenfaformComponent } from './newnfa/nfatemplate/denfaform/denfaform.component';
 import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.component';
-
 
 @NgModule({
   declarations: [
@@ -53,9 +63,19 @@ import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.com
     ProjectEditComponent,
     NfacatalogComponent,
     NfacatalogListComponent,
-    NfacatalogFactorComponent,
     NfacatalogCriteriaComponent,
+    StakeHolderComponent,
     NfatemplateComponent,
+    NfacatalogItemComponent,
+    NfacatalogCriteriaListComponent,
+    NfacatalogCriteriaItemComponent,
+    NfacatalogMetricComponent,
+    NfacatalogNfaComponent,
+    AssignNfaComponent,
+    NfaListComponent,
+    NfaItemComponent,
+    ChooseNfaComponent,
+    NfaDetailComponent,
     DenfaformComponent,
     EnnfaformComponent,
   ],

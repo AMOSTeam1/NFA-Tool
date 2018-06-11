@@ -1,6 +1,9 @@
 package com.msg.nfabackend.services;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +22,7 @@ import com.msg.nfabackend.entities.Nfa;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
+import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
 import com.msg.nfabackend.entities.nfaCatalog;
 
@@ -122,6 +126,8 @@ public class QueryService {
 			tx.begin();
 			Project project = em.find(Project.class, id);
 			project.getProjectTypes().clear();
+			project.getProjectNfas().clear();
+			project.getProjectStakeholders().clear();
 			em.remove(project);
 			tx.commit();
 			}catch(Exception e){
@@ -151,7 +157,8 @@ public class QueryService {
 			project.setProjectPhase(editedProject.getProjectPhase());
 			project.setProjectStatus(editedProject.getProjectStatus());
 			project.setProjectTypes(editedProject.getProjectTypes());
-
+			project.setProjectStakeholders(editedProject.getProjectStakeholders());
+			project.setProjectNfas(editedProject.getProjectNfas());
 			em.merge(editedProject);
 			tx.commit();
 		}catch(Exception e){
@@ -207,6 +214,21 @@ public class QueryService {
 			}
 		return listType;
     }
+	
+	public List<NfaCriteria> getAllNfaCriterias() {
+		List<NfaCriteria> listNfaCriteria = null;
+		try {
+			tx.begin();
+			listNfaCriteria = em.createQuery("from NfaCriteria",NfaCriteria.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listNfaCriteria;
+    }
 
 	public List<NfaCriteria> getAllCriteriasForFactor(NfaFactor factor) {
 		// TODO Auto-generated method stub
@@ -234,6 +256,21 @@ public class QueryService {
 		}
 		return listProject;
 	}
+	
+	public List<Stakeholder> getAllStakeholder() {
+		List<Stakeholder> listStakeholder = null;
+		try {
+			tx.begin();
+			listStakeholder = em.createQuery("from Stakeholder",Stakeholder.class).getResultList();
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}finally {
+				em.close();
+				emf.close();
+			}
+		return listStakeholder;
+    }
 
 
 }

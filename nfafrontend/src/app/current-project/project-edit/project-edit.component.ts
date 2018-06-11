@@ -8,6 +8,9 @@ import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
 import {NfaFactorModel} from "../../shared/nfaFactor.model";
 import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
+import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
+import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
+import {Nfa} from '../../shared/nfa.model';
 
 
 @Component({
@@ -20,7 +23,6 @@ export class ProjectEditComponent implements OnInit {
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
-
   nfaFactors: NfaFactorModel[];
 
   fieldArray: Array<any> = [];
@@ -74,6 +76,19 @@ export class ProjectEditComponent implements OnInit {
             })
           );
         }}
+
+      /*for(const holder of project.projectStakeholder){
+        this.newAttribute.stakeholder_name = holder.stakeholder_name;
+        this.newAttribute.factor = [];
+        for(const fac of holder.stakeholderFactors){
+          this.newAttribute.factor.push(fac.factor);
+        }
+        //this.newAttribute = holder;
+        this.fieldArray.push(this.newAttribute);
+        this.newAttribute = {};
+      }*/
+
+
       customerName = project.customerName;
       customerContact = project.contactPersCustomer;
       msgContact = project.contactPersMsg;
@@ -109,9 +124,11 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['msgContact'],
       this.projectForm.value['branch'],
       this.projectForm.value['types'],
+      null,
       this.projectForm.value['devProcess'],
       this.projectForm.value['projectPhase'],
-      this.projectForm.value['projectStatus']
+      this.projectForm.value['projectStatus'],
+      []
     );
     for (let i = 0; i < newProject.projectTypes.length; i++){
       this.types.forEach((x) => {
@@ -120,6 +137,8 @@ export class ProjectEditComponent implements OnInit {
     }
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
+      newProject.projectStakeholders = this.currentProjectService.getProject(this.id).projectStakeholders;
+      newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
       this.currentProjectService.updateProject(this.id, newProject);
       this.dataStorageService.updateProject(newProject)
         .subscribe(
@@ -130,13 +149,22 @@ export class ProjectEditComponent implements OnInit {
           }
         );
     } else {
-      this.currentProjectService.addProject(newProject);
+      newProject.id = null;
+      //this.currentProjectService.addProject(newProject);
       this.dataStorageService.storeProject(newProject)
         .subscribe(
           (response: Response) => {
-            this.currentProjectService.updateProject(this.currentProjectService.getProjects().length - 1, response.json());
-            this.onCancel();
-            this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+            this.dataStorageService.getProjectByName('On Process',"")
+              .subscribe(
+                (respons: Response) => {
+                  const projects: Project[] = respons.json();
+                  this.currentProjectService.setProjects(projects);
+                  this.onCancel();
+                }
+              );
+            //this.currentProjectService.updateProject(this.currentProjectService.getProjects().length - 1, response.json());
+            //this.onCancel();
+            //this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
           }
         );
     }
@@ -176,6 +204,18 @@ export class ProjectEditComponent implements OnInit {
       { return true;}
     else
       {return false;}
+  }
+
+  isMinimum(i:number){
+    return ((<FormArray>this.projectForm.get('types')).length === 1);
+  }
+
+  onEditStakeholder(){
+    this.router.navigate(['stakeholder'], {relativeTo: this.route});
+  }
+
+  onChooseNfa(){
+    this.router.navigate(['assignnfa'], {relativeTo: this.route});
   }
 
 

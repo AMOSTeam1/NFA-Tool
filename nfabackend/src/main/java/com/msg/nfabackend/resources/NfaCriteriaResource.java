@@ -19,7 +19,7 @@ public class NfaCriteriaResource {
 	QueryService queryService = new QueryService();
 	
 	@GET
-	public List<NfaCriteria> getAllNfaCriteriasForFactor(NfaFactor factor) {
-		return queryService.getAllCriteriasForFactor(factor);
+	public List<NfaCriteria> getAllNfaCriterias() {
+		return queryService.getAllNfaCriterias();
 	}
 }

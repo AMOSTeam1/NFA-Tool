@@ -1,20 +1,20 @@
 package com.msg.nfabackend.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 
 @Entity
 @Table(name ="nfa_factor")
@@ -31,13 +31,17 @@ public class NfaFactor {
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "FACTOR_CRITERIA", joinColumns = @JoinColumn(name = "FACTOR_ID"), inverseJoinColumns = @JoinColumn(name = "CRITERIA_ID"))
-	private List<NfaCriteria> criteriaList = new ArrayList<NfaCriteria>();
+	@OrderBy("criteria_num ASC")
+	private Set<NfaCriteria> criteriaList = new HashSet<NfaCriteria>();
 	
-	public List<NfaCriteria> getCriteriaList() {
+	
+	
+
+	public Set<NfaCriteria> getCriteriaList() {
 		return criteriaList;
 	}
 
-	public void setCriteriaList(List<NfaCriteria> criteriaList) {
+	public void setCriteriaList(Set<NfaCriteria> criteriaList) {
 		this.criteriaList = criteriaList;
 	}
 

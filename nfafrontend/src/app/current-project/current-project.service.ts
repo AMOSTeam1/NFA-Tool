@@ -1,13 +1,14 @@
 import {Subject} from 'rxjs/Subject';
 import {Project} from '../shared/project.model';
 import {ProjectType} from '../shared/type.model';
+import {Stakeholder} from '../shared/stakeholder.model';
 
 
 export class CurrentProjectService {
   projectsChanged = new Subject<Project[]>();
   private projects: Project[];
   private types: ProjectType[];
-
+  private selectedProjectId: number;
 
   getProjects() {
     return this.projects.slice();
@@ -37,12 +38,27 @@ export class CurrentProjectService {
     this.projectsChanged.next(this.projects.slice());
   }
 
+  setSelectedProjectId(index: number){
+    this.selectedProjectId = index;
+  }
+  getSelectedProjectId(){
+    return this.selectedProjectId;
+  }
+  getNfa(index: number){
+    return this.projects[this.selectedProjectId].projectNfas[index];
+  }
+
   getTypes() {
     return this.types.slice();
   }
 
   setTypes(types: ProjectType[]){
     this.types = types;
+  }
+
+  updateStakeholder(index: number, stakeholder: Stakeholder[]) {
+    this.projects[index].projectStakeholders = stakeholder;
+    this.projectsChanged.next(this.projects.slice());
   }
 
 
