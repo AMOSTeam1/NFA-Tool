@@ -10,6 +10,7 @@ export class NfacatalogCriteriaItemComponent implements OnInit {
 
   @Input() nfaCriteria: NfaCriteriaModel;
   @Input() index: number;
+  @Input() nfaFactorNumber: number;
 
   constructor() { }
 
