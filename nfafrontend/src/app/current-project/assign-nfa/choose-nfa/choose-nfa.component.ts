@@ -10,6 +10,7 @@ import {NfaMetric} from '../../../shared/nfaMetric.model';
 import {Response} from '@angular/http';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {Project} from '../../../shared/project.model';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-choose-nfa',
@@ -28,7 +29,8 @@ export class ChooseNfaComponent implements OnInit {
               private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService,
               private nfaCatalogService: NfacatalogService,
-              private router: Router) { }
+              private router: Router,
+              private translateService: TranslateService) { }
 
   ngOnInit() {
     this.initForm();
@@ -103,6 +105,32 @@ export class ChooseNfaComponent implements OnInit {
           this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
         }
       );
+  }
+
+  bezeichnung(nfa: NfaCatalogModel) {
+
+    if (this.lang() === 'de') {
+      return nfa.nfaCatalogBlueprint.de.bezeichnung;
+    } else {
+      return nfa.nfaCatalogBlueprint.en.bezeichnung;
+    }
+  }
+
+  erklaerung(nfa: NfaCatalogModel) {
+
+    if (this.lang() === 'de') {
+      return nfa.nfaCatalogBlueprint.de.erklaerung;
+    } else {
+      return nfa.nfaCatalogBlueprint.en.erklaerung;
+    }
+  }
+
+  private lang() {
+    let lang = this.translateService.currentLang;
+    if (!lang) {
+      lang = this.translateService.defaultLang;
+    }
+    return lang;
   }
 
 }
