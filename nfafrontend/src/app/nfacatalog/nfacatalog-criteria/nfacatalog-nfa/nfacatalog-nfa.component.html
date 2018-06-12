@@ -4,7 +4,7 @@
     <button class="btn btn-default btn-lg col-xs-10"
             style="text-align: center"
             (click)="onView = !onView">
-      {{nfas[nfaIdx].nfaCatalogBezeichnung}}</button>
+      {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfas[nfaIdx].nfaNumber}} {{nfas[nfaIdx].nfaCatalogBezeichnung}}</button>
     <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "nfaIdx == nfas.length-1"> > </button>
   </div>
 </div>
@@ -12,12 +12,12 @@
 <div class="col-xs-12" *ngIf="!onView">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">NFAs von  {{metric.bezeichnung}}</h3>
+      <h3 class="panel-title">{{ 'nfa.assign-nfa.title' | translate }}{{metric.bezeichnung}}</h3>
     </div>
     <div class="panel-body">
       <div class="row text-center" *ngFor="let nfa of nfas; let j = index">
         <button class="btn btn-default small" style="margin:0 0 1px" (click)="onGoto(j)">
-          {{nfa.nfaNumber}}. {{nfa.nfaCatalogBezeichnung}}
+          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfa.nfaNumber}} {{nfa.nfaCatalogBezeichnung}}
         </button>
         <hr>
       </div>
@@ -28,7 +28,7 @@
 <hr>
 <div class="panel panel-primary" *ngIf ="onView">
   <div class="panel-heading">
-    <h3 class="panel-title">Erklaerung</h3>
+    <h3 class="panel-title">{{ 'nfa.assign-nfa.explanation' | translate }}</h3>
   </div>
   <div class="panel-body">
     <p class="small">{{nfas[nfaIdx].nfaCatalogErklaerung}}</p>
@@ -36,7 +36,7 @@
 </div>
 <div class="panel panel-primary" *ngIf ="onView">
   <div class="panel-heading">
-    <h3 class="panel-title">Referenz</h3>
+    <h3 class="panel-title">{{ 'nfa.assign-nfa.reference' | translate }}</h3>
   </div>
   <div class="panel-body">
     <p class="small">{{nfas[nfaIdx].nfaCatalogReferenz}}</p>
@@ -44,7 +44,7 @@
 </div>
 <div class="panel panel-primary" *ngIf ="onView">
   <div class="panel-heading">
-    <h3 class="panel-title">Projekte, in denen die NFA gefordert wurde</h3>
+    <h3 class="panel-title">{{ 'nfa.assign-nfa.related-projects' | translate }}</h3>
   </div>
   <div class="panel-body">
     <p class="small">{{nfas[nfaIdx].nfaCatalogReferenzierteProjekte}}</p>

@@ -6,15 +6,48 @@
       "current-projects": "View Projects"
     },
     "new-project" : {
-      "create-nfa-project" : "Create NFA-Project",
-      "customer-name" : "Customer name",
+      "create-nfa-project" : "Add new Project",
+
       "customer-name-example" : "Government Agency for Work",
-
-      "contact-person-customer" : "Contact person for customer",
       "contact-person-customer-example" : "John Doe",
-
-      "contact-person-msg" : "Contact person for msg",
       "contact-person-msg-example" : "Thomas Rauch",
+
+      "create-new-project" : "Create new Project"
+    },
+    "new-nfa" : {
+      "heading" : "It is dangerous to go alone for NFR project. Take this...",
+      "factors-expl" : "Some Factor... I guess...",
+      "criteria-expl" : "Some Criteria... Probably...",
+      "metric-expl" : "Some metrics... Possibly...",
+      "type-expl" : "Type... Most likely...",
+      "send" : "Send"
+    },
+    "assign-nfa" : {
+      "heading" : "Add NFR to project",
+      "title" : "NFRs from ",
+      "details" : "NFR Details",
+      "explanation" : "Explanation",
+      "reference" : "Reference",
+      "related-projects" : "Projects that use this NFR"
+    },
+    "search-project" : {
+      "label" : "Search",
+      "name" : "Name",
+      "filter" : "Filter",
+      "filter-all" : "All"
+    },
+    "project-details" : {
+      "heading" : "Project Details",
+      "customer-name" : "Customer name",
+      "contact-person-customer" : "Contact person for customer",
+      "contact-person-msg" : "Contact person at msg",
+      "phase" : "Project Phase",
+      "status" : "Project Status",
+      "edit-project" : "Edit Project",
+      "delete-project" : "Delete Project",
+
+      "choose-nfr" : "Choose NFR",
+      "add-type" : "Add type",
 
       "branch" : {
         "label" : "Branch",
@@ -37,7 +70,6 @@
         "exchange": "Data exchange project"
       },
 
-
       "development-process" : {
         "label": "Development process",
         "choose" : "Choose development process",
@@ -49,28 +81,40 @@
         "label": "Project phase",
         "choose" : "Choose project phase",
         "specification" : "Specification Sheet",
-        "requrements" : "Requirements Specification"
+        "requirements" : "Requirements Specification"
       },
 
-      "create-new-project" : "Create new Project"
+      "project-status" : {
+        "label" : "Project Status",
+        "on-process" : "On Process",
+        "archived" : "Archived"
+      }
     },
-    "new-nfa" : {
-      "heading" : "It is dangerous to go alone for NFR project. Take this...",
-      "factors" : "Factors",
-      "factors-expl" : "Some Factor... I guess...",
-      "criteria" : "Criteria",
-      "criteria-expl" : "Some Criteria... Probably...",
-      "metric" : "Metric",
-      "metric-expl" : "Some metrics... Possibly...",
-      "type" : "Type",
-      "type-expl" : "Type... Most likely...",
-      "send" : "Send"
+    "catalog": {
+      "title" : "NFR Factors",
+      "explanation" : "Explanation of the measured variable",
+      "formula" : "Formula",
+      "interpretation" : "Interpretation",
+      "view-nfa" : "View Nfr",
+      "add-nfa" : "Add Nfr"
+    },
+    "stakeholder" : {
+      "stakeholder" : "Stakeholder",
+      "add-stakeholder" : "Add Stakeholder",
+      "add-factor" : "Add Factor"
     },
     "header": {
       "create-project": "Projects",
-      "open-catalog": "NFA catalog",
-      "create-nfa-entry": "New NFA",
+      "open-catalog": "NFR catalog",
+      "create-nfa-entry": "New NFR",
       "create-package": "New Package"
-    }
+    },
+    "factor" : "Factor",
+    "criteria" : "Criteria",
+    "metric" : "Metric",
+    "type" : "Type",
+    "cancel" : "Cancel",
+    "save" : "Save",
+    "none" : "None"
   }
 }

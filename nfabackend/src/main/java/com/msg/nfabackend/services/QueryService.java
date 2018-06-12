@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.cfg.NotYetImplementedException;
 
-import com.msg.nfabackend.entities.Nfa;
+import com.msg.nfabackend.entities.Metric;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
@@ -96,7 +96,6 @@ public class QueryService {
 		}
 		catch(Exception e) {
 			LOG.log(Level.SEVERE, "Creating project failed...", e);
-			System.out.println(e);
 			tx.rollback();
 		}finally {
 			em.close();
@@ -105,18 +104,24 @@ public class QueryService {
 		return project;
 	}
 	
-	public Nfa addNfa (Nfa nfa) {
+	public nfaCatalog createNfa (Long metricId, nfaCatalog nfaCatalog) {
 		try {
 			tx.begin();
-			em.persist(nfa);
+			Metric metric = em.find(Metric.class, metricId);
+			nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
+			em.persist(nfaCatalog);
+			
+			metric.getNfaList().add(nfaCatalog);
+			
 			tx.commit();
 		}catch(Exception e){
+			LOG.log(Level.SEVERE, "Creating nfa-catalog failed...", e);
 			tx.rollback();
 		}finally {
 			em.close();
 			emf.close();
 		}
-		return nfa;
+		return nfaCatalog;
 	}
 
 	

@@ -1,17 +1,275 @@
 package com.msg.nfabackend.entities;
 
+import java.io.IOException;
+import java.io.StringWriter;
+
+import javax.persistence.AttributeConverter;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Entity
 @Table(name ="nfa")
 public class nfaCatalog {
 	
-	public nfaCatalog() {}
+	public static class BlueprintConverter implements AttributeConverter<NfaCatalogBlueprint, String> {
+		@Override
+		public String convertToDatabaseColumn(NfaCatalogBlueprint attribute) {
+			
+			if (attribute == null) {
+				return null;
+			}
+			
+			try (StringWriter stringWriter = new StringWriter()) {
+				new ObjectMapper().writeValue(stringWriter, attribute);
+				return stringWriter.toString();
+			} catch (IOException e) {
+				throw new IllegalStateException("Obj-to-JSON-Converting failed", e);
+			}
+			
+		}
+
+		@Override
+		public NfaCatalogBlueprint convertToEntityAttribute(String dbData) {
+			try {
+				return dbData == null ? null 
+						: new ObjectMapper().readValue(dbData, NfaCatalogBlueprint.class);
+			} catch (IOException e) {
+				throw new IllegalStateException("JSON-to-Obj-Converting failed", e);
+			}
+		}
+	}
+	
+	public static class NfaCatalogBlueprint {
+		private BpPropertyTemplateNoConditionDe de;
+		private BpPropertyTemplateNoConditionEn en;
+		/**
+		 * @return the de
+		 */
+		public BpPropertyTemplateNoConditionDe getDe() {
+			return de;
+		}
+		/**
+		 * @param de the de to set
+		 */
+		public void setDe(BpPropertyTemplateNoConditionDe de) {
+			this.de = de;
+		}
+		/**
+		 * @return the en
+		 */
+		public BpPropertyTemplateNoConditionEn getEn() {
+			return en;
+		}
+		/**
+		 * @param en the en to set
+		 */
+		public void setEn(BpPropertyTemplateNoConditionEn en) {
+			this.en = en;
+		}
+		
+	}
+	
+	public static class BpPropertyTemplateNoConditionDe {
+
+	    private String nameNFA;
+	    private String characteristic;
+	    private String property;
+	    private String modalVerb;
+	    private String qualifyingEx;
+	    private String valueInput;
+	    private String verb;
+		/**
+		 * @return the nameNFA
+		 */
+		public String getNameNFA() {
+			return nameNFA;
+		}
+		/**
+		 * @param nameNFA the nameNFA to set
+		 */
+		public void setNameNFA(String nameNFA) {
+			this.nameNFA = nameNFA;
+		}
+		/**
+		 * @return the characteristic
+		 */
+		public String getCharacteristic() {
+			return characteristic;
+		}
+		/**
+		 * @param characteristic the characteristic to set
+		 */
+		public void setCharacteristic(String characteristic) {
+			this.characteristic = characteristic;
+		}
+		/**
+		 * @return the property
+		 */
+		public String getProperty() {
+			return property;
+		}
+		/**
+		 * @param property the property to set
+		 */
+		public void setProperty(String property) {
+			this.property = property;
+		}
+		/**
+		 * @return the modalVerb
+		 */
+		public String getModalVerb() {
+			return modalVerb;
+		}
+		/**
+		 * @param modalVerb the modalVerb to set
+		 */
+		public void setModalVerb(String modalVerb) {
+			this.modalVerb = modalVerb;
+		}
+		/**
+		 * @return the qualifyingEx
+		 */
+		public String getQualifyingEx() {
+			return qualifyingEx;
+		}
+		/**
+		 * @param qualifyingEx the qualifyingEx to set
+		 */
+		public void setQualifyingEx(String qualifyingEx) {
+			this.qualifyingEx = qualifyingEx;
+		}
+		/**
+		 * @return the valueInput
+		 */
+		public String getValueInput() {
+			return valueInput;
+		}
+		/**
+		 * @param valueInput the valueInput to set
+		 */
+		public void setValueInput(String valueInput) {
+			this.valueInput = valueInput;
+		}
+		/**
+		 * @return the verb
+		 */
+		public String getVerb() {
+			return verb;
+		}
+		/**
+		 * @param verb the verb to set
+		 */
+		public void setVerb(String verb) {
+			this.verb = verb;
+		}
+		    
+	}
+	
+	public static class BpPropertyTemplateNoConditionEn {
+
+	    private String nameNFA;
+	    private String characteristic;
+	    private String property;
+	    private String modalVerb;
+	    private String qualifyingEx;
+	    private String valueInput;
+	    private String verb;
+		/**
+		 * @return the nameNFA
+		 */
+		public String getNameNFA() {
+			return nameNFA;
+		}
+		/**
+		 * @param nameNFA the nameNFA to set
+		 */
+		public void setNameNFA(String nameNFA) {
+			this.nameNFA = nameNFA;
+		}
+		/**
+		 * @return the characteristic
+		 */
+		public String getCharacteristic() {
+			return characteristic;
+		}
+		/**
+		 * @param characteristic the characteristic to set
+		 */
+		public void setCharacteristic(String characteristic) {
+			this.characteristic = characteristic;
+		}
+		/**
+		 * @return the property
+		 */
+		public String getProperty() {
+			return property;
+		}
+		/**
+		 * @param property the property to set
+		 */
+		public void setProperty(String property) {
+			this.property = property;
+		}
+		/**
+		 * @return the modalVerb
+		 */
+		public String getModalVerb() {
+			return modalVerb;
+		}
+		/**
+		 * @param modalVerb the modalVerb to set
+		 */
+		public void setModalVerb(String modalVerb) {
+			this.modalVerb = modalVerb;
+		}
+		/**
+		 * @return the qualifyingEx
+		 */
+		public String getQualifyingEx() {
+			return qualifyingEx;
+		}
+		/**
+		 * @param qualifyingEx the qualifyingEx to set
+		 */
+		public void setQualifyingEx(String qualifyingEx) {
+			this.qualifyingEx = qualifyingEx;
+		}
+		/**
+		 * @return the valueInput
+		 */
+		public String getValueInput() {
+			return valueInput;
+		}
+		/**
+		 * @param valueInput the valueInput to set
+		 */
+		public void setValueInput(String valueInput) {
+			this.valueInput = valueInput;
+		}
+		/**
+		 * @return the verb
+		 */
+		public String getVerb() {
+			return verb;
+		}
+		/**
+		 * @param verb the verb to set
+		 */
+		public void setVerb(String verb) {
+			this.verb = verb;
+		}
+	    
+}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,13 +289,17 @@ public class nfaCatalog {
 	private Long nfaCatalogWert;
 
 	@Column (name ="rechtliche_verbindlichkeit")
-	private String rechlicheVerbindlichkeit;
+	private String rechtlicheVerbindlichkeit;
 	
 	@Column (name ="formulierung")
 	private String nfaCatalogFormulierung;
 	
+	@Column (name ="erklaerung")
+	private String nfaCatalogErklaerung;
+	
 	@Column (name ="blueprint")
-	private String nfaCatalogBlueprint;
+	@Convert(converter = BlueprintConverter.class)
+	private NfaCatalogBlueprint nfaCatalogBlueprint;
 	
 	@Column (name ="referenz")
 	private String nfaCatalogReferenz;
@@ -75,12 +337,12 @@ public class nfaCatalog {
 		this.nfaCatalogBezeichnung = nfaCatalogBezeichnung;
 	}
 
-	public String getRechlicheVerbindlichkeit() {
-		return rechlicheVerbindlichkeit;
+	public String getRechtlicheVerbindlichkeit() {
+		return rechtlicheVerbindlichkeit;
 	}
 
-	public void setRechlicheVerbindlichkeit(String rechlicheVerbindlichkeit) {
-		this.rechlicheVerbindlichkeit = rechlicheVerbindlichkeit;
+	public void setRechtlicheVerbindlichkeit(String rechtlicheVerbindlichkeit) {
+		this.rechtlicheVerbindlichkeit = rechtlicheVerbindlichkeit;
 	}
 
 	public String getNfaCatalogFormulierung() {
@@ -140,14 +402,19 @@ public class nfaCatalog {
 		this.nfaNumber = nfaNumber;
 	}
 
-	public String getNfaCatalogBlueprint() {
+	public NfaCatalogBlueprint getNfaCatalogBlueprint() {
 		return nfaCatalogBlueprint;
 	}
 
-	public void setNfaCatalogBlueprint(String nfaCatalogBlueprint) {
+	public void setNfaCatalogBlueprint(NfaCatalogBlueprint nfaCatalogBlueprint) {
 		this.nfaCatalogBlueprint = nfaCatalogBlueprint;
 	}
 	
+	public String getNfaCatalogErklaerung() {
+		return nfaCatalogErklaerung;
+	}
 
-
+	public void setNfaCatalogErklaerung(String nfaCatalogErklaerung) {
+		this.nfaCatalogErklaerung = nfaCatalogErklaerung;
+	}
 }

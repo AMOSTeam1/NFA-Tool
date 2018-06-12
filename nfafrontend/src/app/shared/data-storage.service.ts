@@ -10,9 +10,9 @@ import {NfaCatalogModel} from './nfaCatalog.model';
 export class DataStorageService {
   constructor(private http: Http) {}
 
-  postNfa(metricId: number, nfa: NfaCatalogModel) {
+  storeNfa(metricId: number, nfa: NfaCatalogModel) {
     console.log(nfa);
-   return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/' ,{ metricId, nfa });
+   return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa);
   }
   storeProject(newproject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);

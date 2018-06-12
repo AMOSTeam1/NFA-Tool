@@ -1,14 +1,10 @@
-<!--<div class="row" *ngFor="let metric of nfaMetrics let i = index">
-  {{metric.bezeichnung}}
-</div>-->
-
 <div class="row" *ngIf ="onView">
   <div class="col-xs-12">
     <button class="btn btn-default btn-lg col-xs-1" (click)="onPrev()" [disabled] = "metricIdx == 0"> < </button>
     <button class="btn btn-default btn-lg col-xs-10"
             style="text-align: center"
             (click)="onView = !onView">
-      {{nfaMetrics[metricIdx].bezeichnung}}</button>
+      {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{nfaMetrics[metricIdx].metricNumber}} {{nfaMetrics[metricIdx].bezeichnung}}</button>
     <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "metricIdx == nfaMetrics.length-1"> > </button>
   </div>
 </div>
@@ -16,12 +12,12 @@
 <div class="col-xs-12" *ngIf="!onView">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Metrics</h3>
+      <h3 class="panel-title">{{ 'nfa.metric' | translate }}</h3>
     </div>
     <div class="panel-body">
       <div class="row text-center" *ngFor="let metric of nfaMetrics; let j = index">
         <button class="btn btn-default small" style="margin:0 0 1px" (click)="onGoto(j)">
-          {{metric.metricNumber}}. {{metric.bezeichnung}}
+          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}} {{metric.bezeichnung}}
         </button>
         <hr>
       </div>
@@ -32,7 +28,7 @@
 <hr>
 <div class="panel panel-primary" *ngIf ="onView">
   <div class="panel-heading">
-    <h3 class="panel-title">Erklärung der Messgröße</h3>
+    <h3 class="panel-title">{{ 'nfa.catalog.explanation' | translate }}</h3>
   </div>
   <div class="panel-body">
     <p class="small">{{nfaMetrics[metricIdx].erklaerungMessgroesse}}</p>
@@ -40,7 +36,7 @@
 </div>
 <div class="panel panel-primary" *ngIf ="onView">
   <div class="panel-heading">
-    <h3 class="panel-title">Formel</h3>
+    <h3 class="panel-title">{{ 'nfa.catalog.formula' | translate }}</h3>
   </div>
   <div class="panel-body">
     <p class="small">{{nfaMetrics[metricIdx].formel}}</p>
@@ -48,7 +44,7 @@
 </div>
 <div class="panel panel-primary" *ngIf ="onView">
   <div class="panel-heading">
-    <h3 class="panel-title">Interpretation</h3>
+    <h3 class="panel-title">{{ 'nfa.catalog.interpretation' | translate }}</h3>
   </div>
   <div class="panel-body">
     <p class="small">{{nfaMetrics[metricIdx].interpretation}}</p>
@@ -56,8 +52,6 @@
 </div>
 <div class="row" *ngIf ="onView">
   <div class="col-xs-12 text-center">
-    <button type="button" class="btn btn-primary" (click)="onNfa()"> View Nfa</button>
+    <button type="button" class="btn btn-primary" (click)="onNfa()">{{ 'nfa.catalog.view-nfa' | translate }}</button>
   </div>
 </div>
-
-

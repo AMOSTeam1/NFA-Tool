@@ -99,7 +99,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit {
       null
     );
 
-     this.dataStorageService.postNfa(this.selectedMetric.id, nfaCatalogModel)
+     this.dataStorageService.storeNfa(this.selectedMetric.id, nfaCatalogModel)
        .subscribe(
          (response: Response) => {
            console.log(response.json);
