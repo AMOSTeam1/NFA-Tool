@@ -144,6 +144,8 @@ public class QueryService {
 	 * @param id
 	 */
 	public void updateProject(Project editedProject) {
+		//TODO move logic to Project.java
+		//TODO extract to ProjectQueryService.java
 		try {
 			tx.begin();
 
