@@ -6,10 +6,12 @@
 <hr>
 <div class="row">
   <div class="col-xs-12">
+    <h3></h3>
 
     <app-nfacatalog-criteria-item
       *ngFor="let nfaCriteriaEl of nfaCriterias let i = index"
       [nfaCriteria]="nfaCriteriaEl"
+      [nfaFactorNumber]="nfaFactor.nfa_id"
       [index]="i"></app-nfacatalog-criteria-item>
   </div>
 </div>
