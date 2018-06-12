@@ -312,7 +312,7 @@ public class nfaCatalog {
 	private String nfaCatalogType;
 	
 	@Column (name ="wert")
-	private Long nfaCatalogWert;
+	private String nfaCatalogWert;
 
 	@Column (name ="rechtliche_verbindlichkeit")
 	private String rechtlicheVerbindlichkeit;
@@ -401,11 +401,11 @@ public class nfaCatalog {
 		this.nfaCatalogDokument = nfaCatalogDokument;
 	}
 	
-	public Long getNfaCatalogWert() {
+	public String getNfaCatalogWert() {
 		return nfaCatalogWert;
 	}
 
-	public void setNfaCatalogWert(Long nfaCatalogWert) {
+	public void setNfaCatalogWert(String nfaCatalogWert) {
 		this.nfaCatalogWert = nfaCatalogWert;
 	}
 

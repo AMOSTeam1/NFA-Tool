@@ -3,12 +3,12 @@
   <div class="row">
     <!--------Deutsch Form----->
     <div class="col-md-6">
-      <app-denfaform (submitEvent)="receiveData($event)"></app-denfaform>
+      <app-denfaform (submitEvent)="receiveDataDe($event)"></app-denfaform>
     </div>
    <!---------Englisch Form-------->
 
 <div class="col-md-6">
-  <app-ennfaform (submitEvent)="receiveData2($event)"></app-ennfaform>
+  <app-ennfaform (submitEvent)="receiveDataEn($event)"></app-ennfaform>
 </div>
   </div>
 
@@ -30,8 +30,8 @@
   </div>
   <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('characteristic').value}}</span></div>
   <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintDeForm.get('property').value}}</span></div>
-  <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverb">sollen</span>
-    <ng-template #seeverb>
+  <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverbde">sollen</span>
+    <ng-template #seeverbde>
       <span class="bpt">{{blueprintDeForm.get('modalVerb').value}}</span>
     </ng-template>
   </div>
@@ -51,35 +51,33 @@
     <div class="col-xs-5"></div>
   </div>
 
+<!----Blueprint English----->
 
-  <div class="table-responsive">
-  <table id="t1">
-    <tr>
-      <td></td>
-      <td></td>
-      <td><div class="bptdiv">shall</div></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><div class="bptdiv">{{definition.characteristic}}</div></td>
-      <td><div class="bptdiv">{{definition.propertyMatter}}</div></td>
-      <td><div class="bptdiv">should</div></td>
-      <td><div class="bptdiv">be</div></td>
-      <td><div class="bptdiv">{{definition.qualifyingExpr}}</div></td>
-      <td><div class="bptdiv">{{definition.valueExpr}}</div></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td><div class="bptdiv">can</div></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-   </div>
+    <br><br><br>
+    <div class="row" *ngIf="!checked">
+      <div class="col-xs-5"></div>
+      <div class="bptdiv col-xs-2"><span class="bpt">shall</span></div>
+      <div class="col-xs-5"></div>
+    </div>
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('characteristic').value}}</span></div>
+    <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintEnForm.get('property').value}}</span></div>
+    <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverben">should</span>
+      <ng-template #seeverben>
+        <span class="bpt">{{blueprintEnForm.get('modalVerb').value}}</span>
+      </ng-template>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('verb').value}}</span></div>
+      <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('qualifyingEx').value}}</span></div>
+      <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintEnForm.get('valueInput').value}}</span>
+      </div>
+
+    </div>
+    <div class="row" *ngIf="!checked">
+      <div class="col-xs-5"></div>
+      <div class="bptdiv col-xs-2"><span class="bpt">can</span></div>
+      <div class="col-xs-5"></div>
+    </div>
   <table>
     <tr>
       <td>

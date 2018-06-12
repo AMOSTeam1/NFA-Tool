@@ -337,7 +337,7 @@ CREATE TABLE public.nfa
  NFA_NUMBER int NOT NULL,
  NFA_TYPE character varying(40),
  RECHTLICHE_VERBINDLICHKEIT character varying(40),
- WERT real,
+ WERT character varying(200),
  FORMULIERUNG character varying(40),
  REFERENZ character varying(40),
  REFERENZIERTE_PROJEKTE character varying(40),

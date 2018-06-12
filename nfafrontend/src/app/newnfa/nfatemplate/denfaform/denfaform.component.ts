@@ -17,10 +17,7 @@ export class DenfaformComponent implements OnInit, OnChanges {
   constructor(private data: DataexchangeService) { }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.send+' from de simple change 1');
-   this.onSubmit();
-
-   console.log(this.send+' from de simple change 2');
+    this.onSubmit();
   }
   ngOnInit() {
     this.deForm = new FormGroup({
@@ -46,6 +43,7 @@ export class DenfaformComponent implements OnInit, OnChanges {
   onSubmit() {
     console.log(this.deForm.value);
     this.submitEvent.emit(this.deForm.value);
+    this.deForm.reset();
   }
 
   newMessage(event: any) {

@@ -31,7 +31,7 @@ export class EnnfaformComponent implements OnInit , OnChanges {
       'modalVerb': new FormControl(null),
       'qualifyingEx': new FormControl(null),
       'valueInput': new FormControl(null),
-      'verb': new FormControl(null)
+      'verb': new FormControl('be')
     });
     this.data.currentMessage.subscribe(message => {
       if ((message.verb === 'muessen') || (message.verb === 'muss')) {
@@ -45,9 +45,7 @@ export class EnnfaformComponent implements OnInit , OnChanges {
       }
       this.enForm.get('valueInput').reset(message.wert);
     });
-    /*this.enForm.setValue({'nameNFA': null, 'characteristic': '[Eigenschaft]', 'property': '[Bertachtungs-' +
-      'gegenstand]',
-      'modalVerb': null, 'qualifyingEx': 'some', 'valueInput': '[Wert]', 'verb': 'null' });*/
+    
   }
   onSubmit() {
     this.submitEvent.emit(this.enForm.value);
