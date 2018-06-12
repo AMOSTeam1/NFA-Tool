@@ -19,7 +19,7 @@
   </div>
 
   <p class="sm">Type</p>
-  <select formControlName ="nfa_type"  name="nfa_type">
+  <select formControlName ="nfa_type"  name="nfa_type"  required [(ngModel)]='selectedType'>
     <option value="nfa_type_1">Type 1</option>
     <option value="nfa_type_2">Type 2</option>
     <!--<option value="nfa_type_3">Type 3</option>-->

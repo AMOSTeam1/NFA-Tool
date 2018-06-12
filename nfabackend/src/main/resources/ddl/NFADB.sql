@@ -340,7 +340,7 @@ CREATE TABLE public.nfa
  RECHTLICHE_VERBINDLICHKEIT character varying(40),
  WERT real,
  FORMULIERUNG character varying(40),
- ERKLAERUNG character varying(500),
+ BLUEPRINT character varying(500),
  REFERENZ character varying(40),
  REFERENZIERTE_PROJEKTE character varying(40),
  KRITIKALITAET character varying(40),    

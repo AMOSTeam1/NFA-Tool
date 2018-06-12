@@ -12,7 +12,6 @@ import {ifTrue} from 'codelyzer/util/function';
 export class DenfaformComponent implements OnInit, OnChanges {
   deForm: FormGroup;
   @Input() send = false;
-  @Input() reseted = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
   modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
   constructor(private data: DataexchangeService) { }
@@ -50,14 +49,7 @@ export class DenfaformComponent implements OnInit, OnChanges {
   }
 
   newMessage(event: any) {
-   //this.data.changeMessage(event.currentTarget);
-   /* let val: number;
-    let verb: string;
-    if(this.deForm.get('valueInput').value)
-      number = this.deForm.get('valueInput').value;
-    if(this.deForm.get('modalVerb').value)
-      verb = this.deForm.get('modalVerb').value;*/
-   if(this.deForm.get('chbox')){
+    if(this.deForm.get('chbox')){
     this.data.changeMessage(new Inst(
       this.deForm.get('valueInput').value,
       this.deForm.get('modalVerb').value

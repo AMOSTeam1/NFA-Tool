@@ -36,8 +36,8 @@ public class nfaCatalog {
 	@Column (name ="formulierung")
 	private String nfaCatalogFormulierung;
 	
-	@Column (name ="erklaerung")
-	private String nfaCatalogErklaerung;
+	@Column (name ="blueprint")
+	private String nfaCatalogBlueprint;
 	
 	@Column (name ="referenz")
 	private String nfaCatalogReferenz;
@@ -140,12 +140,12 @@ public class nfaCatalog {
 		this.nfaNumber = nfaNumber;
 	}
 
-	public String getNfaCatalogErklaerung() {
-		return nfaCatalogErklaerung;
+	public String getNfaCatalogBlueprint() {
+		return nfaCatalogBlueprint;
 	}
 
-	public void setNfaCatalogErklaerung(String nfaCatalogErklaerung) {
-		this.nfaCatalogErklaerung = nfaCatalogErklaerung;
+	public void setNfaCatalogBlueprint(String nfaCatalogBlueprint) {
+		this.nfaCatalogBlueprint = nfaCatalogBlueprint;
 	}
 	
 

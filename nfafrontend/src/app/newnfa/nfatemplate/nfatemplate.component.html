@@ -28,17 +28,17 @@
     <div class="bptdiv col-xs-2"><span class="bpt">soll</span></div>
     <div class="col-xs-5"></div>
   </div>
-  <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintForm.get('characteristic').value}}</span></div>
-  <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintForm.get('property').value}}</span></div>
+  <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('characteristic').value}}</span></div>
+  <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintDeForm.get('property').value}}</span></div>
   <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverb">sollen</span>
     <ng-template #seeverb>
-      <span class="bpt">{{blueprintForm.get('modalVerb').value}}</span>
+      <span class="bpt">{{blueprintDeForm.get('modalVerb').value}}</span>
     </ng-template>
   </div>
   <div class="row">
-    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintForm.get('qualifyingEx').value}}</span></div>
-    <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintForm.get('valueInput').value}}</span></div>
-    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintForm.get('verb').value}}</span></div>
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('qualifyingEx').value}}</span></div>
+    <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintDeForm.get('valueInput').value}}</span></div>
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('verb').value}}</span></div>
   </div>
   <div class="row" *ngIf="!checked">
     <div class="col-xs-5"></div>
