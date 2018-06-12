@@ -1,6 +1,8 @@
+import {IBlueprint} from './blueprints/IBlueprint.model';
+
 export class NfaCatalogBlueprintModel {
   constructor(
-    public de: {},
-    public en: {}
+    public de: IBlueprint,
+    public en: IBlueprint
   ) {}
 }

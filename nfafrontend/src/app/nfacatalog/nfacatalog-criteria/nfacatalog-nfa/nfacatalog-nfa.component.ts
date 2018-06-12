@@ -5,6 +5,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {NfaMetric} from '../../../shared/nfaMetric.model';
 import {NfaFactorModel} from "../../../shared/nfaFactor.model";
 import {NfaCriteriaModel} from "../../../shared/nfaCriteria.model";
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-nfacatalog-nfa',
@@ -24,7 +25,8 @@ export class NfacatalogNfaComponent implements OnInit {
   nfaIdx: number;
   constructor(private nfaCatalogService: NfacatalogService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private translateService: TranslateService) { }
 
   ngOnInit() {
     this.route.parent.params
@@ -47,6 +49,32 @@ export class NfacatalogNfaComponent implements OnInit {
         }
       );
 
+  }
+
+  bezeichnung(nfa: NfaCatalogModel) {
+
+    if (this.lang() === 'de') {
+      return nfa.nfaCatalogBlueprint.de.bezeichnung;
+    } else {
+      return nfa.nfaCatalogBlueprint.en.bezeichnung;
+    }
+  }
+
+  erklaerung(nfa: NfaCatalogModel) {
+
+    if (this.lang() === 'de') {
+      return nfa.nfaCatalogBlueprint.de.erklaerung;
+    } else {
+      return nfa.nfaCatalogBlueprint.en.erklaerung;
+    }
+  }
+
+  private lang() {
+    let lang = this.translateService.currentLang;
+    if (!lang) {
+      lang = this.translateService.defaultLang;
+    }
+    return lang;
   }
 
   onNext(){

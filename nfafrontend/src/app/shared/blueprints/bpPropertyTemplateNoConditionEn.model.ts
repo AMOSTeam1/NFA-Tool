@@ -1,6 +1,10 @@
-export class BpPropertyTemplateNoConditionEn {
+import {IBlueprint} from './IBlueprint.model';
+
+export class BpPropertyTemplateNoConditionEn implements IBlueprint {
+
   constructor(
-    public nameNFA: string,
+    public bezeichnung: string,
+    public erklaerung: string,
     public characteristic: string,
     public property: string,
     public modalVerb: string,

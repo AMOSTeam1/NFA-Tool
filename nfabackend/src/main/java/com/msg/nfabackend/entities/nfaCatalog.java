@@ -76,30 +76,44 @@ public class nfaCatalog {
 		public void setEn(BpPropertyTemplateNoConditionEn en) {
 			this.en = en;
 		}
-		
 	}
 	
 	public static class BpPropertyTemplateNoConditionDe {
 
-	    private String nameNFA;
+	    private String bezeichnung;
+	    private String erklaerung;
 	    private String characteristic;
 	    private String property;
 	    private String modalVerb;
 	    private String qualifyingEx;
 	    private String valueInput;
 	    private String verb;
+	    
 		/**
-		 * @return the nameNFA
+		 * @return the bezeichnung
 		 */
-		public String getNameNFA() {
-			return nameNFA;
+		public String getBezeichnung() {
+			return bezeichnung;
 		}
 		/**
-		 * @param nameNFA the nameNFA to set
+		 * @param bezeichnung the bezeichnung to set
 		 */
-		public void setNameNFA(String nameNFA) {
-			this.nameNFA = nameNFA;
+		public void setBezeichnung(String bezeichnung) {
+			this.bezeichnung = bezeichnung;
 		}
+		/**
+		 * @return the erklaerung
+		 */
+		public String getErklaerung() {
+			return erklaerung;
+		}
+		/**
+		 * @param erklaerung the erklaerung to set
+		 */
+		public void setErklaerung(String erklaerung) {
+			this.erklaerung = erklaerung;
+		}
+		
 		/**
 		 * @return the characteristic
 		 */
@@ -177,25 +191,40 @@ public class nfaCatalog {
 	
 	public static class BpPropertyTemplateNoConditionEn {
 
-	    private String nameNFA;
+	    private String bezeichnung;
+	    private String erklaerung;
 	    private String characteristic;
 	    private String property;
 	    private String modalVerb;
 	    private String qualifyingEx;
 	    private String valueInput;
 	    private String verb;
+	    
 		/**
-		 * @return the nameNFA
+		 * @return the bezeichnung
 		 */
-		public String getNameNFA() {
-			return nameNFA;
+		public String getBezeichnung() {
+			return bezeichnung;
 		}
 		/**
-		 * @param nameNFA the nameNFA to set
+		 * @param bezeichnung the bezeichnung to set
 		 */
-		public void setNameNFA(String nameNFA) {
-			this.nameNFA = nameNFA;
+		public void setBezeichnung(String bezeichnung) {
+			this.bezeichnung = bezeichnung;
 		}
+		/**
+		 * @return the erklaerung
+		 */
+		public String getErklaerung() {
+			return erklaerung;
+		}
+		/**
+		 * @param erklaerung the erklaerung to set
+		 */
+		public void setErklaerung(String erklaerung) {
+			this.erklaerung = erklaerung;
+		}
+
 		/**
 		 * @return the characteristic
 		 */
@@ -282,9 +311,6 @@ public class nfaCatalog {
 	@Column (name ="nfa_type")
 	private String nfaCatalogType;
 	
-	@Column (name ="bezeichnung")
-	private String nfaCatalogBezeichnung;
-	
 	@Column (name ="wert")
 	private Long nfaCatalogWert;
 
@@ -293,9 +319,6 @@ public class nfaCatalog {
 	
 	@Column (name ="formulierung")
 	private String nfaCatalogFormulierung;
-	
-	@Column (name ="erklaerung")
-	private String nfaCatalogErklaerung;
 	
 	@Column (name ="blueprint")
 	@Convert(converter = BlueprintConverter.class)
@@ -327,14 +350,6 @@ public class nfaCatalog {
 
 	public void setNfaCatalogType(String nfaCatalogType) {
 		this.nfaCatalogType = nfaCatalogType;
-	}
-
-	public String getNfaCatalogBezeichnung() {
-		return nfaCatalogBezeichnung;
-	}
-
-	public void setNfaCatalogBezeichnung(String nfaCatalogBezeichnung) {
-		this.nfaCatalogBezeichnung = nfaCatalogBezeichnung;
 	}
 
 	public String getRechtlicheVerbindlichkeit() {
@@ -408,13 +423,5 @@ public class nfaCatalog {
 
 	public void setNfaCatalogBlueprint(NfaCatalogBlueprint nfaCatalogBlueprint) {
 		this.nfaCatalogBlueprint = nfaCatalogBlueprint;
-	}
-	
-	public String getNfaCatalogErklaerung() {
-		return nfaCatalogErklaerung;
-	}
-
-	public void setNfaCatalogErklaerung(String nfaCatalogErklaerung) {
-		this.nfaCatalogErklaerung = nfaCatalogErklaerung;
 	}
 }

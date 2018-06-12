@@ -5,7 +5,6 @@ export class NfaCatalogModel {
     public nfaCatalogId: number,
     public nfaNumber: number,
     public nfaCatalogType: string,
-    public nfaCatalogBezeichnung: string,
     public rechtlicheVerbindlichkeit: string,
     public nfaCatalogWert: string,
     public nfaCatalogFormulierung: string,

@@ -4,7 +4,7 @@
     <button class="btn btn-default btn-lg col-xs-10"
             style="text-align: center"
             (click)="onView = !onView">
-      {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfas[nfaIdx].nfaNumber}} {{nfas[nfaIdx].nfaCatalogBezeichnung}}</button>
+      {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfas[nfaIdx].nfaNumber}} {{bezeichnung(nfas[nfaIdx])}}</button>
     <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "nfaIdx == nfas.length-1"> > </button>
   </div>
 </div>
@@ -17,7 +17,7 @@
     <div class="panel-body">
       <div class="row text-center" *ngFor="let nfa of nfas; let j = index">
         <button class="btn btn-default small" style="margin:0 0 1px" (click)="onGoto(j)">
-          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfa.nfaNumber}} {{nfa.nfaCatalogBezeichnung}}
+          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfa.nfaNumber}} {{bezeichnung(nfa)}}
         </button>
         <hr>
       </div>
@@ -31,7 +31,7 @@
     <h3 class="panel-title">{{ 'nfa.assign-nfa.explanation' | translate }}</h3>
   </div>
   <div class="panel-body">
-    <p class="small">{{nfas[nfaIdx].nfaCatalogErklaerung}}</p>
+    <p class="small">{{erklaerung(nfas[nfaIdx])}}</p>
   </div>
 </div>
 <div class="panel panel-primary" *ngIf ="onView">

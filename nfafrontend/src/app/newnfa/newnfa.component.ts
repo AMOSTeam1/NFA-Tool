@@ -61,14 +61,10 @@ export class NewnfaComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    console.log(this.nfatemplate.blueprintDeForm.getRawValue());
-    let formObj = this.nfatemplate.blueprintDeForm.getRawValue();
-    let serializedForm = JSON.stringify(formObj);
-
-    // this.nfatemplate.blueprintDeForm.
 
     let de = new BpPropertyTemplateNoConditionDe(
       this.nfatemplate.blueprintDeForm.get('nameNFA').value,
+      null,
       this.nfatemplate.blueprintDeForm.get('characteristic').value,
       this.nfatemplate.blueprintDeForm.get('property').value,
       this.nfatemplate.blueprintDeForm.get('modalVerb').value,
@@ -77,6 +73,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit {
       this.nfatemplate.blueprintDeForm.get('verb').value);
     let en = new BpPropertyTemplateNoConditionEn(
       this.nfatemplate.blueprintEnForm.get('nameNFA').value,
+      null,
       this.nfatemplate.blueprintEnForm.get('characteristic').value,
       this.nfatemplate.blueprintEnForm.get('property').value,
       this.nfatemplate.blueprintEnForm.get('modalVerb').value,
@@ -91,7 +88,6 @@ export class NewnfaComponent implements OnInit, AfterViewInit {
       null,
       null,
       this.nfatemplate.blueprintDeForm.get('valueInput').value,
-      null,
       new  NfaCatalogBlueprintModel(de, en),
       null,
       null,
