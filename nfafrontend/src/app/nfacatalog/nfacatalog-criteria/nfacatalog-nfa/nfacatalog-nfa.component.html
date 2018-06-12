@@ -17,7 +17,7 @@
     <div class="panel-body">
       <div class="row text-center" *ngFor="let nfa of nfas; let j = index">
         <button class="btn btn-default small" style="margin:0 0 1px" (click)="onGoto(j)">
-          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfas[nfaIdx].nfaNumber}} {{nfa.nfaCatalogBezeichnung}}
+          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfa.nfaNumber}} {{nfa.nfaCatalogBezeichnung}}
         </button>
         <hr>
       </div>
