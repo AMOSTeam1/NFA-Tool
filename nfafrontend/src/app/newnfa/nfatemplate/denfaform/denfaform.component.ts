@@ -44,6 +44,9 @@ export class DenfaformComponent implements OnInit, OnChanges {
     console.log(this.deForm.value);
     this.submitEvent.emit(this.deForm.value);
     this.deForm.reset();
+    this.deForm.get('modalVerb').disable({});
+    this.deForm.get('valueInput').disable({});
+
   }
 
   newMessage(event: any) {

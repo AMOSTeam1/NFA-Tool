@@ -84,15 +84,13 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
     }
 
   Reset() {
+   this.checked = false;
     this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungs-' +
       'gegenstand>',
       'modalVerb': null, 'qualifyingEx': '<Vergleichsop>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
 
     this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
       'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });
-
-    this.deform.reset();
-    this.enform.reset();
 
   }
 
