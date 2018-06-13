@@ -1,8 +1,8 @@
-import {Nfa} from './nfa.model';
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Project} from './project.model';
 import {HttpParams} from '@angular/common/http';
+import {NfaCatalogModel} from './nfaCatalog.model';
 
 
 
@@ -10,9 +10,9 @@ import {HttpParams} from '@angular/common/http';
 export class DataStorageService {
   constructor(private http: Http) {}
 
-  postNfa(nfa: Nfa) {
+  storeNfa(metricId: number, nfa: NfaCatalogModel) {
     console.log(nfa);
-   return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/' , nfa);
+   return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa);
   }
   storeProject(newproject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);

@@ -336,26 +336,20 @@ CREATE TABLE public.nfa
  nfa_id serial PRIMARY KEY,
  NFA_NUMBER int NOT NULL,
  NFA_TYPE character varying(40),
- BEZEICHNUNG character varying(40),
  RECHTLICHE_VERBINDLICHKEIT character varying(40),
- WERT real,
+ WERT character varying(200),
  FORMULIERUNG character varying(40),
- ERKLAERUNG character varying(500),
  REFERENZ character varying(40),
  REFERENZIERTE_PROJEKTE character varying(40),
- KRITIKALITAET character varying(40),    
-DOKUMENT character varying(40));
-INSERT INTO nfa VALUES (1,1,'Type:1','Bezeichnung:1','Verbindlichkeit:1','12.22','Formulierung:1','erklaerung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (2,1,'Type:1','Qualität der Arbeit','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss dem bzw. der Anwender_in dabei unterstützen, ihre bzw. seine Aufgaben mit hoher Qualität, Genauigkeit und Effizienz zu erledigen.','JUAC','CbCR','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (3,1,'Type:1','Fehleranteil','Verbindlichkeit:1','12.22','Formulierung:1','Die Anzahl der Fehler darf nicht höher sein als 0,1% aller durchgeführten Operationen eines bzw. einer Anwender_in im System.','','','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (4,1,'Type:1','Entstehende Fehler','Verbindlichkeit:1','12.22','Formulierung:1','Bei der Bearbeitung von Aufgaben mit dem System sollen möglichst keine Fehler entstehen.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (5,1,'Type:1','Fehlerfreie Bedienung','Verbindlichkeit:1','12.22','Formulierung:1','Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können.','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1');
+ KRITIKALITAET character varying(40),
+ DOKUMENT character varying(40),    
+ BLUEPRINT character varying(500));
+ 
 
-INSERT INTO nfa VALUES (6,1,'Type:1','Umsatz je Kunde','Verbindlichkeit:1','12.22','Formulierung:1','Das System erwirtschaftet einen messbaren Umsatz je Kunde.','JUAC','referenzierte_projekt:1','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (7,1,'Type:1','Kranke Nutzer','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss eine Erhöhung Anzahl der krankheitsbedingten Ausfälle der Anwender_innen, die unmittelbar durch die Systemnutzung verursacht werden, verhindern.','referenz','referenzierte_projekt:1','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (8,1,'Type:1','Störung des Wohlbefindens','Verbindlichkeit:1','12.22','Formulierung:1','Das System muss die Störung des Wohlbefindens eines bzw. einer Anwender_in verhindern.','JUAC','referenzierte_projekt:1','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (9,2,'Type:1','Vermeidung von epileptischen Anfällen 1','Verbindlichkeit:1','12.22','Formulierung:1','Inhalte müssen so zu gestaltet sein, dass keine epileptischen Anfälle ausgelöst werden.','DIN EN ISO 9241-171: 2008; BITV','CbCR','kritikalitaet', 'document1');
-INSERT INTO nfa VALUES (10,3,'Type:1','Anpassung der taktilen Ausgabe','Verbindlichkeit:1','12.22','Formulierung:1','Die Software sollte aus dem täglichen Leben vertraute Muster bereitstellen, um Meldungen taktiler Art zu beschreiben.','DIN EN ISO 9241-171','','kritikalitaet', 'document1');
+INSERT INTO nfa VALUES (2,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','JUAC','CbCR','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Qualität der Arbeit","erklaerung":"Das System muss dem bzw. der Anwender_in dabei unterstützen, ihre bzw. seine Aufgaben mit hoher Qualität, Genauigkeit und Effizienz zu erledigen."}, "en":{"bezeichnung":null,"erklaerung":null}}');
+INSERT INTO nfa VALUES (3,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','','','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehleranteil","erklaerung":"Die Anzahl der Fehler darf nicht höher sein als 0,1% aller durchgeführten Operationen eines bzw. einer Anwender_in im System."}, "en":{"bezeichnung":null,"erklaerung":null}}');
+INSERT INTO nfa VALUES (4,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Entstehende Fehler","erklaerung":"Bei der Bearbeitung von Aufgaben mit dem System sollen möglichst keine Fehler entstehen."}, "en":{"bezeichnung":null,"erklaerung":null}}');
+INSERT INTO nfa VALUES (5,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehlerfreie Bedienung","erklaerung":"Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können."}, "en":{"bezeichnung":null,"erklaerung":null}}');
 
 
 CREATE TABLE public.metric_nfa
@@ -377,12 +371,6 @@ INSERT INTO public.metric_nfa VALUES (1, 2);
 INSERT INTO public.metric_nfa VALUES (2, 3);
 INSERT INTO public.metric_nfa VALUES (3, 4);
 INSERT INTO public.metric_nfa VALUES (4, 5);
-
-INSERT INTO public.metric_nfa VALUES (5, 6);
-INSERT INTO public.metric_nfa VALUES (6, 7);
-INSERT INTO public.metric_nfa VALUES (7, 8);
-INSERT INTO public.metric_nfa VALUES (7, 9);
-INSERT INTO public.metric_nfa VALUES (7, 10);
 
 CREATE TABLE public.project_nfa
 (

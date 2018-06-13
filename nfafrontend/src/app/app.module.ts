@@ -42,6 +42,10 @@ import { NfaListComponent } from './current-project/assign-nfa/nfa-list/nfa-list
 import { NfaItemComponent } from './current-project/assign-nfa/nfa-list/nfa-item/nfa-item.component';
 import { ChooseNfaComponent } from './current-project/assign-nfa/choose-nfa/choose-nfa.component';
 import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-detail.component';
+import { DataexchangeService } from './shared/dataexchange.service';
+import {Inst} from './shared/inst.model';
+import { DenfaformComponent } from './newnfa/nfatemplate/denfaform/denfaform.component';
+import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +76,8 @@ import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-
     NfaItemComponent,
     ChooseNfaComponent,
     NfaDetailComponent,
+    DenfaformComponent,
+    EnnfaformComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,7 +96,7 @@ import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-
       }
     })
   ],
-  providers: [DataStorageService, CurrentProjectService, NfacatalogService],
+  providers: [DataStorageService, CurrentProjectService, NfacatalogService, DataexchangeService],
 
   bootstrap: [AppComponent]
 })

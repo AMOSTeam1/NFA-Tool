@@ -10,7 +10,6 @@ import {NfaFactorModel} from "../../shared/nfaFactor.model";
 import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
 import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
 import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
-import {Nfa} from '../../shared/nfa.model';
 
 
 @Component({

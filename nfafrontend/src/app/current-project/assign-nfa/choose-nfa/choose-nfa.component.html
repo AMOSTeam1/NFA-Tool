@@ -39,7 +39,7 @@
     <div class="row" *ngFor="let nfa of selectedMetric.nfaList let i = index">
       <hr>
       <div class="col-xs-10 small">
-        {{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{selectedMetric.metricNumber}}.{{nfa.nfaNumber}} {{nfa.nfaCatalogBezeichnung}}
+        {{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{selectedMetric.metricNumber}}.{{nfa.nfaNumber}} {{bezeichnung(nfa)}}
       </div>
       <div class="col-xs-2" *ngIf="!isAlreadyAdded(nfa)">
         <button type="button" class="btn btn-success" (click)="onAddOrRemove(nfa)">+</button>

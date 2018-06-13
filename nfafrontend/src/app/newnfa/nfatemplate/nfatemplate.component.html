@@ -1,66 +1,95 @@
-<form #f="ngForm"(submit)="onSubmit(f)">
-  <table width="80%">
-    <tr>
-      <td><label for="characteristicInput">Characteristic</label></td>
-      <td><input type="text" id="characteristicInput" name="character" [(ngModel)]="characteristicInput"></td>
-    </tr>
-    <tr>
-      <td><label for="propertyInput">Property</label></td>
-      <td><input type="text" id="propertyInput" name="propertyMatter" ngModel></td>
-    </tr>
-    <tr>
-      <td><label for="modalVerbInput">Modal Verb</label></td>
-      <td>
-        <input type="text" id="modalVerbInput" name="modalVerb" [disabled]="true" placeholder="<Modal Verb>" ngModel >
-      </td>
-    </tr>
-    <tr>
-      <td><label for="qualifyingExInput">Qualifying expression</label></td>
-      <td><input type="text" id="qualifyingExInput" name="qualifyingExpr" ngModel></td>
-    </tr>
-    <tr>
-      <td><label for="valueInput">Value</label></td>
-      <td><input type="text" id="valueInput" name="valueExpr" [disabled]="true" placeholder="<Value>" ngModel ></td>
-    </tr>
-  </table>
-  <table id="t1" width="80%">
-    <tr>
-      <td></td>
-      <td></td>
-      <td><button type="button" class="btntemp" style="width: 100%">shall</button></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.characteristic}}</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.propertyMatter}}</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">should</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">be</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.qualifyingExpr}}</button></td>
-      <td><button type="button" class="btntemp" style="width: 100%">{{definition.valueExpr}}</button></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td><button type="button" class="btntemp" style="width: 100%">can</button></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
+<div class="container">
+  <form (submit)="onSubmit()">
+  <div class="row">
+    <!--------Deutsch Form----->
+    <div class="col-md-6">
+      <app-denfaform (submitEvent)="receiveDataDe($event)"></app-denfaform>
+    </div>
+   <!---------Englisch Form-------->
+
+<div class="col-md-6">
+  <app-ennfaform (submitEvent)="receiveDataEn($event)"></app-ennfaform>
+</div>
+  </div>
+
+  <!---Blueprint Deutsch--->
+ <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2" ><span class="bpt">muss</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">muessen</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">soll</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('characteristic').value}}</span></div>
+  <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintDeForm.get('property').value}}</span></div>
+  <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverbde">sollen</span>
+    <ng-template #seeverbde>
+      <span class="bpt">{{blueprintDeForm.get('modalVerb').value}}</span>
+    </ng-template>
+  </div>
+  <div class="row">
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('qualifyingEx').value}}</span></div>
+    <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintDeForm.get('valueInput').value}}</span></div>
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('verb').value}}</span></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">kann</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+  <div class="row" *ngIf="!checked">
+    <div class="col-xs-5"></div>
+    <div class="bptdiv col-xs-2"><span class="bpt">koennen</span></div>
+    <div class="col-xs-5"></div>
+  </div>
+
+<!----Blueprint English----->
+
+    <br><br><br>
+    <div class="row" *ngIf="!checked">
+      <div class="col-xs-5"></div>
+      <div class="bptdiv col-xs-2"><span class="bpt">shall</span></div>
+      <div class="col-xs-5"></div>
+    </div>
+    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('characteristic').value}}</span></div>
+    <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintEnForm.get('property').value}}</span></div>
+    <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverben">should</span>
+      <ng-template #seeverben>
+        <span class="bpt">{{blueprintEnForm.get('modalVerb').value}}</span>
+      </ng-template>
+    </div>
+    <div class="row">
+      <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('verb').value}}</span></div>
+      <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('qualifyingEx').value}}</span></div>
+      <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintEnForm.get('valueInput').value}}</span>
+      </div>
+
+    </div>
+    <div class="row" *ngIf="!checked">
+      <div class="col-xs-5"></div>
+      <div class="bptdiv col-xs-2"><span class="bpt">can</span></div>
+      <div class="col-xs-5"></div>
+    </div>
   <table>
     <tr>
       <td>
         <div class="send">
-          <button type="submit">{{'nfa.catalog.add-nfa' | translate }}</button>
+          <button type="submit">Add NFA</button>
         </div>
       </td>
       <td>
-        <button type="reset" (click)="Reset()">{{'nfa.cancel' | translate }}</button>
+        <button type="reset" (click)="Reset()">Cancel</button>
       </td>
     </tr>
   </table>
 </form>
-
+</div>
 
