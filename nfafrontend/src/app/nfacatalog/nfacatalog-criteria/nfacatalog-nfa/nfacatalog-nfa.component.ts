@@ -54,18 +54,18 @@ export class NfacatalogNfaComponent implements OnInit {
   bezeichnung(nfa: NfaCatalogModel) {
 
     if (this.lang() === 'de') {
-      return nfa.nfaCatalogBlueprint.de.bezeichnung;
+      return nfa.blueprint.de.bezeichnung;
     } else {
-      return nfa.nfaCatalogBlueprint.en.bezeichnung;
+      return nfa.blueprint.en.bezeichnung;
     }
   }
 
   erklaerung(nfa: NfaCatalogModel) {
 
     if (this.lang() === 'de') {
-      return nfa.nfaCatalogBlueprint.de.erklaerung;
+      return nfa.blueprint.de.erklaerung;
     } else {
-      return nfa.nfaCatalogBlueprint.en.erklaerung;
+      return nfa.blueprint.en.erklaerung;
     }
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute  , Router} from '@angular/router';
 import {CurrentProjectService} from '../../current-project.service';
 import {DataStorageService} from '../../../shared/data-storage.service';
 import {NfacatalogService} from '../../../nfacatalog/nfacatalog.service';
@@ -9,7 +9,6 @@ import {NfaCriteriaModel} from '../../../shared/nfaCriteria.model';
 import {NfaMetric} from '../../../shared/nfaMetric.model';
 import {Response} from '@angular/http';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
-import {Project} from '../../../shared/project.model';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -110,18 +109,18 @@ export class ChooseNfaComponent implements OnInit {
   bezeichnung(nfa: NfaCatalogModel) {
 
     if (this.lang() === 'de') {
-      return nfa.nfaCatalogBlueprint.de.bezeichnung;
+      return nfa.blueprint.de.bezeichnung;
     } else {
-      return nfa.nfaCatalogBlueprint.en.bezeichnung;
+      return nfa.blueprint.en.bezeichnung;
     }
   }
 
   erklaerung(nfa: NfaCatalogModel) {
 
     if (this.lang() === 'de') {
-      return nfa.nfaCatalogBlueprint.de.erklaerung;
+      return nfa.blueprint.de.erklaerung;
     } else {
-      return nfa.nfaCatalogBlueprint.en.erklaerung;
+      return nfa.blueprint.en.erklaerung;
     }
   }
 

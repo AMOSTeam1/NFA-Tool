@@ -11,15 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Entity
 @Table(name ="nfa")
-public class nfaCatalog {
+public class NfaCatalog implements NfaInterface{
 	
 	public static class BlueprintConverter implements AttributeConverter<NfaCatalogBlueprint, String> {
 		@Override
@@ -310,118 +307,78 @@ public class nfaCatalog {
 	
 	@Column (name ="nfa_type")
 	private String nfaCatalogType;
-	
-	@Column (name ="wert")
-	private String nfaCatalogWert;
 
 	@Column (name ="rechtliche_verbindlichkeit")
 	private String rechtlicheVerbindlichkeit;
 	
-	@Column (name ="formulierung")
+	@Column (name ="value")
+	private String nfaCatalogWert;
+	
+	@Column (name ="formulation")
 	private String nfaCatalogFormulierung;
 	
 	@Column (name ="blueprint")
 	@Convert(converter = BlueprintConverter.class)
 	private NfaCatalogBlueprint nfaCatalogBlueprint;
 	
-	@Column (name ="referenz")
+	@Column (name ="reference")
 	private String nfaCatalogReferenz;
 	
-	@Column (name ="referenzierte_projekte")
+	@Column (name ="referenced_projects")
 	private String nfaCatalogReferenzierteProjekte;
 	
-	@Column (name ="kritikalitaet")
+	@Column (name ="criticality")
 	private String nfaCatalogKritikalität;
 	
-	@Column (name ="dokument")
+	@Column (name ="document")
 	private String nfaCatalogDokument;
 
-	public Long getNfaCatalogId() {
+	public Long getId() {
 		return nfaCatalogId;
 	}
 
-	public void setNfaCatalogId(Long nfaCatalogId) {
-		this.nfaCatalogId = nfaCatalogId;
-	}
-
-	public String getNfaCatalogType() {
+	public String getType() {
 		return nfaCatalogType;
-	}
-
-	public void setNfaCatalogType(String nfaCatalogType) {
-		this.nfaCatalogType = nfaCatalogType;
 	}
 
 	public String getRechtlicheVerbindlichkeit() {
 		return rechtlicheVerbindlichkeit;
 	}
 
-	public void setRechtlicheVerbindlichkeit(String rechtlicheVerbindlichkeit) {
-		this.rechtlicheVerbindlichkeit = rechtlicheVerbindlichkeit;
-	}
-
-	public String getNfaCatalogFormulierung() {
+	public String getFormulierung() {
 		return nfaCatalogFormulierung;
 	}
-
-	public void setNfaCatalogFormulierung(String nfaCatalogFormulierung) {
-		this.nfaCatalogFormulierung = nfaCatalogFormulierung;
-	}
-
-
-	public String getNfaCatalogReferenz() {
+	
+	public String getReferenz() {
 		return nfaCatalogReferenz;
 	}
 
-	public void setNfaCatalogReferenz(String nfaCatalogReferenz) {
-		this.nfaCatalogReferenz = nfaCatalogReferenz;
-	}
-
-	public String getNfaCatalogReferenzierteProjekte() {
+	public String getReferenzierteProjekte() {
 		return nfaCatalogReferenzierteProjekte;
 	}
-
-	public void setNfaCatalogReferenzierteProjekte(String nfaCatalogReferenzierteProjekte) {
-		this.nfaCatalogReferenzierteProjekte = nfaCatalogReferenzierteProjekte;
-	}
-
-	public String getNfaCatalogKritikalität() {
+	
+	public String getKritikalität() {
 		return nfaCatalogKritikalität;
 	}
 
-	public void setNfaCatalogKritikalität(String nfaCatalogKritikalität) {
-		this.nfaCatalogKritikalität = nfaCatalogKritikalität;
-	}
-
-	public String getNfaCatalogDokument() {
+	public String getDokument() {
 		return nfaCatalogDokument;
 	}
-
-	public void setNfaCatalogDokument(String nfaCatalogDokument) {
-		this.nfaCatalogDokument = nfaCatalogDokument;
-	}
 	
-	public String getNfaCatalogWert() {
+	public String getWert() {
 		return nfaCatalogWert;
-	}
-
-	public void setNfaCatalogWert(String nfaCatalogWert) {
-		this.nfaCatalogWert = nfaCatalogWert;
 	}
 
 	public Long getNfaNumber() {
 		return nfaNumber;
 	}
 
-	public void setNfaNumber(Long nfaNumber) {
-		this.nfaNumber = nfaNumber;
+	public void setNfaNumber(long newNumber) {
+		nfaNumber = newNumber;		
 	}
-
-	public NfaCatalogBlueprint getNfaCatalogBlueprint() {
+	
+	public NfaCatalogBlueprint getBlueprint() {
 		return nfaCatalogBlueprint;
 	}
 
-	public void setNfaCatalogBlueprint(NfaCatalogBlueprint nfaCatalogBlueprint) {
-		this.nfaCatalogBlueprint = nfaCatalogBlueprint;
-	}
 }

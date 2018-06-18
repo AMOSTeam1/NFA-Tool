@@ -9,7 +9,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.msg.nfabackend.entities.NfaCriteria;
-import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.services.QueryService;
 
 @Path("/nfa_criteria")

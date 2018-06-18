@@ -51,10 +51,10 @@ export class DenfaformComponent implements OnInit, OnChanges {
 
   newMessage(event: any) {
     if(this.deForm.get('chbox')){
-    this.data.changeMessage(new Inst(
-      this.deForm.get('valueInput').value,
-      this.deForm.get('modalVerb').value
-    ))};
-
+      this.data.changeMessage(new Inst(
+        this.deForm.get('valueInput').value,
+        this.deForm.get('modalVerb').value
+        )
+      )}
     }
 }

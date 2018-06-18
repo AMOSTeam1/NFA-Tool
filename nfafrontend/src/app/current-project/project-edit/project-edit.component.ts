@@ -1,5 +1,5 @@
 import { DataStorageService } from '../../shared/data-storage.service';
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { Project } from '../../shared/project.model';
 import { CurrentProjectService } from '../current-project.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
@@ -8,8 +8,7 @@ import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
 import {NfaFactorModel} from "../../shared/nfaFactor.model";
 import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
-import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
-import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
+import {ISubscription} from "rxjs/Subscription";
 
 
 @Component({
@@ -17,12 +16,14 @@ import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
   templateUrl: './project-edit.component.html',
   styleUrls: ['./project-edit.component.css']
 })
-export class ProjectEditComponent implements OnInit {
+export class ProjectEditComponent implements OnInit, OnDestroy {
   id: number;
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
   nfaFactors: NfaFactorModel[];
+
+  subscription : ISubscription[];
 
   fieldArray: Array<any> = [];
   newAttribute: any = {};
@@ -32,18 +33,19 @@ export class ProjectEditComponent implements OnInit {
               private router: Router,
               private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService,
-              private nfaCatalogService: NfacatalogService,) { }
+              private nfaCatalogService: NfacatalogService,) {     this.subscription = [];}
 
   ngOnInit() {
-    this.route.params.subscribe(
+    const subscription = this.route.params.subscribe(
         (params: Params) => {
           this.id = +params['id'];
           this.editMode = params['id'] != null;
           this.types = this.currentProjectService.getTypes();
           this.initForm();
         });
+    this.subscription.push(subscription);
 
-    this.dataStorageService.getNfaFactor()
+    const subscription2 = this.dataStorageService.getNfaFactor()
       .subscribe(
         (response: Response) => {
           const nfaFactors: NfaFactorModel[]=response.json();
@@ -51,7 +53,16 @@ export class ProjectEditComponent implements OnInit {
           this.nfaFactors = nfaFactors;
         }
       );
+
+    this.subscription.push(subscription2);
    }
+
+   ngOnDestroy(){
+    for(let item of this.subscription){
+      item.unsubscribe();
+    }
+   }
+
   private initForm() {
     let projectTypes = new FormArray([]);
     let customerName = '';
@@ -129,11 +140,13 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['projectStatus'],
       []
     );
+
     for (let i = 0; i < newProject.projectTypes.length; i++){
       this.types.forEach((x) => {
         if (x.id.toString() === newProject.projectTypes[i].id.toString()) {newProject.projectTypes[i].name = x.name; }
       });
     }
+
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
       newProject.projectStakeholders = this.currentProjectService.getProject(this.id).projectStakeholders;
@@ -217,14 +230,10 @@ export class ProjectEditComponent implements OnInit {
     this.router.navigate(['assignnfa'], {relativeTo: this.route});
   }
 
-
   addFieldValue() {
     this.fieldArray.push(this.newAttribute);
     this.newAttribute = {};
-
-
   }
-
 
   deleteFieldValue(index) {
     this.fieldArray.splice(index, 1);

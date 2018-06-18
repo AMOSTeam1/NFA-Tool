@@ -116,6 +116,7 @@
     "type" : "Typ",
     "cancel" : "Abbrechen",
     "save" : "Speichern",
+    "edit" : "Bearbeiten",
     "none" : "Keine"
   }
 }

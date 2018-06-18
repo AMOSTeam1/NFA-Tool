@@ -3,7 +3,6 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 import {CurrentProjectService} from '../current-project.service';
-import {Response} from '@angular/http';
 
 @Component({
   selector: 'app-project-detail',
@@ -13,6 +12,7 @@ import {Response} from '@angular/http';
 export class ProjectDetailComponent implements OnInit {
   project: Project;
   id: number;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private currentProjectService: CurrentProjectService,

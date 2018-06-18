@@ -1,44 +1,43 @@
 package com.msg.nfabackend.resources;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.msg.nfabackend.entities.NfaCatalog;
+import com.msg.nfabackend.entities.CustomNFA;
 import com.msg.nfabackend.services.QueryService;
 
-@Path("/nfa_catalog")
+@Path("/nfa_edit")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class NfaCatalogResource {
+public class CustomNfaResource {
+
+QueryService queryService = new QueryService();
 	
-	QueryService queryService = new QueryService();
-	
-	@GET
-	public List<NfaCatalog> getAllNfa() {
-		return queryService.getAllNfa();
-	}
+//	@GET
+//	public List<CustomNFA> getAllNfa() {
+//		return queryService.getAllNfa();
+//	}
 
 	@POST
-	@Path("/create/{metricId}")
+	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createNfa (@PathParam("metricId") Long metricId, NfaCatalog nfa, @Context UriInfo uriInfo) {
-		NfaCatalog nfaCatalog = queryService.createNfa(metricId, nfa);
-		String newId = String.valueOf(nfaCatalog.getId());
+	public Response createCustomNfa (CustomNFA customNfa, @Context UriInfo uriInfo) {
+		System.out.println("asdasdasdasdasd");
+		System.out.println("asssssssssssssssssssssssssssssss");
+		CustomNFA customNfaTemp = queryService.createCustomNfa(customNfa);
+		String newId = String.valueOf(customNfaTemp.getId());
         URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
         return Response.created(uri)
-                .entity(nfaCatalog)
+                .entity(customNfaTemp)
                 .build();
 	}
 	

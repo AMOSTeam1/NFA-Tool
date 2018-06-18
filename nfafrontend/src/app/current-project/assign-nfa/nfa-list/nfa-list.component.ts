@@ -18,6 +18,7 @@ export class NfaListComponent implements OnInit , OnDestroy{
   project: Project;
   id: number;
   subscription: Subscription;
+  trackEditMode: boolean = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -71,5 +72,4 @@ export class NfaListComponent implements OnInit , OnDestroy{
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
 }

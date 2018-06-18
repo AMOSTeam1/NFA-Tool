@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS metric_nfa;
 
 DROP TABLE IF EXISTS type;
 DROP TABLE IF EXISTS new_nfa;
+DROP TABLE IF EXISTS custom_nfa;
 DROP TABLE IF EXISTS nfa;
 
 DROP TABLE IF EXISTS criteria_metric;
@@ -337,12 +338,12 @@ CREATE TABLE public.nfa
  NFA_NUMBER int NOT NULL,
  NFA_TYPE character varying(40),
  RECHTLICHE_VERBINDLICHKEIT character varying(40),
- WERT character varying(200),
- FORMULIERUNG character varying(40),
- REFERENZ character varying(40),
- REFERENZIERTE_PROJEKTE character varying(40),
- KRITIKALITAET character varying(40),
- DOKUMENT character varying(40),    
+ VALUE character varying(200),
+ FORMULATION character varying(40),
+ REFERENCE character varying(40),
+ REFERENCED_PROJECTS character varying(40),
+ CRITICALITY character varying(40),
+ DOCUMENT character varying(40),    
  BLUEPRINT character varying(500));
  
 
@@ -351,6 +352,22 @@ INSERT INTO nfa VALUES (3,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1
 INSERT INTO nfa VALUES (4,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Entstehende Fehler","erklaerung":"Bei der Bearbeitung von Aufgaben mit dem System sollen möglichst keine Fehler entstehen."}, "en":{"bezeichnung":null,"erklaerung":null}}');
 INSERT INTO nfa VALUES (5,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehlerfreie Bedienung","erklaerung":"Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können."}, "en":{"bezeichnung":null,"erklaerung":null}}');
 
+
+CREATE TABLE public.custom_nfa
+(
+ custom_nfa_id serial PRIMARY KEY,
+ original_nfa_id bigint NOT NULL,
+ VALUE character varying(200),
+ FORMULATION character varying(40),
+ REFERENCE character varying(40), 
+ CRITICALITY character varying(40),
+ DOCUMENT character varying(40),    
+ BLUEPRINT character varying(500),
+ CONSTRAINT original_nfa_fk FOREIGN KEY(original_nfa_id)
+	REFERENCES public.nfa (nfa_id) MATCH SIMPLE
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+);
 
 CREATE TABLE public.metric_nfa
 (

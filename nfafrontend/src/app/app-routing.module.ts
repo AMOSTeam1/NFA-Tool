@@ -30,7 +30,8 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path:  'curr-projects/:id/edit/assignnfa', component: AssignNfaComponent, children:[
     {path:  'choose', component: ChooseNfaComponent},
-    {path:  ':nfa_id', component: NfaDetailComponent}
+    {path:  ':nfa_id', component: NfaDetailComponent},
+    {path:  ':nfa_id/edit', component: NfaDetailComponent}
 
   ]},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [

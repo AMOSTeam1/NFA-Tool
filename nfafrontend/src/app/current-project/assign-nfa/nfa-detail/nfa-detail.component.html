@@ -1,33 +1,60 @@
+<form [formGroup]="nfadetailForm" *ngIf="nfa" (ngSubmit)="onSubmit()">
 
-<div class="row">
-  <div class="col-xs-12" style="text-align: center">
-    <small><span class="label label-default">{{'nfa.assign-nfa.details' | translate }}</span></small>
+  <div class="row">
+    <div class="col-xs-12" style="text-align: center">
+      <small><span class="label label-default">{{'nfa.assign-nfa.details' | translate }}</span></small>
+    </div>
   </div>
-</div>
-<hr>
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{'nfa.assign-nfa.explanation' | translate }}</h3>
+  <hr>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <label for="nfaExplanation" class="panel-title">{{'nfa.assign-nfa.explanation' | translate }}</label>
+    </div>
+    <div *ngIf="!editmode" class="panel-body">
+      <p class="small">{{erklaerung(nfa)}}</p>
+    </div>
+    <textarea *ngIf="editmode"
+      id="nfaExplanation"
+      formControlName="nfaExplanation"
+      value="{{erklaerung(nfa)}}"
+      class="form-control">
+
+    </textarea>
   </div>
-  <div class="panel-body">
-    <p class="small">{{erklaerung(nfa)}}</p>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <label for="nfaCatalogReference" class="panel-title">{{'nfa.assign-nfa.reference' | translate }}</label>
+    </div>
+    <div *ngIf="!editmode" class="panel-body">
+      <p class="small">{{nfa.reference}}</p>
+    </div>
+    <textarea *ngIf="editmode"
+      id="nfaCatalogReference"
+      formControlName="nfaCatalogReference"
+      value="{{nfa.reference}}">
+
+    </textarea>
   </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{'nfa.assign-nfa.reference' | translate }}</h3>
-  </div>
-  <div class="panel-body">
-    <p class="small">{{nfa.nfaCatalogReferenz}}</p>
-  </div>
-</div>
-<div class="panel panel-primary">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{'nfa.assign-nfa.related-projects' | translate }}</h3>
-  </div>
-  <div class="panel-body">
-    <p class="small">{{nfa.nfaCatalogReferenzierteProjekte}}</p>
-  </div>
-</div>
 
 
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <label class="panel-title">{{'nfa.assign-nfa.related-projects' | translate }}</label>
+    </div>
+    <div class="panel-body">
+      <p class="small">{{nfa.referencedProjects}}</p>
+    </div>
+  </div>
+
+  <div class="col-xs-4">
+    <button type="button" class="btn btn-toolbar" style="margin-top: 10px" *ngIf="!editmode" (click)="onEditNFA()"><span class="glyphicon glyphicon-pencil"></span> {{'nfa.edit' | translate}}</button>
+  </div>
+  <div class="col-xs-4">
+    <button type="button" class="btn btn-danger" style="margin-top: 10px" *ngIf="editmode" (click)="onCancel()"><span class="glyphicon glyphicon-pencil"></span> {{'nfa.cancel' | translate}}</button>
+  </div>
+  <div class="col-xs-4">
+    <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="(!nfadetailForm.valid || !editmode)"><span class="glyphicon glyphicon-floppy-save"></span> {{'nfa.save' | translate}}</button>
+  </div>
+
+</form>

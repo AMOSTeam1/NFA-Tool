@@ -69,7 +69,7 @@ public class Project {
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "project_nfa", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "nfa_id"))
-	private Set<nfaCatalog> projectNfas = new HashSet<nfaCatalog>();
+	private Set<NfaCatalog> projectNfas = new HashSet<NfaCatalog>();
 
 	/**
 	 * @return the id
@@ -216,17 +216,12 @@ public class Project {
 		this.projectStakeholders = projectStakeholders;
 	}
 
-	public Set<nfaCatalog> getProjectNfas() {
+	public Set<NfaCatalog> getProjectNfas() {
 		return projectNfas;
 	}
 
-	public void setProjectNfas(Set<nfaCatalog> projectNfas) {
+	public void setProjectNfas(Set<NfaCatalog> projectNfas) {
 		this.projectNfas = projectNfas;
 	}
-	
-	
-
-	
-	
 
 }

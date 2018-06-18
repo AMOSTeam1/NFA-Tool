@@ -15,7 +15,12 @@ export class CurrentProjectService {
   }
 
   getProject(index: number) {
-    return this.projects[index];
+    if(this.projects){
+      return this.projects[index];
+    }
+    console.log("There are no Projects loaded yet.");
+
+    // throw new Error("No Projects present");
   }
 
   addProject(project: Project) {

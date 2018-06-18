@@ -1,9 +1,6 @@
 package com.msg.nfabackend.services;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,15 +15,16 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.cfg.NotYetImplementedException;
 
+import com.msg.nfabackend.entities.CustomNFA;
 import com.msg.nfabackend.entities.Metric;
+import com.msg.nfabackend.entities.NfaCatalog;
+import com.msg.nfabackend.entities.NfaCatalog.BpPropertyTemplateNoConditionDe;
+import com.msg.nfabackend.entities.NfaCatalog.BpPropertyTemplateNoConditionEn;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
-import com.msg.nfabackend.entities.nfaCatalog;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionDe;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionEn;
 
 
 public class QueryService {
@@ -106,18 +104,18 @@ public class QueryService {
 		return project;
 	}
 	
-	public nfaCatalog createNfa (Long metricId, nfaCatalog nfaCatalog) {
+	public NfaCatalog createNfa (Long metricId, NfaCatalog nfaCatalog) {
 		try {
 			tx.begin();
 			Metric metric = em.find(Metric.class, metricId);
 			nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
 			
-			BpPropertyTemplateNoConditionDe de = nfaCatalog.getNfaCatalogBlueprint().getDe();
+			BpPropertyTemplateNoConditionDe de = nfaCatalog.getBlueprint().getDe();
 			if (de.getErklaerung() == null) {
 				de.setErklaerung(String.join(" ", 
 						de.getCharacteristic(), de.getProperty(), de.getModalVerb(), de.getQualifyingEx(), de.getValueInput(), de.getVerb()));
 			}
-			BpPropertyTemplateNoConditionEn en = nfaCatalog.getNfaCatalogBlueprint().getEn();
+			BpPropertyTemplateNoConditionEn en = nfaCatalog.getBlueprint().getEn();
 			if (en.getErklaerung() == null) {
 				en.setErklaerung(String.join(" ", 
 						en.getCharacteristic(), en.getProperty(), en.getModalVerb(), en.getVerb(), en.getQualifyingEx(), en.getValueInput()));
@@ -138,6 +136,20 @@ public class QueryService {
 		return nfaCatalog;
 	}
 
+	public CustomNFA createCustomNfa (CustomNFA customNfa) {
+		try {
+			tx.begin();
+			em.persist(customNfa);
+			tx.commit();
+		}catch(Exception e){
+			LOG.log(Level.SEVERE, "Creating customNfa failed...", e);
+			tx.rollback();
+		}finally {
+			em.close();
+			emf.close();
+		}
+		return customNfa;
+	}
 	
 	public void removeProject(Long id) {
 		
@@ -206,11 +218,11 @@ public class QueryService {
 		return listType;
     }
 	
-	public List<nfaCatalog> getAllNfa() {
-		List<nfaCatalog> listType = null;
+	public List<NfaCatalog> getAllNfa() {
+		List<NfaCatalog> listType = null;
 		try {
 			tx.begin();
-			listType = em.createQuery("from nfaCatalog",nfaCatalog.class).getResultList();
+			listType = em.createQuery("from nfaCatalog",NfaCatalog.class).getResultList();
 			tx.commit();
 			}catch(Exception e){
 				tx.rollback();
