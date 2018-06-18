@@ -1,3 +1,6 @@
+<div class="row" *ngIf="projectMode">
+  <button type="button" class="btn btn-success" (click)="onBack()"> Back To The Project</button>
+</div>
 <div class="row">
   <router-outlet></router-outlet>
 </div>

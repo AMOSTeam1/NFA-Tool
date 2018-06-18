@@ -6,10 +6,11 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
-import {NfaFactorModel} from "../../shared/nfaFactor.model";
-import {NfacatalogService} from "../../nfacatalog/nfacatalog.service";
+import {NfaFactorModel} from '../../shared/nfaFactor.model';
+import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
 import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
 import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
+import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 
 
 @Component({
@@ -24,15 +25,19 @@ export class ProjectEditComponent implements OnInit {
   types: ProjectType[] = [];
   nfaFactors: NfaFactorModel[];
 
+
   fieldArray: Array<any> = [];
   newAttribute: any = {};
   showDialog;
+
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService,
-              private nfaCatalogService: NfacatalogService,) { }
+              private nfaCatalogService: NfacatalogService,
+              public local: LocalStorageService,
+  ) { }
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -51,6 +56,7 @@ export class ProjectEditComponent implements OnInit {
           this.nfaFactors = nfaFactors;
         }
       );
+    this.nfaCatalogService.setProjectMode(true);
    }
   private initForm() {
     let projectTypes = new FormArray([]);
@@ -95,7 +101,43 @@ export class ProjectEditComponent implements OnInit {
       devProcess = project.developmentProcess;
       projectPhase = project.projectPhase;
       projectStatus = project.projectStatus;
-    } else {
+    }
+
+    else if(this.local.get('nfaMode')){
+      const project = this.local.get('currProject');
+      if (project['projectTypes']){
+      projectTypes = new FormArray([]);
+      for(const type of project.projectTypes) {
+        projectTypes.push(
+          new FormGroup({
+            'id' : new FormControl(type.id, Validators.required),
+            'name' : new FormControl(type.name, Validators.required)
+          })
+        );
+      }}
+
+    /*for(const holder of project.projectStakeholder){
+      this.newAttribute.stakeholder_name = holder.stakeholder_name;
+      this.newAttribute.factor = [];
+      for(const fac of holder.stakeholderFactors){
+        this.newAttribute.factor.push(fac.factor);
+      }
+      //this.newAttribute = holder;
+      this.fieldArray.push(this.newAttribute);
+      this.newAttribute = {};
+    }*/
+
+
+    customerName = project.customerName;
+    customerContact = project.contactPersCustomer;
+    msgContact = project.contactPersMsg;
+    branch = project.branch;
+    devProcess = project.developmentProcess;
+    projectPhase = project.projectPhase;
+    projectStatus = project.projectStatus;
+
+    }
+    else {
         projectTypes.push(
           new FormGroup({
             'id' : new FormControl('', Validators.required),
@@ -115,7 +157,7 @@ export class ProjectEditComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.local.clear();
     const newProject = new Project(
       this.id,
       this.projectForm.value['customerName'],
@@ -170,6 +212,7 @@ export class ProjectEditComponent implements OnInit {
   }
 
   onCancel() {
+    this.local.clear();
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 
@@ -214,9 +257,27 @@ export class ProjectEditComponent implements OnInit {
   }
 
   onChooseNfa(){
-    this.router.navigate(['assignnfa'], {relativeTo: this.route});
-  }
 
+     const newProject = new Project(
+      this.id,
+      this.projectForm.value['customerName'],
+      this.projectForm.value['customerContact'],
+      this.projectForm.value['msgContact'],
+      this.projectForm.value['branch'],
+      this.projectForm.value['types'],
+      null,
+      this.projectForm.value['devProcess'],
+      this.projectForm.value['projectPhase'],
+      this.projectForm.value['projectStatus'],
+      []
+    );
+     this.currentProjectService.setProject(newProject);
+    this.local.set('currProject', newProject);
+    this.local.set('nfaMode',true);
+
+
+    this.router.navigate(['nfa'], {relativeTo: this.route});
+  }
 
   addFieldValue() {
     this.fieldArray.push(this.newAttribute);

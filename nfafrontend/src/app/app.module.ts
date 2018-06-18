@@ -16,6 +16,8 @@ import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
+
+
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -46,6 +48,7 @@ import { DataexchangeService } from './shared/dataexchange.service';
 import {Inst} from './shared/inst.model';
 import { DenfaformComponent } from './newnfa/nfatemplate/denfaform/denfaform.component';
 import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.component';
+import { AngularWebStorageModule } from 'angular-web-storage';
 
 @NgModule({
   declarations: [
@@ -78,9 +81,11 @@ import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.com
     NfaDetailComponent,
     DenfaformComponent,
     EnnfaformComponent,
+
   ],
   imports: [
     BrowserModule,
+    AngularWebStorageModule,
     EditableTableModule,
     AppRoutingModule,
     FormsModule,
