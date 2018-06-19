@@ -7,6 +7,7 @@ import {ProjectType} from '../../shared/type.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import {TranslateService} from "@ngx-translate/core";
+import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 
 enum STATUS {
   ALL = 'All',
@@ -30,7 +31,8 @@ export class ProjectListComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private dataStorageService: DataStorageService,
-              private tranlateService: TranslateService) { }
+              private tranlateService: TranslateService,
+              private  local: LocalStorageService) { }
 
 
   ngOnInit() {
@@ -70,6 +72,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   onNewProject(){
+    this.local.clear();
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 

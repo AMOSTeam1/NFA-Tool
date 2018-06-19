@@ -4,11 +4,14 @@ import {ProjectType} from '../shared/type.model';
 import {Stakeholder} from '../shared/stakeholder.model';
 
 
+
 export class CurrentProjectService {
   projectsChanged = new Subject<Project[]>();
   private projects: Project[];
   private types: ProjectType[];
   private selectedProjectId: number;
+  private project : Project;
+  private  nfaMode : boolean;
 
   getProjects() {
     return this.projects.slice();
@@ -16,6 +19,14 @@ export class CurrentProjectService {
 
   getProject(index: number) {
     return this.projects[index];
+  }
+
+  getProjectWithNoId(){
+    return this.project;
+  }
+
+  setProject(proj: Project){
+    this.project = proj;
   }
 
   addProject(project: Project) {
