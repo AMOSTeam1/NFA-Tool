@@ -2,6 +2,7 @@ import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild
 import {FormGroup, FormControl, NgForm, Validators, FormArray, FormBuilder} from '@angular/forms';
 import {DenfaformComponent} from './denfaform/denfaform.component';
 import {EnnfaformComponent} from './ennfaform/ennfaform.component';
+import {QualifiyingExpression} from '../../shared/blueprints/QualifiyingExpression.model';
 
 @Component({
   selector: 'app-nfatemplate',
@@ -76,11 +77,16 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
 
     }
 
-      receiveDataEn(event: any) {
+    receiveDataEn(event: any) {
       this.blueprintEnForm.patchValue(event);
       if (this.blueprintEnForm.get('valueInput').value === null) {
           this.blueprintEnForm.get('valueInput').reset('<Value>');
-        }
+      }
+
+      if (this.blueprintDeForm.get('qualifyingEx').value != null) {
+      this.blueprintEnForm.get('qualifyingEx').reset(QualifiyingExpression.resolve(
+        this.blueprintDeForm.get('qualifyingEx').value).en);
+      }
     }
 
   Reset() {

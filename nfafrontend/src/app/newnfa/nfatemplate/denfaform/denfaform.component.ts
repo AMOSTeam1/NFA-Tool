@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataexchangeService} from '../../../shared/dataexchange.service';
-import {Inst} from '../../../shared/inst.model';
+import {Inst} from '../../../shared/blueprints/inst.model';
 import {ifTrue} from 'codelyzer/util/function';
+import {QualifiyingExpression} from '../../../shared/blueprints/QualifiyingExpression.model';
 
 @Component({
   selector: 'app-denfaform',
@@ -14,6 +15,7 @@ export class DenfaformComponent implements OnInit, OnChanges {
   @Input() send = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
   modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
+  qualExpr: Array<QualifiyingExpression> = QualifiyingExpression.listContent();
   constructor(private data: DataexchangeService) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -50,11 +52,14 @@ export class DenfaformComponent implements OnInit, OnChanges {
   }
 
   newMessage(event: any) {
-    if(this.deForm.get('chbox')){
+    if (this.deForm.get('chbox')) {
     this.data.changeMessage(new Inst(
       this.deForm.get('valueInput').value,
       this.deForm.get('modalVerb').value
-    ))};
+    )); }
 
+    }
+    changeQualExpr() {
+      console.log(QualifiyingExpression.resolve(this.deForm.get('qualifyingEx').value));
     }
 }
