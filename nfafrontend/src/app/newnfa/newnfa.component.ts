@@ -86,7 +86,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit {
       null,
       null,
       this.selectedType,
-      null,
+      this.nfatemplate.blueprintDeForm.get('chbox').value,
       null,
       this.nfatemplate.blueprintDeForm.get('valueInput').value,
       new  NfaCatalogBlueprintModel(de, en),

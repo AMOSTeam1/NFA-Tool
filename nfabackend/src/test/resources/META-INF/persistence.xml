@@ -2,26 +2,24 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
 	http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
 
-	<persistence-unit name="nfa-test" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="msg-nfa" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<class>com.msg.nfabackend.entities.Metric</class>
-		<class>com.msg.nfabackend.entities.Nfa</class>
+		<class>com.msg.nfabackend.entities.nfaCatalog</class>
 		<class>com.msg.nfabackend.entities.NfaCriteria</class>
 		<class>com.msg.nfabackend.entities.NfaFactor</class>
-		<class>com.msg.nfabackend.entities.Project</class>
+		<class>com.msg.nfabackend.entities.Project</class>		
 		<class>com.msg.nfabackend.entities.Stakeholder</class>
 		<class>com.msg.nfabackend.entities.Type</class>
-		<class>com.msg.nfabackend.entities.nfaCatalog</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="hibernate.show_sql" value="true"/>
 			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform"/>
 			<property name="javax.persistence.schema-generation.scripts.action" value="none"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="123456"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nfatest"/>
+            <property name="javax.persistence.jdbc.password" value="nfapasswd"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/NFADB"/>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 		</properties>
 	</persistence-unit>
- 
 </persistence>
