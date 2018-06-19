@@ -146,4 +146,5 @@ export class NfaDetailComponent implements OnInit {
     return lang;
   }
 
+
 }

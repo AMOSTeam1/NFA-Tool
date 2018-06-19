@@ -100,7 +100,7 @@
         <button type="button" class="btn btn-primary" *ngIf="editMode" (click)="onEditStakeholder()" [disabled]="!projectForm.valid" style="margin-top: 37px"> <span class="glyphicon glyphicon-pencil">  </span>{{'nfa.stakeholder.stakeholder' | translate }}</button>
         </div>
         <div class="col-xs-4" >
-          <button type="button" class="btn btn-primary" *ngIf="editMode" style="margin-top: 37px" (click)="onChooseNfa()">
+          <button type="button" class="btn btn-primary" style="margin-top: 37px" (click)="onChooseNfa()">
             <span class="glyphicon glyphicon-pencil"></span>{{ 'nfa.project-details.choose-nfr' | translate }}
           </button>
         </div>

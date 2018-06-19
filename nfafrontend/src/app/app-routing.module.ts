@@ -12,9 +12,6 @@ import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-l
 import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component';
 import {NfacatalogMetricComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 import {NfacatalogNfaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
-import {AssignNfaComponent} from './current-project/assign-nfa/assign-nfa.component';
-import {ChooseNfaComponent} from './current-project/assign-nfa/choose-nfa/choose-nfa.component';
-import {NfaDetailComponent} from './current-project/assign-nfa/nfa-detail/nfa-detail.component';
 
 const appRoutes: Routes = [
   {path: '' , redirectTo: '/home', pathMatch: 'full'},
@@ -28,12 +25,24 @@ const appRoutes: Routes = [
     ]}
   ]},
   {path: 'home', component: HomeComponent},
-  {path:  'curr-projects/:id/edit/assignnfa', component: AssignNfaComponent, children:[
-    {path:  'choose', component: ChooseNfaComponent},
-    {path:  ':nfa_id', component: NfaDetailComponent},
-    {path:  ':nfa_id/edit', component: NfaDetailComponent}
+  {path:  'curr-projects/:id/edit/nfa', component: NfacatalogComponent, children:[
+      {path: '', component: NfacatalogListComponent},
+      {path: ':id', component: NfacatalogCriteriaComponent, children: [
+          {path: ':criteria_id', component: NfacatalogMetricComponent},
+          {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent},
+          {path: ':criteria_id/:metric_id/edit', component: NfacatalogNfaComponent}
+        ]}
 
   ]},
+
+  {path:  'curr-projects/new/nfa', component: NfacatalogComponent, children:[
+      {path: '', component: NfacatalogListComponent},
+      {path: ':id', component: NfacatalogCriteriaComponent, children: [
+          {path: ':criteria_id', component: NfacatalogMetricComponent},
+          {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
+        ]}
+
+    ]},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
     {path:  'new', component: ProjectEditComponent},
     {path: ':id', component: ProjectDetailComponent},

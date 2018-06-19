@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
+import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +9,8 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService,
+              private  local: LocalStorageService,) {
     translate.setDefaultLang('de');
   }
 
@@ -17,6 +19,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  clearLocal()
+  {
+    this.local.clear();
   }
 
 }
