@@ -3,7 +3,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {AsyncSubject} from 'rxjs/AsyncSubject';
 import {FormControl, Validators} from '@angular/forms';
 import {FormGroup} from '@angular/forms';
-import {Inst} from './inst.model';
+import {Inst} from './blueprints/inst.model';
 
 
 @Injectable()

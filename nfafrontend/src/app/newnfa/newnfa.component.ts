@@ -11,6 +11,7 @@ import {NfaCatalogBlueprintModel} from '../shared/nfaCatalogBlueprint.model';
 import {BpPropertyTemplateNoConditionDe} from '../shared/blueprints/bpPropertyTemplateNoConditionDe.model';
 import {BpPropertyTemplateNoConditionEn} from '../shared/blueprints/bpPropertyTemplateNoConditionEn.model';
 import {NfaCatalogModel} from '../shared/nfaCatalog.model';
+import {QualifiyingExpression} from '../shared/blueprints/QualifiyingExpression.model';
 
 
 @Component({
@@ -85,7 +86,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit {
       null,
       null,
       this.selectedType,
-      null,
+      this.nfatemplate.blueprintDeForm.get('chbox').value,
       null,
       this.nfatemplate.blueprintDeForm.get('valueInput').value,
       new  NfaCatalogBlueprintModel(de, en),

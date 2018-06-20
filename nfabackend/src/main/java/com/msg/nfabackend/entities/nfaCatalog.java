@@ -52,6 +52,7 @@ public class nfaCatalog {
 	public static class NfaCatalogBlueprint {
 		private BpPropertyTemplateNoConditionDe de;
 		private BpPropertyTemplateNoConditionEn en;
+		
 		/**
 		 * @return the de
 		 */
