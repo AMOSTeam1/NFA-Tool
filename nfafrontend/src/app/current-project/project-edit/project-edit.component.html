@@ -96,9 +96,7 @@
             </select>
           </div>
         </div>
-        <div class="col-xs-4">
-        <button type="button" class="btn btn-primary" *ngIf="editMode" (click)="onEditStakeholder()" [disabled]="!projectForm.valid" style="margin-top: 37px"> <span class="glyphicon glyphicon-pencil">  </span>{{'nfa.stakeholder.stakeholder' | translate }}</button>
-        </div>
+
         <div class="col-xs-4" >
           <button type="button" class="btn btn-primary" style="margin-top: 37px" (click)="onChooseNfa()">
             <span class="glyphicon glyphicon-pencil"></span>{{ 'nfa.project-details.choose-nfr' | translate }}
@@ -131,6 +129,58 @@
           <hr>
 
         </div>
+      </div>
+
+      <h3 style="text-align: center">Stakeholders</h3>
+      <hr>
+
+      <div class="row pre-scrollable">
+
+        <div class="col-xs-12" formArrayName="projectStakeholders">
+          <div class="row" *ngFor="let stakeholderCtrl of getStakeControls(); let i = index" [formGroupName]="i" style="margin-top: 10px;">
+
+            <div class="col-xs-8">
+              <input type="text" id="stakeholder" class="form-control" formControlName="stakeholder_name">
+            </div>
+
+            <div class="col-xs-2">
+              <button type="button" class="btn btn-danger" (click)="onDeleteStakeholder(i)">X</button>
+            </div>
+
+            <div class="col-xs-12" formArrayName="stakeholderFactors">
+              <div class ="row" *ngFor="let factorCtrl of getFactorControls(i); let j = index" [formGroupName]="j" style="margin-top: 10px;">
+                <label for="factor" class="small">{{ 'nfa.factor' | translate }}:</label>
+                <div class="col-xs-4" >
+                  <div class="form-group">
+                    <select class="form-control" id="factor" formControlName="nfa_id">
+                      <option *ngFor="let fact of nfaFactors; let j = index"
+                              [value]="fact.nfa_id">
+                        {{fact.factor}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-xs-2">
+                  <button type="button" class="btn btn-danger" [disabled]="isFacMinimum(i, j)" (click)="onDeleteFactor(i, j)">X</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-12" style="margin-top: 10px;">
+              <button type="button" class="btn btn-success" [disabled]="isFacMaximum(i, j)" (click)="onAddFactor(i)"> <span class="glyphicon glyphicon-plus">{{ 'nfa.stakeholder.add-factor' | translate }}</span></button>
+              <hr>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12">
+              <button type="button" class="btn btn-success" (click)="onAddStakeholder()"> <span class="glyphicon glyphicon-plus">{{ 'nfa.stakeholder.add-stakeholder' | translate }}</span></button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </form>
 

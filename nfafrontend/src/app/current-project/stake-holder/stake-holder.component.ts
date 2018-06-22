@@ -31,7 +31,7 @@ export class StakeHolderComponent implements OnInit {
         (params: Params) => {
           this.id = +params['id'];
           this.editMode = params['id'] != null;
-          this.initForm();
+          //this.initForm();
 
           this.dataStorageService.getNfaFactor()
             .subscribe(
@@ -45,12 +45,7 @@ export class StakeHolderComponent implements OnInit {
       );
   }
 
-  onSubmit() {
-
-
-    /*if(this.editMode) {
-      this.currentProjectService.updateStakeholder(this.id, this.projectForm.value['projectStakeholders']);
-    }*/
+  /*onSubmit() {
 
     const newProject = this.currentProjectService.getProject(this.id);
     newProject.projectStakeholders = this.projectForm.value['projectStakeholders'];
@@ -73,7 +68,7 @@ export class StakeHolderComponent implements OnInit {
       );
 
     this.onCancel();
-  }
+  }*/
 
   onAddStakeholder(){
     (<FormArray>this.projectForm.get('projectStakeholders')).push(
@@ -105,7 +100,7 @@ export class StakeHolderComponent implements OnInit {
     (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).removeAt(j);
   }
 
-  private initForm() {
+  /*private initForm() {
 
     let projectStakeholders = new FormArray([]);
 
@@ -144,7 +139,7 @@ export class StakeHolderComponent implements OnInit {
       'projectStakeholders' : projectStakeholders
     });
 
-  }
+  }*/
 
   onCancel(){
     this.router.navigate(['../'], {relativeTo: this.route});
