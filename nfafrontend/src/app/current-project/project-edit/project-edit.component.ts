@@ -11,6 +11,7 @@ import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
 import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
 import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import {Stakeholder} from '../../shared/stakeholder.model';
 
 
 @Component({
@@ -65,7 +66,7 @@ export class ProjectEditComponent implements OnInit {
     let projectStatus = '';
     if (this.editMode) {
       const project = this.currentProjectService.getProject(this.id);
-
+      console.log(project);
       if (project['projectTypes']){
 
         projectTypes = new FormArray([]);
@@ -88,10 +89,8 @@ export class ProjectEditComponent implements OnInit {
 
               stakeholderFactors.push(
                 new FormGroup({
-                  'nfa_id' : new FormControl(factor.nfa_id, Validators.required),
-                  'factor' : new FormControl(factor.factor)
+                  'nfa_id' : new FormControl(factor, Validators.required)
                 })
-
               )
             }
           }
@@ -159,11 +158,10 @@ export class ProjectEditComponent implements OnInit {
           }));
 
       /*stakeholder changes begins*/
-      let stakeholderFactors= new FormArray([]);
+      const stakeholderFactors = new FormArray([]);
       stakeholderFactors.push(
         new FormGroup({
-          'nfa_id' : new FormControl('', Validators.required),
-          'factor' : new FormControl('')
+          'nfa_id' : new FormControl('', Validators.required)
         })
 
       );
@@ -214,18 +212,25 @@ export class ProjectEditComponent implements OnInit {
       });
     }
     /*stakeholder changes begins*/
-    for (let i = 0; i < newProject.projectStakeholders.length; i++) {
-      for (let j = 0; j < newProject.projectStakeholders[i].stakeholderFactors.length; j++){
+    const stakeholders: Stakeholder[] = [];
+    const projectStakeholders = this.projectForm.value['projectStakeholders'];
+    for (let i = 0; i < projectStakeholders.length; i++) {
+      const stakeholder: Stakeholder = new Stakeholder(null, null, []);
+      stakeholder.stakeholder_id = projectStakeholders[i].stakeholder_id;
+      stakeholder.stakeholder_name = projectStakeholders[i].stakeholder_name;
+      for (let j = 0; j < projectStakeholders[i].stakeholderFactors.length; j++){
         this.nfaFactors.forEach((x) => {
-          if (x.nfa_id.toString() === newProject.projectStakeholders[i].stakeholderFactors[j].nfa_id.toString())
-          {newProject.projectStakeholders[i].stakeholderFactors[j] = x; }
-        });
+          if (x.nfa_id.toString() === projectStakeholders[i].stakeholderFactors[j].nfa_id.toString())
+          {stakeholder.stakeholderFactors.push(x.nfa_id); }});
       }
+      stakeholders.push(stakeholder);
     }
+    newProject.projectStakeholders = stakeholders;
     /*stakeholder changes ends*/
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
       newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
+      console.log(newProject);
       this.currentProjectService.updateProject(this.id, newProject);
       this.dataStorageService.updateProject(newProject)
         .subscribe(
@@ -237,7 +242,6 @@ export class ProjectEditComponent implements OnInit {
         );
     } else {
       newProject.id = null;
-      //this.currentProjectService.addProject(newProject);
       this.dataStorageService.storeProject(newProject)
         .subscribe(
           (response: Response) => {
@@ -249,9 +253,6 @@ export class ProjectEditComponent implements OnInit {
                   this.onCancel();
                 }
               );
-            //this.currentProjectService.updateProject(this.currentProjectService.getProjects().length - 1, response.json());
-            //this.onCancel();
-            //this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
           }
         );
     }
@@ -344,10 +345,8 @@ export class ProjectEditComponent implements OnInit {
       new FormGroup({
         'stakeholder_id' : new FormControl(null),
         'stakeholder_name' : new FormControl(null, Validators.required),
-        'stakeholderFactors' : new FormArray([new FormGroup({'nfa_id': new FormControl(null, Validators.required),
-          'factor': new FormControl(null)}),
-          new FormGroup({'nfa_id': new FormControl(null, Validators.required),
-            'factor': new FormControl(null)})])
+        'stakeholderFactors' : new FormArray([new FormGroup({'nfa_id': new FormControl(null, Validators.required)}),
+          new FormGroup({'nfa_id': new FormControl(null, Validators.required)})])
       })
     );
   }
@@ -359,8 +358,7 @@ export class ProjectEditComponent implements OnInit {
   onAddFactor(i: number){
     (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).push(
       new FormGroup({
-        'nfa_id': new FormControl(null, Validators.required),
-        'factor' : new FormControl(null)
+        'nfa_id': new FormControl(null, Validators.required)
       })
     );
   }
