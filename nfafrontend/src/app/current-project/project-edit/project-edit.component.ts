@@ -66,7 +66,6 @@ export class ProjectEditComponent implements OnInit {
     let projectStatus = '';
     if (this.editMode) {
       const project = this.currentProjectService.getProject(this.id);
-      console.log(project);
       if (project['projectTypes']){
 
         projectTypes = new FormArray([]);
