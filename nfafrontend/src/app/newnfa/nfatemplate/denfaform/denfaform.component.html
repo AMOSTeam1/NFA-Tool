@@ -15,11 +15,11 @@
       <label for="characteristicInput" class="control-label col-xs-6">Eigenschaft</label>
       <div class="col-xs-6">
         <input type="text" class="form-control" id="characteristicInput" name="characteristicInput" formControlName="characteristic">
+        <!--<span *ngIf="!deForm.get('characteristic').valid && deForm.get('characteristic').touched" class="help-block">Please enter name</span>-->
       </div>
     </div>
     <div class="form-group" >
-      <label for="propertyInput" class="control-label col-xs-6">Betrachtungs-
-        gegenstand</label>
+      <label for="propertyInput" class="control-label col-xs-6">Betrachtungsgegenstand</label>
       <div class="col-xs-6">
         <input type="text" class="form-control" id="propertyInput" name="propertyInput" formControlName="property">
       </div>

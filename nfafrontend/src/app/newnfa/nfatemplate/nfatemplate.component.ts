@@ -13,11 +13,12 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
 
   blueprintDeForm: FormGroup;
   blueprintEnForm: FormGroup;
+  valid = false;
   checked = false;
   submitted = false;
   modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
-  @ViewChild (DenfaformComponent) deform;
-  @ViewChild (EnnfaformComponent) enform;
+  @ViewChild (DenfaformComponent) deComponent;
+  @ViewChild (EnnfaformComponent) enComponent;
   @Output() submitTemplate = new EventEmitter<FormGroup>();
 
   definition = {
@@ -27,8 +28,10 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
  constructor() {
 
  }
- ngAfterViewInit() {
 
+ ngAfterViewInit() {
+   this.deComponent.deForm.statusChanges.subscribe(value => this.updateValidStatus());
+   this.enComponent.enForm.statusChanges.subscribe(value => this.updateValidStatus());
  }
   ngOnInit() {
 
@@ -59,45 +62,44 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
 
     this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
       'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });
-   }
-  onSubmit() {
-   this.deform.onSubmit();
-    this.enform.onSubmit();
-
   }
 
+  onSubmit() {
 
-    receiveDataDe(event: any) {
-      this.blueprintDeForm.patchValue(event);
-      console.log(this.blueprintDeForm.value);
-      this.checked = this.blueprintDeForm.get('chbox').value;
-      if (this.blueprintDeForm.get('valueInput').value === null) {
-        this.blueprintDeForm.get('valueInput').reset('<Wert>');
-      }
-
+    this.blueprintDeForm.patchValue(this.deComponent.deForm.value);
+    this.checked = this.blueprintDeForm.get('chbox').value;
+    if (this.blueprintDeForm.get('valueInput').value === null) {
+      this.blueprintDeForm.get('valueInput').reset('<Wert>');
     }
 
-    receiveDataEn(event: any) {
-      this.blueprintEnForm.patchValue(event);
-      if (this.blueprintEnForm.get('valueInput').value === null) {
-          this.blueprintEnForm.get('valueInput').reset('<Value>');
-      }
+    this.deComponent.deForm.get('modalVerb').disable({});
+    this.deComponent.deForm.get('valueInput').disable({});
 
-      if (this.blueprintDeForm.get('qualifyingEx').value != null) {
+    this.blueprintEnForm.patchValue(this.enComponent.enForm.value);
+    if (this.blueprintEnForm.get('valueInput').value === null) {
+      this.blueprintEnForm.get('valueInput').reset('<Value>');
+    }
+
+    if (this.blueprintDeForm.get('qualifyingEx').value != null) {
       this.blueprintEnForm.get('qualifyingEx').reset(QualifiyingExpression.resolve(
         this.blueprintDeForm.get('qualifyingEx').value).en);
-      }
     }
+  }
 
   Reset() {
    this.checked = false;
+   this.deComponent.resetForm();
+   this.enComponent.resetForm();
     this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungs-' +
       'gegenstand>',
       'modalVerb': null, 'qualifyingEx': '<Vergleichsop>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
 
     this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
       'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });
-
   }
 
+  private updateValidStatus() {
+   this.valid = (this.deComponent.deForm.status === 'VALID')
+     && (this.enComponent.enForm.status === 'VALID');
+  }
 }

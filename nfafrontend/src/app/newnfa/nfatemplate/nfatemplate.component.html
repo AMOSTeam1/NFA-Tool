@@ -1,99 +1,93 @@
 <head>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
 <div class="container">
   <form (submit)="onSubmit()">
-  <div class="row">
+    <div class="row">
     <!--------Deutsch Form----->
     <div class="col-md-6">
-       <app-denfaform (submitEvent)="receiveDataDe($event)"></app-denfaform>
+       <app-denfaform></app-denfaform>
     </div>
    <!---------Englisch Form-------->
 
     <div class="col-md-6">
-       <app-ennfaform (submitEvent)="receiveDataEn($event)"></app-ennfaform>
+       <app-ennfaform></app-ennfaform>
     </div>
   </div>
 
   <!---Blueprint Deutsch--->
  <div class="row" *ngIf="!checked">
     <div class="col-xs-5"></div>
-    <div class="bptdiv col-xs-2" ><span class="bpt">muss</span></div>
+    <div class="bptdiv col-xs-1" ><span class="bpt">muss</span></div>
     <div class="col-xs-5"></div>
   </div>
   <div class="row" *ngIf="!checked">
     <div class="col-xs-5"></div>
-    <div class="bptdiv col-xs-2"><span class="bpt">muessen</span></div>
+    <div class="bptdiv col-xs-1"><span class="bpt">muessen</span></div>
     <div class="col-xs-5"></div>
   </div>
   <div class="row" *ngIf="!checked">
     <div class="col-xs-5"></div>
-    <div class="bptdiv col-xs-2"><span class="bpt">soll</span></div>
+    <div class="bptdiv col-xs-1"><span class="bpt">soll</span></div>
     <div class="col-xs-5"></div>
   </div>
   <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('characteristic').value}}</span></div>
   <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintDeForm.get('property').value}}</span></div>
-  <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverbde">sollen</span>
+  <div class="col-xs-1 bptdiv"><span class="bpt" *ngIf="!checked; else seeverbde">sollen</span>
     <ng-template #seeverbde>
       <span class="bpt">{{blueprintDeForm.get('modalVerb').value}}</span>
     </ng-template>
   </div>
   <div class="row">
     <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('qualifyingEx').value}}</span></div>
-    <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintDeForm.get('valueInput').value}}</span></div>
-    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintDeForm.get('verb').value}}</span></div>
+    <div class="col-xs-1"><span class="bpt">{{blueprintDeForm.get('valueInput').value}}</span></div>
+    <div class="col-xs-2"><span class="bpt">{{blueprintDeForm.get('verb').value}}</span></div>
   </div>
   <div class="row" *ngIf="!checked">
     <div class="col-xs-5"></div>
-    <div class="bptdiv col-xs-2"><span class="bpt">kann</span></div>
+    <div class="col-xs-1 bptdiv"><span class="bpt">kann</span></div>
     <div class="col-xs-5"></div>
   </div>
   <div class="row" *ngIf="!checked">
     <div class="col-xs-5"></div>
-    <div class="bptdiv col-xs-2"><span class="bpt">koennen</span></div>
+    <div class="col-xs-1 bptdiv"><span class="bpt">koennen</span></div>
     <div class="col-xs-5"></div>
   </div>
-
-<!----Blueprint English----->
 
     <br><br><br>
     <div class="row" *ngIf="!checked">
       <div class="col-xs-5"></div>
-      <div class="bptdiv col-xs-2"><span class="bpt">shall</span></div>
+      <div class="col-xs-1 bptdiv"><span class="bpt">shall</span></div>
       <div class="col-xs-5"></div>
     </div>
-    <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('characteristic').value}}</span></div>
-    <div class="col-xs-3 bptdiv"><span class="bpt">{{blueprintEnForm.get('property').value}}</span></div>
-    <div class="col-xs-2 bptdiv"><span class="bpt" *ngIf="!checked; else seeverben">should</span>
+    <div class="row">
+    <div class="col-xs-2"><span class="bpt">{{blueprintEnForm.get('characteristic').value}}</span></div>
+    <div class="col-xs-3"><span class="bpt">{{blueprintEnForm.get('property').value}}</span></div>
+    <div class="col-xs-1 bptdiv"><span class="bpt" *ngIf="!checked; else seeverben">should</span>
       <ng-template #seeverben>
         <span class="bpt">{{blueprintEnForm.get('modalVerb').value}}</span>
       </ng-template>
     </div>
-    <div class="row">
-      <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('verb').value}}</span></div>
-      <div class="col-xs-2 bptdiv"><span class="bpt">{{blueprintEnForm.get('qualifyingEx').value}}</span></div>
-      <div class="col-xs-1 bptdiv"><span class="bpt">{{blueprintEnForm.get('valueInput').value}}</span>
+      <div class="col-xs-2"><span class="bpt">{{blueprintEnForm.get('verb').value}}</span></div>
+      <div class="col-xs-2"><span class="bpt">{{blueprintEnForm.get('qualifyingEx').value}}</span></div>
+      <div class="col-xs-1"><span class="bpt">{{blueprintEnForm.get('valueInput').value}}</span>
       </div>
-
     </div>
     <div class="row" *ngIf="!checked">
       <div class="col-xs-5"></div>
-      <div class="bptdiv col-xs-2"><span class="bpt">can</span></div>
+      <div class="bptdiv col-xs-1"><span>can</span></div>
       <div class="col-xs-5"></div>
     </div>
-
-
-
   <table>
     <tr>
       <td>
         <div class="send">
-          <button type="submit">Add NFA</button>
+          <button class="btn btn-primary addnfa" type="submit" [disabled]="!valid">Add Blueprint</button>
         </div>
       </td>
       <td>
-        <button type="reset" (click)="Reset()">Cancel</button>
+        <button class="btn btn-default" type="reset" (click)="Reset()">Cancel</button>
       </td>
     </tr>
   </table>

@@ -10,7 +10,7 @@ import {isNull, isNumber} from 'util';
   templateUrl: './ennfaform.component.html',
   styleUrls: ['./ennfaform.component.css']
 })
-export class EnnfaformComponent implements OnInit , OnChanges {
+export class EnnfaformComponent implements OnInit {
   checked = false;
   @Input() send = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
@@ -19,17 +19,13 @@ export class EnnfaformComponent implements OnInit , OnChanges {
 
   constructor(private data: DataexchangeService) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(this.send === true){
-      this.onSubmit();}
-  }
   ngOnInit() {
     this.enForm = new FormGroup({
-      'nameNFA': new FormControl(null),
+      'nameNFA': new FormControl(null, Validators.required),
       'characteristic': new FormControl(null, Validators.required),
       'property': new FormControl(null, Validators.required),
       'modalVerb': new FormControl(null),
-      'qualifyingEx': new FormControl(null),
+      'qualifyingEx': new FormControl(null, Validators.required),
       'valueInput': new FormControl(null),
       'verb': new FormControl('be')
     });
@@ -43,11 +39,13 @@ export class EnnfaformComponent implements OnInit , OnChanges {
       if ((message.verb === 'koennen') || (message.verb === 'kann')) {
         this.enForm.get('modalVerb').reset('can');
       }
+
       this.enForm.get('valueInput').reset(message.wert);
     });
-    
+
   }
-  onSubmit() {
-    this.submitEvent.emit(this.enForm.value);
+
+  resetForm() {
+    this.enForm.reset();
   }
 }

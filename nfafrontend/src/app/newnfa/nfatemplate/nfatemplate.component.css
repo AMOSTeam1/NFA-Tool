@@ -8,7 +8,8 @@ table#t1 {
   justify-content: center;
  }
 
-.bptdiv{
+
+.bptdiv {
   border-radius: 8px;
   padding: 1px;
   box-shadow: 4px 4px 3px #356777;
@@ -16,8 +17,9 @@ table#t1 {
 
 }
 span{
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 1.4em;
+
 }
 
 .bpt {
@@ -28,7 +30,7 @@ span{
   display: flex;
   justify-content: center;
 
-
 }
+
 
 
