@@ -1,33 +1,53 @@
-<body><form [formGroup]="nfaform" (ngSubmit) = "onSubmit()">
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+</head>
+<body>
+<form [formGroup]="nfaform" (ngSubmit) = "onSubmit()">
 
-  <p class="sm">{{ 'nfa.factor' | translate }}</p>
-  <select formControlName ="factor" name="factor" required [(ngModel)]='selectedFactor'>
-    <option *ngFor="let fac of nfaFactors" [ngValue]="fac">{{fac.nfa_id}}. {{fac.factor}}</option>
-  </select> <br/> <br/>
+   <div class="row form-group">
+     <label for="factor" class="control-label col-xs-2"><p>{{ 'nfa.factor' | translate }}</p></label>
+    <div class="col-xs-3">
+      <select class="form-control" formControlName="factor" id="factor" name="factor" required [(ngModel)]='selectedFactor'>
+        <option *ngFor="let fac of nfaFactors" [ngValue]="fac">{{fac.nfa_id}}. {{fac.factor}}</option>
+      </select> <br>
+    </div>
+  </div>
 
-  <div *ngIf="factorHasCriteria()">
-    <p class="sm" id="criteriaSelect">{{ 'nfa.criteria' | translate }}</p>
-    <select formControlName ="criteria" name="criteria" required [(ngModel)]='selectedCriteria'>
+  <div class="row form-group "*ngIf="factorHasCriteria()">
+    <label for="criteria" class="control-label col-xs-2"><p>{{ 'nfa.criteria' | translate }}</p></label>
+    <div class="col-xs-3">
+    <select class="form-control" formControlName ="criteria" id="criteria" name="criteria" required [(ngModel)]='selectedCriteria'>
       <option *ngFor="let crit of selectedFactor.criteriaList" [ngValue]="crit">{{selectedFactor.nfa_id}}.{{crit.criteriaNumber}} {{crit.criteria}}</option>
-    </select> <br/> <br/>
-  </div>
-  <div *ngIf="criteriaHasMetric()">
-    <p class="sm">{{ 'nfa.metric' | translate }}</p>
-    <select formControlName ="metric" name="metric" required [(ngModel)]='selectedMetric'>
-      <option *ngFor="let met of selectedCriteria.metricList" [ngValue]="met">{{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{met.metricNumber}} {{met.bezeichnung}}</option>
-    </select> <br/> <br/>
+    </select> <br>
+    </div>
   </div>
 
-  <p class="sm">{{ 'nfa.type' | translate }}</p>
-  <select formControlName ="nfa_type"  name="nfa_type"  required [(ngModel)]='selectedType'>
-    <option value="nfa_type_1">Type 1</option>
-    <option value="nfa_type_2">Type 2</option>
-  </select> <br/> <br/>
+  <div class="row form-group" *ngIf="criteriaHasMetric()">
+    <label for="criteria" class="control-label col-xs-2"><p>{{ 'nfa.metric' | translate }}</p></label>
+    <div class="col-xs-3">
+    <select class="form-control" formControlName ="metric" name="metric" required [(ngModel)]='selectedMetric'>
+      <option *ngFor="let met of selectedCriteria.metricList" [ngValue]="met">{{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{met.metricNumber}} {{met.bezeichnung}}</option>
+    </select> <br>
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <label for="nfa_type" class="control-label col-xs-2"><p>{{ 'nfa.type' | translate }}</p></label>
+    <div class="col-xs-3">
+    <select class="form-control" formControlName ="nfa_type"  id="nfa_type" name="nfa_type"  required [(ngModel)]='selectedType'>
+    <option value="nfa_type_1">Eigenschaftsschablone</option>
+    <option value="nfa_type_2">Eigenschaftsschablone mit Bedingung</option>
+  </select> <br>
+    </div>
+  </div>
+  <br>
 
   <app-nfatemplate *ngIf="nfaform.get('nfa_type').value==='nfa_type_1'"></app-nfatemplate>
 
-  <br/><br/>
-  <input type="submit" class="button" value="Send">
+  <br><br>
+  <button class="btn btn-primary pull-right addnfa" type="submit">NFA hinzufügen</button>
+  <br>
 </form>
+<br><br>
 </body>
 
