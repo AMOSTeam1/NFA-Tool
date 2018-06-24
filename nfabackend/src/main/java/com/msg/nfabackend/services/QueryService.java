@@ -1,12 +1,10 @@
 package com.msg.nfabackend.services;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -28,7 +26,7 @@ import com.msg.nfabackend.entities.nfaCatalog;
 import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionDe;
 import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionEn;
 
-
+//@ApplicationScoped
 public class QueryService {
 	
 	private static final Logger LOG = Logger.getLogger(QueryService.class.getName());

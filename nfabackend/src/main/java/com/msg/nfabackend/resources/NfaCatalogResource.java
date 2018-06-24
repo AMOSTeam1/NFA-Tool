@@ -3,6 +3,7 @@ package com.msg.nfabackend.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,12 +18,13 @@ import javax.ws.rs.core.UriInfo;
 import com.msg.nfabackend.entities.nfaCatalog;
 import com.msg.nfabackend.services.QueryService;
 
-@Path("/nfa_catalog")
+@Path("nfa_catalog")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class NfaCatalogResource {
 	
-	QueryService queryService = new QueryService();
+	@Inject
+	private QueryService queryService;
 	
 	@GET
 	public List<nfaCatalog> getAllNfa() {
