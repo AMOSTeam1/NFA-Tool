@@ -33,10 +33,6 @@
         		<directory>src/main/resources</directory>
         	</resource>
         	<resource>
-        		<directory>src/main/resources-filtered</directory>
-        		<filtering>true</filtering>
-        	</resource>
-        	<resource>
         		<directory>src/test/resources</directory>
         	</resource>
         </resources>
