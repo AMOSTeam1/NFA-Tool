@@ -4,6 +4,7 @@ import {DataexchangeService} from '../../../shared/dataexchange.service';
 import {until} from 'selenium-webdriver';
 import elementIsSelected = until.elementIsSelected;
 import {isNull, isNumber} from 'util';
+import {QualifiyingExpression} from '../../../shared/blueprints/QualifiyingExpression.model';
 
 @Component({
   selector: 'app-ennfaform',
@@ -40,7 +41,14 @@ export class EnnfaformComponent implements OnInit {
         this.enForm.get('modalVerb').reset('can');
       }
 
+      if (message.verb === null) {
+        this.enForm.get('modalVerb').reset(null);
+      }
       this.enForm.get('valueInput').reset(message.wert);
+
+      this.enForm.get('qualifyingEx').reset(
+        message.qualifExp ? (message.qualifExp.en + (message.qualifExp.abundant ? (' / ' + message.qualifExp.abundant.en) : '')) : '');
+
     });
 
   }

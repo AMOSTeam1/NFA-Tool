@@ -9,7 +9,7 @@ import {Inst} from './blueprints/inst.model';
 @Injectable()
 export class DataexchangeService {
 
-  private messageSource = new BehaviorSubject(new Inst(null, null));
+  private messageSource = new BehaviorSubject(new Inst(null, null, null));
   currentMessage = this.messageSource.asObservable();
 
   constructor() { }

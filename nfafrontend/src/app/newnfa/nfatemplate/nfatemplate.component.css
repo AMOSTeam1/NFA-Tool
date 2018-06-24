@@ -12,8 +12,7 @@ table#t1 {
 .bptdiv {
   border-radius: 8px;
   padding: 1px;
-  box-shadow: 4px 4px 3px #356777;
-  background: #56a3bc;
+
 
 }
 span{
@@ -25,8 +24,8 @@ span{
 .bpt {
   border-radius: 8px;
   padding: 1px;
-  box-shadow: 4px 4px 3px #356777;
-  background: #56a3bc;
+/*  box-shadow: 4px 4px 3px #356777;
+  background: #56a3bc;*/
   display: flex;
   justify-content: center;
 

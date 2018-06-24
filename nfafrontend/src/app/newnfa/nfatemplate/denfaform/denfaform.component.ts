@@ -28,6 +28,7 @@ export class DenfaformComponent implements OnInit {
       'modalVerb': new FormControl({value: null, disabled: true}),
       'qualifyingEx': new FormControl(null, Validators.required),
       'valueInput': new FormControl({value: null, disabled: true}),
+      'valueInput2': new FormControl({value: null, disabled: true}),
       'verb': new FormControl(null, Validators.required)
     });
   }
@@ -46,19 +47,24 @@ export class DenfaformComponent implements OnInit {
 
   newMessage(event: any) {
     if (this.deForm.get('chbox')) {
-    this.data.changeMessage(new Inst(
-      this.deForm.get('valueInput').value,
-      this.deForm.get('modalVerb').value
-    ));
-  }
-
-  }
-  changeQualExpr() {
-    console.log(QualifiyingExpression.resolve(this.deForm.get('qualifyingEx').value));
+      this.data.changeMessage(new Inst(
+        this.deForm.get('valueInput').value,
+        this.deForm.get('modalVerb').value,
+        QualifiyingExpression.resolve(this.deForm.get('qualifyingEx').value)
+      ));
+    }
   }
 
   resetForm() {
     this.deForm.reset();
+  }
+
+  getQualifiyingExpression() {
+    return this.getQE(this.deForm.get('qualifyingEx').value);
+  }
+
+  private getQE(value: string) {
+    return QualifiyingExpression.resolve(value);
   }
 }
 
