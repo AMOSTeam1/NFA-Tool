@@ -36,7 +36,7 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
     this.blueprintDeForm = new FormGroup({
-      'chbox': new FormControl(null),
+      'chbox': new FormControl(false),
       'nameNFA': new FormControl(null),
       'characteristic': new FormControl(null),
       'property': new FormControl(null),

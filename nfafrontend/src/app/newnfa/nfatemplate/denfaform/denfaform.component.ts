@@ -21,7 +21,7 @@ export class DenfaformComponent implements OnInit {
 
   ngOnInit() {
     this.deForm = new FormGroup({
-      'chbox': new FormControl(null),
+      'chbox': new FormControl(false),
       'nameNFA': new FormControl(null, Validators.required),
       'characteristic': new FormControl(null, Validators.required),
       'property': new FormControl(null, Validators.required),
