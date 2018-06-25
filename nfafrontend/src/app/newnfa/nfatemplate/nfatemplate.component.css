@@ -1,31 +1,22 @@
 th, td {
   padding: 15px;
 }
-table#t1 {
-  background: aliceblue;
-  table-layout: auto;
-  width: 100%;
-  justify-content: center;
- }
-
-
 .bptdiv {
   border-radius: 8px;
   padding: 1px;
-
+  border: darkred;
 
 }
 span{
   font-family: 'Open Sans', sans-serif;
   font-size: 1.4em;
-
 }
 
 .bpt {
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 1px;
-/*  box-shadow: 4px 4px 3px #356777;
-  background: #56a3bc;*/
+  box-shadow: 4px 4px 3px #356777;
+  background: #56a3bc;
   display: flex;
   justify-content: center;
 

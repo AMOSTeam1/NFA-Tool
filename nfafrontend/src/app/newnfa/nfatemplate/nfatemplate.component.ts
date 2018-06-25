@@ -56,8 +56,7 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
       'verb': new FormControl('be')
     });
 
-    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungs-' +
-      'gegenstand>',
+    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungsgegenstand>',
       'modalVerb': null, 'qualifyingEx': '<Vergleichsop>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
 
     this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
@@ -90,9 +89,8 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
    this.checked = false;
    this.deComponent.resetForm();
    this.enComponent.resetForm();
-    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungs-' +
-      'gegenstand>',
-      'modalVerb': null, 'qualifyingEx': '<Vergleichsop>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
+    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungsgegenstand>',
+      'modalVerb': null, 'qualifyingEx': '<Vergleichsoperator>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
 
     this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
       'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });

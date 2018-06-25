@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <div class="form-group" *ngIf="getQualifiyingExpression() != null && getQualifiyingExpression().abundant != null">
+    <div class="form-group" *ngIf="deForm.get('chbox').value===true && getQualifiyingExpression() != null && getQualifiyingExpression().abundant != null">
       <label for="valueInput2" class="control-label col-xs-6">Wert</label>
       <div class="col-xs-6">
         <input type="text" class="form-control" id="valueInput2" name="valueInput2" formControlName="valueInput2" (change)="newMessage($event)">

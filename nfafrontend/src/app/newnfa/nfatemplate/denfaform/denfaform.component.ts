@@ -28,7 +28,7 @@ export class DenfaformComponent implements OnInit {
       'modalVerb': new FormControl({value: null, disabled: true}),
       'qualifyingEx': new FormControl(null, Validators.required),
       'valueInput': new FormControl({value: null, disabled: true}),
-      'valueInput2': new FormControl({value: null, disabled: true}),
+      'valueInput2': new FormControl(null),
       'verb': new FormControl(null, Validators.required)
     });
   }
@@ -57,6 +57,8 @@ export class DenfaformComponent implements OnInit {
 
   resetForm() {
     this.deForm.reset();
+    this.deForm.get('modalVerb').disable({});
+    this.deForm.get('valueInput').disable({});
   }
 
   getQualifiyingExpression() {
