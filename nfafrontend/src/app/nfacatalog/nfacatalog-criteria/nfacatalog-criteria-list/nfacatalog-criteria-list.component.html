@@ -6,12 +6,23 @@
 <hr>
 <div class="row">
   <div class="col-xs-12">
-    <h3></h3>
-
-    <app-nfacatalog-criteria-item
-      *ngFor="let nfaCriteriaEl of nfaCriterias let i = index"
-      [nfaCriteria]="nfaCriteriaEl"
-      [nfaFactorNumber]="nfaFactor.nfa_id"
-      [index]="i"></app-nfacatalog-criteria-item>
+    <h5></h5>
+    <div *ngFor="let nfaFactor of nfaFactors let i = index">
+    <a class="list-group-item clearfix"
+       style="cursor: pointer;"
+       [class.active] = "i === id"
+    (click)="showCriteria(i)">
+        <h5 class="list-group-item-heading">{{nfaFactor.nfa_id}}. {{ nfaFactor.factor}}</h5>
+      <span class="pull-right"></span>
+    </a>
+      <div *ngIf="id === i">
+      <app-nfacatalog-criteria-item
+        *ngFor="let nfaCriteriaEl of nfaFactor.criteriaList let j = index"
+        [nfaCriteria]="nfaCriteriaEl"
+        [nfaFactorNumber]="nfaFactor.nfa_id"
+        [index]="j"
+      ></app-nfacatalog-criteria-item>
+      </div>
+    </div>
   </div>
 </div>
