@@ -1,6 +1,7 @@
 package com.msg.nfabackend.entities;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringWriter;
 
 import javax.persistence.AttributeConverter;
@@ -46,36 +47,39 @@ public class NfaCatalog implements NfaInterface{
 		}
 	}
 	
-	public static class NfaCatalogBlueprint {
-		private BpPropertyTemplateNoConditionDe de;
-		private BpPropertyTemplateNoConditionEn en;
+	public static class NfaCatalogBlueprint{
+		/**
+		 * 
+		 */
+		private BpPropertyTemplateNoCondition de;
+		private BpPropertyTemplateNoCondition en;
 		/**
 		 * @return the de
 		 */
-		public BpPropertyTemplateNoConditionDe getDe() {
+		public BpPropertyTemplateNoCondition getDe() {
 			return de;
 		}
 		/**
 		 * @param de the de to set
 		 */
-		public void setDe(BpPropertyTemplateNoConditionDe de) {
+		public void setDe(BpPropertyTemplateNoCondition de) {
 			this.de = de;
 		}
 		/**
 		 * @return the en
 		 */
-		public BpPropertyTemplateNoConditionEn getEn() {
+		public BpPropertyTemplateNoCondition getEn() {
 			return en;
 		}
 		/**
 		 * @param en the en to set
 		 */
-		public void setEn(BpPropertyTemplateNoConditionEn en) {
+		public void setEn(BpPropertyTemplateNoCondition en) {
 			this.en = en;
 		}
 	}
 	
-	public static class BpPropertyTemplateNoConditionDe {
+	public static class BpPropertyTemplateNoCondition {
 
 	    private String bezeichnung;
 	    private String erklaerung;
@@ -102,120 +106,25 @@ public class NfaCatalog implements NfaInterface{
 		 * @return the erklaerung
 		 */
 		public String getErklaerung() {
+			if (erklaerung == null) {
+				updateErklaerung();
+			}
 			return erklaerung;
 		}
 		/**
-		 * @param erklaerung the erklaerung to set
+		 * Uses all the Components to generate the Explanation String and updates the Variable Explanation.
 		 */
-		public void setErklaerung(String erklaerung) {
-			this.erklaerung = erklaerung;
+		public void updateErklaerung() {
+			erklaerung = String.join(" ", 
+			getCharacteristic(), 
+			getProperty(), 
+			getModalVerb(), 
+			getVerb(), 
+			getQualifyingEx(), 
+			getValueInput());			
 		}
 		
 		/**
-		 * @return the characteristic
-		 */
-		public String getCharacteristic() {
-			return characteristic;
-		}
-		/**
-		 * @param characteristic the characteristic to set
-		 */
-		public void setCharacteristic(String characteristic) {
-			this.characteristic = characteristic;
-		}
-		/**
-		 * @return the property
-		 */
-		public String getProperty() {
-			return property;
-		}
-		/**
-		 * @param property the property to set
-		 */
-		public void setProperty(String property) {
-			this.property = property;
-		}
-		/**
-		 * @return the modalVerb
-		 */
-		public String getModalVerb() {
-			return modalVerb;
-		}
-		/**
-		 * @param modalVerb the modalVerb to set
-		 */
-		public void setModalVerb(String modalVerb) {
-			this.modalVerb = modalVerb;
-		}
-		/**
-		 * @return the qualifyingEx
-		 */
-		public String getQualifyingEx() {
-			return qualifyingEx;
-		}
-		/**
-		 * @param qualifyingEx the qualifyingEx to set
-		 */
-		public void setQualifyingEx(String qualifyingEx) {
-			this.qualifyingEx = qualifyingEx;
-		}
-		/**
-		 * @return the valueInput
-		 */
-		public String getValueInput() {
-			return valueInput;
-		}
-		/**
-		 * @param valueInput the valueInput to set
-		 */
-		public void setValueInput(String valueInput) {
-			this.valueInput = valueInput;
-		}
-		/**
-		 * @return the verb
-		 */
-		public String getVerb() {
-			return verb;
-		}
-		/**
-		 * @param verb the verb to set
-		 */
-		public void setVerb(String verb) {
-			this.verb = verb;
-		}
-		    
-	}
-	
-	public static class BpPropertyTemplateNoConditionEn {
-
-	    private String bezeichnung;
-	    private String erklaerung;
-	    private String characteristic;
-	    private String property;
-	    private String modalVerb;
-	    private String qualifyingEx;
-	    private String valueInput;
-	    private String verb;
-	    
-		/**
-		 * @return the bezeichnung
-		 */
-		public String getBezeichnung() {
-			return bezeichnung;
-		}
-		/**
-		 * @param bezeichnung the bezeichnung to set
-		 */
-		public void setBezeichnung(String bezeichnung) {
-			this.bezeichnung = bezeichnung;
-		}
-		/**
-		 * @return the erklaerung
-		 */
-		public String getErklaerung() {
-			return erklaerung;
-		}
-		/**
 		 * @param erklaerung the erklaerung to set
 		 */
 		public void setErklaerung(String erklaerung) {
@@ -294,8 +203,7 @@ public class NfaCatalog implements NfaInterface{
 		public void setVerb(String verb) {
 			this.verb = verb;
 		}
-	    
-}
+	}
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -345,27 +253,27 @@ public class NfaCatalog implements NfaInterface{
 		return rechtlicheVerbindlichkeit;
 	}
 
-	public String getFormulierung() {
+	public String getFormulation() {
 		return nfaCatalogFormulierung;
 	}
 	
-	public String getReferenz() {
+	public String getReference() {
 		return nfaCatalogReferenz;
 	}
 
-	public String getReferenzierteProjekte() {
+	public String getReferencedProjects() {
 		return nfaCatalogReferenzierteProjekte;
 	}
 	
-	public String getKritikalität() {
+	public String getCriticality() {
 		return nfaCatalogKritikalität;
 	}
 
-	public String getDokument() {
+	public String getDocument() {
 		return nfaCatalogDokument;
 	}
 	
-	public String getWert() {
+	public String getValue() {
 		return nfaCatalogWert;
 	}
 

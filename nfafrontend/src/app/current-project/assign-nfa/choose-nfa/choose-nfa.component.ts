@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute  , Router} from '@angular/router';
 import {CurrentProjectService} from '../../current-project.service';
 import {DataStorageService} from '../../../shared/data-storage.service';
@@ -10,19 +10,22 @@ import {NfaMetric} from '../../../shared/nfaMetric.model';
 import {Response} from '@angular/http';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {TranslateService} from '@ngx-translate/core';
+import {ISubscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-choose-nfa',
   templateUrl: './choose-nfa.component.html',
   styleUrls: ['./choose-nfa.component.css']
 })
-export class ChooseNfaComponent implements OnInit {
+export class ChooseNfaComponent implements OnInit, OnDestroy {
   id: number;
   nfaform: FormGroup;
   nfaFactors: NfaFactorModel[];
   selectedFactor : NfaFactorModel = undefined;
   selectedCriteria : NfaCriteriaModel = undefined;
   selectedMetric: NfaMetric = undefined;
+
+  subscription : ISubscription[];
 
   constructor(private route: ActivatedRoute,
               private currentProjectService: CurrentProjectService,
@@ -34,7 +37,7 @@ export class ChooseNfaComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.id = this.currentProjectService.getSelectedProjectId();
-    this.dataStorageService.getNfaFactor()
+    const subscription = this.dataStorageService.getNfaFactor()
       .subscribe(
         (response: Response) => {
           const nfaFactors: NfaFactorModel[] = response.json();
@@ -42,6 +45,13 @@ export class ChooseNfaComponent implements OnInit {
           this.nfaFactors = nfaFactors;
         }
       );
+    this.subscription.push(subscription);
+  }
+
+  ngOnDestroy(){
+    for(let item of this.subscription){
+      item.unsubscribe();
+    }
   }
 
   private initForm () {

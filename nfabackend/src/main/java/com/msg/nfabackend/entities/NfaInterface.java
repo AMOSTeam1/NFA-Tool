@@ -10,17 +10,17 @@ public interface NfaInterface {
 
 	public String getRechtlicheVerbindlichkeit(); 
 
-	public String getFormulierung();
+	public String getFormulation();
 	
-	public String getReferenz();
+	public String getReference();
 	
-	public String getReferenzierteProjekte(); 
+	public String getReferencedProjects(); 
 
-	public String getKritikalität();
+	public String getCriticality();
 
-	public String getDokument();
+	public String getDocument();
 
-	public String getWert();
+	public String getValue();
 
 	public Long getNfaNumber(); 
 	

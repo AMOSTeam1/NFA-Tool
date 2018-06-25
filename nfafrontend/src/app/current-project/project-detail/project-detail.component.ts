@@ -23,11 +23,13 @@ export class ProjectDetailComponent implements OnInit {
               ) { }
 
   ngOnInit() {
+
     this.route.params
       .subscribe(
         (params: Params) => {
           this.id = +params['id'];
           this.project = this.currentProjectService.getProject(this.id);
+          this.currentProjectService.setSelectedProjectId(this.id);
         }
       );
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {CurrentProjectService} from '../../current-project.service';
@@ -15,7 +15,7 @@ import {Response} from "@angular/http";
   templateUrl: './nfa-detail.component.html',
   styleUrls: ['./nfa-detail.component.css']
 })
-export class NfaDetailComponent implements OnInit {
+export class NfaDetailComponent implements OnInit, OnDestroy {
   nfa: NfaCatalogModel;
   nfadetailForm: FormGroup;
   id: number;
@@ -38,7 +38,9 @@ export class NfaDetailComponent implements OnInit {
         (params: Params) => {
           this.id = +params['nfa_id'];
           this.nfa = this.currentProjectService.getNfa(this.id);
-          this.route.url.subscribe(value => this.editmode = (value.length>1 && (value[1].path == 'edit')));
+
+          const subscription = this.route.url.subscribe(value => this.editmode = (value.length>1 && (value[1].path == 'edit')));
+          this.subscription.push(subscription);
         }
       );
 
@@ -94,6 +96,7 @@ export class NfaDetailComponent implements OnInit {
 
     const subscription = this.dataStorageService.storeEditedNfa(customNfa).subscribe((response: Response) => console.log(response));
     this.subscription.push(subscription);
+
     this.onBack();
     console.log(customNfa);
     console.log("onsubmit done");

@@ -2,6 +2,7 @@ package com.msg.nfabackend.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,9 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.msg.nfabackend.entities.NfaCatalog.BlueprintConverter;
+import com.msg.nfabackend.entities.NfaCatalog.NfaCatalogBlueprint;
+
 @Entity
 @Table(name ="nfa_custom")
-public class CustomNFA implements NfaInterface{
+public class CustomNFA implements NfaInterface {
 		
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -21,73 +25,68 @@ public class CustomNFA implements NfaInterface{
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private NfaCatalog originalEntry;
+	
+	@Column (name ="value")
+	private String value;
 
-	@Column (name ="nfa_number")
-	private Long nfaNumber;
+	@Column (name ="formulation")
+	private String formulation;
 	
-	@Column (name ="nfa_type")
-	private String type;
+	@Column (name ="reference")
+	private String reference;
 	
-	@Column (name ="wert")
-	private String wert;
-
-	@Column (name ="rechtliche_verbindlichkeit")
-	private String rechtlicheVerbindlichkeit;
+	@Column (name ="criticality")
+	private String criticality;
 	
-	@Column (name ="formulierung")
-	private String formulierung;
+	@Column (name ="document")
+	private String document;
 	
-	@Column (name ="referenz")
-	private String referenz;
-	
-	@Column (name ="referenzierte_projekte")
-	private String referenzierteProjekte;
-	
-	@Column (name ="kritikalitaet")
-	private String kritikalität;
-	
-	@Column (name ="dokument")
-	private String dokument;
-
+	@Column (name ="blueprint")
+	@Convert(converter = BlueprintConverter.class)
+	private NfaCatalogBlueprint blueprint;
 
 	public Long getId() {
 		return nfaCustomId;
 	}
 
 	public String getType() {
-		return type;
+		return originalEntry.getType();
 	}
 
 	public String getRechtlicheVerbindlichkeit() {
-		return rechtlicheVerbindlichkeit;
+		return originalEntry.getRechtlicheVerbindlichkeit();
 	}
 
-	public String getFormulierung() {
-		return formulierung;
+	public String getFormulation() {
+		return formulation;
 	}
 	
-	public String getReferenz() {
-		return referenz;
+	public String getReference() {
+		return reference;
 	}
 
-	public String getReferenzierteProjekte() {
-		return referenzierteProjekte;
+	public String getReferencedProjects() {
+		return originalEntry.getReferencedProjects();
 	}
 
-	public String getKritikalität() {
-		return kritikalität;
+	public String getCriticality() {
+		return criticality;
 	}
 
-	public String getDokument() {
-		return dokument;
+	public String getDocument() {
+		return document;
 	}
 
-	public String getWert() {
-		return wert;
+	public String getValue() {
+		return value;
 	}
 
 	public Long getNfaNumber() {
-		return nfaNumber;
+		return originalEntry.getNfaNumber();
+	}
+	
+	public NfaCatalogBlueprint getBlueprint() {
+		return blueprint;
 	}
 
 }

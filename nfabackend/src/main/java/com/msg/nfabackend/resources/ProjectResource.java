@@ -40,6 +40,7 @@ public class ProjectResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createProject(Project project, @Context UriInfo uriInfo) {
+		System.out.println("projprojprojprojprojprojproj");
 		
 		Project createProject = queryService.createProject(project);
 		String newId = String.valueOf(createProject.getId());

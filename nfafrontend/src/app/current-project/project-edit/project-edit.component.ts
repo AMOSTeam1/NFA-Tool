@@ -28,7 +28,6 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
   fieldArray: Array<any> = [];
   newAttribute: any = {};
-  showDialog;
 
   constructor(private route: ActivatedRoute,
               private router: Router,

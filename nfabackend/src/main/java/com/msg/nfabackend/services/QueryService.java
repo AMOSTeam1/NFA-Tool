@@ -18,8 +18,6 @@ import org.hibernate.cfg.NotYetImplementedException;
 import com.msg.nfabackend.entities.CustomNFA;
 import com.msg.nfabackend.entities.Metric;
 import com.msg.nfabackend.entities.NfaCatalog;
-import com.msg.nfabackend.entities.NfaCatalog.BpPropertyTemplateNoConditionDe;
-import com.msg.nfabackend.entities.NfaCatalog.BpPropertyTemplateNoConditionEn;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
@@ -110,16 +108,8 @@ public class QueryService {
 			Metric metric = em.find(Metric.class, metricId);
 			nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
 			
-			BpPropertyTemplateNoConditionDe de = nfaCatalog.getBlueprint().getDe();
-			if (de.getErklaerung() == null) {
-				de.setErklaerung(String.join(" ", 
-						de.getCharacteristic(), de.getProperty(), de.getModalVerb(), de.getQualifyingEx(), de.getValueInput(), de.getVerb()));
-			}
-			BpPropertyTemplateNoConditionEn en = nfaCatalog.getBlueprint().getEn();
-			if (en.getErklaerung() == null) {
-				en.setErklaerung(String.join(" ", 
-						en.getCharacteristic(), en.getProperty(), en.getModalVerb(), en.getVerb(), en.getQualifyingEx(), en.getValueInput()));
-			}
+			nfaCatalog.getBlueprint().getDe().updateErklaerung();			
+			nfaCatalog.getBlueprint().getEn().updateErklaerung();			
 			
 			em.persist(nfaCatalog);
 			
@@ -137,8 +127,10 @@ public class QueryService {
 	}
 
 	public CustomNFA createCustomNfa (CustomNFA customNfa) {
+		System.out.println("HaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalllllo");
 		try {
 			tx.begin();
+			System.out.println(customNfa);
 			em.persist(customNfa);
 			tx.commit();
 		}catch(Exception e){

@@ -116,6 +116,7 @@
     "cancel" : "Cancel",
     "save" : "Save",
     "edit" : "Edit",
+    "back" : "Back",
     "none" : "None"
   }
 }
