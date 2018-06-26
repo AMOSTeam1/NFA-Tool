@@ -10,11 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 
 @Entity
 @Table(name ="stakeholder")
@@ -29,9 +33,15 @@ public class Stakeholder {
 	@Column (name ="stakeholder_name")
 	private String stakeholder_name;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	/*@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "stakeholder_factor", joinColumns = @JoinColumn(name = "stakeholder_id"), inverseJoinColumns = @JoinColumn(name = "factor_id"))
-	private Set<NfaFactor> stakeholderFactors = new HashSet<NfaFactor>();
+	private Set<NfaFactor> stakeholderFactors = new HashSet<NfaFactor>();*/
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name="stakeholder_factor",joinColumns = @JoinColumn(name="stakeholder_id"))
+	@Column(name="factor_id")
+	private List<Long> stakeholderFactors = new ArrayList<Long>();
+	
 
 	public Long getStakeholder_id() {
 		return stakeholder_id;
@@ -49,13 +59,26 @@ public class Stakeholder {
 		this.stakeholder_name = stakeholder_name;
 	}
 
-	public Set<NfaFactor> getStakeholderFactors() {
+	public List<Long> getStakeholderFactors() {
+		return stakeholderFactors;
+	}
+
+	public void setStakeholderFactors(List<Long> stakeholderFactors) {
+		this.stakeholderFactors = stakeholderFactors;
+	}
+
+
+	/*public Set<NfaFactor> getStakeholderFactors() {
 		return stakeholderFactors;
 	}
 
 	public void setStakeholderFactors(Set<NfaFactor> stakeholderFactors) {
 		this.stakeholderFactors = stakeholderFactors;
-	}
+	}*/
+	
+	
+	
+	
 	
 
 

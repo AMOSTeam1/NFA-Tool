@@ -1,15 +1,19 @@
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
+</head>
+<body>
 <div class="container">
   <form (submit)="onSubmit()">
   <div class="row">
     <!--------Deutsch Form----->
     <div class="col-md-6">
-      <app-denfaform (submitEvent)="receiveDataDe($event)"></app-denfaform>
+       <app-denfaform (submitEvent)="receiveDataDe($event)"></app-denfaform>
     </div>
    <!---------Englisch Form-------->
 
-<div class="col-md-6">
-  <app-ennfaform (submitEvent)="receiveDataEn($event)"></app-ennfaform>
-</div>
+    <div class="col-md-6">
+       <app-ennfaform (submitEvent)="receiveDataEn($event)"></app-ennfaform>
+    </div>
   </div>
 
   <!---Blueprint Deutsch--->
@@ -78,6 +82,9 @@
       <div class="bptdiv col-xs-2"><span class="bpt">can</span></div>
       <div class="col-xs-5"></div>
     </div>
+
+
+
   <table>
     <tr>
       <td>
@@ -92,4 +99,5 @@
   </table>
 </form>
 </div>
+</body>
 

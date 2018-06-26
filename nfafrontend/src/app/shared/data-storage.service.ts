@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, Headers, RequestOptions } from '@angular/http';
 import {Project} from './project.model';
 import {NfaCatalogModel} from './nfaCatalog.model';
 import {NfaCustomModel} from "./nfaCustom.model";
 
-
+let headers = new Headers();
+headers.append('content-type', 'application/json');
+let opts = new RequestOptions();
+opts.headers = headers;
 
 @Injectable()
 export class DataStorageService {
@@ -14,7 +17,11 @@ export class DataStorageService {
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create' + metricId, nfa);
   }
   storeEditedNfa(customNfa: NfaCustomModel) {
-    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa);
+    console.log("asda " + customNfa);
+    let r = this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa, opts);
+    console.log(r);
+    console.log("asda1");
+    return r;
   }
   storeProject(newproject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
