@@ -1,4 +1,5 @@
 import {forEach} from '@angular/router/src/utils/collection';
+import {isNull} from 'util';
 
 export class QualifiyingExpression {
   private constructor(
@@ -28,5 +29,13 @@ export class QualifiyingExpression {
 
   public static resolve(de: string): QualifiyingExpression {
      return de === null ? null : this.listContent().find(value => value.de === de);
+  }
+
+  public fullDe() {
+    return isNull(this.abundant) ? [this.de] : [this.de, this.abundant.de];
+  }
+
+  public fullEn() {
+    return isNull(this.abundant) ? [this.en] : [this.en, this.abundant.en];
   }
 }

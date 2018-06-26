@@ -346,10 +346,10 @@ CREATE TABLE public.nfa
  BLUEPRINT character varying(500));
  
 
-INSERT INTO nfa VALUES (2,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','JUAC','CbCR','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Qualität der Arbeit","erklaerung":"Das System muss dem bzw. der Anwender_in dabei unterstützen, ihre bzw. seine Aufgaben mit hoher Qualität, Genauigkeit und Effizienz zu erledigen."}, "en":{"bezeichnung":null,"erklaerung":null}}');
-INSERT INTO nfa VALUES (3,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','','','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehleranteil","erklaerung":"Die Anzahl der Fehler darf nicht höher sein als 0,1% aller durchgeführten Operationen eines bzw. einer Anwender_in im System."}, "en":{"bezeichnung":null,"erklaerung":null}}');
-INSERT INTO nfa VALUES (4,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Entstehende Fehler","erklaerung":"Bei der Bearbeitung von Aufgaben mit dem System sollen möglichst keine Fehler entstehen."}, "en":{"bezeichnung":null,"erklaerung":null}}');
-INSERT INTO nfa VALUES (5,1,'Type:1','Verbindlichkeit:1','12.22','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehlerfreie Bedienung","erklaerung":"Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können."}, "en":{"bezeichnung":null,"erklaerung":null}}');
+INSERT INTO nfa VALUES (2,1,'Type:1','Verbindlichkeit:1','[12.22]','Formulierung:1','JUAC','CbCR','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Qualität der Arbeit","erklaerung":"Das System muss dem bzw. der Anwender_in dabei unterstützen, ihre bzw. seine Aufgaben mit hoher Qualität, Genauigkeit und Effizienz zu erledigen."}, "en":{"bezeichnung":null,"erklaerung":null}}');
+INSERT INTO nfa VALUES (3,1,'Type:1','Verbindlichkeit:1','[12.22]','Formulierung:1','','','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehleranteil","erklaerung":"Die Anzahl der Fehler darf nicht höher sein als 0,1% aller durchgeführten Operationen eines bzw. einer Anwender_in im System."}, "en":{"bezeichnung":null,"erklaerung":null}}');
+INSERT INTO nfa VALUES (4,1,'Type:1','Verbindlichkeit:1','[12.22]','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Entstehende Fehler","erklaerung":"Bei der Bearbeitung von Aufgaben mit dem System sollen möglichst keine Fehler entstehen."}, "en":{"bezeichnung":null,"erklaerung":null}}');
+INSERT INTO nfa VALUES (5,1,'Type:1','Verbindlichkeit:1','[12.22]','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehlerfreie Bedienung","erklaerung":"Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können."}, "en":{"bezeichnung":null,"erklaerung":null}}');
 
 
 CREATE TABLE public.metric_nfa

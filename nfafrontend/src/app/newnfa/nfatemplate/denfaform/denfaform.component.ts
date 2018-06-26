@@ -5,6 +5,7 @@ import {Inst} from '../../../shared/blueprints/inst.model';
 import {ifTrue} from 'codelyzer/util/function';
 import {QualifiyingExpression} from '../../../shared/blueprints/QualifiyingExpression.model';
 import {NfatemplateComponent} from '../nfatemplate.component';
+import {isNull} from 'util';
 
 @Component({
   selector: 'app-denfaform',
@@ -22,13 +23,12 @@ export class DenfaformComponent implements OnInit {
   ngOnInit() {
     this.deForm = new FormGroup({
       'chbox': new FormControl(false),
-      'nameNFA': new FormControl(null, Validators.required),
+      'nameNFA': new FormControl(null),
       'characteristic': new FormControl(null, Validators.required),
       'property': new FormControl(null, Validators.required),
       'modalVerb': new FormControl({value: null, disabled: true}),
       'qualifyingEx': new FormControl(null, Validators.required),
-      'valueInput': new FormControl({value: null, disabled: true}),
-      'valueInput2': new FormControl(null),
+      'valueInput': new FormArray([new FormControl({value: null, disabled: true})]),
       'verb': new FormControl(null, Validators.required)
     });
   }
@@ -46,12 +46,22 @@ export class DenfaformComponent implements OnInit {
   }
 
   newMessage(event: any) {
+
+    const qe = QualifiyingExpression.resolve(this.deForm.get('qualifyingEx').value);
+
     if (this.deForm.get('chbox')) {
       this.data.changeMessage(new Inst(
         this.deForm.get('valueInput').value,
         this.deForm.get('modalVerb').value,
-        QualifiyingExpression.resolve(this.deForm.get('qualifyingEx').value)
-      ));
+        qe)
+      );
+    }
+    const fa = (<FormArray> this.deForm.get('valueInput'));
+
+    if (isNull(qe.abundant) && fa.length === 2) {
+      fa.removeAt(1);
+    } else if (!isNull(qe.abundant) && fa.length === 1) {
+      fa.push(new FormControl({value: null, disabled: true}));
     }
   }
 

@@ -37,7 +37,7 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
 
     this.blueprintDeForm = new FormGroup({
       'chbox': new FormControl(false),
-      'nameNFA': new FormControl(null),
+      'nameNFA': new FormArray([]),
       'characteristic': new FormControl(null),
       'property': new FormControl(null),
       'modalVerb': new FormControl(null),
@@ -56,11 +56,11 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
       'verb': new FormControl('be')
     });
 
-    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungsgegenstand>',
+   /* this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungsgegenstand>',
       'modalVerb': null, 'qualifyingEx': '<Vergleichsop>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
 
     this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
-      'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });
+      'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });*/
   }
 
   onSubmit() {

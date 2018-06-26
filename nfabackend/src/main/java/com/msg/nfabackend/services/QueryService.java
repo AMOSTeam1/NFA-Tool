@@ -25,9 +25,6 @@ import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
 import com.msg.nfabackend.entities.nfaCatalog;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionDe;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionEn;
-
 
 public class QueryService {
 	
@@ -112,16 +109,7 @@ public class QueryService {
 			Metric metric = em.find(Metric.class, metricId);
 			nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
 			
-			BpPropertyTemplateNoConditionDe de = nfaCatalog.getNfaCatalogBlueprint().getDe();
-			if (de.getErklaerung() == null) {
-				de.setErklaerung(String.join(" ", 
-						de.getCharacteristic(), de.getProperty(), de.getModalVerb(), de.getQualifyingEx(), de.getValueInput(), de.getVerb()));
-			}
-			BpPropertyTemplateNoConditionEn en = nfaCatalog.getNfaCatalogBlueprint().getEn();
-			if (en.getErklaerung() == null) {
-				en.setErklaerung(String.join(" ", 
-						en.getCharacteristic(), en.getProperty(), en.getModalVerb(), en.getVerb(), en.getQualifyingEx(), en.getValueInput()));
-			}
+			nfaCatalog.getNfaCatalogBlueprint().createDescription(nfaCatalog.getNfaCatalogWert());
 			
 			em.persist(nfaCatalog);
 			
