@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import  {CurrentProjectService} from '../current-project/current-project.service';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 import {NfaFactorModel} from "../shared/nfaFactor.model";
-import {Response} from "@angular/http";
+
 import {DataStorageService} from "../shared/data-storage.service";
 import {ISubscription} from "rxjs/Subscription";
 @Component({
@@ -17,7 +17,6 @@ export class NfacatalogComponent implements OnInit, OnDestroy {
 
   projectMode :boolean = false;
   private subscription: ISubscription[];
-
 
   constructor(private nfaCatalogService: NfacatalogService,
               private route: ActivatedRoute,
@@ -33,12 +32,12 @@ export class NfacatalogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.projectMode = this.local.get('nfaMode');
 
-    const subscription = this.dataStorageService.getNfaFactor()
+    const subscription = this.dataStorageService.getNfaFactors()
       .subscribe(
-        (response: Response) => {
-          const nfaFactors: NfaFactorModel[] = response.json();
-          this.nfaCatalogService.setNfaFactors(nfaFactors);
-        }
+        response => {
+          this.nfaCatalogService.setNfaFactors(response);
+        },
+        error1 => console.log(error1)
       );
     this.subscription.push(subscription);
   }

@@ -4,8 +4,6 @@ import {NfacatalogService} from '../../nfacatalog.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {NfaFactorModel} from '../../../shared/nfaFactor.model';
 import {ISubscription} from "rxjs/Subscription";
-import {share} from "rxjs/operator/share";
-import {Response} from "@angular/http";
 import {DataStorageService} from '../../../shared/data-storage.service';
 
 @Component({
@@ -43,13 +41,13 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
 
     this.subscription.push(subscription);
 
-    subscription = this.dataStorageService.getNfaFactor()
-      .subscribe(
-        (response: Response) => {
-          const nfaFactors: NfaFactorModel[] = response.json();
+    subscription = this.dataStorageService.getNfaFactors()
+      .subscribe(response => {
+          const nfaFactors: NfaFactorModel[] = response;
           this.nfaCatalogService.setNfaFactors(nfaFactors);
           this.nfaFactors = nfaFactors;
-        }
+        },
+        error1 => console.log(error1)
       );
     this.subscription.push(subscription);
   }

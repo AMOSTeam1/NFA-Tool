@@ -8,7 +8,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
 import {ISubscription} from "rxjs/Subscription";
 import {NfaCustomModel} from "../../../shared/nfaCustom.model";
-import {Response} from "@angular/http";
+
 
 @Component({
   selector: 'app-nfa-detail',

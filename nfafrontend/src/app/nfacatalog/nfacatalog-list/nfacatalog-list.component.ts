@@ -4,8 +4,9 @@ import {NfaCatalogModel} from "../../shared/nfaCatalog.model";
 import {DataStorageService} from "../../shared/data-storage.service";
 
 import {NfacatalogService} from "../nfacatalog.service";
-import {Response} from "@angular/http";
+
 import {NfaFactorModel} from "../../shared/nfaFactor.model";
+import {ISubscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-nfacatalog-list',
@@ -14,22 +15,24 @@ import {NfaFactorModel} from "../../shared/nfaFactor.model";
 })
 export class NfacatalogListComponent implements OnInit {
 
-
-  // nfaCatalog: NfaCatalogModel[];
   nfaFactors: NfaFactorModel[];
-  constructor(private nfaCatalogService: NfacatalogService,
-              private dataStorageService: DataStorageService) { }
+  subscription: ISubscription[];
 
-  ngOnInit() {
-    this.dataStorageService.getNfaFactor()
-      .subscribe(
-        (response: Response) => {
-          const nfaFactors: NfaFactorModel[]=response.json();
-          this.nfaCatalogService.setNfaFactors(nfaFactors);
-          this.nfaFactors = nfaFactors;
-        }
-      );
+  constructor(private nfaCatalogService: NfacatalogService,
+              private dataStorageService: DataStorageService)
+  {
+    this.subscription = [];
   }
 
+  ngOnInit() {
+    const subscription = this.dataStorageService.getNfaFactors()
+      .subscribe(
+        response => {
+          this.nfaFactors = response;
+          this.nfaCatalogService.setNfaFactors(this.nfaFactors);
+        }
+      );
+    this.subscription.push(subscription);
+  }
 
 }

@@ -11,11 +11,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
-import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-
-
 
 
 // import ngx-translate and the http loader
@@ -45,7 +41,6 @@ import { NfaItemComponent } from './current-project/assign-nfa/nfa-list/nfa-item
 import { ChooseNfaComponent } from './current-project/assign-nfa/choose-nfa/choose-nfa.component';
 import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-detail.component';
 import { DataexchangeService } from './shared/dataexchange.service';
-import {Inst} from './shared/blueprints/inst.model';
 import { DenfaformComponent } from './newnfa/nfatemplate/denfaform/denfaform.component';
 import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
@@ -91,7 +86,6 @@ import { AngularWebStorageModule } from 'angular-web-storage';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {

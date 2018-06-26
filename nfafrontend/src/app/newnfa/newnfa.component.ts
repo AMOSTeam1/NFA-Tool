@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../shared/data-storage.service';
-import {Response} from '@angular/http';
+
 import {NfacatalogService} from '../nfacatalog/nfacatalog.service';
 import {NfaFactorModel} from '../shared/nfaFactor.model';
 import {NfaCriteriaModel} from '../shared/nfaCriteria.model';
@@ -24,6 +24,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private dataStorageService: DataStorageService,
               private nfaCatalogService: NfacatalogService) {
+    this.subscription = [];
   }
 
   nfaform: FormGroup;
@@ -44,12 +45,11 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.initForm();
 
-    const subscription = this.dataStorageService.getNfaFactor()
+    const subscription = this.dataStorageService.getNfaFactors()
       .subscribe(
-        (response: Response) => {
-          const nfaFactors: NfaFactorModel[] = response.json();
-          this.nfaCatalogService.setNfaFactors(nfaFactors);
-          this.nfaFactors = nfaFactors;
+        response => {
+          this.nfaFactors = response;
+          this.nfaCatalogService.setNfaFactors(this.nfaFactors);
         }
       );
     this.subscription.push(subscription);
@@ -108,8 +108,8 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
      this.dataStorageService.storeNfa(this.selectedMetric.id, nfaCatalogModel)
        .subscribe(
-         (response: Response) => {
-           console.log(response.json);
+         response => {
+           console.log(response);
          }
        );
   }

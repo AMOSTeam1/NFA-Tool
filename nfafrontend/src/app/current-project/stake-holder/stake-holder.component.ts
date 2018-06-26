@@ -4,7 +4,7 @@ import {DataStorageService} from '../../shared/data-storage.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {CurrentProjectService} from '../current-project.service';
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
-import {Response} from '@angular/http';
+
 import {NfacatalogService} from '../../nfacatalog/nfacatalog.service';
 
 @Component({
@@ -33,13 +33,14 @@ export class StakeHolderComponent implements OnInit {
           this.editMode = params['id'] != null;
           //this.initForm();
 
-          this.dataStorageService.getNfaFactor()
+          this.dataStorageService.getNfaFactors()
             .subscribe(
-              (response: Response) => {
-                const nfaFactors: NfaFactorModel[]=response.json();
+              response => {
+                const nfaFactors: NfaFactorModel[]=response;
                 this.nfaCatalogService.setNfaFactors(nfaFactors);
                 this.nfaFactors = nfaFactors;
-              }
+              },
+              error1 => console.log(error1)
             );
         }
       );

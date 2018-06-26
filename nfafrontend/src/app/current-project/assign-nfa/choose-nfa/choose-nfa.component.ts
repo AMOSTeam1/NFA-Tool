@@ -7,7 +7,6 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NfaFactorModel} from '../../../shared/nfaFactor.model';
 import {NfaCriteriaModel} from '../../../shared/nfaCriteria.model';
 import {NfaMetric} from '../../../shared/nfaMetric.model';
-import {Response} from '@angular/http';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {TranslateService} from '@ngx-translate/core';
 import {ISubscription} from "rxjs/Subscription";
@@ -37,12 +36,11 @@ export class ChooseNfaComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initForm();
     this.id = this.currentProjectService.getSelectedProjectId();
-    const subscription = this.dataStorageService.getNfaFactor()
+    const subscription = this.dataStorageService.getNfaFactors()
       .subscribe(
-        (response: Response) => {
-          const nfaFactors: NfaFactorModel[] = response.json();
-          this.nfaCatalogService.setNfaFactors(nfaFactors);
-          this.nfaFactors = nfaFactors;
+        response => {
+          this.nfaFactors = response;
+          this.nfaCatalogService.setNfaFactors(this.nfaFactors);
         }
       );
     this.subscription.push(subscription);
@@ -107,13 +105,16 @@ export class ChooseNfaComponent implements OnInit, OnDestroy {
     } else {
       editedProject.projectNfas.push(nfa);
     }
+
     this.currentProjectService.updateProject(this.id, editedProject);
-    this.dataStorageService.updateProject(editedProject)
+    const subscription = this.dataStorageService.updateProject(editedProject)
       .subscribe(
-        (response: Response) => {
+        response => {
+          //When response is there, reload project
           this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
         }
       );
+    this.subscription.push(subscription);
   }
 
   bezeichnung(nfa: NfaCatalogModel) {

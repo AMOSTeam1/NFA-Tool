@@ -5,7 +5,7 @@ import {DataStorageService} from '../../../shared/data-storage.service';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {Project} from '../../../shared/project.model';
 import {Subscription} from 'rxjs/Subscription';
-import {Response} from '@angular/http';
+
 
 @Component({
   selector: 'app-nfa-list',
@@ -63,7 +63,7 @@ export class NfaListComponent implements OnInit , OnDestroy{
     this.currentProjectService.updateProject(this.id, editedProject);
     this.dataStorageService.updateProject(editedProject)
       .subscribe(
-        (response: Response) => {
+        response => {
           this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
         }
       );

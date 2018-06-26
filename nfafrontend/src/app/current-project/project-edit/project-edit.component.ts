@@ -5,7 +5,7 @@ import { CurrentProjectService } from '../current-project.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
-import {Response} from '@angular/http';
+
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
 import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
 import {ISubscription} from "rxjs/Subscription";
@@ -48,13 +48,14 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         });
     this.subscription.push(subscription);
 
-    const subscription2 = this.dataStorageService.getNfaFactor()
+    const subscription2 = this.dataStorageService.getNfaFactors()
       .subscribe(
-        (response: Response) => {
-          const nfaFactors: NfaFactorModel[] = response.json();
+        response => {
+          const nfaFactors: NfaFactorModel[] = response;
           this.nfaCatalogService.setNfaFactors(nfaFactors);
           this.nfaFactors = nfaFactors;
-        }
+        },
+        error1 => console.log(error1)
       );
 
     this.subscription.push(subscription2);
@@ -164,11 +165,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
     }
     else {
-        projectTypes.push(
-          new FormGroup({
-            'id' : new FormControl('', Validators.required),
-            'name' : new FormControl('')
-          }));
+      projectTypes.push(
+        new FormGroup({
+          'id' : new FormControl('', Validators.required),
+          'name' : new FormControl('')
+        }));
 
       /*stakeholder changes begins*/
       const stakeholderFactors = new FormArray([]);
@@ -176,8 +177,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         new FormGroup({
           'nfa_id' : new FormControl('', Validators.required)
         })
-
       );
+
       projectStakeholders.push(
         new FormGroup({
           'stakeholder_id' : new FormControl(''),
@@ -187,6 +188,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       );
       /*stakeholder changes ends*/
     }
+
     this.projectForm = new FormGroup({
       'types' : projectTypes,
       /*stakeholder changes begins*/
@@ -229,17 +231,25 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     /*stakeholder changes begins*/
     const stakeholders: Stakeholder[] = [];
     const projectStakeholders = this.projectForm.value['projectStakeholders'];
+
     for (let i = 0; i < projectStakeholders.length; i++) {
       const stakeholder: Stakeholder = new Stakeholder(null, null, []);
+
       stakeholder.stakeholder_id = projectStakeholders[i].stakeholder_id;
       stakeholder.stakeholder_name = projectStakeholders[i].stakeholder_name;
-      for (let j = 0; j < projectStakeholders[i].stakeholderFactors.length; j++){
+
+      for (let j = 0; j < projectStakeholders[i].stakeholderFactors.length; j++) {
         this.nfaFactors.forEach((x) => {
+
           if (x.nfa_id.toString() === projectStakeholders[i].stakeholderFactors[j].nfa_id.toString())
-          {stakeholder.stakeholderFactors.push(x.nfa_id); }});
+          {
+            stakeholder.stakeholderFactors.push(x.nfa_id);
+          }
+        });
       }
       stakeholders.push(stakeholder);
     }
+
     newProject.projectStakeholders = stakeholders;
     /*stakeholder changes ends*/
 
@@ -248,29 +258,35 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
       console.log(newProject);
       this.currentProjectService.updateProject(this.id, newProject);
-      this.dataStorageService.updateProject(newProject)
+
+      const subsciption = this.dataStorageService.updateProject(newProject)
         .subscribe(
-          (response: Response) => {
+          (response) => {
 
             this.onCancel();
             this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
           }
         );
+      this.subscription.push(subsciption);
     } else {
       newProject.id = null;
-      this.dataStorageService.storeProject(newProject)
+
+      const subscription = this.dataStorageService.storeProject(newProject)
         .subscribe(
-          (response: Response) => {
-            this.dataStorageService.getProjectByName('On Process',"")
+          (response) => {
+            const subscription1= this.dataStorageService.getProjectsByName('On Process',"")
               .subscribe(
-                (respons: Response) => {
-                  const projects: Project[] = respons.json();
-                  this.currentProjectService.setProjects(projects);
+                respons => {
+                  this.currentProjectService.setProjects(respons);
                   this.onCancel();
-                }
+                },
+                error1 => console.log(error1)
               );
+            this.subscription.push(subscription1);
           }
         );
+      this.subscription.push(subscription);
+
     }
   }
 
@@ -299,17 +315,23 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   updatePhase(){
     const no_phase = new FormControl('None', Validators.required );
     const choose_phase = new FormControl('', Validators.required );
+
     if (this.projectForm.value['devProcess'] === 'Agile')
-    { this.projectForm.setControl('projectPhase', no_phase);}
-    else
-    {this.projectForm.setControl('projectPhase', choose_phase);}
+    {
+      this.projectForm.setControl('projectPhase', no_phase);
+    }
+    else{
+      this.projectForm.setControl('projectPhase', choose_phase);
+    }
   }
 
   isAgileCheck() {
-    if (this.projectForm.value['devProcess'] === 'Agile')
-      { return true;}
-    else
-      {return false;}
+    if(this.projectForm.value['devProcess'] === 'Agile') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   isMinimum(i:number){

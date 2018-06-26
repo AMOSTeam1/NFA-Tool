@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
-import {Response} from '@angular/http';
+
 import {CurrentProjectService} from '../current-project.service';
 import {ProjectType} from '../../shared/type.model';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -38,22 +38,23 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    let subscription = this.dataStorageService.getProjectByName(this.status,"")
+    let subscription = this.dataStorageService.getProjectsByName(this.status,"")
       .subscribe(
-        (response: Response) => {
-          const projects: Project[] = response.json();
+        response => {
+          const projects: Project[] = response;
           this.currentProjectService.setProjects(projects);
           this.projects = projects;
-        }
+        },
+        error1 => console.log(error1)
       );
     this.subscription.push(subscription);
 
     subscription = this.dataStorageService.getTypes()
       .subscribe(
-        (response: Response) => {
-          const types: ProjectType[] = response.json();
-          this.currentProjectService.setTypes(types);
-        }
+        response => {
+          this.currentProjectService.setTypes(response);
+        },
+        error1 => console.log(error1)
       );
     this.subscription.push(subscription);
 
@@ -61,7 +62,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       .subscribe(
         (projects: Project[]) => {
           this.projects = projects;
-        }
+        },
+        error1 => console.log(error1)
       );
     this.subscription.push(subscription);
 
@@ -75,12 +77,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   onSearch(frominput: HTMLInputElement) {
 
-    const subscription = this.dataStorageService.getProjectByName(this.status,frominput.value).subscribe(
-      (response: Response) => {
-        const projects: Project[] = response.json();
-        this.projects = projects;
+    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value).subscribe(
+      response=> {
+        this.projects = response;
         this.currentProjectService.setProjects(this.projects);
-      }
+      },
+      error1 => console.log(error1)
     );
 
     this.subscription.push(subscription);
@@ -98,14 +100,14 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
     this.status = STATUS.ALL;
 
-    const subscription = this.dataStorageService.getProjectByName(this.status,frominput.value)
+    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value)
       .subscribe(
-        (response: Response) => {
-          const projects: Project[] = response.json();
-          this.projects = projects;
+        response => {
+          this.projects = response;
           this.currentProjectService.setProjects(this.projects)
 
-        }
+        },
+        error1 => console.log(error1)
       );
 
     this.subscription.push(subscription);
@@ -117,13 +119,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       this.status = STATUS.ON_PROCESS;
     }
 
-    const subscription = this.dataStorageService.getProjectByName(this.status,frominput.value)
+    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value)
       .subscribe(
-        (response: Response) => {
-          const projects: Project[] = response.json();
-          this.projects = projects;
+        response => {
+          this.projects = response;
           this.currentProjectService.setProjects(this.projects);
-        }
+        },
+        error1 => console.log(error1)
       );
 
     this.subscription.push(subscription);
@@ -134,13 +136,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       this.status = STATUS.ARCHIVED;
     }
 
-    const subscription = this.dataStorageService.getProjectByName(this.status,frominput.value)
+    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value)
       .subscribe(
-        (response: Response) => {
-          const projects: Project[] = response.json();
-          this.projects = projects;
+       response => {
+         this.projects = response;
           this.currentProjectService.setProjects(this.projects);
-        }
+        },
+        error1 => console.log(error1)
     );
 
     this.subscription.push(subscription);

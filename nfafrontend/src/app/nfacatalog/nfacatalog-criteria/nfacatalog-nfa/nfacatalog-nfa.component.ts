@@ -13,7 +13,7 @@ import {ISubscription} from "rxjs/Subscription";
 import {FormControl, FormGroup} from "@angular/forms";
 import {NfaCustomModel} from "../../../shared/nfaCustom.model";
 import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
-import {Response} from "@angular/http";
+
 
 //Define Lookup-Name in Local Storage
 const selNfsName : string = 'selNfs';
@@ -206,7 +206,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       .subscribe(
         response => {
           console.log("trying to store custom NFA");
-          console.log(response.json());
+          console.log(response);
         },
         err => {
           console.log(err);
