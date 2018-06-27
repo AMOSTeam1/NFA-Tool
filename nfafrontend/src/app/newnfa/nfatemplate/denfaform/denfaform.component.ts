@@ -60,7 +60,9 @@ export class DenfaformComponent implements OnInit {
 
     if (isNull(qe.abundant) && fa.length === 2) {
       fa.removeAt(1);
-    } else if (!isNull(qe.abundant) && fa.length === 1) {
+    } else if ((!isNull(qe.abundant) && fa.length === 1) && (this.deForm.get('chbox').value)) {
+      fa.push(new FormControl( null));
+    } else if ((!isNull(qe.abundant) && fa.length === 1) && (!this.deForm.get('chbox').value)) {
       fa.push(new FormControl({value: null, disabled: true}));
     }
   }

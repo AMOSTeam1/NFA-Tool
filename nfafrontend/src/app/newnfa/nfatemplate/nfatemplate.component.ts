@@ -3,6 +3,7 @@ import {FormGroup, FormControl, NgForm, Validators, FormArray, FormBuilder} from
 import {DenfaformComponent} from './denfaform/denfaform.component';
 import {EnnfaformComponent} from './ennfaform/ennfaform.component';
 import {QualifiyingExpression} from '../../shared/blueprints/QualifiyingExpression.model';
+import {isNull} from 'util';
 
 @Component({
   selector: 'app-nfatemplate',
@@ -21,7 +22,7 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
   @ViewChild (EnnfaformComponent) enComponent;
   @Output() submitTemplate = new EventEmitter<FormGroup>();
 
-  definition = {
+  definitionDE = {
     characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>'
   };
 
@@ -87,17 +88,25 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
 
   Reset() {
    this.checked = false;
+   if ((<FormArray>this.deComponent.deForm.get('valueInput')).length === 2) {
+     (<FormArray>this.deComponent.deForm.get('valueInput')).removeAt(1);
+   }
    this.deComponent.resetForm();
    this.enComponent.resetForm();
-    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungsgegenstand>',
-      'modalVerb': null, 'qualifyingEx': '<Vergleichsoperator>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
-
-    this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
-      'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });
   }
 
   private updateValidStatus() {
    this.valid = (this.deComponent.deForm.status === 'VALID')
      && (this.enComponent.enForm.status === 'VALID');
   }
+
+  hasValue(control: FormControl) {
+   return !isNull(control.value);
+  }
+  hasAbundantDE() {
+
+  const va = this.deComponent.deForm.get('qualifyingEx').value;
+  return QualifiyingExpression.resolve(va).fullDe();
+  }
+
 }
