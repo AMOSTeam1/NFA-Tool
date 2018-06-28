@@ -44,6 +44,7 @@
       "phase" : "Project Phase",
       "status" : "Project Status",
       "edit-project" : "Edit Project",
+      "export-project": "Export Project",
       "delete-project" : "Delete Project",
 
       "choose-nfr" : "Choose NFR",

@@ -44,6 +44,7 @@
 
       "status" : "Project Status",
       "edit-project" : "Projekt bearbeiten",
+      "export-project": "Projekt exportiern",
       "delete-project" : "Projekt löschen",
 
       "choose-nfr" : "NFA auswählen",

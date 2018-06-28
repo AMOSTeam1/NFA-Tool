@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
+    "@ng-bootstrap/ng-bootstrap": "^2.1.2",
     "@ngx-translate/core": "^9.1.1",
     "@ngx-translate/http-loader": "^2.0.1",
     "angular-web-storage": "^3.0.0",
@@ -29,6 +30,8 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "jquery": "^3.3.1",
+    "ng-bootstrap-modal": "^1.1.19",
+    "ng-modal": "^1.0.2",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
