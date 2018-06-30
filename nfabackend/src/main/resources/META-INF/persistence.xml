@@ -1,0 +1,23 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+	http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
+
+	<persistence-unit name="msg-nfa" transaction-type="JTA">
+<!-- 		<provider>org.hibernate.ejb.HibernatePersistence</provider> -->
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>java:/PostgresDS</jta-data-source>
+		<class>com.msg.nfabackend.entities.Metric</class>
+		<class>com.msg.nfabackend.entities.nfaCatalog</class>
+		<class>com.msg.nfabackend.entities.NfaCriteria</class>
+		<class>com.msg.nfabackend.entities.NfaFactor</class>
+		<class>com.msg.nfabackend.entities.Project</class>		
+		<class>com.msg.nfabackend.entities.Stakeholder</class>
+		<class>com.msg.nfabackend.entities.Type</class>
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform"/>
+			<property name="javax.persistence.schema-generation.scripts.action" value="none"/>
+		</properties>
+	</persistence-unit>
+</persistence>
