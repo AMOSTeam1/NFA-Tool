@@ -1,13 +1,10 @@
 package com.msg.nfabackend.services;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -18,14 +15,12 @@ import org.hibernate.cfg.NotYetImplementedException;
 import com.msg.nfabackend.entities.CustomNFA;
 import com.msg.nfabackend.entities.Metric;
 import com.msg.nfabackend.entities.NfaCatalog;
+import com.msg.nfabackend.entities.NfaCatalog.BpPropertyTemplateNoCondition;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
-import com.msg.nfabackend.entities.nfaCatalog;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionDe;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionEn;
 
 @Stateless
 public class QueryService {
@@ -69,42 +64,34 @@ public class QueryService {
 		return project;
 	}
 	
-	public nfaCatalog createNfa (Long metricId, nfaCatalog nfaCatalog) {
+	public NfaCatalog createNfa (Long metricId, NfaCatalog NfaCatalog) {
 		Metric metric = em.find(Metric.class, metricId);
-		nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
+		NfaCatalog.setNfaNumber((long) metric.getNfaList().size());
 
-		BpPropertyTemplateNoConditionDe de = nfaCatalog.getNfaCatalogBlueprint().getDe();
+		BpPropertyTemplateNoCondition de = NfaCatalog.getBlueprint().getDe();
 		if (de.getErklaerung() == null) {
 			de.setErklaerung(String.join(" ",
 					de.getCharacteristic(), de.getProperty(), de.getModalVerb(), de.getQualifyingEx(), de.getValueInput(), de.getVerb()));
 		}
-		BpPropertyTemplateNoConditionEn en = nfaCatalog.getNfaCatalogBlueprint().getEn();
+		BpPropertyTemplateNoCondition en = NfaCatalog.getBlueprint().getEn();
 		if (en.getErklaerung() == null) {
 			en.setErklaerung(String.join(" ",
 					en.getCharacteristic(), en.getProperty(), en.getModalVerb(), en.getVerb(), en.getQualifyingEx(), en.getValueInput()));
 		}
 
-		em.persist(nfaCatalog);
+		em.persist(NfaCatalog);
 
-		metric.getNfaList().add(nfaCatalog);
+		metric.getNfaList().add(NfaCatalog);
 
-		return nfaCatalog;
+		return NfaCatalog;
 	}
 
 	public CustomNFA createCustomNfa (CustomNFA customNfa) {
 		System.out.println("HaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalllllo");
-		try {
-			tx.begin();
-			System.out.println(customNfa);
-			em.persist(customNfa);
-			tx.commit();
-		}catch(Exception e){
-			LOG.log(Level.SEVERE, "Creating customNfa failed...", e);
-			tx.rollback();
-		}finally {
-			em.close();
-			emf.close();
-		}
+		System.out.println(customNfa);
+	
+		em.persist(customNfa);
+		
 		return customNfa;
 	}
 	
@@ -144,8 +131,8 @@ public class QueryService {
 		return em.createQuery("from Type",Type.class).getResultList();
     }
 	
-	public List<nfaCatalog> getAllNfa() {
-		return em.createQuery("from nfaCatalog",nfaCatalog.class).getResultList();
+	public List<NfaCatalog> getAllNfa() {
+		return em.createQuery("from NfaCatalog",NfaCatalog.class).getResultList();
     }
 	
 	public List<NfaFactor> getAllFactors() {

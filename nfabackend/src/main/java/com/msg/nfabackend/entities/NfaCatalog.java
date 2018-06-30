@@ -1,7 +1,6 @@
 package com.msg.nfabackend.entities;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.StringWriter;
 
 import javax.persistence.AttributeConverter;
