@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Form, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Response} from '@angular/http';
@@ -19,7 +19,7 @@ import {QualifiyingExpression} from '../shared/blueprints/QualifiyingExpression.
   templateUrl: './newnfa.component.html',
   styleUrls: ['./newnfa.component.css']
 })
-export class NewnfaComponent implements OnInit, AfterViewInit {
+export class NewnfaComponent implements OnInit {
 
   constructor(private dataStorageService: DataStorageService,
               private nfaCatalogService: NfacatalogService) {
@@ -33,9 +33,10 @@ export class NewnfaComponent implements OnInit, AfterViewInit {
   selectedCriteria: NfaCriteriaModel = undefined;
   selectedMetric: NfaMetric = undefined;
   selectedType: any;
-  selectedNfa: NfaCatalogBlueprintModel;
+  valid = false;
 
-  ngAfterViewInit() {
+  validUpdate = (value: boolean) => {
+    this.valid = value;
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-<form [formGroup]="enForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+<form [formGroup]="enForm" class="form-horizontal">
   <br>
   <br>
   <div class="form-group">
@@ -23,7 +23,6 @@
     <label for="modalVerbInput" class="control-label col-xs-6">Requirement level</label>
     <div class="col-xs-6">
        <input readonly type="text" class="form-control" id="modalVerbInput" name="modalVerbInput" formControlName="modalVerb">
-        <!--<option [value] = "">{{}}</option>-->
     </div>
   </div>
   <div class="form-group" >
@@ -32,12 +31,15 @@
       <input readonly type="text" class="form-control" id="qualifyingExInput" name="qualifyingExInput" formControlName="qualifyingEx">
     </div>
   </div>
-  <div class="form-group" >
-    <label for="valueInput" class="control-label col-xs-6">Value</label>
-    <div class="col-xs-6">
-      <input readonly type="text" class="form-control" id="valueInput" name="valueInput" formControlName="valueInput">
+
+  <div formArrayName="valueInput">
+    <label for="inputValue" class="control-label col-xs-6">Value</label>
+    <div id="inputValue" class="form-group">
+      <div class="col-xs-3" *ngFor="let valControl of enForm.get('valueInput').controls; let i = index">
+        <input type="text" class="form-control" [id]="i" [name]="i" [formControlName]="i" readonly>
+      </div>
     </div>
   </div>
-</form>
+ </form>
 
 

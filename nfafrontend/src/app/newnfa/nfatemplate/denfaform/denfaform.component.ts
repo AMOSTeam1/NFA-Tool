@@ -23,12 +23,12 @@ export class DenfaformComponent implements OnInit {
   ngOnInit() {
     this.deForm = new FormGroup({
       'chbox': new FormControl(false),
-      'nameNFA': new FormControl(null),
+      'nameNFA': new FormControl(null, Validators.required),
       'characteristic': new FormControl(null, Validators.required),
       'property': new FormControl(null, Validators.required),
-      'modalVerb': new FormControl({value: null, disabled: true}),
+      'modalVerb': new FormControl({value: null, disabled: true}, Validators.required),
       'qualifyingEx': new FormControl(null, Validators.required),
-      'valueInput': new FormArray([new FormControl({value: null, disabled: true})]),
+      'valueInput': new FormArray([new FormControl({value: null, disabled: true}, Validators.required)]),
       'verb': new FormControl(null, Validators.required)
     });
   }
@@ -36,7 +36,7 @@ export class DenfaformComponent implements OnInit {
      if (event.currentTarget.checked === true) {
       this.deForm.get('modalVerb').enable({});
       this.deForm.get('valueInput').enable({});
-    } else {
+      } else {
        this.deForm.get('modalVerb').reset();
        this.deForm.get('valueInput').reset();
        this.newMessage(event);
@@ -61,24 +61,20 @@ export class DenfaformComponent implements OnInit {
     if (isNull(qe.abundant) && fa.length === 2) {
       fa.removeAt(1);
     } else if ((!isNull(qe.abundant) && fa.length === 1) && (this.deForm.get('chbox').value)) {
-      fa.push(new FormControl( null));
+      fa.push(new FormControl(null, Validators.required));
     } else if ((!isNull(qe.abundant) && fa.length === 1) && (!this.deForm.get('chbox').value)) {
-      fa.push(new FormControl({value: null, disabled: true}));
+      fa.push(new FormControl({value: null, disabled: true}, Validators.required));
     }
   }
 
   resetForm() {
+    if ((<FormArray>this.deForm.get('valueInput')).length === 2) {
+      (<FormArray>this.deForm.get('valueInput')).removeAt(1);
+    }
     this.deForm.reset();
     this.deForm.get('modalVerb').disable({});
     this.deForm.get('valueInput').disable({});
   }
 
-  getQualifiyingExpression() {
-    return this.getQE(this.deForm.get('qualifyingEx').value);
-  }
-
-  private getQE(value: string) {
-    return QualifiyingExpression.resolve(value);
-  }
 }
 
