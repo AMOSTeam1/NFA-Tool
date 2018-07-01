@@ -2,24 +2,22 @@ th, td {
   padding: 15px;
 }
 .bptdiv {
-  border-radius: 8px;
   padding: 1px;
+  border-radius: 8px;
   border: darkred;
 
 }
 span{
   font-family: 'Open Sans', sans-serif;
-  font-size: 1.4em;
+  font-size: 1.6em;
 }
 
 .bpt {
   border-radius: 5px;
-  padding: 1px;
   box-shadow: 4px 4px 3px #356777;
   background: #56a3bc;
   display: flex;
   justify-content: center;
-
 }
 
 

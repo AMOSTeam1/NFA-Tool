@@ -1,9 +1,9 @@
-<head>
+<head xmlns="http://www.w3.org/1999/html">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-  <form (submit)="onSubmit()">
+  <form>
     <div class="row">
     <!--------Deutsch Form----->
     <div class="col-md-6">
@@ -41,12 +41,32 @@
       <span class="bpt">{{deComponent.deForm.get('modalVerb').value}}</span>
     </ng-template>
   </div>
-      <div class="col-xs-2"><span class="bpt" *ngIf="hasValue(deComponent.deForm.get('qualifyingEx')); else qualDE"> {{hasAbundantDE()}} </span>
+
+      <div class="col-xs-2">
+        <div *ngIf="hasValue(this.deComponent.deForm.get('qualifyingEx')); else qualDE">
+          <div *ngIf="hasAbundant(); else onlyValue">
+            <div class="bpt">{{fullQualExprDe()[0]}}</div>
+            <div class="bpt">{{fullQualExprDe()[1]}}</div>
+          </div>
+          <ng-template #onlyValue>
+            <span class="bpt">{{fullQualExprDe()[0]}}</span>
+          </ng-template>
+        </div>
         <ng-template #qualDE>
-          <span class="bpt">Vergleichsop</span>
+                    <span class="bpt">Vergleichsop</span>
         </ng-template>
       </div>
-      <div class="col-xs-2"><span class="bpt" *ngIf="deComponent.deForm.get('chbox').value; else valueDE">{{deComponent.deForm.get('valueInput').value}}</span>
+
+      <!--end qula-->
+      <div class="col-xs-2">
+        <div *ngIf="deComponent.deForm.get('chbox').value; else valueDE">
+          <div *ngIf="(deComponent.deForm.get('valueInput')).length===2; else onlyValueInp">
+            <div class="bpt">{{getValue(0)}}</div><div class="bpt">{{getValue(1)}}</div>
+          </div>
+          <ng-template #onlyValueInp>
+        <span class="bpt" >{{getValue(0)}}</span>
+          </ng-template>
+        </div>
         <ng-template #valueDE>
           <span class="bpt">Wert</span>
         </ng-template>
@@ -54,10 +74,10 @@
 
     <div class="col-xs-2"><span class="bpt" *ngIf="hasValue(deComponent.deForm.get('verb')); else verbenDE">{{deComponent.deForm.get('verb').value}}</span>
       <ng-template #verbenDE>
-        <span class="bpt">Werb</span>
+        <span class="bpt">sein / betragen</span>
       </ng-template>
     </div>
-  </div>
+    </div>
   <div class="row" *ngIf="!deComponent.deForm.get('chbox').value">
     <div class="col-xs-5"></div>
     <div class="col-xs-1 bptdiv">
@@ -65,7 +85,9 @@
       <span class="bpt">koennen</span></div>
     <div class="col-xs-6"></div>
   </div>
-<br>
+    <br>
+
+    <!---English Blueprint-->
 
     <div class="row" *ngIf="!deComponent.deForm.get('chbox').value">
       <div class="col-xs-5"></div>
@@ -77,11 +99,15 @@
     <div class="row">
       <div class="col-xs-2">
         <span class="bpt" *ngIf="hasValue(enComponent.enForm.get('characteristic')); else charactEN">{{enComponent.enForm.get('characteristic').value}}</span>
-        <ng-template #charactEN><span class="bpt">Characteristic</span></ng-template>
+        <ng-template #charactEN>
+          <span class="bpt">Characteristic</span>
+        </ng-template>
       </div>
       <div class="col-xs-3">
         <span class="bpt"*ngIf="hasValue(enComponent.enForm.get('property')); else propEN">{{enComponent.enForm.get('property').value}}</span>
-        <ng-template #propEN><span class="bpt">Property</span></ng-template>
+        <ng-template #propEN>
+          <span class="bpt">Property</span>
+        </ng-template>
       </div>
       <div class="col-xs-1 bptdiv"><span class="bpt" *ngIf="!deComponent.deForm.get('chbox').value; else verbEN">should</span>
         <ng-template #verbEN>
@@ -90,13 +116,33 @@
       </div>
       <div class="col-xs-2"><span class="bpt">be</span>
       </div>
-      <div class="col-xs-2"><span class="bpt" *ngIf="hasValue(deComponent.deForm.get('qualifyingEx')); else qualEN"> {{enComponent.enForm.get('qualifyingEx').value}} </span>
-        <ng-template #qualEN>
-          <span class="bpt">QualifExpr</span>
+
+      <div class="col-xs-2">
+        <div *ngIf="hasValue(this.deComponent.deForm.get('qualifyingEx')); else qualEn">
+          <div *ngIf="hasAbundant(); else onlyValueEn">
+            <div class="bpt">{{fullQualExprEn()[0]}}</div>
+            <div class="bpt">{{fullQualExprEn()[1]}}</div>
+          </div>
+          <ng-template #onlyValueEn>
+            <span class="bpt">{{fullQualExprEn()[0]}}</span>
+          </ng-template>
+        </div>
+        <ng-template #qualEn>
+          <span class="bpt">QualExpr</span>
         </ng-template>
       </div>
-      <div class="col-xs-2"><span class="bpt" *ngIf="deComponent.deForm.get('chbox').value; else valueDE">{{deComponent.deForm.get('valueInput').value}}</span>
-        <ng-template #valueDE>
+
+      <div class="col-xs-2">
+        <div *ngIf="deComponent.deForm.get('chbox').value; else valueEN">
+          <div *ngIf="(deComponent.deForm.get('valueInput')).length===2; else onlyValueInp">
+            <div class="bpt">{{getValue(0)}}</div>
+            <div class="bpt">{{getValue(1)}}</div>
+          </div>
+          <ng-template #onlyValueInp>
+            <span class="bpt">{{getValue(0)}}</span>
+          </ng-template>
+        </div>
+        <ng-template #valueEN>
           <span class="bpt">Value</span>
         </ng-template>
       </div>
@@ -111,11 +157,6 @@
 
     <table>
     <tr>
-     <!-- <td>
-        <div class="send">
-          <button class="btn btn-primary addnfa" type="submit" [disabled]="!valid">Add Blueprint</button>
-        </div>
-      </td>-->
       <td>
         <button class="btn btn-default" type="reset" (click)="Reset()">Cancel</button>
       </td>
