@@ -2,14 +2,17 @@ package com.msg.nfabackend.entities;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -208,6 +211,9 @@ public class NfaCatalog implements NfaInterface{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name ="nfa_id")
 	private Long nfaCatalogId;
+
+	@OneToMany(mappedBy = "originalEntry", cascade = CascadeType.ALL)
+	private List<CustomNFA> customNfaList;
 	
 	@Column (name ="NFA_NUMBER")
 	private Long nfaNumber;

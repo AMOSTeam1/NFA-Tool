@@ -2,9 +2,13 @@ package com.msg.nfabackend.resources;
 
 import java.net.URI;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -18,32 +22,46 @@ import com.msg.nfabackend.services.QueryService;
  * JAX-RS-Resource for Entity 'CustomNfa'
  * 
  */
-@Path("/nfa_edit")
+@Path("nfa_edit")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomNfaResource {
-
-	QueryService queryService = new QueryService();
 	
-//	@GET
-//	public List<CustomNFA> getAllNfa() {
-//		return queryService.getAllNfa();
-//	}
+	@Inject
+	private QueryService queryService;
 
-	@POST
-	@Path("/create")
+
+	@OPTIONS
+	@Path("/create/{OriginalId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createCustomNfa (CustomNFA customNfa, @Context UriInfo uriInfo) {
-		System.out.println("asdasdasdasdasd");
-//		System.out.println("asssssssssssssssssssssssssssssss");
-		CustomNFA customNfaTemp = queryService.createCustomNfa(customNfa);
+	public Response preflight(@PathParam("OriginalId") Long originalId) {
+		System.out.println("Pre-flight AAAAAAAC");
+		
+	    return Response.ok("[]", MediaType.APPLICATION_JSON)
+	    		.header("Allow", HttpMethod.POST)
+	    		.build();
+	}
+
+	@POST
+	@Path("/create/{OriginalId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response createCustomNfa (CustomNFA customNfa, @Context UriInfo uriInfo, @PathParam("OriginalId") Long originalId) {
+		System.out.println("createCustomNfa AAAAAAB " + originalId);
+		
+		CustomNFA customNfaTemp = queryService.createCustomNfa(customNfa, originalId);
 		
 		String newId = String.valueOf(customNfaTemp.getId());
         URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
         return Response.created(uri)
                 .entity(customNfaTemp)
                 .build();
+        
+//        return Response.created(uri)
+//                .entity(customNfaTemp)
+//                .build();
 	}
+	
 	
 }

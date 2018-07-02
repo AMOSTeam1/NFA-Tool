@@ -39,11 +39,9 @@ public class ProjectResource {
 	
 	@POST
 	@Path("/create")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response createProject(Project project, @Context UriInfo uriInfo) {
-		System.out.println("projprojprojprojprojprojproj");
-		
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response createProject(Project project, @Context UriInfo uriInfo) {		
 		Project createProject = queryService.createProject(project);
 		String newId = String.valueOf(createProject.getId());
         URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();

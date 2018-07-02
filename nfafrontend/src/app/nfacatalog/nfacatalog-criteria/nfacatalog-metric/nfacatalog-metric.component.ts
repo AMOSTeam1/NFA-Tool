@@ -23,7 +23,7 @@ export class NfacatalogMetricComponent implements OnInit {
   metricIdx: number;
   nfaIdx: number;
 
-  selectedNfs: NfaCatalogModel[]
+  selectedNfs: NfaCatalogModel[];
   factorNfs: NfaCatalogModel[];
   isSelected = false;
   class: string;
@@ -98,7 +98,7 @@ export class NfacatalogMetricComponent implements OnInit {
         this.factorNfs = this.nfaMetrics[this.metricIdx].nfaList;
         for (const nfa of this.factorNfs) {
           for (const selnfa of this.selectedNfs) {
-            if (selnfa.nfaCatalogId == nfa.nfaCatalogId) {
+            if (selnfa.id == nfa.id) {
               this.isSelected = true;
             }
           }

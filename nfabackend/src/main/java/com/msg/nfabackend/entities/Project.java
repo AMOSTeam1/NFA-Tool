@@ -27,9 +27,6 @@ public class Project {
 	
 	public Project() {}
 	
-	/*@Id
-	@SequenceGenerator(name="seq-gen",sequenceName="NFA_PROJECT_ID_SEQ" , initialValue = 1, allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")*/
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")

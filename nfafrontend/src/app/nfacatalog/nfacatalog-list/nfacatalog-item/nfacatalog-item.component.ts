@@ -42,7 +42,7 @@ export class NfacatalogItemComponent implements OnInit {
             this.factorNfs = met.nfaList;
             for (const nfa of this.factorNfs) {
               for (const selnfa of this.selectedNfs) {
-                if (selnfa.nfaCatalogId == nfa.nfaCatalogId) {
+                if (selnfa.id == nfa.id) {
                   this.class = 'list-group-item-success';
                 }
               }

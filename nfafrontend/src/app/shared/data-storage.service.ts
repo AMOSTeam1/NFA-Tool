@@ -2,21 +2,32 @@ import {Injectable} from '@angular/core';
 import {Project} from './project.model';
 import {NfaCatalogModel} from './nfaCatalog.model';
 import {NfaCustomModel} from "./nfaCustom.model";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {NfaFactorModel} from "./nfaFactor.model";
 import {ProjectType} from "./type.model";
+
+const headers = new HttpHeaders(
+  {
+      'Content-Type': 'application/json'
+    }
+  );
+const httpOptions = {
+  headers: headers
+};
 
 @Injectable()
 export class DataStorageService {
   constructor(private http: HttpClient) {}
 
   storeNfa(metricId: number, nfa: NfaCatalogModel) {
-   return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create' + metricId, nfa);
+   return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa);
   }
-  storeEditedNfa(customNfa: NfaCustomModel) {
-    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa);
+  storeEditedNfa(nfaCustom: NfaCustomModel) {
+    // return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa, httpOptions);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.nfaOriginalId, nfaCustom);
   }
+
   storeProject(newproject: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
   }

@@ -110,6 +110,9 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
        .subscribe(
          response => {
            console.log(response);
+         },
+         error1 => {
+           console.log(error1);
          }
        );
   }

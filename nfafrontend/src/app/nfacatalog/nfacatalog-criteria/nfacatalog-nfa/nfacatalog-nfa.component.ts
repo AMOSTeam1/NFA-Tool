@@ -179,7 +179,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(){
-    console.log("onsubmit");
+    console.log("on_submit");
     switch(this.lang()){
       case 'de':
         this.nfa.blueprint.de.erklaerung = this.nfadetailForm.value['nfaExplanation'];
@@ -190,9 +190,11 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
         break;
     }
 
+
+    console.log("this.nfa.id: " + this.nfa.id);
     let customNfa = new NfaCustomModel(
-      this.nfa.nfaNumber,
-      this.nfa.nfaCatalogId,
+      null,
+      this.nfa.id,
       this.nfa.value,
       this.nfa.formulation,
       this.nfa.blueprint,
@@ -201,6 +203,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       this.nfa.criticality,
       this.nfa.document
     );
+    console.log(customNfa);
 
     const subscription = this.dataStorageService.storeEditedNfa(customNfa)
       .subscribe(
@@ -209,14 +212,14 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
           console.log(response);
         },
         err => {
+          console.log("error while trying to store custom NFA");
           console.log(err);
         }
       );
     this.subscription.push(subscription);
 
     this.onBack();
-    console.log(customNfa);
-    console.log("onsubmit done");
+    console.log("on_submit done");
   }
 
   private initForm() {
@@ -267,7 +270,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     }
     else {
       savedNfs.forEach((x) => {
-      if (x.nfaCatalogId == nfsid) {
+      if (x.id == nfsid) {
         this.checked= true;
       }
     });
@@ -300,7 +303,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     if(savedNfs.length>0){
       let count = 0;
       savedNfs.forEach((x) => {
-        if (x.nfaCatalogId !== selectedNfa.nfaCatalogId) {
+        if (x.id !== selectedNfa.id) {
           count = count +1;
         }
       });

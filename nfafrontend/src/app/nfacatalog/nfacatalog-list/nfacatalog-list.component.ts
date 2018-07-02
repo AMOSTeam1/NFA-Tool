@@ -32,7 +32,6 @@ export class NfacatalogListComponent implements OnInit {
   projectNfs: NfaCatalogModel[];
   project: Project;
 
-  nfaFactors: NfaFactorModel[];
   subscription: ISubscription[];
 
   constructor(private nfaCatalogService: NfacatalogService,

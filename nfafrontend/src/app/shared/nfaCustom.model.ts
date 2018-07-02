@@ -3,7 +3,7 @@ import {NfaCatalogBlueprintModel} from "./nfaCatalogBlueprint.model";
 export class NfaCustomModel {
   constructor(
     public nfaCustomId: number,
-    public nfaOriginalgId: number,
+    public nfaOriginalId: number,
     public value: string,
     public formulation: string,
     public blueprint: NfaCatalogBlueprintModel,

@@ -86,12 +86,14 @@ public class QueryService {
 		return NfaCatalog;
 	}
 
-	public CustomNFA createCustomNfa (CustomNFA customNfa) {
-		System.out.println("HaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllloHaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalllllo");
-		System.out.println(customNfa);
-	
-		em.persist(customNfa);
+	public CustomNFA createCustomNfa (CustomNFA customNfa, Long originalId) {
+		System.out.println("TEST: " + customNfa.getBlueprint().getDe().getErklaerung());
 		
+		NfaCatalog originalNfa = em.find(NfaCatalog.class, originalId);
+		customNfa.setOriginalNfa(originalNfa);
+
+		em.merge(customNfa);
+
 		return customNfa;
 	}
 	

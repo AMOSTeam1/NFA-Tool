@@ -32,7 +32,7 @@
 
   <hr>
 <div *ngIf ="onView">
-  <form [formGroup]="nfadetailForm" method="post" (ngSubmit)="onSubmit()">
+  <form [formGroup]="nfadetailForm" (ngSubmit)="onSubmit()">
 
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -54,7 +54,6 @@
           cols="60"
           rows="4">
           <!--value=" {{erklaerung(nfas[nfaIdx])}}"-->
-
         </textarea>
         <p *ngIf="!editmode" class="small">{{erklaerung(nfas[nfaIdx])}}</p>
       </div>
@@ -65,7 +64,7 @@
         <h3 class="panel-title">{{ 'nfa.assign-nfa.reference' | translate }}</h3>
       </div>
       <div class="panel-body">
-        <p class="small">{{nfas[nfaIdx].nfaCatalogReference}}</p>
+        <p class="small">{{nfas[nfaIdx].reference }}</p>
       </div>
     </div>
 

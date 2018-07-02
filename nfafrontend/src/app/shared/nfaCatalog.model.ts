@@ -2,9 +2,9 @@ import {NfaCatalogBlueprintModel} from './nfaCatalogBlueprint.model';
 
 export class NfaCatalogModel {
   constructor(
-    public nfaCatalogId: number,
+    public id: number,
     public nfaNumber: number,
-    public nfaCatalogType: string,
+    public type: string,
     public rechtlicheVerbindlichkeit: string,
     public value: string,
     public formulation: string,
