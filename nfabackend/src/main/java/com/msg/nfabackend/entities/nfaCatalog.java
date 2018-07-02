@@ -28,37 +28,28 @@ import com.msg.nfabackend.templates.Template.Restriction;
 @Table(name = "nfa")
 public class nfaCatalog {
 
-	public static class BlueprintConverter implements AttributeConverter<Map<String, Template>, String> {
+	public static class BlueprintConverter implements AttributeConverter<NfaCatalogBlueprint, String> {
 		@Override
-		public String convertToDatabaseColumn(Map<String, Template> attribute) {
-
+		public String convertToDatabaseColumn(NfaCatalogBlueprint attribute) {
+			
 			if (attribute == null) {
 				return null;
 			}
-
+			
 			try (StringWriter stringWriter = new StringWriter()) {
 				new ObjectMapper().writeValue(stringWriter, attribute);
 				return stringWriter.toString();
 			} catch (IOException e) {
 				throw new IllegalStateException("Obj-to-JSON-Converting failed", e);
 			}
-
+			
 		}
 
-		@SuppressWarnings({ "unchecked", "rawtypes" })
 		@Override
-		public Map<String, Template> convertToEntityAttribute(String dbData) {
-			if (dbData == null) {
-				return null;
-			}
+		public NfaCatalogBlueprint convertToEntityAttribute(String dbData) {
 			try {
-				ObjectMapper objectMapper = new ObjectMapper();
-				Map<String, Object> languages = objectMapper.readValue(dbData, HashMap.class);
-				for (Entry<String, ?> entry : languages.entrySet()) {
-					String templateString = convertToDatabaseColumn((Map) entry.getValue());
-					languages.replace(entry.getKey(), objectMapper.readValue(templateString, Template.class));
-				}
-				return (Map) languages;
+				return dbData == null ? null 
+						: new ObjectMapper().readValue(dbData, NfaCatalogBlueprint.class);
 			} catch (IOException e) {
 				throw new IllegalStateException("JSON-to-Obj-Converting failed", e);
 			}
@@ -93,38 +84,6 @@ public class nfaCatalog {
 				throw new IllegalStateException("JSON-to-Obj-Converting failed", e);
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		BlueprintConverter blueprintConverter = new BlueprintConverter();
-
-		Map<String, Template> hashMap = new HashMap<>();
-
-		Template value = new Template();
-		value.setName("Property Template");
-
-		Template.Property property = new Template.Property();
-
-		property.setNames(Arrays.asList("name 1"));
-		property.setValues(Arrays.asList("value 1"));
-
-		property.setRestrictions(Arrays.asList(Restriction.COMMA, Restriction.POINT));
-
-		value.setProperties(Arrays.asList(property));
-
-		hashMap.put("de", value);
-		hashMap.put("en", value);
-
-		String str = blueprintConverter.convertToDatabaseColumn(hashMap);
-
-		Map<String, Template> convertToEntityAttribute = blueprintConverter.convertToEntityAttribute(str);
-
-		convertToEntityAttribute.equals(hashMap);
-
-		blueprintConverter.convertToDatabaseColumn(convertToEntityAttribute);
-
-		convertToEntityAttribute.size();
-
 	}
 
 	public static class NfaCatalogBlueprint {
@@ -317,7 +276,7 @@ public class nfaCatalog {
 
 	@Column(name = "blueprint")
 	@Convert(converter = BlueprintConverter.class)
-	private Map<String, Template> nfaCatalogBlueprint;
+	private NfaCatalogBlueprint nfaCatalogBlueprint;
 
 	@Column(name = "referenz")
 	private String nfaCatalogReferenz;
@@ -411,11 +370,11 @@ public class nfaCatalog {
 		this.nfaNumber = nfaNumber;
 	}
 
-	public Map<String, Template> getNfaCatalogBlueprint() {
+	public NfaCatalogBlueprint getNfaCatalogBlueprint() {
 		return nfaCatalogBlueprint;
 	}
 
-	public void setNfaCatalogBlueprint(Map<String, Template> nfaCatalogBlueprint) {
+	public void setNfaCatalogBlueprint(NfaCatalogBlueprint nfaCatalogBlueprint) {
 		this.nfaCatalogBlueprint = nfaCatalogBlueprint;
 	}
 }
