@@ -37,12 +37,13 @@ export class NfacatalogService {
   }
 
 
-  setnfaCatalogs(nfaCatalogs: NfaCatalogModel[]){
+  setnfaCatalogs(nfaCatalogs: NfaCatalogModel[]) {
     this.nfaCatalog = nfaCatalogs;
     this.nfaCatalogChanged.next(this.nfaCatalog.slice());
+    console.log(this.nfaCatalog.slice());
   }
 
-  setNfaFactors(nfaFactors: NfaFactorModel[]){
+  setNfaFactors(nfaFactors: NfaFactorModel[]) {
     this.nfaFactors = nfaFactors;
     this.nfaFactorChanged.next(this.nfaFactors.slice());
   }
@@ -51,7 +52,7 @@ export class NfacatalogService {
     return this.nfaFactors.slice();
   }
 
-  setNfaCriterias(nfaCriterias: NfaCriteriaModel[]){
+  setNfaCriterias(nfaCriterias: NfaCriteriaModel[]) {
     this.nfaCriterias = nfaCriterias;
     this.nfaCriteriaChanged.next(this.nfaCriterias.slice());
   }

@@ -6,7 +6,7 @@ export class NfaCatalogModel {
     public nfaNumber: number,
     public nfaCatalogType: string,
     public rechtlicheVerbindlichkeit: string,
-    public nfaCatalogWert: string,
+    public nfaCatalogWert: string[],
     public nfaCatalogFormulierung: string,
     public nfaCatalogBlueprint: NfaCatalogBlueprintModel,
     public nfaCatalogReferenz: string,
