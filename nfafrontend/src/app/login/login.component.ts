@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/first';
+import {TranslateService} from '@ngx-translate/core';
+
 
 import {AuthenticationService} from '../shared/authentication.service';
 
@@ -18,8 +20,14 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService) { }
+    private authenticationService: AuthenticationService,
+    private translate: TranslateService) {
+    translate.setDefaultLang('de');
 
+  }
+  useLanguage(language: string) {
+    this.translate.use(language);
+  }
   ngOnInit() {
     // reset login status
     this.authenticationService.logout();

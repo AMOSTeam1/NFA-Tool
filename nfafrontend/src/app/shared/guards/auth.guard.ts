@@ -3,7 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-
+logout;
   constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate {
     }
 
     // not logged in so redirect to login page
-    this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
+     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
     return false;
   }
 }

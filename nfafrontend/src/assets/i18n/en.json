@@ -103,6 +103,14 @@
       "add-stakeholder" : "Add Stakeholder",
       "add-factor" : "Add Factor"
     },
+	
+	"login":{
+	"login": "Login",
+	"username": "Username",
+	"password": "Password",
+	"miss_username": "Username is required",
+	"miss_password": "Password is required"
+	},
     "header": {
       "create-project": "Projects",
       "open-catalog": "NFR catalog",

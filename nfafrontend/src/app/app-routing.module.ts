@@ -18,16 +18,16 @@ import {AuthGuard} from './shared/guards/auth.guard';
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-
-  // otherwise redirect to home
-  { path: '**', redirectTo: '' },
   {path: 'newpackage', component: NewpackageComponent},
   {path: 'newnfa', component: NewnfaComponent},
   {path: 'nfacatalog', component: NfacatalogComponent, children: [
-    {path: 'list', component: NfacatalogListComponent},
-    {path: 'list/:id', component: NfacatalogCriteriaComponent, children: [
-      {path: ':criteria_id', component: NfacatalogMetricComponent},
-      {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
+      {path: 'list', component: NfacatalogListComponent},
+      {path: 'list/:id', component: NfacatalogCriteriaComponent, children: [
+          {path: ':criteria_id', component: NfacatalogMetricComponent},
+          {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent},
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' },
+
     ]}
   ]},
   {path: 'home', component: HomeComponent},
