@@ -12,9 +12,15 @@ import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-l
 import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component';
 import {NfacatalogMetricComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 import {NfacatalogNfaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from './shared/guards/auth.guard';
 
 const appRoutes: Routes = [
-  {path: '' , redirectTo: '/home', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' },
   {path: 'newpackage', component: NewpackageComponent},
   {path: 'newnfa', component: NewnfaComponent},
   {path: 'nfacatalog', component: NfacatalogComponent, children: [

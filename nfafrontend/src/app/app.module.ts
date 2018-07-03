@@ -9,7 +9,7 @@ import { NewpackageComponent } from './newpackage/newpackage.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,9 +29,9 @@ import { ProjectDetailComponent } from './current-project/project-detail/project
 import { ProjectItemComponent } from './current-project/project-list/project-item/project-item.component';
 import { ProjectEditComponent } from './current-project/project-edit/project-edit.component';
 import {CurrentProjectService} from './current-project/current-project.service';
-import {NfacatalogListComponent} from "./nfacatalog/nfacatalog-list/nfacatalog-list.component";
-import {NfacatalogService} from "./nfacatalog/nfacatalog.service";
-import {NfacatalogCriteriaComponent} from "./nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component";
+import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-list.component';
+import {NfacatalogService} from './nfacatalog/nfacatalog.service';
+import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component';
 import { StakeHolderComponent } from './current-project/stake-holder/stake-holder.component';
 import { NfatemplateComponent } from './newnfa/nfatemplate/nfatemplate.component';
 import { NfacatalogItemComponent } from './nfacatalog/nfacatalog-list/nfacatalog-item/nfacatalog-item.component';
@@ -49,6 +49,12 @@ import {Inst} from './shared/blueprints/inst.model';
 import { DenfaformComponent } from './newnfa/nfatemplate/denfaform/denfaform.component';
 import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
+import { LoginComponent } from './login/login.component';
+import {AuthGuard} from './shared/guards/auth.guard';
+import {AuthenticationService} from './shared/authentication.service';
+import {UserService} from './shared/user.service';
+import {JwtInterceptor} from './shared/handlers/jwt.interceptor';
+import {BackendProvider} from './shared/handlers/backend';
 
 @NgModule({
   declarations: [
@@ -81,6 +87,7 @@ import { AngularWebStorageModule } from 'angular-web-storage';
     NfaDetailComponent,
     DenfaformComponent,
     EnnfaformComponent,
+    LoginComponent,
 
   ],
   imports: [
@@ -101,7 +108,15 @@ import { AngularWebStorageModule } from 'angular-web-storage';
       }
     })
   ],
-  providers: [DataStorageService, CurrentProjectService, NfacatalogService, DataexchangeService],
+  providers: [AuthGuard,
+    AuthenticationService,
+    UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
+    },
+    BackendProvider, DataStorageService, CurrentProjectService, NfacatalogService, DataexchangeService],
 
   bootstrap: [AppComponent]
 })
