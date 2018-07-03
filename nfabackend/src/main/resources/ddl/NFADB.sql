@@ -19,6 +19,12 @@ DROP TABLE IF EXISTS factor_criteria;
 DROP TABLE IF EXISTS nfa_factor;
 DROP TABLE IF EXISTS nfa_criteria;
 
+DROP SEQUENCE IF EXISTS project_sequence;
+CREATE SEQUENCE project_sequence START 5; 
+
+--  Start at 500 to make sure its after every NFA
+DROP SEQUENCE IF EXISTS nfa_sequence;
+CREATE SEQUENCE nfa_sequence START 500;
 
 CREATE TABLE public.nfa_project
 (

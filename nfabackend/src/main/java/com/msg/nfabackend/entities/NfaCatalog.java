@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -274,7 +275,12 @@ public class NfaCatalog implements NfaInterface{
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, 
+     generator = "nfa-id-generator")
+    @SequenceGenerator(
+    		name = "nfa-id-generator",
+    		sequenceName = "nfa_sequence") //TODO Needs to be some Number, bigger than the initial / manual NFA-Count 
 	@Column(name = "nfa_id")
 	private Long nfaCatalogId;
 

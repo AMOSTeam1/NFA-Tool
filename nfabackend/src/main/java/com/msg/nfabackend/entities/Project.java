@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -28,7 +29,16 @@ public class Project {
 	public Project() {}
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@GeneratedValue(strategy=GenerationType.IDENTITY) //TODO without Testdata, this is sufficient
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "project-id-generator"
+		)
+    @SequenceGenerator(
+    		allocationSize = 1,
+    		name = "project-id-generator", 
+    		sequenceName ="project_sequence"
+	)
 	@Column(name="ID")
 	private Long id;
 	
