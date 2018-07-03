@@ -24,38 +24,37 @@ import com.msg.nfabackend.entities.Type;
 
 @Stateless
 public class QueryService {
-	
+
 	@PersistenceContext(unitName = "msg-nfa")
 	private EntityManager em;
-	
-	public List<Project> getAllProject() {
-		return em.createQuery("from Project",Project.class).getResultList();
-    }
 
-	public List<Project> findProject( String status,String lookupCustName) {
+	public List<Project> getAllProject() {
+		return em.createQuery("from Project", Project.class).getResultList();
+	}
+
+	public List<Project> findProject(String status, String lookupCustName) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 		CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
 		Root<Project> root = criteria.from(Project.class);
-		Predicate statusQry= criteriaBuilder.like(root.<String>get("projectStatus"),status);
-		Predicate lookupQry = criteriaBuilder.like(root.<String>get("customerName"), "%"+lookupCustName+"%");
+		Predicate statusQry = criteriaBuilder.like(root.<String>get("projectStatus"), status);
+		Predicate lookupQry = criteriaBuilder.like(root.<String>get("customerName"), "%" + lookupCustName + "%");
 		criteria.select(root);
 		if (!lookupCustName.isEmpty() && status.equalsIgnoreCase("All")) {
 
-		    criteria.where(lookupQry);
-		}
-		else if  (!lookupCustName.isEmpty()&& !status.equalsIgnoreCase("All")) {
+			criteria.where(lookupQry);
+		} else if (!lookupCustName.isEmpty() && !status.equalsIgnoreCase("All")) {
 
-			 Predicate qry = criteriaBuilder.and(lookupQry, statusQry);
-			 criteria.where(qry);
-		}
-		else if (lookupCustName.isEmpty()&& !status.equalsIgnoreCase("All")){
-			 criteria.where(statusQry);
+			Predicate qry = criteriaBuilder.and(lookupQry, statusQry);
+			criteria.where(qry);
+		} else if (lookupCustName.isEmpty() && !status.equalsIgnoreCase("All")) {
+			criteria.where(statusQry);
 		}
 		return em.createQuery(criteria).getResultList();
 	}
 
 	/**
 	 * Create new project
+	 *
 	 * @param project
 	 * @return Project
 	 */
@@ -63,32 +62,23 @@ public class QueryService {
 		em.merge(project);
 		return project;
 	}
-	
-	public NfaCatalog createNfa (Long metricId, NfaCatalog NfaCatalog) {
+
+	public NfaCatalog createNfa(Long metricId, NfaCatalog nfaCatalog) {
 		Metric metric = em.find(Metric.class, metricId);
-		NfaCatalog.setNfaNumber((long) metric.getNfaList().size());
+		nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
 
-		BpPropertyTemplateNoCondition de = NfaCatalog.getBlueprint().getDe();
-		if (de.getErklaerung() == null) {
-			de.setErklaerung(String.join(" ",
-					de.getCharacteristic(), de.getProperty(), de.getModalVerb(), de.getQualifyingEx(), de.getValueInput(), de.getVerb()));
-		}
-		BpPropertyTemplateNoCondition en = NfaCatalog.getBlueprint().getEn();
-		if (en.getErklaerung() == null) {
-			en.setErklaerung(String.join(" ",
-					en.getCharacteristic(), en.getProperty(), en.getModalVerb(), en.getVerb(), en.getQualifyingEx(), en.getValueInput()));
-		}
+        nfaCatalog.getNfaCatalogBlueprint().createDescription(nfaCatalog.getNfaCatalogWert());
 
-		em.persist(NfaCatalog);
+		em.persist(nfaCatalog);
 
-		metric.getNfaList().add(NfaCatalog);
+		metric.getNfaList().add(nfaCatalog);
 
-		return NfaCatalog;
+		return nfaCatalog;
 	}
 
 	public CustomNFA createCustomNfa (CustomNFA customNfa, Long originalId) {
 		System.out.println("TEST: " + customNfa.getBlueprint().getDe().getErklaerung());
-		
+
 		NfaCatalog originalNfa = em.find(NfaCatalog.class, originalId);
 		customNfa.setOriginalNfa(originalNfa);
 
@@ -96,7 +86,7 @@ public class QueryService {
 
 		return customNfa;
 	}
-	
+
 	public void removeProject(Long id) {
 		Project project = em.find(Project.class, id);
 		project.getProjectTypes().clear();
@@ -107,16 +97,17 @@ public class QueryService {
 
 	/**
 	 * Updates a project by finding it by id first
+	 *
 	 * @param id
 	 */
 	public void updateProject(Project editedProject) {
-		//TODO move logic to Project.java
-		//TODO extract to ProjectQueryService.java
+		// TODO move logic to Project.java
+		// TODO extract to ProjectQueryService.java
 
 		Project project = em.find(Project.class, editedProject.getId());
 
 		project.setCustomerName(editedProject.getCustomerName());
-	    project.setBranch(editedProject.getBranch());
+		project.setBranch(editedProject.getBranch());
 		project.setContactPersCustomer(editedProject.getContactPersCustomer());
 		project.setContactPersMsg(editedProject.getContactPersMsg());
 		project.setDevelopmentProcess(editedProject.getDevelopmentProcess());
@@ -130,28 +121,35 @@ public class QueryService {
 	}
 
 	public List<Type> getAllType() {
+		return em.createQuery("from Type", Type.class).getResultList();
+	}
+
+	public List<NfaCatalog> getAllNfa() {
+		return em.createQuery("from nfaCatalog", NfaCatalog.class).getResultList();
+	}
+
 		return em.createQuery("from Type",Type.class).getResultList();
     }
-	
+
 	public List<NfaCatalog> getAllNfa() {
 		return em.createQuery("from NfaCatalog",NfaCatalog.class).getResultList();
     }
-	
+
 	public List<NfaFactor> getAllFactors() {
-		return em.createQuery("from NfaFactor",NfaFactor.class).getResultList();
-    }
-	
+		return em.createQuery("from NfaFactor", NfaFactor.class).getResultList();
+	}
+
 	public List<NfaCriteria> getAllNfaCriterias() {
-		return em.createQuery("from NfaCriteria",NfaCriteria.class).getResultList();
-    }
+		return em.createQuery("from NfaCriteria", NfaCriteria.class).getResultList();
+	}
 
 	public List<NfaCriteria> getAllCriteriasForFactor(NfaFactor factor) {
 		// TODO Auto-generated method stub
-		
+
 		throw new NotYetImplementedException();
-//		return null;
+		// return null;
 	}
-	
+
 	public List<Project> getProjectsByStatus(String status) {
 
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
@@ -161,9 +159,9 @@ public class QueryService {
 		criteria.where(criteriaBuilder.like(fromProject.<String>get("projectStatus"), status));
 		return em.createQuery(criteria).getResultList();
 	}
-	
+
 	public List<Stakeholder> getAllStakeholder() {
-		return em.createQuery("from Stakeholder",Stakeholder.class).getResultList();
-    }
+		return em.createQuery("from Stakeholder", Stakeholder.class).getResultList();
+	}
 
 }

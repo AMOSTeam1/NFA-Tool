@@ -3,6 +3,11 @@ import {FormGroup, FormControl, NgForm, Validators, FormArray, FormBuilder} from
 import {DenfaformComponent} from './denfaform/denfaform.component';
 import {EnnfaformComponent} from './ennfaform/ennfaform.component';
 import {QualifiyingExpression} from '../../shared/blueprints/QualifiyingExpression.model';
+import {isNull} from 'util';
+import {consoleTestResultHandler} from 'tslint/lib/test';
+import {NewnfaComponent} from '../newnfa.component';
+import {ISubscription} from 'rxjs/src/Subscription';
+import {PartialObserver} from 'rxjs/src/Observer';
 
 @Component({
   selector: 'app-nfatemplate',
@@ -16,88 +21,52 @@ export class NfatemplateComponent implements OnInit, AfterViewInit {
   checked = false;
   submitted = false;
   modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
-  @ViewChild (DenfaformComponent) deform;
-  @ViewChild (EnnfaformComponent) enform;
+  @ViewChild (DenfaformComponent) deComponent;
+  @ViewChild (EnnfaformComponent) enComponent;
   @Output() submitTemplate = new EventEmitter<FormGroup>();
-
-  definition = {
-    characteristic: '[characteristic]', propertyMatter: '[property]', modalVerb: '', qualifyingExpr: '<qualifying expression>', valueExpr: '<value>'
-  };
+  @Input() validUpdate: ((value: boolean) => void);
 
  constructor() {
 
  }
+
  ngAfterViewInit() {
+
+   const subscription = (value: any) =>
+     this.validUpdate((this.deComponent.deForm.status === 'VALID')
+      && (this.enComponent.enForm.status === 'VALID'));
+
+   this.deComponent.deForm.statusChanges.subscribe(subscription);
+   this.enComponent.enForm.statusChanges.subscribe(subscription);
 
  }
   ngOnInit() {
 
-    this.blueprintDeForm = new FormGroup({
-      'chbox': new FormControl(null),
-      'nameNFA': new FormControl(null),
-      'characteristic': new FormControl(null),
-      'property': new FormControl(null),
-      'modalVerb': new FormControl(null),
-      'qualifyingEx': new FormControl(null),
-      'valueInput': new FormControl(null),
-      'verb': new FormControl(null)
-    });
-
-    this.blueprintEnForm = new FormGroup({
-      'nameNFA': new FormControl(null),
-      'characteristic': new FormControl(null),
-      'property': new FormControl(null),
-      'modalVerb': new FormControl(null),
-      'qualifyingEx': new FormControl(null),
-      'valueInput': new FormControl(null),
-      'verb': new FormControl('be')
-    });
-
-    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungs-' +
-      'gegenstand>',
-      'modalVerb': null, 'qualifyingEx': '<Vergleichsop>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
-
-    this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
-      'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });
-   }
-  onSubmit() {
-   this.deform.onSubmit();
-    this.enform.onSubmit();
-
   }
-
-
-    receiveDataDe(event: any) {
-      this.blueprintDeForm.patchValue(event);
-      console.log(this.blueprintDeForm.value);
-      this.checked = this.blueprintDeForm.get('chbox').value;
-      if (this.blueprintDeForm.get('valueInput').value === null) {
-        this.blueprintDeForm.get('valueInput').reset('<Wert>');
-      }
-
-    }
-
-    receiveDataEn(event: any) {
-      this.blueprintEnForm.patchValue(event);
-      if (this.blueprintEnForm.get('valueInput').value === null) {
-          this.blueprintEnForm.get('valueInput').reset('<Value>');
-      }
-
-      if (this.blueprintDeForm.get('qualifyingEx').value != null) {
-      this.blueprintEnForm.get('qualifyingEx').reset(QualifiyingExpression.resolve(
-        this.blueprintDeForm.get('qualifyingEx').value).en);
-      }
-    }
 
   Reset() {
    this.checked = false;
-    this.blueprintDeForm.setValue({'chbox': false, 'nameNFA': null, 'characteristic': '<Eigenschaft>', 'property': '<Bertachtungs-' +
-      'gegenstand>',
-      'modalVerb': null, 'qualifyingEx': '<Vergleichsop>', 'valueInput': '<Wert>', 'verb': '<Verb>' });
-
-    this.blueprintEnForm.setValue({'nameNFA': null, 'characteristic': '<Characteristic>', 'property': '<Property>',
-      'modalVerb': null, 'qualifyingEx': '<qualifyingExpr>', 'valueInput': '<Value>', 'verb': 'be' });
-
+   this.deComponent.resetForm();
+   this.enComponent.resetForm();
   }
 
+  hasValue(control: FormControl) {
+    return !isNull(control.value);
+  }
+
+  hasAbundant() {
+     return (!isNull(QualifiyingExpression.resolve(this.deComponent.deForm.get('qualifyingEx').value).abundant));
+  }
+
+  getValue(index: number) {
+   return (<FormArray>this.deComponent.deForm.get('valueInput')).at(index).value;
+  }
+
+  fullQualExprDe() {
+    return QualifiyingExpression.resolve(this.deComponent.deForm.get('qualifyingEx').value).fullDe();
+  }
+
+  fullQualExprEn() {
+    return QualifiyingExpression.resolve(this.deComponent.deForm.get('qualifyingEx').value).fullEn();
+  }
 }

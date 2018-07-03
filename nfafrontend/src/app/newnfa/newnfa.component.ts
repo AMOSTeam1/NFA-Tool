@@ -1,3 +1,5 @@
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Form, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AfterViewInit, Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../shared/data-storage.service';
@@ -35,7 +37,11 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedCriteria: NfaCriteriaModel = undefined;
   selectedMetric: NfaMetric = undefined;
   selectedType: any;
-  selectedNfa: NfaCatalogBlueprintModel;
+  valid = false;
+
+  validUpdate = (value: boolean) => {
+    this.valid = value;
+  };
 
   private subscription: ISubscription[];
 
@@ -73,32 +79,33 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit() {
 
+    const qe = QualifiyingExpression.resolve(
+      this.nfatemplate.deComponent.deForm.get('qualifyingEx').value);
+
     let de = new BpPropertyTemplateNoConditionDe(
-      this.nfatemplate.blueprintDeForm.get('nameNFA').value,
+      this.nfatemplate.deComponent.deForm.get('nameNFA').value,
       null,
-      this.nfatemplate.blueprintDeForm.get('characteristic').value,
-      this.nfatemplate.blueprintDeForm.get('property').value,
-      this.nfatemplate.blueprintDeForm.get('modalVerb').value,
-      this.nfatemplate.blueprintDeForm.get('qualifyingEx').value,
-      this.nfatemplate.blueprintDeForm.get('valueInput').value,
-      this.nfatemplate.blueprintDeForm.get('verb').value);
+      this.nfatemplate.deComponent.deForm.get('characteristic').value,
+      this.nfatemplate.deComponent.deForm.get('property').value,
+      this.nfatemplate.deComponent.deForm.get('modalVerb').value,
+      qe.fullDe(),
+      this.nfatemplate.deComponent.deForm.get('verb').value);
     let en = new BpPropertyTemplateNoConditionEn(
-      this.nfatemplate.blueprintEnForm.get('nameNFA').value,
+      this.nfatemplate.enComponent.enForm.get('nameNFA').value,
       null,
-      this.nfatemplate.blueprintEnForm.get('characteristic').value,
-      this.nfatemplate.blueprintEnForm.get('property').value,
-      this.nfatemplate.blueprintEnForm.get('modalVerb').value,
-      this.nfatemplate.blueprintEnForm.get('qualifyingEx').value,
-      this.nfatemplate.blueprintEnForm.get('valueInput').value,
-      this.nfatemplate.blueprintEnForm.get('verb').value);
+      this.nfatemplate.enComponent.enForm.get('characteristic').value,
+      this.nfatemplate.enComponent.enForm.get('property').value,
+      this.nfatemplate.enComponent.enForm.get('modalVerb').value,
+      qe.fullEn(),
+      this.nfatemplate.enComponent.enForm.get('verb').value);
 
     let nfaCatalogModel = new  NfaCatalogModel(
       null,
       null,
       this.selectedType,
-      this.nfatemplate.blueprintDeForm.get('chbox').value,
+      this.nfatemplate.deComponent.deForm.get('chbox').value,
+      this.nfatemplate.deComponent.deForm.get('valueInput').value,
       null,
-      this.nfatemplate.blueprintDeForm.get('valueInput').value,
       new  NfaCatalogBlueprintModel(de, en),
       null,
       null,

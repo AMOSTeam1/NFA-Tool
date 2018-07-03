@@ -1,4 +1,4 @@
-  <form [formGroup]="deForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+  <form [formGroup]="deForm"  class="form-horizontal">
     <div class="form-group">
       <label for="verbindlichkeit" class="control-label col-xs-6">Verbindlichkeit</label>
       <div class="col-xs-6">
@@ -7,7 +7,7 @@
     </div>
     <div class="form-group">
       <label for="nameNFA" class="control-label col-xs-6">Name</label>
-      <div class="col-xs-6">
+        <div class="col-xs-6">
         <input type="text" class="form-control" id="nameNFA" name="nameNFA" formControlName="nameNFA">
       </div>
     </div>
@@ -18,8 +18,7 @@
       </div>
     </div>
     <div class="form-group" >
-      <label for="propertyInput" class="control-label col-xs-6">Betrachtungs-
-        gegenstand</label>
+      <label for="propertyInput" class="control-label col-xs-6">Betrachtungsgegenstand</label>
       <div class="col-xs-6">
         <input type="text" class="form-control" id="propertyInput" name="propertyInput" formControlName="property">
       </div>
@@ -27,7 +26,7 @@
     <div class="form-group" >
       <label for="modalVerbInput" class="control-label col-xs-6">Anforderungsgrad</label>
       <div class="col-xs-6">
-        <select class="form-control" id="modalVerbInput" name="modalVerbInput" formControlName="modalVerb"  (change)="newMessage($event)">
+        <select class="form-control" id="modalVerbInput" name="modalVerbInput" formControlName="modalVerb" (change)="newMessage($event)">
           <option [value]=i *ngFor="let i of modalVerbDe">{{i}}</option>
         </select>
       </div>
@@ -35,15 +34,17 @@
     <div class="form-group" >
       <label for="qualifyingExInput" class="control-label col-xs-6">Vergleichsoperator</label>
       <div class="col-xs-6">
-        <select class="form-control" id="qualifyingExInput" name="qualifyingExInput" formControlName="qualifyingEx" (change)="changeQualExpr()">
-          <option [value] = elem.de *ngFor="let elem of qualExpr">{{elem.de + ' / ' + elem.abundant.de}}</option>
+        <select class="form-control" id="qualifyingExInput" name="qualifyingExInput" formControlName="qualifyingEx" (change)="newMessage($event)">
+          <option [value] = elem.de *ngFor="let elem of qualExpr">{{elem.de + (elem.abundant ? (' / ' + elem.abundant.de) : '')}}</option>
         </select>
       </div>
     </div>
-    <div class="form-group" >
-      <label for="valueInput" class="control-label col-xs-6">Wert</label>
-      <div class="col-xs-6">
-        <input type="text" class="form-control" id="valueInput" name="valueInput" formControlName="valueInput" (change)="newMessage($event)">
+    <div formArrayName="valueInput">
+      <label for="inputValue" class="control-label col-xs-6">Wert</label>
+      <div id="inputValue" class="form-group">
+        <div class="col-xs-3" *ngFor="let valControl of deForm.get('valueInput').controls; let i = index">
+          <input type="text" class="form-control" [id]="i" [name]="i" [formControlName]="i" (change)="newMessage($event)">
+        </div>
       </div>
     </div>
     <div class="form-group" >
