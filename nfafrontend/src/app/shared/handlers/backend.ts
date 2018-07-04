@@ -14,7 +14,7 @@ export class BackendInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let testUser = { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' };
+    const testUser = { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' };
 
     // wrap in delayed observable to simulate server api call
     return Observable.of(null).mergeMap(() => {
