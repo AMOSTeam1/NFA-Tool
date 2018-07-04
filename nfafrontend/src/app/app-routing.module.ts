@@ -12,16 +12,22 @@ import {NfacatalogListComponent} from './nfacatalog/nfacatalog-list/nfacatalog-l
 import {NfacatalogCriteriaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria.component';
 import {NfacatalogMetricComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 import {NfacatalogNfaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
+import {LoginComponent} from './login/login.component';
+import {AuthGuard} from './shared/guards/auth.guard';
 
 const appRoutes: Routes = [
-  {path: '' , redirectTo: '/home', pathMatch: 'full'},
+  { path: 'login', component: LoginComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
   {path: 'newpackage', component: NewpackageComponent},
   {path: 'newnfa', component: NewnfaComponent},
   {path: 'nfacatalog', component: NfacatalogComponent, children: [
-    {path: 'list', component: NfacatalogListComponent},
-    {path: 'list/:id', component: NfacatalogCriteriaComponent, children: [
-      {path: ':criteria_id', component: NfacatalogMetricComponent},
-      {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
+      {path: 'list', component: NfacatalogListComponent},
+      {path: 'list/:id', component: NfacatalogCriteriaComponent, children: [
+          {path: ':criteria_id', component: NfacatalogMetricComponent},
+          {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent},
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' },
+
     ]}
   ]},
   {path: 'home', component: HomeComponent},
