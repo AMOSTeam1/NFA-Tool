@@ -67,17 +67,25 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">{{'nfa.project-details.export-project' | translate }}</h5>
+        <h5 class="modal-title" id="exportmodal">{{'nfa.project-details.export-project' | translate }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-
+        <h6>Stackholder List</h6>
+        <ul class="list-group">
+          <li *ngFor="let s of stackHolders" class="list-group-items">
+            <span class="list-group-item-text">{{s.stakeholder_name}}</span>
+          </li>
+        </ul>
+        <div *ngIf="isExported">
+          <a href= {{url}}> {{title}}</a>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">{{'nfa.project-details.close' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="export()">{{'nfa.project-details.export' | translate }}</button>
       </div>
     </div>
   </div>

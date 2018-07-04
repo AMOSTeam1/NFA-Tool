@@ -27,6 +27,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            
         </plugins>
         <resources>
         	<resource>
@@ -77,12 +78,7 @@
         	<artifactId>hibernate-core</artifactId>
         	<version>5.2.12.Final</version>
         </dependency>
-         <dependency>
-		   <groupId>dom4j</groupId>
-		   <artifactId>dom4j</artifactId>
-		   <version>1.6.1</version>
-		   <scope>provided</scope>
-		</dependency>
+
         <dependency>
         	<groupId>org.slf4j</groupId>
         	<artifactId>slf4j-api</artifactId>
@@ -133,7 +129,20 @@
         	<artifactId>postgresql</artifactId>
         	<version>9.1-901-1.jdbc4</version>
         </dependency>
-        
+<!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-impl -->
+
+<dependency>
+    <groupId>com.sun.xml.bind</groupId>
+    <artifactId>jaxb-impl</artifactId>
+    <version>2.2.11</version>
+</dependency>
+
+<dependency>
+    <groupId>com.sun.xml.bind</groupId>
+    <artifactId>jaxb-core</artifactId>
+    <version>2.2.11</version>
+</dependency>
+           
         <!-- testing -->
         <dependency>
             <groupId>junit</groupId>

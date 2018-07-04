@@ -50,6 +50,9 @@
       "choose-nfr" : "NFA auswählen",
       "add-type" : "Typ hinzufügen",
 
+      "close" : "abbrechen",
+      "export" : "exportiern",
+
       "branch" : {
         "label" : "Branche",
         "choose" : "Branche auswählen",
@@ -62,6 +65,8 @@
         "telecommunications" : "Telecommunications",
         "travel-logistics" : "Travel & Logistics",
         "utilities" : "Utilities"
+
+
       },
 
       "project-type" : {

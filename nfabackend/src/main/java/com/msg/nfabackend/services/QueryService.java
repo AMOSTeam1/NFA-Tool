@@ -292,6 +292,40 @@ public class QueryService {
 			}
 		return listStakeholder;
     }
-
-
+/**
+ * get the project by its id
+ * @param id
+ * @return
+ */
+	public Project getProjectByID(Long id) {
+		//TODO move logic to Project.java
+		//TODO extract to ProjectQueryService.java
+		Project project =null;
+		try {
+			tx.begin();
+			 project = em.find(Project.class, id);
+			tx.commit();
+		}catch(Exception e){
+			LOG.log(Level.SEVERE, "Searching project failed...", e);
+			tx.rollback();
+		}
+		return project;
+	}
+/**
+ * get nfafactor by its id	
+ * @param id
+ * @return
+ */
+	
+	public NfaFactor getFactorById(Long id) {
+		NfaFactor factor = null;
+		try {
+			tx.begin();
+			factor = em.find(NfaFactor.class,id);
+			tx.commit();
+			}catch(Exception e){
+				tx.rollback();
+			}
+		return factor;
+    }
 }

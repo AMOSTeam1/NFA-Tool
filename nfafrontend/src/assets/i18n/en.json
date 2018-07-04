@@ -50,6 +50,9 @@
       "choose-nfr" : "Choose NFR",
       "add-type" : "Add type",
 
+      "close" : "Close",
+      "export" : "Export",
+
       "branch" : {
         "label" : "Branch",
         "choose" : "Choose branch",
@@ -62,6 +65,7 @@
         "telecommunications" : "Telecommunications",
         "travel-logistics" : "Travel & Logistics",
         "utilities" : "Utilities"
+
       },
 
       "project-type" : {
