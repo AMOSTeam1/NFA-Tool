@@ -38,7 +38,7 @@ import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.nfaCatalog;
-import com.msg.nfabackend.model.ProjectXml;
+import com.msg.nfabackend.services.ProjectXml;
 import com.msg.nfabackend.services.QueryService;
 
 /**

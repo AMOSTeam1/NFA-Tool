@@ -1,4 +1,4 @@
-package com.msg.nfabackend.model;
+package com.msg.nfabackend.services;
 import java.util.ArrayList;
 import java.util.Set;
 
