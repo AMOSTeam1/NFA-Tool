@@ -26,6 +26,7 @@ export class BackendInterceptor implements HttpInterceptor {
           return Observable.of(new HttpResponse({ status: 200, body: { token: 'token' } }));
         } else {
           // else return 400 bad request
+          //TODO add translation
           return Observable.throw('Username or password is incorrect');
         }
       }
