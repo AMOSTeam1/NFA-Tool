@@ -30,6 +30,12 @@ public class NfaCatalogResource {
 	public List<NfaCatalog> getAllNfa() {
 		return queryService.getAllNfa();
 	}
+	
+	@GET
+	@Path("/{id}")
+	public NfaCatalog getNfaCatalog(@PathParam("id") int nfa_id) {
+		return queryService.getNfa(nfa_id);
+	}
 
 	@POST
 	@Path("/create/{metricId}")
@@ -43,5 +49,6 @@ public class NfaCatalogResource {
                 .entity(nfaCatalog)
                 .build();
 	}
+	
 	
 }

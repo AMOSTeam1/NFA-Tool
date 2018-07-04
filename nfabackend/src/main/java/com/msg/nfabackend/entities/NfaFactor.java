@@ -34,9 +34,6 @@ public class NfaFactor {
 	@OrderBy("criteria_num ASC")
 	private Set<NfaCriteria> criteriaList = new HashSet<NfaCriteria>();
 	
-	
-	
-
 	public Set<NfaCriteria> getCriteriaList() {
 		return criteriaList;
 	}

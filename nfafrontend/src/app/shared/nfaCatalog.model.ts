@@ -1,6 +1,7 @@
 import {NfaCatalogBlueprintModel} from './nfaCatalogBlueprint.model';
+import {NfaInterfaceModel} from "./nfaInterface.model";
 
-export class NfaCatalogModel {
+export class NfaCatalogModel implements NfaInterfaceModel{
   constructor(
     public id: number,
     public nfaNumber: number,

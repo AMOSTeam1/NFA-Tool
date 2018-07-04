@@ -39,24 +39,25 @@
         <label for="nfaExplanation" class="panel-title">{{ 'nfa.assign-nfa.explanation' | translate }}</label>
       </div>
       <div class="panel-body" *ngIf = "!projectMode">
-        <p class="small">{{erklaerung(nfas[nfaIdx])}}</p>
+        <p class="small">{{ observable_erklaerungs_str | async }}</p>
       </div>
       <div class="panel-body" *ngIf = "projectMode" >
-        <input type="checkbox" id="checkbox" [checked]="inProject(nfas[nfaIdx].nfaCatalogId)" (click)="selectNfa(nfas[nfaIdx])">
+        <input type="checkbox" id="checkbox" [checked]="inProject(nfas[nfaIdx].id)" (click)="selectNfa(nfas[nfaIdx])">
         <textarea
           *ngIf="editmode"
           id="nfaExplanation"
           formControlName="nfaExplanation"
-          value="{{erklaerung(nfas[nfaIdx])}}"
+          value="{{erklaerung(getRelevantNfa())}}"
           class="form-control small"
           style="align-self: auto"
           wrap="soft"
           cols="60"
           rows="4">
-          <!--value=" {{erklaerung(nfas[nfaIdx])}}"-->
+
         </textarea>
-        <p *ngIf="!editmode" class="small">{{erklaerung(nfas[nfaIdx])}}</p>
+        <div *ngIf="!editmode">{{ observable_erklaerungs_str | async }}</div>
       </div>
+
     </div>
 
     <div class="panel panel-primary">
@@ -81,20 +82,23 @@
 
     <div class="col-xs-12" *ngIf="editmode">
       <div class="col-xs-6 text-center">
-        <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="!nfadetailForm.valid"><span class="glyphicon glyphicon-floppy-save"></span> {{'nfa.save' | translate}}</button>
+        <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="!nfadetailForm.valid"><span class="glyphicon glyphicon-floppy-save"></span>
+          {{ 'nfa.save' | translate}}</button>
       </div>
       <div class="col-xs-6 text-center">
-        <button type="button" class="btn btn-danger" style="margin-top: 10px" (click)="onCancel()"><span class="glyphicon glyphicon-pencil"></span> {{'nfa.cancel' | translate}}</button>
+        <button type="button" class="btn btn-danger" style="margin-top: 10px" (click)="onCancel()"><span class="glyphicon glyphicon-pencil"></span>
+          {{ 'nfa.cancel' | translate}}</button>
       </div>
     </div>
 
     <div class="col-xs-12" *ngIf="!editmode">
       <div class="col-xs-6 text-center">
-        <button type="button" class="btn btn-toolbar" style="margin-top: 10px" (click)="onEditNFA()"><span class="glyphicon glyphicon-pencil"></span> {{'nfa.edit' | translate}}</button>
+        <button type="button" class="btn btn-toolbar" style="margin-top: 10px" (click)="onEditNFA()"><span class="glyphicon glyphicon-pencil"></span>
+          {{ 'nfa.edit' | translate}}</button>
       </div>
       <div class="row">
         <div class="col-xs-6 text-center">
-          <button type="button" class="btn btn-primary" style="margin-top: 10px" (click)="onBack()">{{'nfa.back' | translate}}</button>
+          <button type="button" class="btn btn-primary" style="margin-top: 10px" (click)="onBack()">{{ 'nfa.back' | translate}}</button>
         </div>
       </div>
     </div>

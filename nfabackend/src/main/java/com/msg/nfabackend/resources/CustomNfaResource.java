@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.msg.nfabackend.entities.CustomNFA;
+import com.msg.nfabackend.entities.NfaInterface;
 import com.msg.nfabackend.services.QueryService;
 
 /**
@@ -29,7 +31,6 @@ public class CustomNfaResource {
 	
 	@Inject
 	private QueryService queryService;
-
 
 	@OPTIONS
 	@Path("/create/{OriginalId}")
@@ -48,8 +49,6 @@ public class CustomNfaResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createCustomNfa (CustomNFA customNfa, @Context UriInfo uriInfo, @PathParam("OriginalId") Long originalId) {
-		System.out.println("createCustomNfa AAAAAAB " + originalId);
-		
 		CustomNFA customNfaTemp = queryService.createCustomNfa(customNfa, originalId);
 		
 		String newId = String.valueOf(customNfaTemp.getId());
@@ -57,11 +56,12 @@ public class CustomNfaResource {
         return Response.created(uri)
                 .entity(customNfaTemp)
                 .build();
-        
-//        return Response.created(uri)
-//                .entity(customNfaTemp)
-//                .build();
 	}
 	
+	@GET
+	@Path("/{custom_id}")
+	public NfaInterface getNfaForProject(@PathParam("custom_id") int custom_id){
+		return queryService.getCustomNfa(custom_id);
+	}
 	
 }

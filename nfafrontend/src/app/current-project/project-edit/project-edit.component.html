@@ -3,7 +3,8 @@
     <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid">{{ 'nfa.save' | translate }}</button>
+          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid">{{ 'nfa.save' |
+            translate }}</button>
           <button type="button" class="btn btn-danger" (click)="onCancel()">{{ 'nfa.cancel' | translate }}</button>
           <hr>
         </div>
@@ -12,21 +13,21 @@
       <div class="row">
         <div class="col-xs-6">
           <div class="form-group">
-            <label for="customerName"><small>{{'nfa.project-details.customer-name' | translate }}</small></label>
+            <label for="customerName"><small>{{ 'nfa.project-details.customer-name' | translate }}</small></label>
             <input type="text"
                    id="customerName"
                    formControlName="customerName"
-                   placeholder="{{'nfa.new-project.customer-name-example' | translate }}"
+                   placeholder="{{ 'nfa.new-project.customer-name-example' | translate }}"
                    class="form-control">
           </div>
         </div>
         <div class="col-xs-6">
           <div class="form-group">
-            <label for="customerContact"><small>{{'nfa.project-details.contact-person-customer' | translate }}</small></label>
+            <label for="customerContact"><small>{{ 'nfa.project-details.contact-person-customer' | translate }}</small></label>
             <input type="text"
                    id="customerContact"
                    formControlName="customerContact"
-                   placeholder="{{'nfa.new-project.contact-person-customer-example' | translate }}"
+                   placeholder="{{ 'nfa.new-project.contact-person-customer-example' | translate }}"
                    class="form-control">
           </div>
         </div>
@@ -35,28 +36,30 @@
       <div class="row">
         <div class="col-xs-6">
           <div class="form-group">
-            <label for="msgContact"><small>{{'nfa.project-details.contact-person-msg' | translate }}</small></label>
+            <label for="msgContact"><small>{{ 'nfa.project-details.contact-person-msg' | translate }}</small></label>
             <input type="text"
                    id="msgContact"
                    formControlName="msgContact"
-                   placeholder="{{'nfa.new-project.contact-person-msg-example' | translate }}"
+                   placeholder="{{ 'nfa.new-project.contact-person-msg-example' | translate }}"
                    class="form-control">
           </div>
         </div>
         <div class="col-xs-6">
           <div class="form-group">
-            <label for="branch"><small>{{'nfa.project-details.branch.label' | translate }}</small></label>
+            <label for="branch"><small>{{ 'nfa.project-details.branch.label' | translate }}</small></label>
             <select  id="branch" formControlName="branch" class="form-control">
-              <option value="" disabled>{{'nfa.project-details.branch.choose' | translate }}</option>
-              <option value="Automotive">{{'nfa.project-details.branch.automotive' | translate }}</option>
-              <option value="Banking">{{'nfa.project-details.branch.banking'| translate }}</option>
-              <option value="Food">{{'nfa.project-details.branch.food'| translate }}</option>
-              <option value="Insurance">{{'nfa.project-details.branch.insurance'| translate }}</option>
-              <option value="Public Sector">{{'nfa.project-details.branch.public-sector'| translate }}</option>
-              <option value="Life Science & Healthcare">{{'nfa.project-details.branch.life-science-healthcare'| translate }}</option>
-              <option value="Telecommunications">{{'nfa.project-details.branch.telecommunications'| translate }}</option>
-              <option value="Travel & Logistics">{{'nfa.project-details.branch.travel-logistics'| translate }}</option>
-              <option value="Utilities">{{'nfa.project-details.branch.utilities' | translate }}</option>
+              <option value="" disabled>{{ 'nfa.project-details.branch.choose' | translate }}</option>
+              <option value="Automotive">{{ 'nfa.project-details.branch.automotive' | translate }}</option>
+              <option value="Banking">{{ 'nfa.project-details.branch.banking'| translate }}</option>
+              <option value="Food">{{ 'nfa.project-details.branch.food'| translate }}</option>
+              <option value="Insurance">{{ 'nfa.project-details.branch.insurance'| translate }}</option>
+              <option value="Public Sector">{{ 'nfa.project-details.branch.public-sector'| translate }}</option>
+              <option value="Life Science & Healthcare">{{ 'nfa.project-details.branch.life-science-healthcare'|
+                translate }}</option>
+              <option value="Telecommunications">{{ 'nfa.project-details.branch.telecommunications'| translate
+                }}</option>
+              <option value="Travel & Logistics">{{ 'nfa.project-details.branch.travel-logistics'| translate }}</option>
+              <option value="Utilities">{{ 'nfa.project-details.branch.utilities' | translate }}</option>
             </select>
           </div>
         </div>
@@ -65,22 +68,24 @@
       <div class="row">
         <div class="col-xs-6">
           <div class="form-group">
-            <label for="devProcess"><small>{{'nfa.project-details.development-process.label' | translate }}</small></label>
+            <label for="devProcess"><small>{{ 'nfa.project-details.development-process.label' | translate }}</small></label>
             <select  id="devProcess" formControlName="devProcess" class="form-control" (change)="updatePhase()">
-              <option value="" disabled>{{'nfa.project-details.development-process.choose' | translate }}</option>
-              <option value="Agile">{{'nfa.project-details.development-process.agile' | translate }}</option>
-              <option value="Classic">{{'nfa.project-details.development-process.classic' | translate }}</option>
+              <option value="" disabled>{{ 'nfa.project-details.development-process.choose' | translate }}</option>
+              <option value="Agile">{{ 'nfa.project-details.development-process.agile' | translate }}</option>
+              <option value="Classic">{{ 'nfa.project-details.development-process.classic' | translate }}</option>
             </select>
           </div>
         </div>
         <div class="col-xs-6">
           <div class="form-group">
-            <label for="projectPhase"><small>{{'nfa.project-details.project-phase.label' | translate }}</small></label>
+            <label for="projectPhase"><small>{{ 'nfa.project-details.project-phase.label' | translate }}</small></label>
             <select id="projectPhase" formControlName="projectPhase" class="form-control">
-              <option value="" disabled>{{'nfa.project-details.project-phase.choose' | translate }}</option>
-              <option value="None" *ngIf="isAgileCheck()">{{'nfa.none' | translate }}</option>
-              <option value="Specification Sheet" *ngIf="!isAgileCheck()">{{'nfa.project-details.project-phase.specification' | translate }}</option>
-              <option value="Requirements Specification" *ngIf="!isAgileCheck()">{{'nfa.project-details.project-phase.requirements' | translate }}</option>
+              <option value="" disabled>{{ 'nfa.project-details.project-phase.choose' | translate }}</option>
+              <option value="None" *ngIf="isAgileCheck()">{{ 'nfa.none' | translate }}</option>
+              <option value="Specification Sheet" *ngIf="!isAgileCheck()">{{ 'nfa.project-details.project-phase.specification'
+                | translate }}</option>
+              <option value="Requirements Specification" *ngIf="!isAgileCheck()">{{ 'nfa.project-details.project-phase.requirements'
+                | translate }}</option>
             </select>
           </div>
         </div>
@@ -89,10 +94,10 @@
       <div class="row">
         <div class="col-xs-4">
           <div class="form-group">
-            <label for="projectStatus"><small>{{'nfa.project-details.project-status.label' | translate }}</small></label>
+            <label for="projectStatus"><small>{{ 'nfa.project-details.project-status.label' | translate }}</small></label>
             <select id="projectStatus" formControlName="projectStatus" class="form-control">
-              <option value="On Process">{{'nfa.project-details.project-status.on-process' | translate }}</option>
-              <option value="Archived">{{'nfa.project-details.project-status.archived' | translate }}</option>
+              <option value="On Process">{{ 'nfa.project-details.project-status.on-process' | translate }}</option>
+              <option value="Archived">{{ 'nfa.project-details.project-status.archived' | translate }}</option>
             </select>
           </div>
         </div>
@@ -103,7 +108,7 @@
           </button>
         </div>
       </div>
-      <h3 style="text-align: center">{{'nfa.project-details.project-type.label' | translate }}</h3>
+      <h3 style="text-align: center">{{ 'nfa.project-details.project-type.label' | translate }}</h3>
       <hr>
 
       <div class="row pre-scrollable">
@@ -123,7 +128,8 @@
 
           <div class="row">
             <div class="col-xs-12">
-              <button type="button" class="btn btn-success" (click)="onAddType()"> <span class="glyphicon glyphicon-plus"> </span>{{'nfa.project-details.add-type' | translate }}</button>
+              <button type="button" class="btn btn-success" (click)="onAddType()"> <span class="glyphicon glyphicon-plus"> </span>{{ 'nfa.project-details.add-type'
+                | translate }}</button>
             </div>
           </div>
           <hr>

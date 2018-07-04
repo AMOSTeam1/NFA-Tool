@@ -9,7 +9,8 @@ import {ProjectType} from "./type.model";
 
 const headers = new HttpHeaders(
   {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*'
     }
   );
 const httpOptions = {
@@ -23,24 +24,36 @@ export class DataStorageService {
   storeNfa(metricId: number, nfa: NfaCatalogModel) {
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa);
   }
+
   storeEditedNfa(nfaCustom: NfaCustomModel) {
     // return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa, httpOptions);
-    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.nfaOriginalId, nfaCustom);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.nfaOriginalId, nfaCustom, httpOptions);
   }
 
-  storeProject(newproject: Project) {
-    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
+  storeProject(new_project: Project) {
+    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', new_project, httpOptions);
   }
 
   getCurrentProjects() : Observable<Project[]>{
     return this.http.get<Project[]>('http://localhost:8080/nfabackend/webapi/project');
   }
+
   deleteProject(project: Project) {
     return this.http.delete('http://localhost:8080/nfabackend/webapi/project/' + project.id);
   }
+
+  getNfa(nfa_id: number) : Observable<NfaCatalogModel>{
+    return this.http.get<NfaCatalogModel>('http://localhost:8080/nfabackend/webapi/nfa_catalog/'+nfa_id);
+  }
+
+  getCustomNfa(custom_id: number) : Observable<NfaCustomModel>{
+    return this.http.get<NfaCatalogModel>('http://localhost:8080/nfabackend/webapi/nfa_edit/'+custom_id);
+  }
+
   getNfaCatalog() : Observable<NfaCatalogModel[]>{
     return this.http.get<NfaCatalogModel[]>('http://localhost:8080/nfabackend/webapi/nfa_catalog');
   }
+
   getNfaFactors() : Observable<NfaFactorModel[]> {
     return this.http.get<NfaFactorModel[]>('http://localhost:8080/nfabackend/webapi/nfa_factor');
   }

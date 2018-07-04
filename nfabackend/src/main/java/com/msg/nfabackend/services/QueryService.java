@@ -15,7 +15,6 @@ import org.hibernate.cfg.NotYetImplementedException;
 import com.msg.nfabackend.entities.CustomNFA;
 import com.msg.nfabackend.entities.Metric;
 import com.msg.nfabackend.entities.NfaCatalog;
-import com.msg.nfabackend.entities.NfaCatalog.BpPropertyTemplateNoCondition;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
@@ -67,7 +66,7 @@ public class QueryService {
 		Metric metric = em.find(Metric.class, metricId);
 		nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
 
-        nfaCatalog.getNfaCatalogBlueprint().createDescription(nfaCatalog.getNfaCatalogWert());
+        nfaCatalog.getBlueprint().createDescription(nfaCatalog.getValues());
 
 		em.persist(nfaCatalog);
 
@@ -125,15 +124,8 @@ public class QueryService {
 	}
 
 	public List<NfaCatalog> getAllNfa() {
-		return em.createQuery("from nfaCatalog", NfaCatalog.class).getResultList();
+		return em.createQuery("from NfaCatalog", NfaCatalog.class).getResultList();
 	}
-
-		return em.createQuery("from Type",Type.class).getResultList();
-    }
-
-	public List<NfaCatalog> getAllNfa() {
-		return em.createQuery("from NfaCatalog",NfaCatalog.class).getResultList();
-    }
 
 	public List<NfaFactor> getAllFactors() {
 		return em.createQuery("from NfaFactor", NfaFactor.class).getResultList();
@@ -162,6 +154,15 @@ public class QueryService {
 
 	public List<Stakeholder> getAllStakeholder() {
 		return em.createQuery("from Stakeholder", Stakeholder.class).getResultList();
+	}
+
+	public CustomNFA getCustomNfa(int custom_id) {
+		
+		return em.createQuery("from CustomNFA WHERE custom_id IS " + custom_id + " ORDER BY nfa_id DESC", CustomNFA.class).getSingleResult();
+	}
+
+	public NfaCatalog getNfa(int nfa_id) {
+		return em.createQuery("FROM NfaCatalog WHERE nfa_id IS " + nfa_id, NfaCatalog.class).getSingleResult();
 	}
 
 }

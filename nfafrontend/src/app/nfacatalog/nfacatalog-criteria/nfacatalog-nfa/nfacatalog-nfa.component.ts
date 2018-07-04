@@ -13,6 +13,9 @@ import {ISubscription} from "rxjs/Subscription";
 import {FormControl, FormGroup} from "@angular/forms";
 import {NfaCustomModel} from "../../../shared/nfaCustom.model";
 import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
+import {NfaInterfaceModel} from "../../../shared/nfaInterface.model";
 
 
 //Define Lookup-Name in Local Storage
@@ -26,9 +29,9 @@ const selNfsName : string = 'selNfs';
 
 export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
-
   nfas: NfaCatalogModel[];
   id: number;
+  nfa_id : number;
   nfaFactor: NfaFactorModel;
   criteria: NfaCriteriaModel;
   criteria_id: number;
@@ -41,9 +44,18 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   checked :boolean;
   projectId: number;
 
-  nfa: NfaCatalogModel;
+  original_nfa: NfaCatalogModel;
+  custom_nfa: NfaCustomModel;
+
   editmode : boolean;
   nfadetailForm: FormGroup;
+
+  observable_nfa : Observable<NfaCatalogModel>;
+  observable_custom_nfa : Observable<NfaCustomModel>;
+
+  observable_erklaerungs_str : Observable<string>;
+  erklarungs_str_observer : Observer<string>;
+
 
   private subscription: ISubscription[];
 
@@ -55,6 +67,12 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
               private dataStorageService: DataStorageService,
               public local: LocalStorageService,
   ) {
+    this.observable_erklaerungs_str = new Observable<string>(
+      observer => {
+        this.erklarungs_str_observer = observer;
+      }
+    );
+
     this.subscription = [];
     this.initForm();
   }
@@ -77,6 +95,16 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     });
     this.subscription.push(subscription);
 
+    //Get the Project from the Id, saved in the Parents Route Parameters
+    subscription = this.route.parent.parent.params
+      .subscribe(params => this.projectId = params['id']);
+
+    if (this.projectId != null) {
+      this.nfaCatalogService.projectId = this.projectId;
+      this.projectNfs = this.currentProjectService.getProject(this.projectId).projectNfas.slice();
+    }
+    this.subscription.push(subscription);
+
     //Get Criteria and Metric according to the given IDs
     this.nfaIdx = 0;
     subscription = this.route.params
@@ -89,21 +117,32 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
           this.metric = this.nfaCatalogService.getNfaCriteria(this.criteria_id).metricList[this.metric_id];
           this.nfas = this.nfaCatalogService.getNfaCriteria(this.criteria_id).metricList[this.metric_id].nfaList;
 
-          console.log(this.nfas);
+          this.nfa_id = this.nfas[this.nfaIdx].id;
 
-          this.nfa = this.currentProjectService.getNfa(this.id);
+          this.original_nfa = this.currentProjectService.getNfa(this.nfaIdx);
+
+          this.observable_nfa = this.dataStorageService.getNfa(this.nfa_id);
+          let subscription1 = this.observable_nfa
+            .subscribe((value : NfaCatalogModel) =>
+            {
+              if(!this.custom_nfa){
+                this.erklarungs_str_observer.next(this.erklaerung(value));
+                this.original_nfa = value;
+              }
+            });
+          this.subscription.push(subscription1);
+
+          this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.nfaCustomId);
+          let subscription2 = this.observable_custom_nfa
+            .subscribe((value : NfaCustomModel) =>
+            {
+              this.erklarungs_str_observer.next(this.erklaerung(value));
+              this.custom_nfa = value;
+            });
+          this.subscription.push(subscription2);
 
         }
       );
-    this.subscription.push(subscription);
-
-    //Get the Project from the Id, saved in the Parents Route Parameters
-    subscription = this.route.parent.parent.params
-      .subscribe(params => this.projectId = params['id']);
-    if (this.projectId != null) {
-      this.nfaCatalogService.projectId = this.projectId;
-      this.projectNfs = this.currentProjectService.getProject(this.projectId).projectNfas.slice();
-    }
     this.subscription.push(subscription);
 
     this.projectMode = this.local.get('nfaMode');
@@ -117,6 +156,8 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   onEditNFA() {
     if(this.editmode == false){
+      // this.erklarungs_str_observer.next(this.erklaerung(this.getRelevantNfa()));
+
       this.router.navigate(['edit'], {relativeTo: this.route});
     }
   }
@@ -131,8 +172,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     this.onBack();
   }
 
-
-  bezeichnung(nfa: NfaCatalogModel) {
+  bezeichnung(nfa: NfaInterfaceModel) : string {
 
     if (this.lang() === 'de') {
       return nfa.blueprint.de.bezeichnung;
@@ -141,7 +181,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     }
   }
 
-  erklaerung(nfa: NfaCatalogModel) {
+  erklaerung(nfa: NfaInterfaceModel) : string {
 
     if (this.lang() === 'de') {
       return nfa.blueprint.de.erklaerung;
@@ -160,9 +200,9 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   getCurrentBlueprint() : IBlueprint{
     if (this.lang() === 'de') {
-      return this.nfa.blueprint.de;
+      return this.original_nfa.blueprint.de;
     } else {
-      return this.nfa.blueprint.en;
+      return this.original_nfa.blueprint.en;
     }
   }
 
@@ -179,31 +219,27 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(){
-    console.log("on_submit");
     switch(this.lang()){
       case 'de':
-        this.nfa.blueprint.de.erklaerung = this.nfadetailForm.value['nfaExplanation'];
+        this.original_nfa.blueprint.de.erklaerung = this.nfadetailForm.value['nfaExplanation'];
         break;
       case 'en':
       default:
-        this.nfa.blueprint.en.erklaerung = this.nfadetailForm.value['nfaExplanation'];
+        this.original_nfa.blueprint.en.erklaerung = this.nfadetailForm.value['nfaExplanation'];
         break;
     }
 
-
-    console.log("this.nfa.id: " + this.nfa.id);
     let customNfa = new NfaCustomModel(
       null,
-      this.nfa.id,
-      this.nfa.value,
-      this.nfa.formulation,
-      this.nfa.blueprint,
-      // this.nfa.nfaCatalogReference,
+      this.original_nfa.id,
+      this.original_nfa.value,
+      this.original_nfa.formulation,
+      this.original_nfa.blueprint,
+      // this.original_nfa.nfaCatalogReference,
       this.nfadetailForm.value['nfaCatalogReference'],
-      this.nfa.criticality,
-      this.nfa.document
+      this.original_nfa.criticality,
+      this.original_nfa.document
     );
-    console.log(customNfa);
 
     const subscription = this.dataStorageService.storeEditedNfa(customNfa)
       .subscribe(
@@ -219,7 +255,6 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     this.subscription.push(subscription);
 
     this.onBack();
-    console.log("on_submit done");
   }
 
   private initForm() {
@@ -248,6 +283,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     this.nfaIdx = j;
     this.onView = !this.onView;
   }
+
   /*
         this function used to initialize the checkbox --checked property
    */
@@ -278,15 +314,20 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     return this.checked;
   }
 
-
+  getRelevantNfa() : NfaInterfaceModel {
+    if (this.custom_nfa){
+      return this.custom_nfa;
+    }else{
+      return this.original_nfa;
+    }
+  }
 
   /**
-   * this function used tto add nfa to the local variable selNfs
+   * this function used tto add original_nfa to the local variable selNfs
    * @param {NfaCatalogModel} selectedNfa
    */
 
   selectNfa(selectedNfa : NfaCatalogModel){
-    console.log("SelectNfa selected ");
 
     let savedNfs: NfaCatalogModel[] =  this.local.get(selNfsName);
     const projNfas : NfaCatalogModel[] = [];
@@ -326,6 +367,8 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
        }
 
      }*/
+
+
 }
 
 

@@ -2,13 +2,8 @@ package com.msg.nfabackend.entities;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,8 +20,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.msg.nfabackend.templates.Template;
-import com.msg.nfabackend.templates.Template.Restriction;
 
 @Entity
 @Table(name ="nfa")
@@ -59,7 +52,7 @@ public class NfaCatalog implements NfaInterface{
 			}
 		}
 	}
-	public static class WertConverter implements AttributeConverter<List<String>, String> {
+	public static class ValueConverter implements AttributeConverter<List<String>, String> {
 		@Override
 		public String convertToDatabaseColumn(List<String> attribute) {
 
@@ -91,7 +84,8 @@ public class NfaCatalog implements NfaInterface{
 	public static class NfaCatalogBlueprint {
 		/**
 		 *
-		 */private BpPropertyTemplateNoCondition de;
+		 */
+		private BpPropertyTemplateNoCondition de;
 		private BpPropertyTemplateNoCondition en;
 		
 		/**
@@ -166,24 +160,23 @@ public class NfaCatalog implements NfaInterface{
 		 * @return the erklaerung
 		 */
 		public String getErklaerung() {
-			if (erklaerung == null) {
-				updateErklaerung();
-			}
+//			if (erklaerung == null) {
+//				updateErklaerung();
+//			}
 			return erklaerung;
 		}
-
-		/**
-		 * Uses all the Components to generate the Explanation String and updates the Variable Explanation.
-		 */
-		public void updateErklaerung() {
-			erklaerung = String.join(" ",
-			getCharacteristic(),
-			getProperty(),
-			getModalVerb(),
-			getVerb(),
-			getQualifyingEx(),
-			getValueInput());
-		}
+//
+//		/**
+//		 * Uses all the Components to generate the Explanation String and updates the Variable Explanation.
+//		 */
+//		public void updateErklaerung() {
+//			erklaerung = String.join(" ",
+//					getCharacteristic(), 
+//					getProperty(), 
+//					getModalVerb(),
+//					getQualifiedValue(getValues()), 
+//					getVerb());
+//		}
 
 		/**
 		 * @param erklaerung
@@ -282,7 +275,7 @@ public class NfaCatalog implements NfaInterface{
     		name = "nfa-id-generator",
     		sequenceName = "nfa_sequence") //TODO Needs to be some Number, bigger than the initial / manual NFA-Count 
 	@Column(name = "nfa_id")
-	private Long nfaCatalogId;
+	private Long id;
 
 	@OneToMany(mappedBy = "originalEntry", cascade = CascadeType.ALL)
 	private List<CustomNFA> customNfaList;
@@ -291,71 +284,68 @@ public class NfaCatalog implements NfaInterface{
 	private Long nfaNumber;
 
 	@Column(name = "nfa_type")
-	private String nfaCatalogType;
+	private String type;
 
-	@Column(name = "wert")
-	@Convert(converter = WertConverter.class)
-	private List<String> nfaCatalogWert;
+	@Column(name = "value")
+	@Convert(converter = ValueConverter.class)
+	private List<String> values;
 
-	@Column(name = "rechtliche_verbindlichkeit")
-	private String rechtlicheVerbindlichkeit;
-
-	@Column (name ="value")
-	private String nfaCatalogWert;
+	@Column(name = "legal_liability")
+	private String legalLiability;
 
 	@Column (name ="formulation")
-	private String nfaCatalogFormulierung;
+	private String formulation;
 
 	@Column(name = "blueprint")
 	@Convert(converter = BlueprintConverter.class)
-	private NfaCatalogBlueprint nfaCatalogBlueprint;
+	private NfaCatalogBlueprint blueprint;
 
 	@Column(name = "reference")
-	private String nfaCatalogReferenz;
+	private String reference;
 
 	@Column(name = "referenced_projects")
-	private String nfaCatalogReferenzierteProjekte;
+	private String referencedProjects;
 
 	@Column(name = "criticality")
-	private String nfaCatalogKritikalität;
+	private String criticality;
 
 	@Column(name = "document")
-	private String nfaCatalogDokument;
+	private String document;
 
 	public Long getId() {
-		return nfaCatalogId;
+		return id;
 	}
 
 	public String getType() {
-		return nfaCatalogType;
+		return type;
 	}
 
-	public String getRechtlicheVerbindlichkeit() {
-		return rechtlicheVerbindlichkeit;
+	public String getLegalLiability() {
+		return legalLiability;
 	}
 
 	public String getFormulation() {
-		return nfaCatalogFormulierung;
+		return formulation;
 	}
 
 	public String getReference() {
-		return nfaCatalogReferenz;
+		return reference;
 	}
 
 	public String getReferencedProjects() {
-		return nfaCatalogReferenzierteProjekte;
+		return referencedProjects;
 	}
 
 	public String getCriticality() {
-		return nfaCatalogKritikalität;
+		return criticality;
 	}
 
 	public String getDocument() {
-		return nfaCatalogDokument;
+		return document;
 	}
 
-	public String getValue() {
-		return nfaCatalogWert;
+	public List<String> getValues() {
+		return values;
 	}
 
 	public Long getNfaNumber() {
@@ -367,7 +357,7 @@ public class NfaCatalog implements NfaInterface{
 	}
 
 	public NfaCatalogBlueprint getBlueprint() {
-		return nfaCatalogBlueprint;
+		return blueprint;
 	}
 
 }

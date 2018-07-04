@@ -1,7 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {Form, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AfterViewInit, Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {Form, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../shared/data-storage.service';
 
 import {NfacatalogService} from '../nfacatalog/nfacatalog.service';

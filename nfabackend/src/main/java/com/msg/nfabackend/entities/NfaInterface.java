@@ -1,5 +1,7 @@
 package com.msg.nfabackend.entities;
 
+import java.util.List;
+
 public interface NfaInterface {
 
 	//TODO comment
@@ -8,7 +10,7 @@ public interface NfaInterface {
 
 	public String getType();
 
-	public String getRechtlicheVerbindlichkeit(); 
+	public String getLegalLiability(); 
 
 	public String getFormulation();
 	
@@ -20,7 +22,7 @@ public interface NfaInterface {
 
 	public String getDocument();
 
-	public String getValue();
+	public List<String> getValues();
 
 	public Long getNfaNumber(); 
 	

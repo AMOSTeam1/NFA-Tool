@@ -16,7 +16,7 @@ export class NfacatalogCriteriaItemComponent implements OnInit {
   @Input() index: number;
   @Input() nfaFactorNumber: number;
 
-  selectedNfs: NfaCatalogModel[]
+  selectedNfs: NfaCatalogModel[];
   metrics: NfaMetric[];
   factorNfs: NfaCatalogModel[];
   class: string;
@@ -28,7 +28,7 @@ export class NfacatalogCriteriaItemComponent implements OnInit {
 
     /** read the project nfas from the local variable
      * get the nfas of the curret criteria
-     * check if the nfa of the current criteria  is one of the project nfas then set the class according to the condition result
+     * check if the original_nfa of the current criteria  is one of the project nfas then set the class according to the condition result
      */
     if (this.local.get('selNfs') != null) {
       this.selectedNfs = this.local.get('selNfs');
