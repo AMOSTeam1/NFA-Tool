@@ -8,6 +8,8 @@ import {NfaFactorModel} from "../shared/nfaFactor.model";
 
 import {DataStorageService} from "../shared/data-storage.service";
 import {ISubscription} from "rxjs/Subscription";
+import {DataexchangeService as DExchS} from "../shared/dataexchange.service";
+
 @Component({
   selector: 'app-nfacatalog',
   templateUrl: './nfacatalog.component.html',
@@ -30,7 +32,7 @@ export class NfacatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.projectMode = this.local.get('nfaMode');
+    this.projectMode = this.local.get(DExchS.nfaMode);
 
     const subscription = this.dataStorageService.getNfaFactors()
       .subscribe(
@@ -49,7 +51,7 @@ export class NfacatalogComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this.currentProjectService.setProject(this.local.get('currProject'));
+    this.currentProjectService.setProject(this.local.get(DExchS.currProject));
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 

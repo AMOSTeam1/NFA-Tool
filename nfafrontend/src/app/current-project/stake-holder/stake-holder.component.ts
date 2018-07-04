@@ -46,31 +46,6 @@ export class StakeHolderComponent implements OnInit {
       );
   }
 
-  /*onSubmit() {
-
-    const newProject = this.currentProjectService.getProject(this.id);
-    newProject.projectStakeholders = this.projectForm.value['projectStakeholders'];
-    for (let i = 0; i < newProject.projectStakeholders.length; i++) {
-      for (let j = 0; j < newProject.projectStakeholders[i].stakeholderFactors.length; j++){
-        this.nfaFactors.forEach((x) => {
-          if (x.nfa_id.toString() === newProject.projectStakeholders[i].stakeholderFactors[j].nfa_id.toString())
-          {newProject.projectStakeholders[i].stakeholderFactors[j] = x; }
-        });
-      }
-    }
-    this.currentProjectService.updateProject(this.id, newProject);
-    this.dataStorageService.updateProject(newProject)
-      .subscribe(
-        (response: Response) => {
-
-          this.onCancel();
-          this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
-        }
-      );
-
-    this.onCancel();
-  }*/
-
   onAddStakeholder(){
     (<FormArray>this.projectForm.get('projectStakeholders')).push(
       new FormGroup({
@@ -100,47 +75,6 @@ export class StakeHolderComponent implements OnInit {
   onDeleteFactor(i: number, j: number){
     (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).removeAt(j);
   }
-
-  /*private initForm() {
-
-    let projectStakeholders = new FormArray([]);
-
-
-    if (this.editMode) {
-      const project = this.currentProjectService.getProject(this.id);
-      if(project['projectStakeholders']) {
-        for(const stakeholder of project.projectStakeholders) {
-
-          let stakeholderFactors= new FormArray([]);
-          if(stakeholder['stakeholderFactors']) {
-            for(const factor of stakeholder.stakeholderFactors) {
-
-              stakeholderFactors.push(
-                new FormGroup({
-                  'nfa_id' : new FormControl(factor.nfa_id, Validators.required),
-                  'factor' : new FormControl(factor.factor)
-                })
-
-              )
-            }
-          }
-
-          projectStakeholders.push(
-            new FormGroup({
-              'stakeholder_id' : new FormControl(stakeholder.stakeholder_id),
-              'stakeholder_name' : new FormControl(stakeholder.stakeholder_name, Validators.required),
-              'stakeholderFactors' : stakeholderFactors
-            })
-          );
-        }
-      }
-    }
-
-    this.projectForm = new FormGroup({
-      'projectStakeholders' : projectStakeholders
-    });
-
-  }*/
 
   onCancel(){
     this.router.navigate(['../'], {relativeTo: this.route});

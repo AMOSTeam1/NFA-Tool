@@ -2,7 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {NfaCriteriaModel} from '../../../../shared/nfaCriteria.model';
 import {LocalStorageService} from 'angular-web-storage';
 import {NfaCatalogModel} from '../../../../shared/nfaCatalog.model';
-import {NfaMetric} from '../../../../shared/nfaMetric.model';
+import {NfaMetricModel} from '../../../../shared/nfaMetric.model';
+import {DataexchangeService as DExchS} from "../../../../shared/dataexchange.service";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class NfacatalogCriteriaItemComponent implements OnInit {
   @Input() nfaFactorNumber: number;
 
   selectedNfs: NfaCatalogModel[];
-  metrics: NfaMetric[];
+  metrics: NfaMetricModel[];
   factorNfs: NfaCatalogModel[];
   class: string;
 
@@ -30,8 +31,8 @@ export class NfacatalogCriteriaItemComponent implements OnInit {
      * get the nfas of the curret criteria
      * check if the original_nfa of the current criteria  is one of the project nfas then set the class according to the condition result
      */
-    if (this.local.get('selNfs') != null) {
-      this.selectedNfs = this.local.get('selNfs');
+    if (this.local.get(DExchS.selNfs) != null) {
+      this.selectedNfs = this.local.get(DExchS.selNfs);
       if (this.selectedNfs.length === 0) {
         this.class = 'list-group-item-text';
       }

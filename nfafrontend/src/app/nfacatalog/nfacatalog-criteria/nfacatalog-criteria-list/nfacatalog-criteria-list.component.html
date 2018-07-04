@@ -1,25 +1,25 @@
 <div class="row">
-  <div class="col-xs-12" style="text-align: center">
-    <small><span class="label label-default">{{nfaFactor.factor}}</span></small>
-  </div>
+  <!--<div class="col-xs-12" style="text-align: center">-->
+    <!--<small><span class="label label-default">{{factor.factor}}</span></small>-->
+  <!--</div>-->
 </div>
 <hr>
 <div class="row">
   <div class="col-xs-12">
     <h5></h5>
-    <div *ngFor="let nfaFactor of nfaFactors let i = index">
+    <div *ngFor="let factor of nfaFactors let i = index">
     <a class="list-group-item clearfix"
        style="cursor: pointer;"
        [class.active] = "i === id"
     (click)="showCriteria(i)">
-        <h5 class="list-group-item-heading">{{nfaFactor.nfa_id}}. {{ nfaFactor.factor}}</h5>
+        <h5 class="list-group-item-heading">{{factor.factorNumber}}. {{ factor.factor}}</h5>
       <span class="pull-right"></span>
     </a>
       <div *ngIf="id === i">
       <app-nfacatalog-criteria-item
-        *ngFor="let nfaCriteriaEl of nfaFactor.criteriaList let j = index"
+        *ngFor="let nfaCriteriaEl of factor.criteriaList let j = index"
         [nfaCriteria]="nfaCriteriaEl"
-        [nfaFactorNumber]="nfaFactor.nfa_id"
+        [nfaFactorNumber]="factor.factorNumber"
         [index]="j"
       ></app-nfacatalog-criteria-item>
       </div>

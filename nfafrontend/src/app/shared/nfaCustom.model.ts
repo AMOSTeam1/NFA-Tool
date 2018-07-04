@@ -3,8 +3,8 @@ import {NfaInterfaceModel} from "./nfaInterface.model";
 
 export class NfaCustomModel implements NfaInterfaceModel{
   constructor(
-    public nfaCustomId: number,
-    public nfaOriginalId: number,
+    public customId: number,
+    public originalId: number,
     public value: string[],
     public formulation: string,
     public blueprint: NfaCatalogBlueprintModel,

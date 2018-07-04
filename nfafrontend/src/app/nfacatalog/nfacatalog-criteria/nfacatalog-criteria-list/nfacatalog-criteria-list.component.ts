@@ -14,7 +14,7 @@ import {DataStorageService} from '../../../shared/data-storage.service';
 export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
 
   nfaCriterias: NfaCriteriaModel[];
-  nfaFactor: NfaFactorModel;
+  factor: NfaFactorModel;
   id: number;
   subscription : ISubscription[];
 
@@ -32,7 +32,7 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
       .subscribe(
         (params: Params) => {
           this.id = +params['id'];
-          this.nfaFactor = this.nfaCatalogService.getNfaFactor(this.id);
+          this.factor = this.nfaCatalogService.getNfaFactor(this.id);
           this.nfaCriterias = this.nfaCatalogService.getNfaFactor(this.id).criteriaList;
           this.nfaCatalogService.setNfaCriterias(this.nfaCriterias);
 

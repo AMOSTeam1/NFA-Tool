@@ -12,7 +12,8 @@
       "contact-person-customer-example" : "Max Mustermann",
       "contact-person-msg-example" : "Thomas Rauch",
 
-      "create-new-project" : "Erstelle neues Projekt"
+      "create-new-project" : "Erstelle neues Projekt",
+      "back-to-project" : "Zurück zum Projekt"
     },
     "new-nfa" : {
       "heading" : "Es ist gefährlich alleine ein NFA Projekt zu machen. Nimm dies.",

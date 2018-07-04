@@ -27,7 +27,7 @@ export class DataStorageService {
 
   storeEditedNfa(nfaCustom: NfaCustomModel) {
     // return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa, httpOptions);
-    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.nfaOriginalId, nfaCustom, httpOptions);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.originalId, nfaCustom, httpOptions);
   }
 
   storeProject(new_project: Project) {

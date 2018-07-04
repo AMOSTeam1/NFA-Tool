@@ -1,6 +1,6 @@
 import {IBlueprint} from './IBlueprint.model';
 
-export class BpPropertyTemplateNoConditionDe implements IBlueprint {
+export class BpPropertyTemplateNoCondition implements IBlueprint {
 
   constructor(
     public bezeichnung: string,
@@ -12,4 +12,12 @@ export class BpPropertyTemplateNoConditionDe implements IBlueprint {
     public verb: string
 
   ) {}
+
+  getBezeichnung(): string {
+    return this.bezeichnung;
+  }
+
+  getErklaerung(): string {
+    return this.erklaerung;
+  }
 }

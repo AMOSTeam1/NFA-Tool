@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { NfacatalogComponent } from './nfacatalog/nfacatalog.component';
 import { NewnfaComponent } from './newnfa/newnfa.component';
-import { NewpackageComponent } from './newpackage/newpackage.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -46,7 +45,6 @@ import { AngularWebStorageModule } from 'angular-web-storage';
     HeaderComponent,
     NfacatalogComponent,
     NewnfaComponent,
-    NewpackageComponent,
     HomeComponent,
     DialogComponent,
     CurrentProjectComponent,

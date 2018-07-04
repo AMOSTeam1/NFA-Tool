@@ -1,6 +1,5 @@
 <div class="row" *ngIf="projectMode">
-  <button type="button" class="btn btn-success" (click)="onBack()"> Back To The Project</button>
-  <!--TODO Translate-->
+  <button type="button" class="btn btn-success" (click)="onBack()"> {{'nfa.new-project.back-to-project' | translate}}</button>
 </div>
 <div class="row">
   <router-outlet></router-outlet>

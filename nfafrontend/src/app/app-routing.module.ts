@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {NewpackageComponent} from './newpackage/newpackage.component';
 import {NewnfaComponent} from './newnfa/newnfa.component';
 import {NfacatalogComponent} from './nfacatalog/nfacatalog.component';
 import {HomeComponent} from './home/home.component';
@@ -15,7 +14,6 @@ import {NfacatalogNfaComponent} from './nfacatalog/nfacatalog-criteria/nfacatalo
 
 const appRoutes: Routes = [
   {path: '' , redirectTo: '/home', pathMatch: 'full'},
-  {path: 'newpackage', component: NewpackageComponent},
   {path: 'newnfa', component: NewnfaComponent},
   {path: 'nfacatalog', component: NfacatalogComponent, children: [
     {path: 'list', component: NfacatalogListComponent},

@@ -24,7 +24,7 @@ public class NfaFactor {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name ="factor_id")
-	private Long nfa_id;
+	private Long factorNumber;
 	
 	@Column (name ="factor")
 	private String factor;
@@ -42,12 +42,12 @@ public class NfaFactor {
 		this.criteriaList = criteriaList;
 	}
 
-	public Long getNfa_id() {
-		return nfa_id;
+	public Long getFactorNumber() {
+		return factorNumber;
 	}
 
-	public void setNfa_id(Long nfa_id) {
-		this.nfa_id = nfa_id;
+	public void setFactorNumber(Long factorNumber) {
+		this.factorNumber = factorNumber;
 	}
 
 	public String getFactor() {

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {NfacatalogService} from '../../nfacatalog.service';
-import {NfaMetric} from '../../../shared/nfaMetric.model';
+import {NfaMetricModel} from '../../../shared/nfaMetric.model';
 import {NfaFactorModel} from "../../../shared/nfaFactor.model";
 import {NfaCriteriaModel} from "../../../shared/nfaCriteria.model";
 import {LocalStorageService} from 'angular-web-storage';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
+import {DataexchangeService as DExchS} from "../../../shared/dataexchange.service";
 
 @Component({
   selector: 'app-nfacatalog-metric',
@@ -14,10 +15,10 @@ import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 })
 export class NfacatalogMetricComponent implements OnInit {
 
-  nfaMetrics: NfaMetric[];
+  nfaMetrics: NfaMetricModel[];
   criteria_id: number;
   id: number;
-  nfaFactor: NfaFactorModel;
+  factor: NfaFactorModel;
   criteria: NfaCriteriaModel;
   private onView = true;
   metricIdx: number;
@@ -40,7 +41,7 @@ export class NfacatalogMetricComponent implements OnInit {
       .subscribe(
         (params: Params) => {
           this.id = +params['id'];
-          this.nfaFactor = this.nfaCatalogService.getNfaFactor(this.id);
+          this.factor = this.nfaCatalogService.getNfaFactor(this.id);
         }
       );
 
@@ -89,8 +90,8 @@ export class NfacatalogMetricComponent implements OnInit {
      * get the nfas of the curret metric
      * check if the nfa of the current metric  is one of the projec nfas then set iseselcted by the condition result
      */
-    if (this.local.get('selNfs') != null) {
-      this.selectedNfs = this.local.get('selNfs');
+    if (this.local.get(DExchS.selNfs) != null) {
+      this.selectedNfs = this.local.get(DExchS.selNfs);
       if (this.selectedNfs.length === 0) {
         this.class = 'list-group-item-text';
       }

@@ -5,14 +5,14 @@ import {DataStorageService} from '../shared/data-storage.service';
 import {NfacatalogService} from '../nfacatalog/nfacatalog.service';
 import {NfaFactorModel} from '../shared/nfaFactor.model';
 import {NfaCriteriaModel} from '../shared/nfaCriteria.model';
-import {NfaMetric} from '../shared/nfaMetric.model';
+import {NfaMetricModel} from '../shared/nfaMetric.model';
 import {NfatemplateComponent} from './nfatemplate/nfatemplate.component';
 import {NfaCatalogBlueprintModel} from '../shared/nfaCatalogBlueprint.model';
-import {BpPropertyTemplateNoConditionDe} from '../shared/blueprints/bpPropertyTemplateNoConditionDe.model';
-import {BpPropertyTemplateNoConditionEn} from '../shared/blueprints/bpPropertyTemplateNoConditionEn.model';
+import {BpPropertyTemplateNoCondition} from '../shared/blueprints/bpPropertyTemplateNoCondition.model';
 import {NfaCatalogModel} from '../shared/nfaCatalog.model';
 import {QualifiyingExpression} from '../shared/blueprints/QualifiyingExpression.model';
 import {ISubscription} from "rxjs/Subscription";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -23,7 +23,8 @@ import {ISubscription} from "rxjs/Subscription";
 export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private dataStorageService: DataStorageService,
-              private nfaCatalogService: NfacatalogService) {
+              private nfaCatalogService: NfacatalogService,
+              private translateService: TranslateService) {
     this.subscription = [];
   }
 
@@ -33,7 +34,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   selectedFactor: NfaFactorModel = undefined;
   selectedCriteria: NfaCriteriaModel = undefined;
-  selectedMetric: NfaMetric = undefined;
+  selectedMetric: NfaMetricModel = undefined;
   selectedType: any;
   valid = false;
 
@@ -80,7 +81,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
     const qe = QualifiyingExpression.resolve(
       this.nfatemplate.deComponent.deForm.get('qualifyingEx').value);
 
-    let de = new BpPropertyTemplateNoConditionDe(
+    let de = new BpPropertyTemplateNoCondition(
       this.nfatemplate.deComponent.deForm.get('nameNFA').value,
       null,
       this.nfatemplate.deComponent.deForm.get('characteristic').value,
@@ -88,7 +89,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.nfatemplate.deComponent.deForm.get('modalVerb').value,
       qe.fullDe(),
       this.nfatemplate.deComponent.deForm.get('verb').value);
-    let en = new BpPropertyTemplateNoConditionEn(
+    let en = new BpPropertyTemplateNoCondition(
       this.nfatemplate.enComponent.enForm.get('nameNFA').value,
       null,
       this.nfatemplate.enComponent.enForm.get('characteristic').value,
@@ -104,7 +105,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.nfatemplate.deComponent.deForm.get('chbox').value,
       this.nfatemplate.deComponent.deForm.get('valueInput').value,
       null,
-      new  NfaCatalogBlueprintModel(de, en),
+      new NfaCatalogBlueprintModel(de, en, this.translateService),
       null,
       null,
       null,

@@ -11,6 +11,7 @@ import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
 import {ISubscription} from "rxjs/Subscription";
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 import {Stakeholder} from '../../shared/stakeholder.model';
+import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 
 
 @Component({
@@ -130,8 +131,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       projectStatus = project.projectStatus;
     }
 
-    else if(this.local.get('nfaMode')){
-      const project = this.local.get('currProject');
+    else if(this.local.get(DExchS.nfaMode)){
+      const project = this.local.get(DExchS.currProject);
       if (project['projectTypes']){
       projectTypes = new FormArray([]);
       for(const type of project.projectTypes) {
@@ -241,9 +242,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       for (let j = 0; j < projectStakeholders[i].stakeholderFactors.length; j++) {
         this.nfaFactors.forEach((x) => {
 
-          if (x.nfa_id.toString() === projectStakeholders[i].stakeholderFactors[j].nfa_id.toString())
+          if (x.factorNumber.toString() === projectStakeholders[i].stakeholderFactors[j].factorNumber.toString())
           {
-            stakeholder.stakeholderFactors.push(x.nfa_id);
+            stakeholder.stakeholderFactors.push(x.factorNumber);
           }
         });
       }
@@ -256,7 +257,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       newProject.id = this.currentProjectService.getProject(this.id).id;
       newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
-      console.log(newProject);
+
       this.currentProjectService.updateProject(this.id, newProject);
 
       const subsciption = this.dataStorageService.updateProject(newProject)
@@ -339,8 +340,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   }
 
   onChooseNfa(){
-
-     const newProject = new Project(
+    const newProject = new Project(
       this.id,
       this.projectForm.value['customerName'],
       this.projectForm.value['customerContact'],
@@ -353,10 +353,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       this.projectForm.value['projectStatus'],
       []
     );
-     this.currentProjectService.setProject(newProject);
-    this.local.set('currProject', newProject);
-    this.local.set('nfaMode',true);
-
+    this.currentProjectService.setProject(newProject);
+    this.local.set(DExchS.currProject, newProject);
+    this.local.set(DExchS.nfaMode,true);
 
     this.router.navigate(['nfa'], {relativeTo: this.route});
   }

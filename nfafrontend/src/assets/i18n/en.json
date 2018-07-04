@@ -12,7 +12,8 @@
       "contact-person-customer-example" : "John Doe",
       "contact-person-msg-example" : "Thomas Rauch",
 
-      "create-new-project" : "Create new Project"
+      "create-new-project" : "Create new Project",
+      "back-to-project" : "Back To The Project"
     },
     "new-nfa" : {
       "heading" : "It is dangerous to go alone for NFR project. Take this...",
