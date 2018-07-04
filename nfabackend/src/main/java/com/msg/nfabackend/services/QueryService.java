@@ -1,16 +1,10 @@
 package com.msg.nfabackend.services;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -25,291 +19,136 @@ import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
 import com.msg.nfabackend.entities.nfaCatalog;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionDe;
-import com.msg.nfabackend.entities.nfaCatalog.BpPropertyTemplateNoConditionEn;
 
-
+@Stateless
 public class QueryService {
-	
-	private static final Logger LOG = Logger.getLogger(QueryService.class.getName());
-	
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("msg-nfa");
-	EntityManager em = emf.createEntityManager();
-	EntityTransaction tx =  em.getTransaction();
-	
-	public List<Project> getAllProject() {
-		List<Project> listProject = null;
-		try {
-			tx.begin();
-			listProject = em.createQuery("from Project",Project.class).getResultList();
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}finally {
-				em.close();
-				emf.close();
-			}
-		return listProject;
-    }
 
-	public List<Project> findProject( String status,String lookupCustName) {
-		List<Project> listProject = null;
-		try {
-			tx.begin();
-			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-			CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
-			Root<Project> root = criteria.from(Project.class);
-			Predicate statusQry= criteriaBuilder.like(root.<String>get("projectStatus"),status);
-			Predicate lookupQry = criteriaBuilder.like(root.<String>get("customerName"), "%"+lookupCustName+"%");
-			criteria.select(root);
-			if (!lookupCustName.isEmpty() && status.equalsIgnoreCase("All")) {
-			   
-			    criteria.where(lookupQry);
-			}
-			else if  (!lookupCustName.isEmpty()&& !status.equalsIgnoreCase("All")) {
-				
-				 Predicate qry = criteriaBuilder.and(lookupQry, statusQry);
-				 criteria.where(qry);
-			}
-			else if (lookupCustName.isEmpty()&& !status.equalsIgnoreCase("All")){
-				 criteria.where(statusQry);
-			}
-			listProject = em.createQuery(criteria).getResultList();
-			tx.commit();
-		}catch(Exception e){
-			tx.rollback();
-		}finally {
-			em.close();
-			emf.close();
+	@PersistenceContext(unitName = "msg-nfa")
+	private EntityManager em;
+
+	public List<Project> getAllProject() {
+		return em.createQuery("from Project", Project.class).getResultList();
+	}
+
+	public List<Project> findProject(String status, String lookupCustName) {
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
+		Root<Project> root = criteria.from(Project.class);
+		Predicate statusQry = criteriaBuilder.like(root.<String>get("projectStatus"), status);
+		Predicate lookupQry = criteriaBuilder.like(root.<String>get("customerName"), "%" + lookupCustName + "%");
+		criteria.select(root);
+		if (!lookupCustName.isEmpty() && status.equalsIgnoreCase("All")) {
+
+			criteria.where(lookupQry);
+		} else if (!lookupCustName.isEmpty() && !status.equalsIgnoreCase("All")) {
+
+			Predicate qry = criteriaBuilder.and(lookupQry, statusQry);
+			criteria.where(qry);
+		} else if (lookupCustName.isEmpty() && !status.equalsIgnoreCase("All")) {
+			criteria.where(statusQry);
 		}
-		return listProject;
+		return em.createQuery(criteria).getResultList();
 	}
 
 	/**
 	 * Create new project
+	 * 
 	 * @param project
 	 * @return Project
 	 */
 	public Project createProject(Project project) {
-		try {
-			tx.begin();
-			em.merge(project);
-			tx.commit();
-		}
-		catch(Exception e) {
-			LOG.log(Level.SEVERE, "Creating project failed...", e);
-			tx.rollback();
-		}finally {
-			em.close();
-			emf.close();
-		}
+		em.merge(project);
 		return project;
 	}
-	
-	public nfaCatalog createNfa (Long metricId, nfaCatalog nfaCatalog) {
-		try {
-			tx.begin();
-			Metric metric = em.find(Metric.class, metricId);
-			nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
-			
-			BpPropertyTemplateNoConditionDe de = nfaCatalog.getNfaCatalogBlueprint().getDe();
-			if (de.getErklaerung() == null) {
-				de.setErklaerung(String.join(" ", 
-						de.getCharacteristic(), de.getProperty(), de.getModalVerb(), de.getQualifyingEx(), de.getValueInput(), de.getVerb()));
-			}
-			BpPropertyTemplateNoConditionEn en = nfaCatalog.getNfaCatalogBlueprint().getEn();
-			if (en.getErklaerung() == null) {
-				en.setErklaerung(String.join(" ", 
-						en.getCharacteristic(), en.getProperty(), en.getModalVerb(), en.getVerb(), en.getQualifyingEx(), en.getValueInput()));
-			}
-			
-			em.persist(nfaCatalog);
-			
-			metric.getNfaList().add(nfaCatalog);
-			
-			tx.commit();
-		}catch(Exception e){
-			LOG.log(Level.SEVERE, "Creating nfa-catalog failed...", e);
-			tx.rollback();
-		}finally {
-			em.close();
-			emf.close();
-		}
+
+	public nfaCatalog createNfa(Long metricId, nfaCatalog nfaCatalog) {
+		Metric metric = em.find(Metric.class, metricId);
+		nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
+
+		nfaCatalog.getNfaCatalogBlueprint().createDescription(nfaCatalog.getNfaCatalogWert());
+
+		em.persist(nfaCatalog);
+
+		metric.getNfaList().add(nfaCatalog);
+
 		return nfaCatalog;
 	}
 
-	
 	public void removeProject(Long id) {
-		
-		try {
-			tx.begin();
-			Project project = em.find(Project.class, id);
-			project.getProjectTypes().clear();
-			project.getProjectNfas().clear();
-			project.getProjectStakeholders().clear();
-			em.remove(project);
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}finally {
-				em.close();
-				emf.close();
-			}
-		
+		Project project = em.find(Project.class, id);
+		project.getProjectTypes().clear();
+		project.getProjectNfas().clear();
+		project.getProjectStakeholders().clear();
+		em.remove(project);
 	}
 
 	/**
 	 * Updates a project by finding it by id first
+	 * 
 	 * @param id
 	 */
 	public void updateProject(Project editedProject) {
-		//TODO move logic to Project.java
-		//TODO extract to ProjectQueryService.java
-		try {
-			tx.begin();
+		// TODO move logic to Project.java
+		// TODO extract to ProjectQueryService.java
 
-			Project project = em.find(Project.class, editedProject.getId());
+		Project project = em.find(Project.class, editedProject.getId());
 
-			project.setCustomerName(editedProject.getCustomerName());
-		    project.setBranch(editedProject.getBranch());
-			project.setContactPersCustomer(editedProject.getContactPersCustomer());
-			project.setContactPersMsg(editedProject.getContactPersMsg());
-			project.setDevelopmentProcess(editedProject.getDevelopmentProcess());
-			project.setProjectPhase(editedProject.getProjectPhase());
-			project.setProjectStatus(editedProject.getProjectStatus());
-			project.setProjectTypes(editedProject.getProjectTypes());
-			project.setProjectStakeholders(editedProject.getProjectStakeholders());
-			project.setProjectNfas(editedProject.getProjectNfas());
-			em.merge(editedProject);
-			tx.commit();
-		}catch(Exception e){
-			LOG.log(Level.SEVERE, "Searching project failed...", e);
-			tx.rollback();
-		}finally {
-			em.close();
-			emf.close();
-		}
+		project.setCustomerName(editedProject.getCustomerName());
+		project.setBranch(editedProject.getBranch());
+		project.setContactPersCustomer(editedProject.getContactPersCustomer());
+		project.setContactPersMsg(editedProject.getContactPersMsg());
+		project.setDevelopmentProcess(editedProject.getDevelopmentProcess());
+		project.setProjectPhase(editedProject.getProjectPhase());
+		project.setProjectStatus(editedProject.getProjectStatus());
+		project.setProjectTypes(editedProject.getProjectTypes());
+		project.setProjectStakeholders(editedProject.getProjectStakeholders());
+		project.setProjectNfas(editedProject.getProjectNfas());
+		em.merge(editedProject);
+
 	}
 
 	public List<Type> getAllType() {
-		List<Type> listType = null;
-		try {
-			tx.begin();
-			listType = em.createQuery("from Type",Type.class).getResultList();
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}finally {
-				em.close();
-				emf.close();
-			}
-		return listType;
-    }
-	
+		return em.createQuery("from Type", Type.class).getResultList();
+	}
+
 	public List<nfaCatalog> getAllNfa() {
-		List<nfaCatalog> listType = null;
-		try {
-			tx.begin();
-			listType = em.createQuery("from nfaCatalog",nfaCatalog.class).getResultList();
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}finally {
-				em.close();
-				emf.close();
-			}
-		return listType;
-    }
-	
+		return em.createQuery("from nfaCatalog", nfaCatalog.class).getResultList();
+	}
+
 	public List<NfaFactor> getAllFactors() {
-		List<NfaFactor> listType = null;
-		try {
-			tx.begin();
-			listType = em.createQuery("from NfaFactor",NfaFactor.class).getResultList();
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}finally {
-				em.close();
-				emf.close();
-			}
-		return listType;
-    }
-	
+		return em.createQuery("from NfaFactor", NfaFactor.class).getResultList();
+	}
+
 	public List<NfaCriteria> getAllNfaCriterias() {
-		List<NfaCriteria> listNfaCriteria = null;
-		try {
-			tx.begin();
-			listNfaCriteria = em.createQuery("from NfaCriteria",NfaCriteria.class).getResultList();
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}finally {
-				em.close();
-				emf.close();
-			}
-		return listNfaCriteria;
-    }
+		return em.createQuery("from NfaCriteria", NfaCriteria.class).getResultList();
+	}
 
 	public List<NfaCriteria> getAllCriteriasForFactor(NfaFactor factor) {
 		// TODO Auto-generated method stub
-		
-		throw new NotYetImplementedException();
-//		return null;
-	}
-	
-	public List<Project> getProjectsByStatus(String status) {
-		List<Project> listProject = null;
-		try {
-			tx.begin();
-			CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
 
-			CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
-			Root<Project> fromProject = criteria.from(Project.class);
-			criteria.where(criteriaBuilder.like(fromProject.<String>get("projectStatus"), status));
-			listProject = em.createQuery(criteria).getResultList();
-			tx.commit();
-		}catch(Exception e){
-			tx.rollback();
-		}finally {
-			em.close();
-			emf.close();
-		}
-		return listProject;
+		throw new NotYetImplementedException();
+		// return null;
+	}
+
+	public List<Project> getProjectsByStatus(String status) {
+
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+		CriteriaQuery<Project> criteria = criteriaBuilder.createQuery(Project.class);
+		Root<Project> fromProject = criteria.from(Project.class);
+		criteria.where(criteriaBuilder.like(fromProject.<String>get("projectStatus"), status));
+		return em.createQuery(criteria).getResultList();
 	}
 	
-	public List<Stakeholder> getAllStakeholder() {
-		List<Stakeholder> listStakeholder = null;
-		try {
-			tx.begin();
-			listStakeholder = em.createQuery("from Stakeholder",Stakeholder.class).getResultList();
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}finally {
-				em.close();
-				emf.close();
-			}
-		return listStakeholder;
-    }
+
 /**
  * get the project by its id
  * @param id
  * @return
  */
 	public Project getProjectByID(Long id) {
-		//TODO move logic to Project.java
-		//TODO extract to ProjectQueryService.java
-		Project project =null;
-		try {
-			tx.begin();
-			 project = em.find(Project.class, id);
-			tx.commit();
-		}catch(Exception e){
-			LOG.log(Level.SEVERE, "Searching project failed...", e);
-			tx.rollback();
-		}
-		return project;
+
+		return em.find(Project.class, id);
 	}
 /**
  * get nfafactor by its id	
@@ -318,14 +157,13 @@ public class QueryService {
  */
 	
 	public NfaFactor getFactorById(Long id) {
-		NfaFactor factor = null;
-		try {
-			tx.begin();
-			factor = em.find(NfaFactor.class,id);
-			tx.commit();
-			}catch(Exception e){
-				tx.rollback();
-			}
-		return factor;
+			return  em.find(NfaFactor.class,id);
     }
+
+
+	public List<Stakeholder> getAllStakeholder() {
+		return em.createQuery("from Stakeholder", Stakeholder.class).getResultList();
+	}
+
+
 }
