@@ -46,7 +46,7 @@ export class DataStorageService {
     return this.http.get('http://localhost:8080/nfabackend/webapi/types');
   }
   generateXml(project: Project) {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/xml'+ project.id );
+    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/xml/'+ project.id );
   }
   downloadXml() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/download');
