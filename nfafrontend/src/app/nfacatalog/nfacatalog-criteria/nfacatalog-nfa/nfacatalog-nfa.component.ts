@@ -70,6 +70,8 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     this.observable_erklaerungs_str = new Observable<string>(
       observer => {
         this.erklarungs_str_observer = observer;
+        console.log("DONE this.erklarungs_str_observer.");
+        console.log(this.erklarungs_str_observer);
       }
     );
 
@@ -125,21 +127,23 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
           let subscription1 = this.observable_nfa
             .subscribe((value : NfaCatalogModel) =>
             {
-              if(!this.custom_nfa){
+              if(this.erklarungs_str_observer){
                 this.erklarungs_str_observer.next(this.erklaerung(value));
                 this.original_nfa = value;
               }
             });
           this.subscription.push(subscription1);
 
-          this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.nfaCustomId);
-          let subscription2 = this.observable_custom_nfa
-            .subscribe((value : NfaCustomModel) =>
-            {
-              this.erklarungs_str_observer.next(this.erklaerung(value));
-              this.custom_nfa = value;
-            });
-          this.subscription.push(subscription2);
+          if(this.custom_nfa){
+            this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.nfaCustomId);
+            let subscription2 = this.observable_custom_nfa
+              .subscribe((value : NfaCustomModel) =>
+              {
+                this.erklarungs_str_observer.next(this.erklaerung(value));
+                this.custom_nfa = value;
+              });
+            this.subscription.push(subscription2);
+          }
 
         }
       );
@@ -156,7 +160,12 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   onEditNFA() {
     if(this.editmode == false){
+
       // this.erklarungs_str_observer.next(this.erklaerung(this.getRelevantNfa()));
+      if(this.erklarungs_str_observer){
+        console.log("empty field");
+        this.erklarungs_str_observer.next("");
+      }
 
       this.router.navigate(['edit'], {relativeTo: this.route});
     }
@@ -164,6 +173,10 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   onEditBack(){
     if(this.editmode == true){
+      if(this.erklarungs_str_observer){
+        console.log("asdasd");
+        this.erklarungs_str_observer.next(this.erklaerung(this.getRelevantNfa()));
+      }
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
@@ -254,6 +267,17 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       );
     this.subscription.push(subscription);
 
+    this.custom_nfa = customNfa;
+
+    this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.nfaCustomId);
+    let subscription2 = this.observable_custom_nfa
+      .subscribe((value : NfaCustomModel) =>
+      {
+        this.erklarungs_str_observer.next(this.erklaerung(value));
+        this.custom_nfa = value;
+      });
+    this.subscription.push(subscription2);
+
     this.onBack();
   }
 
@@ -312,6 +336,13 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     });
     }
     return this.checked;
+  }
+
+  getOutputErklaerung(){
+    if(this.erklarungs_str_observer){
+      return '{{this.erklarungs_str_observer | async}}';
+    }
+    return this.erklaerung(this.getRelevantNfa());
   }
 
   getRelevantNfa() : NfaInterfaceModel {

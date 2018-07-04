@@ -47,7 +47,7 @@
           *ngIf="editmode"
           id="nfaExplanation"
           formControlName="nfaExplanation"
-          value="{{erklaerung(getRelevantNfa())}}"
+          value="{{getOutputErklaerung()}}"
           class="form-control small"
           style="align-self: auto"
           wrap="soft"
@@ -55,10 +55,9 @@
           rows="4">
 
         </textarea>
-        <div *ngIf="!editmode">{{ observable_erklaerungs_str | async }}</div>
+        <p class="small" *ngIf="!editmode"> {{ getOutputErklaerung() }} </p>
       </div>
-
-    </div>
+   </div>
 
     <div class="panel panel-primary">
       <div class="panel-heading">
