@@ -3,6 +3,7 @@ package com.msg.nfabackend.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -23,12 +24,13 @@ import com.msg.nfabackend.services.QueryService;
  * JAX-RS-Resource for Entity 'project'
  * 
  */
-@Path("/project")
+@Path("project")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ProjectResource {
 	
-	QueryService queryService = new QueryService();
+	@Inject
+	private QueryService queryService;
 	
 	@GET
 	public List<Project> getAllProject() {

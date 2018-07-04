@@ -8,8 +8,7 @@ export class BpPropertyTemplateNoConditionEn implements IBlueprint {
     public characteristic: string,
     public property: string,
     public modalVerb: string,
-    public qualifyingEx: string,
-    public valueInput: string,
+    public qualifyingEx: string[],
     public verb: string
 
   ) {}

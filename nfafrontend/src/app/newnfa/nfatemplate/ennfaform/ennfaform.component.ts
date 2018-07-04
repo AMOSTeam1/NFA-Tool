@@ -1,16 +1,17 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataexchangeService} from '../../../shared/dataexchange.service';
 import {until} from 'selenium-webdriver';
 import elementIsSelected = until.elementIsSelected;
 import {isNull, isNumber} from 'util';
+import {QualifiyingExpression} from '../../../shared/blueprints/QualifiyingExpression.model';
 
 @Component({
   selector: 'app-ennfaform',
   templateUrl: './ennfaform.component.html',
   styleUrls: ['./ennfaform.component.css']
 })
-export class EnnfaformComponent implements OnInit , OnChanges {
+export class EnnfaformComponent implements OnInit {
   checked = false;
   @Input() send = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
@@ -19,18 +20,14 @@ export class EnnfaformComponent implements OnInit , OnChanges {
 
   constructor(private data: DataexchangeService) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(this.send === true){
-      this.onSubmit();}
-  }
   ngOnInit() {
     this.enForm = new FormGroup({
-      'nameNFA': new FormControl(null),
+      'nameNFA': new FormControl(null, Validators.required),
       'characteristic': new FormControl(null, Validators.required),
       'property': new FormControl(null, Validators.required),
       'modalVerb': new FormControl(null),
-      'qualifyingEx': new FormControl(null),
-      'valueInput': new FormControl(null),
+      'qualifyingEx': new FormControl(null, Validators.required),
+      'valueInput':  new FormArray([new FormControl(null)]),
       'verb': new FormControl('be')
     });
     this.data.currentMessage.subscribe(message => {
@@ -43,11 +40,34 @@ export class EnnfaformComponent implements OnInit , OnChanges {
       if ((message.verb === 'koennen') || (message.verb === 'kann')) {
         this.enForm.get('modalVerb').reset('can');
       }
-      this.enForm.get('valueInput').reset(message.wert);
+      if (message.verb === null) {
+        this.enForm.get('modalVerb').reset(null);
+      }
+      if (!isNull(message.wert)) {
+        (<FormArray>this.enForm.get('valueInput')).setControl(0, new FormControl(message.wert[0]));
+      }
+      this.enForm.get('qualifyingEx').reset(
+        message.qualifExp ? (message.qualifExp.en + (message.qualifExp.abundant ? (' / ' + message.qualifExp.abundant.en) : '')) : '');
+
+      const fa = (<FormArray>this.enForm.get('valueInput'));
+
+      if ((!isNull(message.qualifExp)) && (!isNull(message.qualifExp.abundant)) && fa.length === 1) {
+        fa.push(new FormControl(null));
+      } else if ((!isNull(message.qualifExp)) && (!isNull(message.qualifExp.abundant)) && fa.length === 2) {
+        console.log(message.wert[1]);
+        fa.setControl(1, new FormControl(message.wert[1]));
+      } else if ((!isNull(message.qualifExp)) && (isNull(message.qualifExp.abundant)) && (fa.length === 2)) {
+        fa.removeAt(1);
+    }
     });
-    
   }
-  onSubmit() {
-    this.submitEvent.emit(this.enForm.value);
+
+  resetForm() {
+    if ((<FormArray>this.enForm.get('valueInput')).length === 2) {
+      (<FormArray>this.enForm.get('valueInput')).removeAt(1);
+    }
+    this.enForm.reset();
+    this.enForm.get('verb').reset('be');
   }
+
 }
