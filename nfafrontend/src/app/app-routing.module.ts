@@ -18,42 +18,43 @@ import {AuthGuard} from './shared/guards/auth.guard';
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  {path: 'newpackage', component: NewpackageComponent},
-  {path: 'newnfa', component: NewnfaComponent},
-  {path: 'nfacatalog', component: NfacatalogComponent, children: [
+  {path: 'newpackage', component: NewpackageComponent, canActivate: [AuthGuard]},
+  {path: 'newnfa', component: NewnfaComponent, canActivate: [AuthGuard]},
+  {path: 'nfacatalog', component: NfacatalogComponent, canActivate: [AuthGuard], children: [
       {path: 'list', component: NfacatalogListComponent},
-      {path: 'list/:id', component: NfacatalogCriteriaComponent, children: [
+      {path: 'list/:id', component: NfacatalogCriteriaComponent, canActivate: [AuthGuard], children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent},
-  // otherwise redirect to home
-  { path: '**', redirectTo: '' },
+
 
     ]}
   ]},
-  {path: 'home', component: HomeComponent},
-  {path:  'curr-projects/:id/edit/nfa', component: NfacatalogComponent, children:[
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path:  'curr-projects/:id/edit/nfa', component: NfacatalogComponent, canActivate: [AuthGuard], children:[
       {path: '', component: NfacatalogListComponent},
-      {path: ':id', component: NfacatalogCriteriaComponent, children: [
+      {path: ':id', component: NfacatalogCriteriaComponent, canActivate: [AuthGuard], children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
         ]}
 
   ]},
 
-  {path:  'curr-projects/new/nfa', component: NfacatalogComponent, children:[
+  {path:  'curr-projects/new/nfa', component: NfacatalogComponent, canActivate: [AuthGuard], children:[
       {path: '', component: NfacatalogListComponent},
-      {path: ':id', component: NfacatalogCriteriaComponent, children: [
+      {path: ':id', component: NfacatalogCriteriaComponent, canActivate: [AuthGuard], children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
         ]}
 
     ]},
-  {path: 'curr-projects', component: CurrentProjectComponent, children: [
+  {path: 'curr-projects', component: CurrentProjectComponent, canActivate: [AuthGuard], children: [
     {path:  'new', component: ProjectEditComponent},
     {path: ':id', component: ProjectDetailComponent},
     {path: ':id/edit', component: ProjectEditComponent},
     {path: ':id/edit/stakeholder', component: StakeHolderComponent}
-  ]}
+  ]},
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' }
 
 ];
 @NgModule({
