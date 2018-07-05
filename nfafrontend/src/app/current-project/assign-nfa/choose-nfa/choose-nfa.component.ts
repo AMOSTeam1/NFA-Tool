@@ -55,7 +55,7 @@ export class ChooseNfaComponent implements OnInit {
   }
 
   isAlreadyAdded(nfa: NfaCatalogModel){
-    const referProjectNfas = this.currentProjectService.getProject(this.id).projectNfas;
+    const referProjectNfas = this.currentProjectService.getProjectById(this.id).projectNfas;
     let flag = false;
     referProjectNfas.forEach((x) => {
       if (x.nfaCatalogId === nfa.nfaCatalogId) {flag = true;}
@@ -91,7 +91,7 @@ export class ChooseNfaComponent implements OnInit {
   }
 
   onAddOrRemove(nfa: NfaCatalogModel){
-    const editedProject = this.currentProjectService.getProject(this.id);
+    const editedProject = this.currentProjectService.getProjectById(this.id);
     const ind = editedProject.projectNfas.findIndex((x) => x.nfaCatalogId === nfa.nfaCatalogId)
     if (ind !== -1) {
       editedProject.projectNfas.splice(ind,1);

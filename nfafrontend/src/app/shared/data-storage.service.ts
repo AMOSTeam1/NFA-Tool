@@ -4,6 +4,7 @@ import {Project} from './project.model';
 import {HttpParams} from '@angular/common/http';
 import {NfaCatalogModel} from './nfaCatalog.model';
 import {Stakeholder} from './stakeholder.model';
+import {Observable} from "rxjs/Observable";
 
 
 
@@ -14,7 +15,6 @@ export class DataStorageService {
   constructor(private http: Http) {}
 
   storeNfa(metricId: number, nfa: NfaCatalogModel) {
-    console.log(nfa);
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa);
   }
   storeProject(newproject: Project) {
@@ -40,6 +40,10 @@ export class DataStorageService {
 
   getProjectByName(status: string, param: string ) {
    return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?status=' + status +'&lookupCustName=' + param );
+  }
+
+  getProjectById(projectId: number){
+    return this.http.get('http://localhost:8080/nfabackend/webapi/project/' + projectId);
   }
 
   getTypes() {

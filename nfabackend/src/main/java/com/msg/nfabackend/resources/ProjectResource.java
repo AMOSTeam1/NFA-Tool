@@ -71,4 +71,10 @@ public class ProjectResource {
 		return queryService.findProject(status,lookupCustName);
 	}
 	
+	@GET
+	@Path("/{ProjectId}")
+	public Project getProject(@PathParam("ProjectId") Long id) {
+		return queryService.getProject(id);
+	}
+	
 } 

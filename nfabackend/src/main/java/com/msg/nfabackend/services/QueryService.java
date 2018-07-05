@@ -29,6 +29,10 @@ public class QueryService {
 	public List<Project> getAllProject() {
 		return em.createQuery("from Project", Project.class).getResultList();
 	}
+	
+	public Project getProject(Long projectId) {
+		return em.createQuery("from Project WHERE id IS " + projectId, Project.class).getSingleResult();
+	}
 
 	public List<Project> findProject(String status, String lookupCustName) {
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();

@@ -29,9 +29,9 @@ export class NfaListComponent implements OnInit , OnDestroy{
       .subscribe(
         (params: Params) => {
           this.id = +params['id'];
-          this.project = this.currentProjectService.getProject(this.id);
+          this.project = this.currentProjectService.getProjectById(this.id);
           this.currentProjectService.setSelectedProjectId(this.id);
-          this.nfaCatalogs = this.currentProjectService.getProject(this.id).projectNfas;
+          this.nfaCatalogs = this.currentProjectService.getProjectById(this.id).projectNfas;
         }
       );
 
@@ -52,7 +52,7 @@ export class NfaListComponent implements OnInit , OnDestroy{
   }
 
   onAddOrRemove(nfa: NfaCatalogModel){
-    const editedProject = this.currentProjectService.getProject(this.id);
+    const editedProject = this.currentProjectService.getProjectById(this.id);
     const ind = editedProject.projectNfas.findIndex((x) => x.nfaCatalogId === nfa.nfaCatalogId)
     if (ind !== -1) {
       editedProject.projectNfas.splice(ind,1);
