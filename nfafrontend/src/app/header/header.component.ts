@@ -21,10 +21,10 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
+/*
   clearLocal()
   {
     this.local.clear();
   }
-
+*/
 }

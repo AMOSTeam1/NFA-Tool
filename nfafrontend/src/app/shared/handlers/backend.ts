@@ -32,7 +32,7 @@ export class BackendInterceptor implements HttpInterceptor {
       }
 
       // get users
-      if (request.url.endsWith('/api/users') && request.method === 'GET') {
+      if (request.url.endsWith('/users') && request.method === 'GET') {
         // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
         if (request.headers.get('Authorization') === 'Bearer token') {
           return Observable.of(new HttpResponse({ status: 200, body: [testUser] }));
