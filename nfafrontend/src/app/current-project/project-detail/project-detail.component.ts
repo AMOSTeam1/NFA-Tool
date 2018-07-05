@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
+import {Stakeholder} from '../../shared/stakeholder.model'
 import {CurrentProjectService} from '../current-project.service';
 import {Response} from '@angular/http';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
@@ -13,7 +14,17 @@ import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorag
 })
 export class ProjectDetailComponent implements OnInit {
   project: Project;
+  name: string;
   id: number;
+  isSelected:boolean;
+  selectedStakeHolders: Stakeholder[];
+  selectedStake:number[];
+  stackHolders: Stakeholder[];
+  isExported = false;
+  url:string;
+  title: string;
+  modal: string;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private currentProjectService: CurrentProjectService,
@@ -27,7 +38,11 @@ export class ProjectDetailComponent implements OnInit {
         (params: Params) => {
           this.id = +params['id'];
           this.project = this.currentProjectService.getProject(this.id);
+          this.stackHolders = this.project.projectStakeholders.slice();
+          this.selectedStakeHolders = this.stackHolders;
         }
+
+
       );
   }
 
@@ -47,5 +62,27 @@ export class ProjectDetailComponent implements OnInit {
         }
       );
   }
+  // Getting Selected stackholder
+  getSelected() {
+    this.selectedStakeHolders = [];
+    this.stackHolders = this.stackHolders.filter(s => {
+      if(s.stakeholder_id){
+        this.selectedStakeHolders.push(s);
+        this.selectedStake.push(s.stakeholder_id);
+      }
+      return s;
+    });
+  }
+/* Modal actions : export will generate a link to download the xml zip files*/
 
+  export() {
+
+    this.dataStorageService.generateXml(this.project)
+      .subscribe(
+        (response) => {
+          this.isExported = true;
+        }
+      );
+
+  }
 }

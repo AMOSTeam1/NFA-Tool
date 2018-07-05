@@ -44,10 +44,14 @@
 
       "status" : "Project Status",
       "edit-project" : "Projekt bearbeiten",
+      "export-project": "Projekt exportiern",
       "delete-project" : "Projekt löschen",
 
       "choose-nfr" : "NFA auswählen",
       "add-type" : "Typ hinzufügen",
+
+      "close" : "abbrechen",
+      "export" : "exportiern",
 
       "branch" : {
         "label" : "Branche",
@@ -61,6 +65,8 @@
         "telecommunications" : "Telecommunications",
         "travel-logistics" : "Travel & Logistics",
         "utilities" : "Utilities"
+
+
       },
 
       "project-type" : {
@@ -104,13 +110,13 @@
       "add-stakeholder" : "Stakeholder hinzufügen",
       "add-factor" : "Faktoren hinzufügen"
     },
-	
+
 	"login":{
-	"login": "Anmeldung",
-	"username": "Benutzername",
-	"password": "Passwort",
-	"miss_username": "Benutzername ist erforderlich",
-	"miss_password": "Passwort ist erforderlich"
+	  "login": "Anmeldung",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "miss_username": "Benutzername ist erforderlich",
+    "miss_password": "Passwort ist erforderlich"
 	},
     "header": {
       "create-project": "Projekte",

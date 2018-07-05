@@ -3,6 +3,9 @@ import {Http} from '@angular/http';
 import {Project} from './project.model';
 import {HttpParams} from '@angular/common/http';
 import {NfaCatalogModel} from './nfaCatalog.model';
+import {Stakeholder} from './stakeholder.model';
+
+
 
 
 
@@ -42,5 +45,10 @@ export class DataStorageService {
   getTypes() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/types');
   }
-
+  generateXml(project: Project) {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/xml/'+ project.id );
+  }
+  downloadXml() {
+    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/download');
+  }
 }

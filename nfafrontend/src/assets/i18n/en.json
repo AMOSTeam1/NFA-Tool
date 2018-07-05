@@ -44,10 +44,14 @@
       "phase" : "Project Phase",
       "status" : "Project Status",
       "edit-project" : "Edit Project",
+      "export-project": "Export Project",
       "delete-project" : "Delete Project",
 
       "choose-nfr" : "Choose NFR",
       "add-type" : "Add type",
+
+      "close" : "Close",
+      "export" : "Export",
 
       "branch" : {
         "label" : "Branch",
@@ -61,6 +65,7 @@
         "telecommunications" : "Telecommunications",
         "travel-logistics" : "Travel & Logistics",
         "utilities" : "Utilities"
+
       },
 
       "project-type" : {
@@ -103,13 +108,13 @@
       "add-stakeholder" : "Add Stakeholder",
       "add-factor" : "Add Factor"
     },
-	
+
 	"login":{
-	"login": "Login",
-	"username": "Username",
-	"password": "Password",
-	"miss_username": "Username is required",
-	"miss_password": "Password is required"
+    "login": "Login",
+    "username": "Username",
+    "password": "Password",
+    "miss_username": "Username is required",
+    "miss_password": "Password is required"
 	},
     "header": {
       "create-project": "Projects",
