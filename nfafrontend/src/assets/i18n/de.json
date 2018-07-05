@@ -44,10 +44,14 @@
 
       "status" : "Project Status",
       "edit-project" : "Projekt bearbeiten",
+      "export-project": "Projekt exportiern",
       "delete-project" : "Projekt löschen",
 
       "choose-nfr" : "NFA auswählen",
       "add-type" : "Typ hinzufügen",
+
+      "close" : "abbrechen",
+      "export" : "exportiern",
 
       "branch" : {
         "label" : "Branche",
@@ -61,6 +65,8 @@
         "telecommunications" : "Telecommunications",
         "travel-logistics" : "Travel & Logistics",
         "utilities" : "Utilities"
+
+
       },
 
       "project-type" : {

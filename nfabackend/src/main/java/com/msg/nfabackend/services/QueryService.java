@@ -139,9 +139,31 @@ public class QueryService {
 		criteria.where(criteriaBuilder.like(fromProject.<String>get("projectStatus"), status));
 		return em.createQuery(criteria).getResultList();
 	}
+	
+
+/**
+ * get the project by its id
+ * @param id
+ * @return
+ */
+	public Project getProjectByID(Long id) {
+
+		return em.find(Project.class, id);
+	}
+/**
+ * get nfafactor by its id	
+ * @param id
+ * @return
+ */
+	
+	public NfaFactor getFactorById(Long id) {
+			return  em.find(NfaFactor.class,id);
+    }
+
 
 	public List<Stakeholder> getAllStakeholder() {
 		return em.createQuery("from Stakeholder", Stakeholder.class).getResultList();
 	}
+
 
 }
