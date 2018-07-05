@@ -73,18 +73,21 @@
         </button>
       </div>
       <div class="modal-body">
-        <h6>Stackholder List</h6>
+        <h6>Stakeholder List</h6>
         <ul class="list-group">
           <li *ngFor="let s of stackHolders" class="list-group-items">
             <span class="list-group-item-text">{{s.stakeholder_name}}</span>
+            <div *ngIf="isExported">
+              <a href= {{url}}> {{title}}</a>
+            </div>
           </li>
         </ul>
-        <div *ngIf="isExported">
-          <a href= {{url}}> {{title}}</a>
+        <div>
+          <a *ngIf="isExported" href= "http://localhost:8080/nfabackend/webapi/projectexport/download"> Download XML File </a>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">{{'nfa.project-details.close' | translate }}</button>
+        <button type="button" class="btn btn-secondary" (click)="isExported = false" data-dismiss="modal">{{'nfa.project-details.close' | translate }}</button>
         <button type="button" class="btn btn-primary" (click)="export()">{{'nfa.project-details.export' | translate }}</button>
       </div>
     </div>

@@ -42,6 +42,7 @@ export class ProjectDetailComponent implements OnInit {
           this.selectedStakeHolders = this.stackHolders;
         }
 
+
       );
   }
 
@@ -75,23 +76,13 @@ export class ProjectDetailComponent implements OnInit {
 /* Modal actions : export will generate a link to download the xml zip files*/
 
   export() {
+
     this.dataStorageService.generateXml(this.project)
       .subscribe(
         (response) => {
-          this.router.navigate(['../'], {relativeTo: this.route});
-          this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+          this.isExported = true;
         }
       );
-    this.isExported = true;
-    this.url = "http://localhost:8080/nfabackend/webapi/order/download/"
-    this.title = "Download XML File"
-    this.isExported = true;
-  }
-  close(){
-    this.isExported = false;
-    this.url = null;
-    this.title = null
-  }
 
-
+  }
 }

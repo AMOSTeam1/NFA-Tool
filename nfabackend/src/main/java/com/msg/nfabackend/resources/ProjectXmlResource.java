@@ -2,6 +2,7 @@ package com.msg.nfabackend.resources;
 
 
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -48,10 +49,11 @@ import com.msg.nfabackend.services.QueryService;
  *
  */
  
-@Path("/projectexport")
+@Path("projectexport")
 public class ProjectXmlResource {
 	
-	QueryService queryService = new QueryService();
+	@Inject
+	private QueryService queryService;
  
     @GET
     @Path("/xml/{projectId}")
