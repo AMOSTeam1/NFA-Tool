@@ -1,5 +1,5 @@
 import { DataStorageService } from '../../shared/data-storage.service';
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Project } from '../../shared/project.model';
 import { CurrentProjectService } from '../current-project.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
@@ -7,10 +7,8 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
-import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
-import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
-import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import {NfacatalogService} from '../../nfacatalog/nfacatalog.service'
+import { LocalStorageService } from 'angular-web-storage';
 import {Stakeholder} from '../../shared/stakeholder.model';
 
 
@@ -20,7 +18,7 @@ import {Stakeholder} from '../../shared/stakeholder.model';
   styleUrls: ['./project-edit.component.css']
 })
 export class ProjectEditComponent implements OnInit {
-  id: number;
+  project_id_param: number;
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
@@ -36,12 +34,16 @@ export class ProjectEditComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
-          this.types = this.currentProjectService.getTypes();
-          this.initForm();
-        });
+      (params: Params) => {
+        this.project_id_param = +params['project_id'];
+        this.editMode = params['project_id'] != null;
+
+        this.types = this.currentProjectService.getTypes();
+
+        if(params['project_id'] != 'new'){
+          this.currentProjectService.setProjectById(this.project_id_param);
+        }
+      });
 
     this.dataStorageService.getNfaFactor()
       .subscribe(
@@ -52,8 +54,11 @@ export class ProjectEditComponent implements OnInit {
         }
       );
     this.nfaCatalogService.setProjectMode(true);
+
+    this.initForm();
    }
 
+   //TODO split body into multiple smaller functions
   private initForm() {
     let projectTypes = new FormArray([]);
     let projectStakeholders = new FormArray([]);
@@ -64,8 +69,9 @@ export class ProjectEditComponent implements OnInit {
     let devProcess = '';
     let projectPhase = '';
     let projectStatus = '';
+
     if (this.editMode) {
-      const project = this.currentProjectService.getProject(this.id);
+      const project = this.currentProjectService.getProject();
       if (project['projectTypes']){
 
         projectTypes = new FormArray([]);
@@ -173,11 +179,13 @@ export class ProjectEditComponent implements OnInit {
       );
       /*stakeholder changes ends*/
     }
+
     this.projectForm = new FormGroup({
+      //Form Groups
       'types' : projectTypes,
-      /*stakeholder changes begins*/
       'projectStakeholders' : projectStakeholders,
-      /*stakeholder changes ends*/
+
+      //Form Controls
       'customerName': new FormControl(customerName, Validators.required),
       'customerContact': new FormControl(customerContact, Validators.required),
       'msgContact': new FormControl(msgContact, Validators.required),
@@ -191,7 +199,7 @@ export class ProjectEditComponent implements OnInit {
   onSubmit() {
     this.local.clear();
     const newProject = new Project(
-      this.id,
+      this.project_id_param,
       this.projectForm.value['customerName'],
       this.projectForm.value['customerContact'],
       this.projectForm.value['msgContact'],
@@ -227,10 +235,11 @@ export class ProjectEditComponent implements OnInit {
     newProject.projectStakeholders = stakeholders;
     /*stakeholder changes ends*/
     if (this.editMode) {
-      newProject.id = this.currentProjectService.getProject(this.id).id;
-      newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
+      newProject.id = this.currentProjectService.getProjectById(this.project_id_param).id;
+      newProject.projectNfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas;
+
       console.log(newProject);
-      this.currentProjectService.updateProject(this.id, newProject);
+      this.currentProjectService.updateProject(this.project_id_param, newProject);
       this.dataStorageService.updateProject(newProject)
         .subscribe(
           (response: Response) => {
@@ -244,7 +253,9 @@ export class ProjectEditComponent implements OnInit {
       this.dataStorageService.storeProject(newProject)
         .subscribe(
           (response: Response) => {
-            this.dataStorageService.getProjectByName('On Process',"")
+
+
+            this.dataStorageService.getProjectByName(this.currentProjectService.getStatus(),"")
               .subscribe(
                 (respons: Response) => {
                   const projects: Project[] = respons.json();
@@ -302,7 +313,7 @@ export class ProjectEditComponent implements OnInit {
   onChooseNfa(){
 
      const newProject = new Project(
-      this.id,
+      this.project_id_param,
       this.projectForm.value['customerName'],
       this.projectForm.value['customerContact'],
       this.projectForm.value['msgContact'],

@@ -4,8 +4,7 @@ import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 import {Stakeholder} from '../../shared/stakeholder.model'
 import {CurrentProjectService} from '../current-project.service';
-import {Response} from '@angular/http';
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import { LocalStorageService } from 'angular-web-storage';
 
 @Component({
   selector: 'app-project-detail',
@@ -15,7 +14,7 @@ import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorag
 export class ProjectDetailComponent implements OnInit {
   project: Project;
   name: string;
-  id: number;
+  project_id_param: number;
   isSelected:boolean;
   selectedStakeHolders: Stakeholder[];
   selectedStake:number[];
@@ -36,12 +35,13 @@ export class ProjectDetailComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.project = this.currentProjectService.getProject(this.id);
+          this.project_id_param = +params['project_id'];
+
+          this.project = this.currentProjectService.getProjectById(this.project_id_param);
+
           this.stackHolders = this.project.projectStakeholders.slice();
           this.selectedStakeHolders = this.stackHolders;
         }
-
 
       );
   }
@@ -53,14 +53,14 @@ export class ProjectDetailComponent implements OnInit {
 
   onDeleteProject() {
   this.local.clear();
-  this.currentProjectService.deleteProject(this.id);
-    this.dataStorageService.deleteProject(this.project)
-      .subscribe(
-        (response) => {
-          this.router.navigate(['../'], {relativeTo: this.route});
-          this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
-        }
-      );
+  this.currentProjectService.deleteProjectById(this.project_id_param);
+  this.dataStorageService.deleteProject(this.project)
+    .subscribe(
+      (response) => {
+        this.router.navigate(['../'], {relativeTo: this.route});
+        this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+      }
+    );
   }
   // Getting Selected stackholder
   getSelected() {

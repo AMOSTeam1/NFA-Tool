@@ -29,8 +29,8 @@ export class StakeHolderComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
+          this.id = +params['project_id'];
+          this.editMode = params['project_id'] != null;
           //this.initForm();
 
           this.dataStorageService.getNfaFactor()
@@ -47,7 +47,7 @@ export class StakeHolderComponent implements OnInit {
 
   /*onSubmit() {
 
-    const newProject = this.currentProjectService.getProject(this.id);
+    const newProject = this.currentProjectService.getProjectById(this.project_id_param);
     newProject.projectStakeholders = this.projectForm.value['projectStakeholders'];
     for (let i = 0; i < newProject.projectStakeholders.length; i++) {
       for (let j = 0; j < newProject.projectStakeholders[i].stakeholderFactors.length; j++){
@@ -57,7 +57,7 @@ export class StakeHolderComponent implements OnInit {
         });
       }
     }
-    this.currentProjectService.updateProject(this.id, newProject);
+    this.currentProjectService.updateProject(this.project_id_param, newProject);
     this.dataStorageService.updateProject(newProject)
       .subscribe(
         (response: Response) => {
@@ -106,7 +106,7 @@ export class StakeHolderComponent implements OnInit {
 
 
     if (this.editMode) {
-      const project = this.currentProjectService.getProject(this.id);
+      const project = this.currentProjectService.getProjectById(this.project_id_param);
       if(project['projectStakeholders']) {
         for(const stakeholder of project.projectStakeholders) {
 

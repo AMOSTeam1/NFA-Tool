@@ -65,7 +65,7 @@ export class NfacatalogNfaComponent implements OnInit {
     this.route.parent.parent.params.subscribe(params => this.projectId = params['id']);
     if (this.projectId != null) {
       this.nfaCatalogService.projectId = this.projectId;
-      this.projectNfs = this.currentProjectService.getProject(this.projectId).projectNfas.slice();
+      this.projectNfs = this.currentProjectService.getProjectById(this.projectId).projectNfas.slice();
     }
     this.projectMode = this.local.get('nfaMode');
   }
