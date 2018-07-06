@@ -7,14 +7,28 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/materialize';
 import 'rxjs/add/operator/dematerialize';
+import {User} from '../user';
+import {UserService} from '../user.service';
+
+
 
 @Injectable()
 export class BackendInterceptor implements HttpInterceptor {
 
-  constructor() { }
+
+  constructor(private userService: UserService,
+              private user: User
+              ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const testUser = { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' };
+
+    this.userService.getUser()
+      .subscribe(data => {
+        this.user = data;
+      }
+        )
+
+    const testUser =  {id: this.user.id, username: this.user.username, password: this.user.password};
 
     // wrap in delayed observable to simulate server api call
     return Observable.of(null).mergeMap(() => {
@@ -26,7 +40,7 @@ export class BackendInterceptor implements HttpInterceptor {
           return Observable.of(new HttpResponse({ status: 200, body: { token: 'token' } }));
         } else {
           // else return 400 bad request
-          //TODO add translation
+          // TODO add translation
           return Observable.throw('Username or password is incorrect');
         }
       }
