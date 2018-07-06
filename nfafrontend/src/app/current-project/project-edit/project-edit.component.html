@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" xmlns="http://www.w3.org/1999/html">
   <div class="col-xs-12">
     <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
       <div class="row">
@@ -102,6 +102,11 @@
             <span class="glyphicon glyphicon-pencil"></span>{{ 'nfa.project-details.choose-nfr' | translate }}
           </button>
         </div>
+
+        <angular-file-uploader
+          [config]="afuConfig">
+        </angular-file-uploader>
+
       </div>
       <h3 style="text-align: center">{{'nfa.project-details.project-type.label' | translate }}</h3>
       <hr>

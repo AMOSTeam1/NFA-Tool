@@ -25,6 +25,11 @@ export class ProjectEditComponent implements OnInit {
   projectForm: FormGroup;
   types: ProjectType[] = [];
   nfaFactors: NfaFactorModel[];
+  afuConfig = {
+    uploadAPI: {
+      url:'https://example-file-upload-api'
+    }
+  };
 
   constructor(private route: ActivatedRoute,
               private router: Router,

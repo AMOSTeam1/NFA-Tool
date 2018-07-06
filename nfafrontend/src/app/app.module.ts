@@ -13,6 +13,7 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import {DataStorageService} from './shared/data-storage.service';
 import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 
 
@@ -100,6 +101,7 @@ import {BackendProvider} from './shared/handlers/backend';
     HttpClientModule,
     HttpModule,
     BrowserAnimationsModule,
+    AngularFileUploaderModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
