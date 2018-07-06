@@ -41,7 +41,9 @@ public class ProjectXmlResource {
 
 	@Inject
 	private QueryService queryService;
-	private final String tempFolder = "/home/micha/Documents/Temp/";
+	private final String tempFolderWindows = "C:\\Windows\\Temp/";
+	private final String tempFolderLinux = "/home/Temp/";
+	private final String tempFolder = (System.getProperty("os.name")).equals("Linux") ? tempFolderLinux : tempFolderWindows;
 
 	private final String getProjectXmlLocation(int i) {
 		return tempFolder + "project" + i + ".xml";
@@ -53,7 +55,7 @@ public class ProjectXmlResource {
 	@Path("/xml/{projectId}")
 	@Produces(MediaType.APPLICATION_XML)
 	public ProjectXml getProjectNfas(@PathParam("projectId") Long id) throws JAXBException, IOException {
-
+		
 		Set<Stakeholder> stakeholderList;
 		List<Long> factors;
 		Set<NfaFactor> factorsList;
