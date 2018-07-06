@@ -29,8 +29,8 @@ export class StakeHolderComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
+          this.id = +params['project_id'];
+          this.editMode = params['project_id'] != null;
           //this.initForm();
 
           this.dataStorageService.getNfaFactors()

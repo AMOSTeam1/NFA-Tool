@@ -28,9 +28,9 @@ const appRoutes: Routes = [
     ]}
   ]},
   {path: 'home', component: HomeComponent},
-  {path:  'curr-projects/:id/edit/nfa', component: NfacatalogComponent, children:[
+  {path:  'curr-projects/:project_id/edit/nfa', component: NfacatalogComponent, children:[
       {path: '', component: NfacatalogListComponent },
-      {path: ':id', component: NfacatalogCriteriaComponent, children: [
+      {path: ':project_id', component: NfacatalogCriteriaComponent, children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent},
           {path: ':criteria_id/:metric_id/edit', component: NfacatalogNfaComponent}
@@ -40,7 +40,7 @@ const appRoutes: Routes = [
 
   {path:  'curr-projects/new/nfa', component: NfacatalogComponent, children:[
       {path: '', component: NfacatalogListComponent},
-      {path: ':id', component: NfacatalogCriteriaComponent, children: [
+      {path: ':project_id', component: NfacatalogCriteriaComponent, children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
         ]}
@@ -48,9 +48,9 @@ const appRoutes: Routes = [
     ]},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
     {path:  'new', component: ProjectEditComponent},
-    {path: ':id', component: ProjectDetailComponent,},
-    {path: ':id/edit', component: ProjectEditComponent},
-    {path: ':id/edit/stakeholder', component: StakeHolderComponent}
+    {path: ':project_id', component: ProjectDetailComponent,},
+    {path: ':project_id/edit', component: ProjectEditComponent},
+    {path: ':project_id/edit/stakeholder', component: StakeHolderComponent}
   ]},
 
   // otherwise redirect to home

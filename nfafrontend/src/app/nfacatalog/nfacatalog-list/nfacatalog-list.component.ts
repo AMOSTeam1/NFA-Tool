@@ -58,7 +58,7 @@ export class NfacatalogListComponent implements OnInit {
 
     if(this.project){
 
-      this.projectNfs = this.currentProjectService.getProject(this.project.id).projectNfas.slice();
+      this.projectNfs = this.currentProjectService.getProjectById(this.project.id).projectNfas.slice();
       if (this.project.id != null && this.local.get(DExchS.selNfs) == null ){
         this.local.set(DExchS.selNfs, this.projectNfs );
       }

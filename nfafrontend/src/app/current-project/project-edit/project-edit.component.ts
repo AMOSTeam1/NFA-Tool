@@ -1,15 +1,15 @@
 import { DataStorageService } from '../../shared/data-storage.service';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, Input, OnInit} from '@angular/core';
 import { Project } from '../../shared/project.model';
 import { CurrentProjectService } from '../current-project.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
-
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
 import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
 import {ISubscription} from "rxjs/Subscription";
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import { LocalStorageService } from 'angular-web-storage';
 import {Stakeholder} from '../../shared/stakeholder.model';
 import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 
@@ -20,7 +20,7 @@ import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
   styleUrls: ['./project-edit.component.css']
 })
 export class ProjectEditComponent implements OnInit, OnDestroy {
-  id: number;
+  project_id_param: number;
   editMode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
@@ -41,12 +41,16 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const subscription = this.route.params.subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
-          this.types = this.currentProjectService.getTypes();
-          this.initForm();
-        });
+      (params: Params) => {
+        this.project_id_param = +params['project_id'];
+        this.editMode = params['project_id'] != null;
+
+        this.types = this.currentProjectService.getTypes();
+
+        if(params['project_id'] != 'new'){
+          this.currentProjectService.setProjectById(this.project_id_param);
+        }
+      });
     this.subscription.push(subscription);
 
     const subscription2 = this.dataStorageService.getNfaFactors()
@@ -61,6 +65,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
     this.subscription.push(subscription2);
     this.nfaCatalogService.setProjectMode(true);
+
+    this.initForm();
    }
 
    ngOnDestroy(){
@@ -69,6 +75,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     }
    }
 
+   //TODO split body into multiple smaller functions
   private initForm() {
     let projectTypes = new FormArray([]);
     let projectStakeholders = new FormArray([]);
@@ -79,9 +86,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     let devProcess = '';
     let projectPhase = '';
     let projectStatus = '';
-    if (this.editMode) {
-      const project = this.currentProjectService.getProject(this.id);
 
+    if (this.editMode) {
+      const project = this.currentProjectService.getProject();
       if (project['projectTypes']){
 
         projectTypes = new FormArray([]);
@@ -191,10 +198,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     }
 
     this.projectForm = new FormGroup({
+      //Form Groups
       'types' : projectTypes,
-      /*stakeholder changes begins*/
       'projectStakeholders' : projectStakeholders,
-      /*stakeholder changes ends*/
+
+      //Form Controls
       'customerName': new FormControl(customerName, Validators.required),
       'customerContact': new FormControl(customerContact, Validators.required),
       'msgContact': new FormControl(msgContact, Validators.required),
@@ -208,7 +216,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.local.clear();
     const newProject = new Project(
-      this.id,
+      this.project_id_param,
       this.projectForm.value['customerName'],
       this.projectForm.value['customerContact'],
       this.projectForm.value['msgContact'],
@@ -255,10 +263,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     /*stakeholder changes ends*/
 
     if (this.editMode) {
-      newProject.id = this.currentProjectService.getProject(this.id).id;
-      newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
+      newProject.id = this.currentProjectService.getProjectById(this.project_id_param).id;
+      newProject.projectNfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas;
 
-      this.currentProjectService.updateProject(this.id, newProject);
+
+      this.currentProjectService.updateProject(this.project_id_param, newProject);
 
       const subsciption = this.dataStorageService.updateProject(newProject)
         .subscribe(
@@ -275,7 +284,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       const subscription = this.dataStorageService.storeProject(newProject)
         .subscribe(
           (response) => {
-            const subscription1= this.dataStorageService.getProjectsByName('On Process',"")
+           const subscription1 = this.dataStorageService.getProjectsByName(this.currentProjectService.getStatus(),"")
               .subscribe(
                 respons => {
                   this.currentProjectService.setProjects(respons);
@@ -341,7 +350,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
   onChooseNfa(){
     const newProject = new Project(
-      this.id,
+      this.project_id_param,
       this.projectForm.value['customerName'],
       this.projectForm.value['customerContact'],
       this.projectForm.value['msgContact'],

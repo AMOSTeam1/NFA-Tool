@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 
@@ -7,7 +7,7 @@ import {ProjectType} from '../../shared/type.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ISubscription} from 'rxjs/Subscription';
 import {TranslateService} from "@ngx-translate/core";
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import { LocalStorageService } from 'angular-web-storage';
 
 enum STATUS {
   ALL = 'All',
@@ -21,9 +21,8 @@ enum STATUS {
   styleUrls: ['./project-list.component.css']
 })
 
-export class ProjectListComponent implements OnInit, OnDestroy {
+export class ProjectListComponent implements OnInit , OnDestroy{
 
-  status = STATUS.ON_PROCESS;
   projects: Project[];
   private subscription: ISubscription[];
 
@@ -34,11 +33,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
               private translateService: TranslateService,
               private  local: LocalStorageService) {
     this.subscription = [];
+    this.currentProjectService.setStatus(STATUS.ON_PROCESS);
   }
 
 
   ngOnInit() {
-    let subscription = this.dataStorageService.getProjectsByName(this.status,"")
+    let subscription = this.dataStorageService.getProjectsByName(this.currentProjectService.getStatus(),"")
       .subscribe(
         response => {
           const projects: Project[] = response;
@@ -75,9 +75,10 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     }
   }
 
+
   onSearch(frominput: HTMLInputElement) {
 
-    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value).subscribe(
+    const subscription = this.dataStorageService.getProjectsByName(this.currentProjectService.getStatus(),frominput.value).subscribe(
       response=> {
         this.projects = response;
         this.currentProjectService.setProjects(this.projects);
@@ -95,16 +96,16 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   onAll(frominput: HTMLInputElement) {
 
-    if(STATUS.ALL != this.status){
+    if(STATUS.ALL != this.currentProjectService.getStatus()){
       this.router.navigate([this.route.snapshot.routeConfig.path]);
     }
-    this.status = STATUS.ALL;
+    this.currentProjectService.setStatus( STATUS.ALL);
 
-    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value)
+    const subscription = this.dataStorageService.getProjectsByName(this.currentProjectService.getStatus(),frominput.value)
       .subscribe(
         response => {
           this.projects = response;
-          this.currentProjectService.setProjects(this.projects)
+          this.currentProjectService.setProjects(this.projects);
 
         },
         error1 => console.log(error1)
@@ -114,12 +115,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   onProcess(frominput: HTMLInputElement) {
-    if(STATUS.ON_PROCESS != this.status) {
+    if(STATUS.ON_PROCESS != this.currentProjectService.getStatus()) {
       this.router.navigate([this.route.snapshot.routeConfig.path]);
-      this.status = STATUS.ON_PROCESS;
+      this.currentProjectService.setStatus( STATUS.ON_PROCESS);
     }
 
-    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value)
+    const subscription = this.dataStorageService.getProjectsByName(this.currentProjectService.getStatus(),frominput.value)
       .subscribe(
         response => {
           this.projects = response;
@@ -131,12 +132,12 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.subscription.push(subscription);
   }
   onArchived(frominput: HTMLInputElement) {
-    if(STATUS.ARCHIVED != this.status){
+    if(STATUS.ARCHIVED != this.currentProjectService.getStatus()){
       this.router.navigate([this.route.snapshot.routeConfig.path]);
-      this.status = STATUS.ARCHIVED;
+      this.currentProjectService.setStatus( STATUS.ARCHIVED);
     }
 
-    const subscription = this.dataStorageService.getProjectsByName(this.status,frominput.value)
+    const subscription = this.dataStorageService.getProjectsByName(this.currentProjectService.getStatus(),frominput.value)
       .subscribe(
        response => {
          this.projects = response;
@@ -148,8 +149,8 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.subscription.push(subscription);
   }
 
-  getStringByStatus(status : STATUS) : string{
-
+  getStringByStatus() : string {
+    let status : string = this.currentProjectService.getStatus();
     let retVal :string = '';
     switch (status){
       case STATUS.ON_PROCESS:
@@ -168,4 +169,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
     return retVal;
   }
+
+
 }

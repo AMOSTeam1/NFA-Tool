@@ -4,19 +4,33 @@ import {ProjectType} from '../shared/type.model';
 import {Stakeholder} from '../shared/stakeholder.model';
 
 
-
 export class CurrentProjectService {
+
   projectsChanged = new Subject<Project[]>();
-  private projects: Project[];
+  private projectsSubset: Project[];
   private types: ProjectType[];
   private selectedProjectId: number;
   private project : Project;
+  private nfaMode : boolean;
+  private status : string;
 
   getProjects() {
-    return this.projects.slice();
+    return this.projectsSubset.slice();
   }
 
-  getProject(index: number) {
+  getProjectById(projectId: number) : Project {
+    for(let index in this.projectsSubset) {
+
+      if (this.projectsSubset[index].id == projectId) {
+
+        return this.projectsSubset[index];
+      }
+    }
+    console.error("Project with Id " + projectId + " is not Part of the current Subset");
+    return null;
+  }
+
+  getProject(index: number) : Project {
     if(this.projects){
       return this.projects[index];
     }
@@ -35,24 +49,36 @@ export class CurrentProjectService {
     this.project = proj;
   }
 
+  setProjectById(projId: number){
+    this.project = this.getProjectById(projId);
+  }
+
   addProject(project: Project) {
-    this.projects.push(project);
-    this.projectsChanged.next(this.projects.slice());
+    this.projectsSubset.push(project);
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
-  updateProject(index: number, newProject: Project) {
-    this.projects[index] = newProject;
-    this.projectsChanged.next(this.projects.slice());
+  updateProject(id: number, newProject: Project) {
+    for(let index in this.projectsSubset){
+      if(this.projectsSubset[index].id == id){
+        this.projectsSubset[index] = newProject;
+      }
+    }
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
-  deleteProject(index: number) {
-    this.projects.splice(index,1);
-    this.projectsChanged.next(this.projects.slice());
+  deleteProjectById(id: number) {
+    for(let index in this.projectsSubset){
+      if(this.projectsSubset[index].id == id){
+        this.projectsSubset.splice(Number(index),1);
+      }
+    }
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
   setProjects(projects: Project[]){
-    this.projects = projects;
-    this.projectsChanged.next(this.projects.slice());
+    this.projectsSubset = projects;
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
   setSelectedProjectId(index: number){
@@ -62,7 +88,7 @@ export class CurrentProjectService {
     return this.selectedProjectId;
   }
   getNfa(index: number){
-    return this.projects[this.selectedProjectId].projectNfas[index];
+    return this.projectsSubset[this.selectedProjectId].projectNfas[index];
   }
 
   getTypes() {
@@ -74,9 +100,16 @@ export class CurrentProjectService {
   }
 
   updateStakeholder(index: number, stakeholder: Stakeholder[]) {
-    this.projects[index].projectStakeholders = stakeholder;
-    this.projectsChanged.next(this.projects.slice());
+    this.projectsSubset[index].projectStakeholders = stakeholder;
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
+  getStatus(): string {
+    return this.status;
+  }
+
+  setStatus(value: string) {
+    this.status = value;
+  }
 
 }

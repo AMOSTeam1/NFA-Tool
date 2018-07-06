@@ -23,7 +23,7 @@
       translate }}:</label> </div>
     <div class="col-xs-6 btn-group pull-left">
       <button type="button" id="filter" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        {{this.getStringByStatus(status)}} <span class="caret"></span>
+        {{ getStringByStatus( status) }} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
         <li><a (click)="onAll(inp)">{{ 'nfa.search-project.filter-all' | translate }}</a></li>
@@ -39,6 +39,6 @@
     <app-project-item
       *ngFor="let projectEl of projects let i = index"
       [project]="projectEl"
-      [index]="i"></app-project-item>
+      [id]="projectEl.id"></app-project-item>
   </div>
 </div>

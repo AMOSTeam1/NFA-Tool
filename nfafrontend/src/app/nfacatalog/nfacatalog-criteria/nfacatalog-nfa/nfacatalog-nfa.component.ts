@@ -156,6 +156,14 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     this.subscription.push(subscriptionC);
 
     this.page_is_in_project_mode = this.local.get(DExchS.nfaMode);
+
+    let subscriptionX = this.route.parent.parent.params.subscribe(params => this.project_id_param = params['id']);
+    this.subscription.push(subscriptionX);
+
+    if (this.project_id_param != null) {
+      this.nfaCatalogService.projectId = this.project_id_param;
+      this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
+    }
   }
 
   ngOnDestroy() {

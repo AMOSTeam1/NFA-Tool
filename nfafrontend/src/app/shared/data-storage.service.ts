@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {Project} from './project.model';
 import {NfaCatalogModel} from './nfaCatalog.model';
 import {Stakeholder} from './stakeholder.model';
-
-
 import {NfaCustomModel} from "./nfaCustom.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
@@ -29,7 +27,6 @@ export class DataStorageService {
   }
 
   storeEditedNfa(nfaCustom: NfaCustomModel) {
-    // return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa, httpOptions);
     return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.originalId, nfaCustom, httpOptions);
   }
 
@@ -66,7 +63,11 @@ export class DataStorageService {
   }
 
   getProjectsByName(status: string, param: string ) : Observable<Project[]>{
-   return this.http.get<Project[]>('http://localhost:8080/nfabackend/webapi/project/search?status=' + status +'&lookupCustName=' + param );
+    return this.http.get<Project[]>('http://localhost:8080/nfabackend/webapi/project/search?status=' + status +'&lookupCustName=' + param );
+  }
+
+  getProjectById(projectId: number){
+    return this.http.get('http://localhost:8080/nfabackend/webapi/project/' + projectId);
   }
 
   getTypes() : Observable<ProjectType[]>{
