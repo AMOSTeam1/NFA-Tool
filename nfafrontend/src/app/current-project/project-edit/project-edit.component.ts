@@ -7,9 +7,7 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
 import {Response} from '@angular/http';
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
-import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
-import { NfacatalogComponent } from '../../nfacatalog/nfacatalog.component';
-import {NfaCatalogModel} from '../../shared/nfaCatalog.model';
+import {NfacatalogService} from '../../nfacatalog//nfacatalog.service';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 import {Stakeholder} from '../../shared/stakeholder.model';
 
@@ -25,11 +23,6 @@ export class ProjectEditComponent implements OnInit {
   projectForm: FormGroup;
   types: ProjectType[] = [];
   nfaFactors: NfaFactorModel[];
-  afuConfig = {
-    uploadAPI: {
-      url:'https://example-file-upload-api'
-    }
-  };
 
   constructor(private route: ActivatedRoute,
               private router: Router,

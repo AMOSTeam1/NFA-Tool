@@ -102,11 +102,11 @@
             <span class="glyphicon glyphicon-pencil"></span>{{ 'nfa.project-details.choose-nfr' | translate }}
           </button>
         </div>
-
-        <angular-file-uploader
-          [config]="afuConfig">
-        </angular-file-uploader>
-
+        <div class="col-xs-4" >
+        <label for="sel" class="btn btn-primary" style="margin-top: 37px">Import NFA</label>
+        <input type="file" id="sel" style="display: none" title="Select file" name="files"/>
+          {{projectForm.get('files').value.toString()}}
+        </div>
       </div>
       <h3 style="text-align: center">{{'nfa.project-details.project-type.label' | translate }}</h3>
       <hr>
