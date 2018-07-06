@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -27,11 +28,17 @@ public class Project {
 	
 	public Project() {}
 	
-	/*@Id
-	@SequenceGenerator(name="seq-gen",sequenceName="NFA_PROJECT_ID_SEQ" , initialValue = 1, allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq-gen")*/
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@GeneratedValue(strategy=GenerationType.IDENTITY) //TODO without Testdata, this is sufficient
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "project-id-generator"
+		)
+    @SequenceGenerator(
+    		allocationSize = 1,
+    		name = "project-id-generator", 
+    		sequenceName ="project_sequence"
+	)
 	@Column(name="ID")
 	private Long id;
 	
@@ -69,7 +76,7 @@ public class Project {
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "project_nfa", joinColumns = @JoinColumn(name = "PROJECT_ID"), inverseJoinColumns = @JoinColumn(name = "nfa_id"))
-	private Set<nfaCatalog> projectNfas = new HashSet<nfaCatalog>();
+	private Set<NfaCatalog> projectNfas = new HashSet<NfaCatalog>();
 
 	/**
 	 * @return the id
@@ -216,17 +223,12 @@ public class Project {
 		this.projectStakeholders = projectStakeholders;
 	}
 
-	public Set<nfaCatalog> getProjectNfas() {
+	public Set<NfaCatalog> getProjectNfas() {
 		return projectNfas;
 	}
 
-	public void setProjectNfas(Set<nfaCatalog> projectNfas) {
+	public void setProjectNfas(Set<NfaCatalog> projectNfas) {
 		this.projectNfas = projectNfas;
 	}
-	
-	
-
-	
-	
 
 }

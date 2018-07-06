@@ -40,7 +40,6 @@ export class NfacatalogService {
   setnfaCatalogs(nfaCatalogs: NfaCatalogModel[]) {
     this.nfaCatalog = nfaCatalogs;
     this.nfaCatalogChanged.next(this.nfaCatalog.slice());
-    console.log(this.nfaCatalog.slice());
   }
 
   setNfaFactors(nfaFactors: NfaFactorModel[]) {

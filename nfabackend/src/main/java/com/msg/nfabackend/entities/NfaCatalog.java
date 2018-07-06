@@ -3,31 +3,28 @@ package com.msg.nfabackend.entities;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.msg.nfabackend.templates.Template;
-import com.msg.nfabackend.templates.Template.Restriction;
 
 @Entity
-@Table(name = "nfa")
-public class nfaCatalog {
-
+@Table(name ="nfa")
+public class NfaCatalog implements NfaInterface{
+	
 	public static class BlueprintConverter implements AttributeConverter<NfaCatalogBlueprint, String> {
 		@Override
 		public String convertToDatabaseColumn(NfaCatalogBlueprint attribute) {
@@ -55,8 +52,7 @@ public class nfaCatalog {
 			}
 		}
 	}
-
-	public static class WertConverter implements AttributeConverter<List<String>, String> {
+	public static class ValueConverter implements AttributeConverter<List<String>, String> {
 		@Override
 		public String convertToDatabaseColumn(List<String> attribute) {
 
@@ -85,11 +81,13 @@ public class nfaCatalog {
 			}
 		}
 	}
-
 	public static class NfaCatalogBlueprint {
+		/**
+		 *
+		 */
 		private BpPropertyTemplateNoCondition de;
 		private BpPropertyTemplateNoCondition en;
-
+		
 		/**
 		 * @return the de
 		 */
@@ -134,6 +132,7 @@ public class nfaCatalog {
 
 	public static class BpPropertyTemplateNoCondition {
 
+
 		private String bezeichnung;
 		private String erklaerung;
 		private String characteristic;
@@ -161,8 +160,23 @@ public class nfaCatalog {
 		 * @return the erklaerung
 		 */
 		public String getErklaerung() {
+//			if (erklaerung == null) {
+//				updateErklaerung();
+//			}
 			return erklaerung;
 		}
+//
+//		/**
+//		 * Uses all the Components to generate the Explanation String and updates the Variable Explanation.
+//		 */
+//		public void updateErklaerung() {
+//			erklaerung = String.join(" ",
+//					getCharacteristic(), 
+//					getProperty(), 
+//					getModalVerb(),
+//					getQualifiedValue(getValues()), 
+//					getVerb());
+//		}
 
 		/**
 		 * @param erklaerung
@@ -254,127 +268,96 @@ public class nfaCatalog {
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, 
+     generator = "nfa-id-generator")
+    @SequenceGenerator(
+    		name = "nfa-id-generator",
+    		sequenceName = "nfa_sequence") //TODO Needs to be some Number, bigger than the initial / manual NFA-Count 
 	@Column(name = "nfa_id")
-	private Long nfaCatalogId;
+	private Long id;
 
-	@Column(name = "NFA_NUMBER")
+	@OneToMany(mappedBy = "originalEntry", cascade = CascadeType.ALL)
+	private List<CustomNFA> customNfaList;
+
+	@Column (name = "NFA_NUMBER")
 	private Long nfaNumber;
 
 	@Column(name = "nfa_type")
-	private String nfaCatalogType;
+	private String type;
 
-	@Column(name = "wert")
-	@Convert(converter = WertConverter.class)
-	private List<String> nfaCatalogWert;
+	@Column(name = "value")
+	@Convert(converter = ValueConverter.class)
+	private List<String> values;
 
-	@Column(name = "rechtliche_verbindlichkeit")
-	private String rechtlicheVerbindlichkeit;
+	@Column(name = "legal_liability")
+	private String legalLiability;
 
-	@Column(name = "formulierung")
-	private String nfaCatalogFormulierung;
+	@Column (name ="formulation")
+	private String formulation;
 
 	@Column(name = "blueprint")
 	@Convert(converter = BlueprintConverter.class)
-	private NfaCatalogBlueprint nfaCatalogBlueprint;
+	private NfaCatalogBlueprint blueprint;
 
-	@Column(name = "referenz")
-	private String nfaCatalogReferenz;
+	@Column(name = "reference")
+	private String reference;
 
-	@Column(name = "referenzierte_projekte")
-	private String nfaCatalogReferenzierteProjekte;
+	@Column(name = "referenced_projects")
+	private String referencedProjects;
 
-	@Column(name = "kritikalitaet")
-	private String nfaCatalogKritikalität;
+	@Column(name = "criticality")
+	private String criticality;
 
-	@Column(name = "dokument")
-	private String nfaCatalogDokument;
+	@Column(name = "document")
+	private String document;
 
-	public Long getNfaCatalogId() {
-		return nfaCatalogId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setNfaCatalogId(Long nfaCatalogId) {
-		this.nfaCatalogId = nfaCatalogId;
+	public String getType() {
+		return type;
 	}
 
-	public String getNfaCatalogType() {
-		return nfaCatalogType;
+	public String getLegalLiability() {
+		return legalLiability;
 	}
 
-	public void setNfaCatalogType(String nfaCatalogType) {
-		this.nfaCatalogType = nfaCatalogType;
+	public String getFormulation() {
+		return formulation;
 	}
 
-	public String getRechtlicheVerbindlichkeit() {
-		return rechtlicheVerbindlichkeit;
+	public String getReference() {
+		return reference;
 	}
 
-	public void setRechtlicheVerbindlichkeit(String rechtlicheVerbindlichkeit) {
-		this.rechtlicheVerbindlichkeit = rechtlicheVerbindlichkeit;
+	public String getReferencedProjects() {
+		return referencedProjects;
 	}
 
-	public String getNfaCatalogFormulierung() {
-		return nfaCatalogFormulierung;
+	public String getCriticality() {
+		return criticality;
 	}
 
-	public void setNfaCatalogFormulierung(String nfaCatalogFormulierung) {
-		this.nfaCatalogFormulierung = nfaCatalogFormulierung;
+	public String getDocument() {
+		return document;
 	}
 
-	public String getNfaCatalogReferenz() {
-		return nfaCatalogReferenz;
-	}
-
-	public void setNfaCatalogReferenz(String nfaCatalogReferenz) {
-		this.nfaCatalogReferenz = nfaCatalogReferenz;
-	}
-
-	public String getNfaCatalogReferenzierteProjekte() {
-		return nfaCatalogReferenzierteProjekte;
-	}
-
-	public void setNfaCatalogReferenzierteProjekte(String nfaCatalogReferenzierteProjekte) {
-		this.nfaCatalogReferenzierteProjekte = nfaCatalogReferenzierteProjekte;
-	}
-
-	public String getNfaCatalogKritikalität() {
-		return nfaCatalogKritikalität;
-	}
-
-	public void setNfaCatalogKritikalität(String nfaCatalogKritikalität) {
-		this.nfaCatalogKritikalität = nfaCatalogKritikalität;
-	}
-
-	public String getNfaCatalogDokument() {
-		return nfaCatalogDokument;
-	}
-
-	public void setNfaCatalogDokument(String nfaCatalogDokument) {
-		this.nfaCatalogDokument = nfaCatalogDokument;
-	}
-
-	public List<String> getNfaCatalogWert() {
-		return nfaCatalogWert;
-	}
-
-	public void setNfaCatalogWert(List<String> nfaCatalogWert) {
-		this.nfaCatalogWert = nfaCatalogWert;
+	public List<String> getValues() {
+		return values;
 	}
 
 	public Long getNfaNumber() {
 		return nfaNumber;
 	}
 
-	public void setNfaNumber(Long nfaNumber) {
-		this.nfaNumber = nfaNumber;
+	public void setNfaNumber(long newNumber) {
+		nfaNumber = newNumber;
 	}
 
-	public NfaCatalogBlueprint getNfaCatalogBlueprint() {
-		return nfaCatalogBlueprint;
+	public NfaCatalogBlueprint getBlueprint() {
+		return blueprint;
 	}
 
-	public void setNfaCatalogBlueprint(NfaCatalogBlueprint nfaCatalogBlueprint) {
-		this.nfaCatalogBlueprint = nfaCatalogBlueprint;
-	}
 }

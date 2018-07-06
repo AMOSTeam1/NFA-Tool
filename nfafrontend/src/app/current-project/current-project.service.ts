@@ -11,14 +11,20 @@ export class CurrentProjectService {
   private types: ProjectType[];
   private selectedProjectId: number;
   private project : Project;
-  private  nfaMode : boolean;
 
   getProjects() {
     return this.projects.slice();
   }
 
   getProject(index: number) {
-    return this.projects[index];
+    if(this.projects){
+      return this.projects[index];
+    }
+
+    const message : string = "There are no Projects loaded yet.";
+
+    console.log(message);
+    throw new Error(message);
   }
 
   getProjectWithNoId(){

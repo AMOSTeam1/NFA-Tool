@@ -1,49 +1,76 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import {Project} from './project.model';
-import {HttpParams} from '@angular/common/http';
 import {NfaCatalogModel} from './nfaCatalog.model';
 import {Stakeholder} from './stakeholder.model';
 
 
+import {NfaCustomModel} from "./nfaCustom.model";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
+import {NfaFactorModel} from "./nfaFactor.model";
+import {ProjectType} from "./type.model";
 
-
+const headers = new HttpHeaders(
+  {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*'
+    }
+  );
+const httpOptions = {
+  headers: headers
+};
 
 @Injectable()
 export class DataStorageService {
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   storeNfa(metricId: number, nfa: NfaCatalogModel) {
-    console.log(nfa);
    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa);
   }
-  storeProject(newproject: Project) {
-    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', newproject);
+
+  storeEditedNfa(nfaCustom: NfaCustomModel) {
+    // return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create', customNfa, httpOptions);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.originalId, nfaCustom, httpOptions);
   }
 
-  getCurrentProjects() {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/project');
+  storeProject(new_project: Project) {
+    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', new_project, httpOptions);
   }
+
+  getCurrentProjects() : Observable<Project[]>{
+    return this.http.get<Project[]>('http://localhost:8080/nfabackend/webapi/project');
+  }
+
   deleteProject(project: Project) {
     return this.http.delete('http://localhost:8080/nfabackend/webapi/project/' + project.id);
   }
-  getNfaCatalog() {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_catalog');
-  }
-  getNfaFactor() {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/nfa_factor');
+
+  getNfa(nfa_id: number) : Observable<NfaCatalogModel>{
+    return this.http.get<NfaCatalogModel>('http://localhost:8080/nfabackend/webapi/nfa_catalog/'+nfa_id);
   }
 
-  updateProject(updatedProject: Project) {
-    return this.http.post('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
+  getCustomNfa(custom_id: number) : Observable<NfaCustomModel>{
+    return this.http.get<NfaCustomModel>('http://localhost:8080/nfabackend/webapi/nfa_edit/'+custom_id);
   }
 
-  getProjectByName(status: string, param: string ) {
-   return this.http.get('http://localhost:8080/nfabackend/webapi/project/search?status=' + status +'&lookupCustName=' + param );
+  getNfaCatalog() : Observable<NfaCatalogModel[]>{
+    return this.http.get<NfaCatalogModel[]>('http://localhost:8080/nfabackend/webapi/nfa_catalog');
   }
 
-  getTypes() {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/types');
+  getNfaFactors() : Observable<NfaFactorModel[]> {
+    return this.http.get<NfaFactorModel[]>('http://localhost:8080/nfabackend/webapi/nfa_factor');
+  }
+
+  updateProject(updatedProject: Project) : Observable<Project[]> {
+    return this.http.post<Project[]>('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
+  }
+
+  getProjectsByName(status: string, param: string ) : Observable<Project[]>{
+   return this.http.get<Project[]>('http://localhost:8080/nfabackend/webapi/project/search?status=' + status +'&lookupCustName=' + param );
+  }
+
+  getTypes() : Observable<ProjectType[]>{
+    return this.http.get<ProjectType[]>('http://localhost:8080/nfabackend/webapi/types');
   }
   generateXml(project: Project) {
     return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/xml/'+ project.id );

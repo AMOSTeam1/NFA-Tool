@@ -8,7 +8,8 @@ DROP TABLE IF EXISTS nfa_project;
 DROP TABLE IF EXISTS metric_nfa;
 
 DROP TABLE IF EXISTS type;
-DROP TABLE IF EXISTS new_nfa;
+
+DROP TABLE IF EXISTS custom_nfa;
 DROP TABLE IF EXISTS nfa;
 
 DROP TABLE IF EXISTS criteria_metric;
@@ -18,6 +19,12 @@ DROP TABLE IF EXISTS factor_criteria;
 DROP TABLE IF EXISTS nfa_factor;
 DROP TABLE IF EXISTS nfa_criteria;
 
+DROP SEQUENCE IF EXISTS project_sequence;
+CREATE SEQUENCE project_sequence START 5; 
+
+--  Start at 500 to make sure its after every NFA
+DROP SEQUENCE IF EXISTS nfa_sequence;
+CREATE SEQUENCE nfa_sequence START 500;
 
 CREATE TABLE public.nfa_project
 (
@@ -37,18 +44,6 @@ INSERT INTO nfa_project VALUES (3,'1234','ABC','John','Alex','Public Sector','Ag
 INSERT INTO nfa_project VALUES (4,'1234','ASDF','Andre','Alex','Public Sector','Classic','Requirements Specification','Archived');
 
 
-CREATE TABLE public.new_nfa (
-  nfa_id serial NOT NULL,
-  factor varchar(45) NOT NULL,
-  criteria varchar(45) NOT NULL,
-  metric varchar(100) DEFAULT NULL,
-  nfa_type varchar(100) DEFAULT NULL,
-  PRIMARY KEY (nfa_id)
-);
-
-INSERT INTO new_nfa VALUES (1,'any factor','any criteria','any metric','any nfatype');
-
-
 CREATE TABLE public.stakeholder (
   stakeholder_id bigserial NOT NULL,
   stakeholder_name varchar(45) NOT NULL,
@@ -58,8 +53,8 @@ CREATE TABLE public.stakeholder (
 
 CREATE TABLE public.project_stakeholder
 (
-    project_id bigint NOT NULL,
-    stakeholder_id bigint NOT NULL,
+    project_id serial NOT NULL,
+    stakeholder_id serial NOT NULL,
     CONSTRAINT project_fk FOREIGN KEY (project_id)
         REFERENCES public.nfa_project (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -69,9 +64,6 @@ CREATE TABLE public.project_stakeholder
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
-
-
-
 
 CREATE TABLE public.type
 (
@@ -85,8 +77,8 @@ INSERT INTO public.type VALUES (2,'Data Exchange Project');
 
 CREATE TABLE public.project_type
 (
-    project_id bigint NOT NULL,
-    type_id bigint NOT NULL,
+    project_id serial NOT NULL,
+    type_id serial NOT NULL,
     CONSTRAINT project_fk FOREIGN KEY (project_id)
         REFERENCES public.nfa_project (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -124,8 +116,8 @@ CREATE TABLE public.nfa_criteria
 
 CREATE TABLE public.factor_criteria
 (
-    factor_id bigint NOT NULL,
-    criteria_id bigint NOT NULL,
+    factor_id serial NOT NULL,
+    criteria_id serial NOT NULL,
     CONSTRAINT factor_fk FOREIGN KEY (factor_id)
         REFERENCES public.nfa_factor (factor_id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -309,8 +301,8 @@ INSERT INTO metric VALUES (8,3,'Anteil der Sicherheitsgefährdungen','X = A/B; A
 
 CREATE TABLE public.criteria_metric
 (
-    criteria_id bigint NOT NULL,
-	metric_id bigint NOT NULL,
+    criteria_id serial NOT NULL,
+	metric_id serial NOT NULL,
     CONSTRAINT criteria_fk FOREIGN KEY (criteria_id)
         REFERENCES public.nfa_criteria (criteria_id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -336,13 +328,13 @@ CREATE TABLE public.nfa
  nfa_id serial PRIMARY KEY,
  NFA_NUMBER int NOT NULL,
  NFA_TYPE character varying(40),
- RECHTLICHE_VERBINDLICHKEIT character varying(40),
- WERT character varying(200),
- FORMULIERUNG character varying(40),
- REFERENZ character varying(40),
- REFERENZIERTE_PROJEKTE character varying(40),
- KRITIKALITAET character varying(40),
- DOKUMENT character varying(40),    
+ LEGAL_LIABILITY character varying(40),
+ VALUE character varying(200),
+ FORMULATION character varying(40),
+ REFERENCE character varying(40),
+ REFERENCED_PROJECTS character varying(40),
+ CRITICALITY character varying(40),
+ DOCUMENT character varying(40),    
  BLUEPRINT character varying(500));
  
 
@@ -352,10 +344,22 @@ INSERT INTO nfa VALUES (4,1,'Type:1','Verbindlichkeit:1','[12.22]','Formulierung
 INSERT INTO nfa VALUES (5,1,'Type:1','Verbindlichkeit:1','[12.22]','Formulierung:1','referenz:1','referenzierte_projekt:1','kritikalitaet', 'document1', '{"de":{"bezeichnung":"Fehlerfreie Bedienung","erklaerung":"Der bzw. die Anwender_in muss das System möglichst fehlerfrei bedienen können."}, "en":{"bezeichnung":null,"erklaerung":null}}');
 
 
+CREATE TABLE public.custom_nfa
+(
+ custom_id serial PRIMARY KEY,
+ nfa_id serial NOT NULL,
+ VALUE character varying(200),
+ FORMULATION character varying(40),
+ REFERENCE character varying(40), 
+ CRITICALITY character varying(40),
+ DOCUMENT character varying(40),
+ BLUEPRINT character varying(500)
+);
+
 CREATE TABLE public.metric_nfa
 (
-    metric_id bigint NOT NULL,
-	nfa_id bigint NOT NULL,
+    metric_id serial NOT NULL,
+	nfa_id serial NOT NULL,
     CONSTRAINT metrik_fk FOREIGN KEY (metric_id)
         REFERENCES public.metric (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -374,8 +378,8 @@ INSERT INTO public.metric_nfa VALUES (4, 5);
 
 CREATE TABLE public.project_nfa
 (
-    project_id bigint NOT NULL,
-	nfa_id bigint NOT NULL,
+    project_id serial NOT NULL,
+	nfa_id serial NOT NULL,
     CONSTRAINT project_fk FOREIGN KEY (project_id)
         REFERENCES public.nfa_project (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -394,8 +398,8 @@ INSERT INTO public.project_nfa VALUES (4, 5);
 
 CREATE TABLE public.stakeholder_factor
 (
-    stakeholder_id bigint NOT NULL,
-    factor_id      bigint NOT NULL,
+    stakeholder_id serial NOT NULL,
+    factor_id      serial NOT NULL,
     CONSTRAINT stakeholder_fk FOREIGN KEY (stakeholder_id)
         REFERENCES public.stakeholder (stakeholder_id) MATCH SIMPLE
         ON UPDATE NO ACTION
