@@ -20,7 +20,7 @@ const appRoutes: Routes = [
   {path: 'newnfa', component: NewnfaComponent},
   {path: 'nfacatalog', component: NfacatalogComponent, children: [
       {path: 'list', component: NfacatalogListComponent},
-      {path: 'list/:id', component: NfacatalogCriteriaComponent, children: [
+      {path: 'list/:factor_id', component: NfacatalogCriteriaComponent, children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent},
 
@@ -30,7 +30,7 @@ const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path:  'curr-projects/:project_id/edit/nfa', component: NfacatalogComponent, children:[
       {path: '', component: NfacatalogListComponent },
-      {path: ':project_id', component: NfacatalogCriteriaComponent, children: [
+      {path: ':factor_id', component: NfacatalogCriteriaComponent, children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent},
           {path: ':criteria_id/:metric_id/edit', component: NfacatalogNfaComponent}

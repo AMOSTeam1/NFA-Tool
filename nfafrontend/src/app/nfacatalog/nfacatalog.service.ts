@@ -60,10 +60,10 @@ export class NfacatalogService {
     return this.nfaCriterias.slice();
   }
 
-  getNfaCriteria(index: number) {
+  getNfaCriteria(index: number) : NfaCriteriaModel {
     return this.nfaCriterias[index];
   }
-  getNfaFactor(index: number) {
+  getNfaFactor(index: number) : NfaFactorModel {
     return this.nfaFactors[index];
   }
 }

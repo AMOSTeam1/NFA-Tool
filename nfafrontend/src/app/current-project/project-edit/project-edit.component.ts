@@ -8,7 +8,6 @@ import {ProjectType} from '../../shared/type.model';
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
 import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
 import {ISubscription} from "rxjs/Subscription";
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
 import { LocalStorageService } from 'angular-web-storage';
 import {Stakeholder} from '../../shared/stakeholder.model';
 import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
@@ -21,7 +20,7 @@ import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 })
 export class ProjectEditComponent implements OnInit, OnDestroy {
   project_id_param: number;
-  editMode = false;
+  project_is_in_editmode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
   nfaFactors: NfaFactorModel[];
@@ -43,8 +42,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     const subscription = this.route.params.subscribe(
       (params: Params) => {
         this.project_id_param = +params['project_id'];
-        this.editMode = params['project_id'] != null;
+        this.project_is_in_editmode = params['project_id'] != null;
 
+        console.log(this.project_is_in_editmode);
         this.types = this.currentProjectService.getTypes();
 
         if(params['project_id'] != 'new'){
@@ -87,7 +87,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     let projectPhase = '';
     let projectStatus = '';
 
-    if (this.editMode) {
+    if (this.project_is_in_editmode) {
       const project = this.currentProjectService.getProject();
       if (project['projectTypes']){
 
@@ -262,7 +262,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     newProject.projectStakeholders = stakeholders;
     /*stakeholder changes ends*/
 
-    if (this.editMode) {
+    if (this.project_is_in_editmode) {
       newProject.id = this.currentProjectService.getProjectById(this.project_id_param).id;
       newProject.projectNfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas;
 

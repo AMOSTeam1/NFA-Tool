@@ -30,12 +30,11 @@ export class CurrentProjectService {
     return null;
   }
 
-  getProject(index: number) : Project {
-    if(this.projects){
-      return this.projects[index];
+  getProject() : Project {
+    if(this.project){
+      return this.project;
     }
-
-    const message : string = "There are no Projects loaded yet.";
+    const message : string = "There is no Project set yet.";
 
     console.log(message);
     throw new Error(message);

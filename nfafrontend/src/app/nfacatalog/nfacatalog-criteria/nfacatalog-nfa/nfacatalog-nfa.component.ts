@@ -42,8 +42,8 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   metric_id_param: number;
   metric: NfaMetricModel;
 
-  selected_nfa_id_all : number;
-  selected_nfa_id_metric: number;
+  selected_nfa_id_in_all : number;
+  selected_nfa_id_in_metric: number;
 
   metric_nfas: NfaCatalogModel[] = [];
   project_nfas: NfaCatalogModel[] = [];
@@ -87,7 +87,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     let subscription = this.route.parent.params
       .subscribe(
         (params: Params) => {
-          this.factor_id_param= +params['id'];
+          this.factor_id_param= +params['factor_id'];
           this.factor = this.nfaCatalogService.getNfaFactor(this.factor_id_param);
         }
       );
@@ -104,17 +104,17 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
     //Get the Project from the Id, saved in the Parents, parents Route Parameters
     let subscriptionA = this.route.parent.parent.params
-      .subscribe((params: Params) =>this.project_id_param = params['id']);
+      .subscribe((params: Params) =>this.project_id_param = params['project_id']);
     this.subscription.push(subscriptionA);
 
     if (this.project_id_param != null) {
       this.nfaCatalogService.projectId = this.project_id_param;
-      this.project_nfas = this.currentProjectService.getProject(this.project_id_param).projectNfas.slice();
+      this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
     }
     this.subscription.push(subscription);
 
     //Get Criteria and Metric according to the given IDs
-    this.selected_nfa_id_metric = 0;
+    this.selected_nfa_id_in_metric = 0;
     let subscriptionC = this.route.params
       .subscribe(
         (params: Params) => {
@@ -125,11 +125,26 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
           this.metric = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param];
           this.metric_nfas = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param].nfaList;
 
-          this.selected_nfa_id_all = this.metric_nfas[this.selected_nfa_id_metric].id;
+          this.selected_nfa_id_in_all = this.metric_nfas[this.selected_nfa_id_in_metric].id;
 
-          this.original_nfa = this.currentProjectService.getNfa(this.selected_nfa_id_metric);
+          this.page_is_in_project_mode = this.local.get(DExchS.nfaMode);
 
-          this.observable_nfa = this.dataStorageService.getNfa(this.selected_nfa_id_all);
+          if(this.page_is_in_project_mode){
+            this.original_nfa = this.currentProjectService.getNfa(this.selected_nfa_id_in_metric);
+
+            if(this.custom_nfa){
+              this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.customId);
+              let subscription2 = this.observable_custom_nfa
+                .subscribe((value : NfaCustomModel) =>
+                {
+                  this.erklarungs_str_observer.next(this.erklaerung(value));
+                  this.custom_nfa = value;
+                });
+              this.subscription.push(subscription2);
+            }
+          }
+
+          this.observable_nfa = this.dataStorageService.getNfa(this.selected_nfa_id_in_all);
           let subscription1 = this.observable_nfa
             .subscribe((value : NfaCatalogModel) =>
             {
@@ -139,25 +154,12 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
               }
             });
           this.subscription.push(subscription1);
-
-          if(this.custom_nfa){
-            this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.customId);
-            let subscription2 = this.observable_custom_nfa
-              .subscribe((value : NfaCustomModel) =>
-              {
-                this.erklarungs_str_observer.next(this.erklaerung(value));
-                this.custom_nfa = value;
-              });
-            this.subscription.push(subscription2);
-          }
-
         }
       );
     this.subscription.push(subscriptionC);
 
-    this.page_is_in_project_mode = this.local.get(DExchS.nfaMode);
 
-    let subscriptionX = this.route.parent.parent.params.subscribe(params => this.project_id_param = params['id']);
+    let subscriptionX = this.route.parent.parent.params.subscribe(params => this.project_id_param = params['project_id']);
     this.subscription.push(subscriptionX);
 
     if (this.project_id_param != null) {
@@ -249,11 +251,11 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   }
 
   onNext() {
-    this.selected_nfa_id_metric = this.selected_nfa_id_metric + 1;
+    this.selected_nfa_id_in_metric = this.selected_nfa_id_in_metric + 1;
   }
 
   onPrev() {
-    this.selected_nfa_id_metric = this.selected_nfa_id_metric - 1;
+    this.selected_nfa_id_in_metric = this.selected_nfa_id_in_metric - 1;
   }
 
   onBack() {
@@ -337,7 +339,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   }
 
   onGoto(j: number) {
-    this.selected_nfa_id_metric = j;
+    this.selected_nfa_id_in_metric = j;
     this.page_is_in_subnavigation_mode = !this.page_is_in_subnavigation_mode;
   }
 

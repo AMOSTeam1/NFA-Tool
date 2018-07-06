@@ -15,7 +15,7 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
 
   nfaCriterias: NfaCriteriaModel[];
   factor: NfaFactorModel;
-  id: number;
+  factor_id_param: number;
   subscription : ISubscription[];
 
   nfaFactors: NfaFactorModel[];
@@ -31,9 +31,9 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
     let subscription = this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.factor = this.nfaCatalogService.getNfaFactor(this.id);
-          this.nfaCriterias = this.nfaCatalogService.getNfaFactor(this.id).criteriaList;
+          this.factor_id_param = +params['factor_id'];
+          this.factor = this.nfaCatalogService.getNfaFactor(this.factor_id_param);
+          this.nfaCriterias = this.factor.criteriaList;
           this.nfaCatalogService.setNfaCriterias(this.nfaCriterias);
 
         }
@@ -43,9 +43,8 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
 
     subscription = this.dataStorageService.getNfaFactors()
       .subscribe(response => {
-          const nfaFactors: NfaFactorModel[] = response;
-          this.nfaCatalogService.setNfaFactors(nfaFactors);
-          this.nfaFactors = nfaFactors;
+          this.nfaFactors = response;
+          this.nfaCatalogService.setNfaFactors(this.nfaFactors);
         },
         error1 => console.log(error1)
       );
@@ -59,7 +58,7 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
   }
 
   showCriteria(i: number){
-    this.router.navigate(['nfacatalog/list/' + i]);
+    this.router.navigate(['../' + i], {relativeTo: this.route});
   }
 
 }

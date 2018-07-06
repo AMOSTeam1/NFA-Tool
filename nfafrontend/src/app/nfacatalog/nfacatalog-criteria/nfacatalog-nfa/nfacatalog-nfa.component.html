@@ -5,11 +5,11 @@
   <!-- Navigation Header for NFAs -->
   <div class="row" *ngIf ="page_is_in_subnavigation_mode">
     <div class="col-xs-12">
-      <button class="btn btn-default btn-lg col-xs-1" (click)="onPrev()" [disabled] = "selected_nfa_id_metric == 0"> < </button>
+      <button class="btn btn-default btn-lg col-xs-1" (click)="onPrev()" [disabled] = "selected_nfa_id_in_metric == 0"> < </button>
       <button class="btn btn-default btn-lg col-xs-10" style="text-align: center" (click)="page_is_in_subnavigation_mode = !page_is_in_subnavigation_mode">
-        {{factor.factorNumber}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{metric_nfas[selected_nfa_id_metric].nfaNumber}}
-        {{bezeichnung(metric_nfas[selected_nfa_id_metric])}}</button>
-      <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "selected_nfa_id_metric == metric_nfas.length-1"> > </button>
+        {{factor.factorNumber}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{metric_nfas[selected_nfa_id_in_metric].nfaNumber}}
+        {{bezeichnung(metric_nfas[selected_nfa_id_in_metric])}}</button>
+      <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "selected_nfa_id_in_metric == metric_nfas.length-1"> > </button>
     </div>
   </div>
 
@@ -45,7 +45,7 @@
         <p class="small">{{ observable_erklaerungs_str | async }}</p>
       </div>
       <div class="panel-body" *ngIf = "page_is_in_project_mode" >
-        <input type="checkbox" id="checkbox" [checked]="nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_metric])" (click)="toggleSelectionNfa(metric_nfas[selected_nfa_id_metric])">
+        <input type="checkbox" id="checkbox" [checked]="nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_in_metric])" (click)="toggleSelectionNfa(metric_nfas[selected_nfa_id_in_metric])">
         <textarea
           *ngIf="page_is_in_edit_mode"
           id="nfaExplanation"
@@ -68,7 +68,7 @@
         <h3 class="panel-title">{{ 'nfa.assign-nfa.reference' | translate }}</h3>
       </div>
       <div class="panel-body">
-        <p class="small">{{metric_nfas[selected_nfa_id_metric].reference }}</p>
+        <p class="small">{{metric_nfas[selected_nfa_id_in_metric].reference }}</p>
       </div>
     </div>
 
@@ -78,33 +78,51 @@
         <h3 class="panel-title">{{ 'nfa.assign-nfa.related-projects' | translate }}</h3>
       </div>
       <div class="panel-body">
-        <p class="small">{{metric_nfas[selected_nfa_id_metric].referencedProjects}}</p>
+        <p class="small">{{metric_nfas[selected_nfa_id_in_metric].referencedProjects}}</p>
       </div>
     </div>
 
 
     <!-- Button Controls Below Right View-Area -->
-    <div class="col-xs-12" *ngIf="page_is_in_edit_mode">
-      <div class="col-xs-6 text-center">
-        <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="!nfadetailForm.valid"><span class="glyphicon glyphicon-floppy-save"></span>
-          {{ 'nfa.save' | translate}}</button>
+    <div *ngIf="page_is_in_project_mode">
+      <div class="col-xs-12" *ngIf="page_is_in_edit_mode">
+
+        <div class="col-xs-6 text-center">
+          <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="!nfadetailForm.valid"><span class="glyphicon glyphicon-floppy-save"></span>
+            {{ 'nfa.save' | translate}}</button>
+        </div>
+
+        <div class="col-xs-6 text-center">
+          <button type="button" class="btn btn-danger" style="margin-top: 10px" (click)="onCancel()">
+            <span class="glyphicon glyphicon-pencil"></span> {{ 'nfa.cancel' | translate}}
+          </button>
+        </div>
+
       </div>
-      <div class="col-xs-6 text-center">
-        <button type="button" class="btn btn-danger" style="margin-top: 10px" (click)="onCancel()"><span class="glyphicon glyphicon-pencil"></span>
-          {{ 'nfa.cancel' | translate}}</button>
+
+      <div class="col-xs-12" *ngIf="!page_is_in_edit_mode">
+
+        <div class="col-xs-6 text-center">
+          <button type="button" class="btn btn-toolbar" style="margin-top: 10px" (click)="onEditNFA()">
+            <span class="glyphicon glyphicon-pencil"></span> {{ 'nfa.edit' | translate}}
+          </button>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-6 text-center">
+            <button type="button" class="btn btn-primary" style="margin-top: 10px" (click)="onBack()">
+              {{ 'nfa.back' | translate}}
+            </button>
+          </div>
+        </div>
+
       </div>
     </div>
 
-    <div class="col-xs-12" *ngIf="!page_is_in_edit_mode">
-      <div class="col-xs-6 text-center">
-        <button type="button" class="btn btn-toolbar" style="margin-top: 10px" (click)="onEditNFA()"><span class="glyphicon glyphicon-pencil"></span>
-          {{ 'nfa.edit' | translate}}</button>
-      </div>
-      <div class="row">
-        <div class="col-xs-6 text-center">
-          <button type="button" class="btn btn-primary" style="margin-top: 10px" (click)="onBack()">{{ 'nfa.back' | translate}}</button>
-        </div>
-      </div>
+    <div class="col-xs-12 text-center" *ngIf="!page_is_in_project_mode">
+      <button type="button" class="btn btn-primary" style="margin-top: 10px" (click)="onBack()">
+        {{ 'nfa.back' | translate}}
+      </button>
     </div>
 
   </form>

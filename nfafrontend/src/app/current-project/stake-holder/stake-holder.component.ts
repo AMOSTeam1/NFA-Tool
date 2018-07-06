@@ -13,7 +13,7 @@ import {NfacatalogService} from '../../nfacatalog/nfacatalog.service';
   styleUrls: ['./stake-holder.component.css']
 })
 export class StakeHolderComponent implements OnInit {
-  id: number;
+  project_id_param: number;
   editMode = false;
   index: number;
   projectForm: FormGroup;
@@ -29,7 +29,7 @@ export class StakeHolderComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['project_id'];
+          this.project_id_param = +params['project_id'];
           this.editMode = params['project_id'] != null;
           //this.initForm();
 
