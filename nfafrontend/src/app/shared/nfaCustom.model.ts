@@ -5,7 +5,7 @@ export class NfaCustomModel implements NfaInterfaceModel{
   constructor(
     public customId: number,
     public originalId: number,
-    public value: string[],
+    public values: string[],
     public formulation: string,
     public blueprint: NfaCatalogBlueprintModel,
     public reference: string,

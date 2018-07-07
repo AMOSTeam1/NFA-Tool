@@ -106,7 +106,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.nfatemplate.deComponent.deForm.get('chbox').value,
       this.nfatemplate.deComponent.deForm.get('valueInput').value,
       null,
-      new NfaCatalogBlueprintModel(de, en, this.translateService),
+      new NfaCatalogBlueprintModel(de, en),
       null,
       null,
       null,

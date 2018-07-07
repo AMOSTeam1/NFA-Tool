@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {NfacatalogService} from '../../nfacatalog.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -8,7 +8,7 @@ import {NfaCriteriaModel} from '../../../shared/nfaCriteria.model';
 import {TranslateService} from '@ngx-translate/core';
 import {CurrentProjectService} from '../../../current-project/current-project.service';
 import {DataStorageService} from '../../../shared/data-storage.service';
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import {LocalStorageService} from 'angular-web-storage';
 import {ISubscription} from "rxjs/Subscription";
 import {FormControl, FormGroup} from "@angular/forms";
 import {NfaCustomModel} from "../../../shared/nfaCustom.model";
@@ -17,7 +17,6 @@ import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {NfaInterfaceModel} from "../../../shared/nfaInterface.model";
 import {DataexchangeService as DExchS} from "../../../shared/dataexchange.service";
-import {NfaCatalogBlueprintModel} from "../../../shared/nfaCatalogBlueprint.model";
 
 @Component({
   selector: 'app-nfacatalog-nfa',
@@ -277,7 +276,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     let customNfa = new NfaCustomModel(
       null,
       this.original_nfa.id,
-      this.original_nfa.value,
+      this.original_nfa.values,
       this.original_nfa.formulation,
       this.original_nfa.blueprint,
       // this.original_nfa.nfaCatalogReference,

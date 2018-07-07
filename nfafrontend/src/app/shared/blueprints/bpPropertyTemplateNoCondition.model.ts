@@ -14,10 +14,10 @@ export class BpPropertyTemplateNoCondition implements IBlueprint {
   ) {}
 
   getBezeichnung(): string {
-    return this.bezeichnung;
+    return ((this.bezeichnung) ? this.bezeichnung : '');
   }
 
   getErklaerung(): string {
-    return this.erklaerung;
+    return ((this.erklaerung) ? this.erklaerung : '');
   }
 }

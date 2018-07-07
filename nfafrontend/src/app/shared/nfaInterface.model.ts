@@ -1,7 +1,7 @@
 import {NfaCatalogBlueprintModel} from "./nfaCatalogBlueprint.model";
 
 export interface NfaInterfaceModel {
-  value: string[],
+  values: string[],
   formulation: string,
   blueprint: NfaCatalogBlueprintModel,
   reference: string,
