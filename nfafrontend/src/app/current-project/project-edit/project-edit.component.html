@@ -155,7 +155,7 @@
                 <label for="factor" class="small">{{ 'nfa.factor' | translate }}:</label>
                 <div class="col-xs-4" >
                   <div class="form-group">
-                    <select class="form-control" id="factor" formControlName="nfa_id">
+                    <select class="form-control" id="factor" formControlName="factorNumber">
                       <option *ngFor="let fact of nfaFactors; let j = index"
                               [value]="fact.factorNumber">
                         {{fact.factor}}

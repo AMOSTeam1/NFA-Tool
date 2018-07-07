@@ -1,14 +1,14 @@
-import { DataStorageService } from '../../shared/data-storage.service';
-import {Component, OnDestroy, Input, OnInit} from '@angular/core';
-import { Project } from '../../shared/project.model';
-import { CurrentProjectService } from '../current-project.service';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import {DataStorageService} from '../../shared/data-storage.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Project} from '../../shared/project.model';
+import {CurrentProjectService} from '../current-project.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
 import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
 import {ISubscription} from "rxjs/Subscription";
-import { LocalStorageService } from 'angular-web-storage';
+import {LocalStorageService} from 'angular-web-storage';
 import {Stakeholder} from '../../shared/stakeholder.model';
 import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 
@@ -27,16 +27,15 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
   subscription : ISubscription[];
 
-  fieldArray: Array<any> = [];
-  newAttribute: any = {};
-
   constructor(private route: ActivatedRoute,
               private router: Router,
               private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService,
               private nfaCatalogService: NfacatalogService,
               public local: LocalStorageService,
-  ) {     this.subscription = [];}
+  ) {
+    this.subscription = [];
+  }
 
   ngOnInit() {
     const subscription = this.route.params.subscribe(
@@ -45,6 +44,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         this.project_is_in_editmode = params['project_id'] != null;
 
         console.log(this.project_is_in_editmode);
+        console.log(params['project_id']);
+
         this.types = this.currentProjectService.getTypes();
 
         if(params['project_id'] != 'new'){
@@ -70,9 +71,9 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
    }
 
    ngOnDestroy(){
-    for(let item of this.subscription){
-      item.unsubscribe();
-    }
+     for(let item of this.subscription){
+       item.unsubscribe();
+     }
    }
 
    //TODO split body into multiple smaller functions
@@ -111,7 +112,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
               stakeholderFactors.push(
                 new FormGroup({
-                  'nfa_id' : new FormControl(factor, Validators.required)
+                  'factorNumber' : new FormControl(factor, Validators.required)
                 })
               )
             }
@@ -151,18 +152,6 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         );
       }}
 
-    /*for(const holder of project.projectStakeholder){
-      this.newAttribute.stakeholder_name = holder.stakeholder_name;
-      this.newAttribute.factor = [];
-      for(const fac of holder.stakeholderFactors){
-        this.newAttribute.factor.push(fac.factor);
-      }
-      //this.newAttribute = holder;
-      this.fieldArray.push(this.newAttribute);
-      this.newAttribute = {};
-    }*/
-
-
     customerName = project.customerName;
     customerContact = project.contactPersCustomer;
     msgContact = project.contactPersMsg;
@@ -183,7 +172,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       const stakeholderFactors = new FormArray([]);
       stakeholderFactors.push(
         new FormGroup({
-          'nfa_id' : new FormControl('', Validators.required)
+          'factorNumber' : new FormControl('', Validators.required)
         })
       );
 
@@ -247,7 +236,12 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       stakeholder.stakeholder_id = projectStakeholders[i].stakeholder_id;
       stakeholder.stakeholder_name = projectStakeholders[i].stakeholder_name;
 
+      console.log(stakeholder.stakeholder_name);
+      console.log(stakeholder.stakeholder_id);
       for (let j = 0; j < projectStakeholders[i].stakeholderFactors.length; j++) {
+        console.log(i + ", " + j);
+        console.log(projectStakeholders);
+
         this.nfaFactors.forEach((x) => {
 
           if (x.factorNumber.toString() === projectStakeholders[i].stakeholderFactors[j].factorNumber.toString())
@@ -330,13 +324,13 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     {
       this.projectForm.setControl('projectPhase', no_phase);
     }
-    else{
+    else {
       this.projectForm.setControl('projectPhase', choose_phase);
     }
   }
 
   isAgileCheck() {
-    if(this.projectForm.value['devProcess'] === 'Agile') {
+    if (this.projectForm.value['devProcess'] === 'Agile') {
       return true;
     }
     else {
@@ -391,8 +385,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       new FormGroup({
         'stakeholder_id' : new FormControl(null),
         'stakeholder_name' : new FormControl(null, Validators.required),
-        'stakeholderFactors' : new FormArray([new FormGroup({'nfa_id': new FormControl(null, Validators.required)}),
-          new FormGroup({'nfa_id': new FormControl(null, Validators.required)})])
+        'stakeholderFactors' : new FormArray([new FormGroup({'factorNumber': new FormControl(null, Validators.required)}),
+          new FormGroup({'factorNumber': new FormControl(null, Validators.required)})])
       })
     );
   }
@@ -404,7 +398,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   onAddFactor(i: number){
     (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).push(
       new FormGroup({
-        'nfa_id': new FormControl(null, Validators.required)
+        'factorNumber' : new FormControl(null, Validators.required)
       })
     );
   }

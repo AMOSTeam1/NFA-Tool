@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -51,9 +51,9 @@ export class StakeHolderComponent implements OnInit {
       new FormGroup({
         'stakeholder_id' : new FormControl(null),
         'stakeholder_name' : new FormControl(null, Validators.required),
-        'stakeholderFactors' : new FormArray([new FormGroup({'nfa_id': new FormControl(null, Validators.required),
+        'stakeholderFactors' : new FormArray([new FormGroup({'factorNumber': new FormControl(null, Validators.required),
           'factor': new FormControl(null)}),
-          new FormGroup({'nfa_id': new FormControl(null, Validators.required),
+          new FormGroup({'factorNumber': new FormControl(null, Validators.required),
             'factor': new FormControl(null)})])
       })
     );
@@ -66,7 +66,7 @@ export class StakeHolderComponent implements OnInit {
   onAddFactor(i: number){
     (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).push(
       new FormGroup({
-        'nfa_id': new FormControl(null, Validators.required),
+        'factorNumber' : new FormControl(null, Validators.required),
         'factor' : new FormControl(null)
       })
     );
