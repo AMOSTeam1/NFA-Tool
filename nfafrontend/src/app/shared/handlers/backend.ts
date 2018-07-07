@@ -27,19 +27,27 @@ export class BackendInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     console.log('execute backend.ts INTERCEPT');
-   this.userService.getUser()
-       .subscribe(data => {
-        this.user = data;
-      }
-        );
 
-    const testUser =    {id: this.user.id, username: this.user.username, password: this.user.password};
+
+/*   this.user.user_id = 1;
+   this.user.username = 'test';
+   this.user.password = 'test';*/
+
 
     // wrap in delayed observable to simulate server api call
   //  return Observable.of(null).mergeMap(() => {
 
       // authenticate
+
+    const testUser = {id: this.user.user_id, username: this.user.username, password: this.user.password};
       if (request.url.endsWith('/authenticate') && request.method === 'POST') {
+
+        this.userService.getUser()
+        .subscribe(data => {
+          this.user = data;
+        });
+
+
         if (request.body.username === testUser.username && request.body.password === testUser.password) {
           // if login details are valid return 200 OK with a fake jwt token
           return Observable.of(new HttpResponse({ status: 200, body: { token: 'token' } }));
@@ -52,6 +60,10 @@ export class BackendInterceptor implements HttpInterceptor {
 
       // get users
       if (request.url.endsWith('/users') && request.method === 'GET') {
+        this.userService.getUser()
+          .subscribe(data => {
+            this.user = data;
+          });
         if (request.headers.get('Authorization') === 'Bearer token') {
           return Observable.of(new HttpResponse({ status: 200, body: [testUser] }));
         } else {

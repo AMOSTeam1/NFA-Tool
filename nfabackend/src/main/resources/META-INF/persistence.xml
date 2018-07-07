@@ -13,6 +13,7 @@
 		<class>com.msg.nfabackend.entities.Project</class>		
 		<class>com.msg.nfabackend.entities.Stakeholder</class>
 		<class>com.msg.nfabackend.entities.Type</class>
+		<class>com.msg.nfabackend.entities.User</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="hibernate.show_sql" value="true"/>

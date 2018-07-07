@@ -410,7 +410,7 @@ CREATE TABLE public.stakeholder_factor
 
 CREATE TABLE public.users
 (
-    id serial NOT NULL,
+    user_id serial NOT NULL,
     username character(100),
     password character(100),
     CONSTRAINT user_pkey PRIMARY KEY (id)
