@@ -16,22 +16,27 @@ import {UserService} from '../user.service';
 export class BackendInterceptor implements HttpInterceptor {
 
 
-  constructor(private userService: UserService,
-              private user: User
-              ) { }
+  constructor(public userService: UserService,
+              public user: User
+  ) {
+
+       console.log('execute backend.ts');
+
+     }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    this.userService.getUser()
-      .subscribe(data => {
+    console.log('execute backend.ts INTERCEPT');
+   this.userService.getUser()
+       .subscribe(data => {
         this.user = data;
       }
-        )
+        );
 
-    const testUser =  {id: this.user.id, username: this.user.username, password: this.user.password};
+    const testUser =    {id: this.user.id, username: this.user.username, password: this.user.password};
 
     // wrap in delayed observable to simulate server api call
-    return Observable.of(null).mergeMap(() => {
+  //  return Observable.of(null).mergeMap(() => {
 
       // authenticate
       if (request.url.endsWith('/authenticate') && request.method === 'POST') {
@@ -47,7 +52,6 @@ export class BackendInterceptor implements HttpInterceptor {
 
       // get users
       if (request.url.endsWith('/users') && request.method === 'GET') {
-        // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
         if (request.headers.get('Authorization') === 'Bearer token') {
           return Observable.of(new HttpResponse({ status: 200, body: [testUser] }));
         } else {
@@ -59,12 +63,12 @@ export class BackendInterceptor implements HttpInterceptor {
       // pass through any requests not handled above
       return next.handle(request);
 
-    })
+   /* })
 
     // call materialize and dematerialize to ensure delay even if an error is thrown
       .materialize()
       .delay(500)
-      .dematerialize();
+      .dematerialize();*/
   }
 }
 

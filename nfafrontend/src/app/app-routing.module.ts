@@ -41,7 +41,7 @@ const appRoutes: Routes = [
 
   {path:  'curr-projects/new/nfa', component: NfacatalogComponent, children:[
       {path: '', component: NfacatalogListComponent},
-      {path: ':id', component: NfacatalogCriteriaComponent children: [
+      {path: ':id', component: NfacatalogCriteriaComponent, children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
         ]}
@@ -49,7 +49,7 @@ const appRoutes: Routes = [
     ]},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
     {path:  'new', component: ProjectEditComponent},
-    {path: ':id', component: ProjectDetailComponent,},
+    {path: ':id', component: ProjectDetailComponent },
     {path: ':id/edit', component: ProjectEditComponent},
     {path: ':id/edit/stakeholder', component: StakeHolderComponent}
   ]},

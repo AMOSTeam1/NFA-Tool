@@ -55,6 +55,7 @@ import {AuthenticationService} from './shared/authentication.service';
 import {UserService} from './shared/user.service';
 import {JwtInterceptor} from './shared/handlers/jwt.interceptor';
 import {BackendProvider} from './shared/handlers/backend';
+import {User} from './shared/user';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import {BackendProvider} from './shared/handlers/backend';
       useClass: JwtInterceptor,
       multi: true
     },
+    User,
     BackendProvider, DataStorageService, CurrentProjectService, NfacatalogService, DataexchangeService],
 
   bootstrap: [AppComponent]

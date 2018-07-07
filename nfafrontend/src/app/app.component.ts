@@ -20,10 +20,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // subscribe to authentication status updates to set and remove the current user on login and logout
-    this.authenticationService.getStatus().subscribe(currentUser => this.currentUser = currentUser);
-  }
+    // this.authenticationService.getStatus().subscribe(currentUser => this.currentUser = currentUser);
+    console.log('execute app.component.ts INIT');
 
+        this.authenticationService.getStatus().subscribe(currentUser => {
 
-  }
+            this.currentUser = currentUser;
+
+            console.log('current user changed');
+           console.log(this.currentUser);
+  });
+
+ }
+}
 
 
