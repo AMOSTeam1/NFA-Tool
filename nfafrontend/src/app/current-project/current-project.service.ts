@@ -2,6 +2,7 @@ import {Subject} from 'rxjs/Subject';
 import {Project} from '../shared/project.model';
 import {ProjectType} from '../shared/type.model';
 import {Stakeholder} from '../shared/stakeholder.model';
+import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 
 
 export class CurrentProjectService {
@@ -86,8 +87,20 @@ export class CurrentProjectService {
   getSelectedProjectId(){
     return this.selectedProjectId;
   }
-  getNfa(index: number){
-    return this.projectsSubset[this.selectedProjectId].projectNfas[index];
+
+  getNfa(indexInMetric: number) : NfaCatalogModel {
+    let index = 0;
+    for (let project of this.projectsSubset){
+      if ( project.id == this.selectedProjectId ){
+        return this.projectsSubset[index].projectNfas[indexInMetric];
+      }
+      index++;
+    }
+
+    const message : string = "There is no Nfa with ID " + indexInMetric;
+
+    console.log(message);
+    throw new Error(message);
   }
 
   getTypes() {
