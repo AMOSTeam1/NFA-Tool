@@ -28,15 +28,6 @@ public class CORSFilter implements ContainerResponseFilter {
           cres.setStatus(Response.Status.ACCEPTED.getStatusCode());
       }
       
-//      System.out.println(requestContext.getHeaders());
-//      System.out.println(cres.getHeaders());
-//      
-//      System.out.println(requestContext.getUriInfo().getAbsolutePath());
-//      System.out.println(cres.getStatusInfo());
-//      System.out.println(cres.getEntity());
-//      System.out.println(cres.getEntity().toString());
-//      System.out.println(cres.getMediaType());
-//      System.out.println(cres.getStatus());
   }
   
 }

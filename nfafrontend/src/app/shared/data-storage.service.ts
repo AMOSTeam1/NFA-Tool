@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Project} from './project.model';
 import {NfaCatalogModel} from './nfaCatalog.model';
-import {Stakeholder} from './stakeholder.model';
 import {NfaCustomModel} from "./nfaCustom.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
@@ -22,8 +21,8 @@ const httpOptions = {
 export class DataStorageService {
   constructor(private http: HttpClient) {}
 
-  storeNfa(metricId: number, nfa: NfaCatalogModel) {
-   return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa);
+  storeNfa(metricId: number, nfa: NfaCatalogModel) : Observable<any> {
+   return this.http.post<any>('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa, httpOptions);
   }
 
   storeEditedNfa(nfaCustom: NfaCustomModel) {

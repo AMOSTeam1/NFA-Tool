@@ -3,8 +3,9 @@
     <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid">{{ 'nfa.save' |
-            translate }}</button>
+          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid">
+            {{ 'nfa.save' | translate }}
+          </button>
           <button type="button" class="btn btn-danger" (click)="onCancel()">{{ 'nfa.cancel' | translate }}</button>
           <hr>
         </div>
@@ -54,10 +55,8 @@
               <option value="Food">{{ 'nfa.project-details.branch.food'| translate }}</option>
               <option value="Insurance">{{ 'nfa.project-details.branch.insurance'| translate }}</option>
               <option value="Public Sector">{{ 'nfa.project-details.branch.public-sector'| translate }}</option>
-              <option value="Life Science & Healthcare">{{ 'nfa.project-details.branch.life-science-healthcare'|
-                translate }}</option>
-              <option value="Telecommunications">{{ 'nfa.project-details.branch.telecommunications'| translate
-                }}</option>
+              <option value="Life Science & Healthcare">{{ 'nfa.project-details.branch.life-science-healthcare'| translate }}</option>
+              <option value="Telecommunications">{{ 'nfa.project-details.branch.telecommunications'| translate }}</option>
               <option value="Travel & Logistics">{{ 'nfa.project-details.branch.travel-logistics'| translate }}</option>
               <option value="Utilities">{{ 'nfa.project-details.branch.utilities' | translate }}</option>
             </select>
@@ -82,10 +81,8 @@
             <select id="projectPhase" formControlName="projectPhase" class="form-control">
               <option value="" disabled>{{ 'nfa.project-details.project-phase.choose' | translate }}</option>
               <option value="None" *ngIf="isAgileCheck()">{{ 'nfa.none' | translate }}</option>
-              <option value="Specification Sheet" *ngIf="!isAgileCheck()">{{ 'nfa.project-details.project-phase.specification'
-                | translate }}</option>
-              <option value="Requirements Specification" *ngIf="!isAgileCheck()">{{ 'nfa.project-details.project-phase.requirements'
-                | translate }}</option>
+              <option value="Specification Sheet" *ngIf="!isAgileCheck()">{{ 'nfa.project-details.project-phase.specification' | translate }}</option>
+              <option value="Requirements Specification" *ngIf="!isAgileCheck()">{{ 'nfa.project-details.project-phase.requirements' | translate }}</option>
             </select>
           </div>
         </div>

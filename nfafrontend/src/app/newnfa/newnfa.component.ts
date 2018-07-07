@@ -1,5 +1,5 @@
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AfterViewInit, Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DataStorageService} from '../shared/data-storage.service';
 
 import {NfacatalogService} from '../nfacatalog/nfacatalog.service';
@@ -78,7 +78,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSubmit() {
 
-    const qe = QualifiyingExpression.resolve(
+    const qualifiyingExpression = QualifiyingExpression.resolve(
       this.nfatemplate.deComponent.deForm.get('qualifyingEx').value);
 
     let de = new BpPropertyTemplateNoCondition(
@@ -87,18 +87,19 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.nfatemplate.deComponent.deForm.get('characteristic').value,
       this.nfatemplate.deComponent.deForm.get('property').value,
       this.nfatemplate.deComponent.deForm.get('modalVerb').value,
-      qe.fullDe(),
+      qualifiyingExpression.fullDe(),
       this.nfatemplate.deComponent.deForm.get('verb').value);
+
     let en = new BpPropertyTemplateNoCondition(
       this.nfatemplate.enComponent.enForm.get('nameNFA').value,
       null,
       this.nfatemplate.enComponent.enForm.get('characteristic').value,
       this.nfatemplate.enComponent.enForm.get('property').value,
       this.nfatemplate.enComponent.enForm.get('modalVerb').value,
-      qe.fullEn(),
+      qualifiyingExpression.fullEn(),
       this.nfatemplate.enComponent.enForm.get('verb').value);
 
-    let nfaCatalogModel = new  NfaCatalogModel(
+    let nfaCatalogModel = new NfaCatalogModel(
       null,
       null,
       this.selectedType,
@@ -112,15 +113,15 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
       null
     );
 
-     this.dataStorageService.storeNfa(this.selectedMetric.id, nfaCatalogModel)
-       .subscribe(
-         response => {
-           console.log(response);
-         },
-         error1 => {
-           console.log(error1);
-         }
-       );
+    this.dataStorageService.storeNfa(this.selectedMetric.id, nfaCatalogModel)
+      .subscribe(
+        response => {
+          console.log(response);
+        },
+        error1 => {
+          console.log(error1);
+        }
+      );
   }
 
   factorHasCriteria() {
