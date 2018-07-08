@@ -21,6 +21,7 @@ export class ProjectEditComponent implements OnInit {
   id: number;
   editMode = false;
   projectForm: FormGroup;
+  importNfaForm: FormGroup;
   types: ProjectType[] = [];
   nfaFactors: NfaFactorModel[];
 
@@ -184,6 +185,13 @@ export class ProjectEditComponent implements OnInit {
       'projectPhase': new FormControl(projectPhase, Validators.required),
       'projectStatus': new FormControl(projectStatus, Validators.required)
     });
+    this.importNfaForm = new FormGroup({
+      'importNfaControl': new FormControl(null)
+    });
+  }
+
+  onImportNfa() {
+    console.log('IMPORT DOING!!! ' + this.importNfaForm.get('importNfaControl').value);
   }
 
   onSubmit() {
