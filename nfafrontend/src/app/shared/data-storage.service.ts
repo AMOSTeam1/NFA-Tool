@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
 import {Project} from './project.model';
-import {HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {NfaCatalogModel} from './nfaCatalog.model';
 import {Stakeholder} from './stakeholder.model';
 
@@ -11,7 +11,7 @@ import {Stakeholder} from './stakeholder.model';
 
 @Injectable()
 export class DataStorageService {
-  constructor(private http: Http) {}
+  constructor(private http: Http, private httpClient: HttpClient) {}
 
   storeNfa(metricId: number, nfa: NfaCatalogModel) {
     console.log(nfa);
@@ -50,5 +50,14 @@ export class DataStorageService {
   }
   downloadXml() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/download');
+  }
+
+  importNfa(nfaFile: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', nfaFile, nfaFile.name);
+    const observable = this.httpClient.post('http://localhost:8080/nfabackend/webapi/project/importnfa', formData);
+    observable.subscribe(resp => {
+      //console.log(resp);
+    });
   }
 }

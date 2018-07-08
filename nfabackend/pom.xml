@@ -152,28 +152,25 @@
         </dependency>
 
    <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-     <dependency>
-    <groupId>com.h2database</groupId>
-    <artifactId>h2</artifactId>
-    <version>1.0.60</version>
-    <scope>test</scope>
-     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-	 <dependency>
-	    <groupId>org.junit.jupiter</groupId>
-	    <artifactId>junit-jupiter-api</artifactId>
-	    <version>5.2.0</version>
-	    <scope>test</scope>
-	 </dependency>
-	 <dependency>
-	 	<groupId>com.sun.jersey.contribs</groupId>
-	 	<artifactId>jersey-multipart</artifactId>
-	 	<version>1.8</version>
-	 </dependency>
-	 <dependency>
-        <groupId>org.glassfish.jersey.media</groupId>
-        <artifactId>jersey-media-multipart</artifactId>
-    </dependency>
- </dependencies>
+     	<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>1.0.60</version>
+		    <scope>test</scope>
+	     </dependency>
+	    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		 <dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter-api</artifactId>
+		    <version>5.2.0</version>
+		    <scope>test</scope>
+		 </dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-multipart-provider</artifactId>
+			<version>3.1.4.Final</version>
+    		<scope>provided</scope>
+		</dependency>
+    </dependencies>
     
 </project>

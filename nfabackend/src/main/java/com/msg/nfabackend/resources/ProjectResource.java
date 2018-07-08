@@ -1,5 +1,6 @@
 package com.msg.nfabackend.resources;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
@@ -18,10 +19,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.services.QueryService;
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
 
 /**
  * JAX-RS-Resource for Entity 'project'
@@ -77,11 +78,11 @@ public class ProjectResource {
 	@Path("/importnfa")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.MULTIPART_FORM_DATA })
-	public Response upload(@FormDataParam("file") InputStream uploadedInputStream,
-			@FormDataParam("file") FormDataContentDisposition fileInputDetails) {
+	public void upload(MultipartFormDataInput input) throws IOException {
 
-		System.out.println("CONSUMED: " + fileInputDetails.getFileName());
-
-		return Response.status(200).entity("CONSUMED: " + fileInputDetails.getFileName()).build();
+		try (InputStream is2 = input.getFormDataPart("file", InputStream.class, null)) {
+			System.out.println("CONSUMED: " + new String(is2.readAllBytes()));
+		}
 	}
+
 }
