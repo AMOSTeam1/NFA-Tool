@@ -62,12 +62,11 @@
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
         </dependency>
-        <!-- uncomment this to get JSON support
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-binding</artifactId>
-        </dependency>
-        -->
+<!--         uncomment this to get JSON support -->
+<!--         <dependency> -->
+<!--             <groupId>org.glassfish.jersey.media</groupId> -->
+<!--             <artifactId>jersey-media-json-binding</artifactId> -->
+<!--         </dependency> -->
         <dependency>
         	<groupId>org.hibernate</groupId>
         	<artifactId>hibernate-core</artifactId>
@@ -160,12 +159,21 @@
     <scope>test</scope>
      </dependency>
     <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
- <dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter-api</artifactId>
-    <version>5.2.0</version>
-    <scope>test</scope>
- </dependency>         
-    </dependencies>
+	 <dependency>
+	    <groupId>org.junit.jupiter</groupId>
+	    <artifactId>junit-jupiter-api</artifactId>
+	    <version>5.2.0</version>
+	    <scope>test</scope>
+	 </dependency>
+	 <dependency>
+	 	<groupId>com.sun.jersey.contribs</groupId>
+	 	<artifactId>jersey-multipart</artifactId>
+	 	<version>1.8</version>
+	 </dependency>
+	 <dependency>
+        <groupId>org.glassfish.jersey.media</groupId>
+        <artifactId>jersey-media-multipart</artifactId>
+    </dependency>
+ </dependencies>
     
 </project>
