@@ -82,9 +82,8 @@ export class ProjectDetailComponent implements OnInit {
     this.dataStorageService.generateXml(this.project)
       .subscribe(
         (response) => {
-          this.isExported = true;
         }
       );
-
+    this.isExported = true;
   }
 }
