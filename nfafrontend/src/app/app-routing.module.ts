@@ -41,7 +41,7 @@ const appRoutes: Routes = [
 
   {path:  'curr-projects/new/nfa', component: NfacatalogComponent, children:[
       {path: '', component: NfacatalogListComponent},
-      {path: ':id', component: NfacatalogCriteriaComponent children: [
+      {path: ':id', component: NfacatalogCriteriaComponent, children: [
           {path: ':criteria_id', component: NfacatalogMetricComponent},
           {path: ':criteria_id/:metric_id', component: NfacatalogNfaComponent}
         ]}
