@@ -52,7 +52,7 @@ export class NfacatalogComponent implements OnInit, OnDestroy {
   }
 
   onBack() {
-    this.currentProjectService.setProject(this.local.get(DExchS.currProject));
+    console.debug("We leave NFA catalog");
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 

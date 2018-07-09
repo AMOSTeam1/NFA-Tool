@@ -30,8 +30,9 @@ export class NfacatalogItemComponent implements OnInit {
      * get the nfas of the curret factor
      * check if the nfa of the current factor  is one of the project nfas then set the class according  to the condition result
      */
-    if (this.local.get(DExchS.selNfs) != null) {
-      this.selectedNfs = this.local.get(DExchS.selNfs);
+    let stored = this.local.get(DExchS.selNfs);
+    if (stored) {
+      this.selectedNfs = stored;
       if (this.selectedNfs.length === 0) {
         this.class = 'list-group-item-text';
       }

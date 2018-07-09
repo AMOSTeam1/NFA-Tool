@@ -4,11 +4,9 @@ import {DataStorageService} from '../../shared/data-storage.service';
 
 import {NfacatalogService} from '../nfacatalog.service';
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
-import {NfaMetricModel} from '../../shared/nfaMetric.model';
 import {NfaCriteriaModel} from '../../shared/nfaCriteria.model';
 import {LocalStorageService} from 'angular-web-storage';
 import {CurrentProjectService} from '../../current-project/current-project.service';
-import {Project} from '../../shared/project.model';
 import {ISubscription} from "rxjs/Subscription";
 import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 
@@ -20,17 +18,10 @@ import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 export class NfacatalogListComponent implements OnInit {
 
 
-  // nfaCatalog: NfaCatalogModel[];
   nfaFactors: NfaFactorModel[] = [];
-  savedNfas: NfaCatalogModel[] = [];
-  savedFactors: NfaFactorModel[] = [];
-
-  metrics: NfaMetricModel[] ;
   criteria: NfaCriteriaModel[];
   nfa: NfaCatalogModel[];
   id: number;
-  projectNfs: NfaCatalogModel[];
-  project: Project;
 
   subscription: ISubscription[];
 
@@ -54,16 +45,6 @@ export class NfacatalogListComponent implements OnInit {
     this.subscription.push(subscription);
 
     this.local.set(DExchS.project_mode, false);
-
-    this.project = this.local.get(DExchS.currProject);
-
-    if(this.project){
-
-      this.projectNfs = this.currentProjectService.getProjectById(this.project.id).projectNfas.slice();
-      if (this.project.id != null && this.local.get(DExchS.selNfs) == null ){
-        this.local.set(DExchS.selNfs, this.projectNfs );
-      }
-    }
   }
 
 }

@@ -1,13 +1,12 @@
-import {Component, Input, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 
 import {CurrentProjectService} from '../current-project.service';
-import {ProjectType} from '../../shared/type.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ISubscription} from 'rxjs/Subscription';
 import {TranslateService} from "@ngx-translate/core";
-import { LocalStorageService } from 'angular-web-storage';
+import {LocalStorageService} from 'angular-web-storage';
 
 enum STATUS {
   ALL = 'All',
@@ -62,6 +61,8 @@ export class ProjectListComponent implements OnInit , OnDestroy{
       .subscribe(
         (projects: Project[]) => {
           this.projects = projects;
+          console.debug("Projects will be updated to:");
+          console.debug(this.projects);
         },
         error1 => console.log(error1)
       );
@@ -73,6 +74,7 @@ export class ProjectListComponent implements OnInit , OnDestroy{
     for(let item of this.subscription){
       item.unsubscribe();
     }
+    console.log("Leaving projectList");
   }
 
 

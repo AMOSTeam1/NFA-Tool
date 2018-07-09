@@ -45,7 +45,6 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   selected_nfa_id_in_metric: number;
 
   metric_nfas: NfaCatalogModel[] = [];
-  project_nfas: NfaCatalogModel[] = [];
 
   original_nfa: NfaCatalogModel;
   custom_nfa: NfaCustomModel;
@@ -64,7 +63,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
               private translateService: TranslateService,
               private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService,
-              public local: LocalStorageService,
+              public local: LocalStorageService
   ) {
     this.subscription = [];
     this.initForm();
@@ -107,12 +106,19 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
             this.page_is_in_project_mode = true;
             this.nfaCatalogService.projectId = this.project_id_param;
-            this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
 
-            let tempSelected = this.currentProjectService.getSelectedNfa();
+            if(!this.currentProjectService.hasCurrentlyEditedProject()){
+              console.debug("For some reason we are not yet editing. Lets fix that,");
+
+              let proj = this.currentProjectService.getProjectById(this.project_id_param);
+              this.currentProjectService.setCurrentlyEditedProject(proj);
+            }
+
+            let tempSelected = this.currentProjectService.getSelectedNfaId();
             if(tempSelected){
               this.selected_nfa_id_in_metric = tempSelected;
             }
+
 
           } else {
             //Use the else path to set page_is_in_project_mode to false, to also cover undefined and null states of project_id_param
@@ -161,7 +167,12 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
     if (this.project_id_param) {
       this.nfaCatalogService.projectId = this.project_id_param;
-      this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
+
+      let proj  = this.currentProjectService.getCurrentlyEditedProject();
+      this.local.set(DExchS.selNfs, proj.projectNfas);
+
+      console.debug("NFA on init has: ");
+      console.debug(proj.projectNfas);
     }
 
     this.updateShownNfa();
@@ -171,11 +182,24 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     for(let item of this.subscription){
       item.unsubscribe();
     }
+
+    let localNfas : NfaCatalogModel[] = this.getSavedNfa();
+    if (localNfas && this.page_is_in_project_mode){
+      let proj = this.currentProjectService.getCurrentlyEditedProject();
+      proj.projectNfas = localNfas;
+
+      this.local.set(DExchS.currProject, proj);
+      this.currentProjectService.setCurrentlyEditedProject(proj);
+
+      console.debug("NFA On destroy has");
+      console.debug(proj.projectNfas);
+    }
+
   }
 
   onEditNFA() {
     if(this.page_is_in_edit_mode == false){
-      this.currentProjectService.setSelectedNfa(this.selected_nfa_id_in_metric);
+      this.currentProjectService.setSelectedNfaId(this.selected_nfa_id_in_metric);
 
       this.router.navigate(['edit'], {relativeTo: this.route});
     }
@@ -259,7 +283,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     let customNfa = new NfaCustomModel(
       null,
       this.original_nfa,
-      this.currentProjectService.getProject(),
+      this.currentProjectService.getCurrentlyEditedProject(),
       this.original_nfa.values,
       this.original_nfa.formulation,
       this.original_nfa.blueprint,
@@ -379,13 +403,17 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     if(!this.nfaFoundInSavedNfas(selectedNfa, savedNfs)){
       //Add it to the List if its not yet there
       savedNfs.push(selectedNfa);
+      console.debug("Add to list " + selectedNfa.id)
 
     }else{
       //Remove it from the List if it is there already
-      const indexInStorage: number = savedNfs.indexOf(selectedNfa);
+      const indexInStorage: number = savedNfs.findIndex(x => selectedNfa.id == x.id);
+      console.debug("Remove from list " + selectedNfa.id + " at possition " + indexInStorage);
+
       savedNfs.splice(indexInStorage, 1);
     }
 
+    console.debug(savedNfs);
     //Update the locally stored list. It will be saved later on saving the project.
     this.local.set(DExchS.selNfs, savedNfs);
   }
@@ -396,21 +424,16 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
    *
    * @returns {NfaCatalogModel[]} List with the currently saved Nfas
    */
-  private getSavedNfa() : NfaCatalogModel[]{
+  getSavedNfa() : NfaCatalogModel[]{
 
     //init the list with the currently stored nfa-list
     let savedNfs: NfaCatalogModel[] = this.local.get(DExchS.selNfs);
 
-    if (savedNfs == null) {
+    if (!savedNfs) {
       //init an empty list, to avoid nullptr
       savedNfs = [];
     }
 
-    //if the the local list is empty, fetch the project list and store it locally
-    if (savedNfs.length == 0 && this.project_nfas.length != 0) {
-      this.local.set(DExchS.selNfs, this.project_nfas);
-      savedNfs = this.local.get(DExchS.selNfs);
-    }
     return savedNfs;
   }
 
@@ -425,10 +448,10 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     //if a parameter is provided, use it, otherwise fetch the saved Nfas.
     let savedNfs : NfaCatalogModel[] = (inList) ? inList : this.getSavedNfa();
 
-    const indexInStorage: number = savedNfs.indexOf(nfa);
+    let result = savedNfs.find(x => x.id == nfa.id);
 
     //true, if storage index equals anything but -1, false otherwise
-    return (-1 !== indexInStorage);
+    return result != undefined;
   }
 }
 

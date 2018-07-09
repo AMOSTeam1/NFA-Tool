@@ -1,6 +1,8 @@
 package com.msg.nfabackend.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -121,8 +123,16 @@ public class QueryService {
 		project.setProjectStatus(editedProject.getProjectStatus());
 		project.setProjectTypes(editedProject.getProjectTypes());
 		project.setProjectStakeholders(editedProject.getProjectStakeholders());
-		project.setProjectNfas(editedProject.getProjectNfas());
-		em.merge(editedProject);
+		
+		Set<NfaCatalog> originalNfas = new HashSet<NfaCatalog>();
+		for(NfaCatalog nfa : editedProject.getProjectNfas()) {
+			NfaCatalog equivalent = em.find(NfaCatalog.class,  nfa.getId());
+			if(equivalent != null) {
+				originalNfas.add(equivalent);
+			}
+		}
+		project.setProjectNfas(originalNfas);
+		em.merge(project);
 
 	}
 

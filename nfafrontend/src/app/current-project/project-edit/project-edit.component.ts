@@ -46,7 +46,14 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         this.types = this.currentProjectService.getTypes();
 
         if(params['project_id'] != 'new'){
-          this.currentProjectService.setProjectById(this.project_id_param);
+
+          if(!this.currentProjectService.hasCurrentlyEditedProject()){
+
+            console.debug("We use project id to fetch proj " + this.project_id_param);
+            let proj : Project = this.currentProjectService.getProjectById(this.project_id_param);
+            console.debug(proj.projectNfas);
+            this.currentProjectService.setCurrentlyEditedProject(proj);
+          }
           this.subscription.push(
             this.dataStorageService.getCustomNfaPerProject(this.project_id_param).subscribe(
               value => this.currentProjectService.setCustomNfa(value)
@@ -91,11 +98,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     let projectStatus = '';
 
     if (this.project_is_in_editmode) {
-      const project = this.currentProjectService.getProject();
-      if (project['projectTypes']){
+      const edited_project = this.currentProjectService.getCurrentlyEditedProject();
+      if (edited_project['projectTypes']){
 
         projectTypes = new FormArray([]);
-        for(const type of project.projectTypes) {
+        for(const type of edited_project.projectTypes) {
           projectTypes.push(
             new FormGroup({
               'id' : new FormControl(type.id, Validators.required),
@@ -105,8 +112,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         }}
 
       /*stakeholder changes begin*/
-      if(project['projectStakeholders']) {
-        for(const stakeholder of project.projectStakeholders) {
+      if(edited_project['projectStakeholders']) {
+        for(const stakeholder of edited_project.projectStakeholders) {
 
           let stakeholderFactors= new FormArray([]);
           if(stakeholder['stakeholderFactors']) {
@@ -132,13 +139,13 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       /*stakeholder changes ends*/
 
 
-      customerName = project.customerName;
-      customerContact = project.contactPersCustomer;
-      msgContact = project.contactPersMsg;
-      branch = project.branch;
-      devProcess = project.developmentProcess;
-      projectPhase = project.projectPhase;
-      projectStatus = project.projectStatus;
+      customerName = edited_project.customerName;
+      customerContact = edited_project.contactPersCustomer;
+      msgContact = edited_project.contactPersMsg;
+      branch = edited_project.branch;
+      devProcess = edited_project.developmentProcess;
+      projectPhase = edited_project.projectPhase;
+      projectStatus = edited_project.projectStatus;
     }
 
     else if(this.local.get(DExchS.project_mode)){
@@ -255,9 +262,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     /*stakeholder changes ends*/
 
     if (this.project_is_in_editmode) {
-      newProject.id = this.currentProjectService.getProjectById(this.project_id_param).id;
-      newProject.projectNfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas;
-
+      let loadedProject : Project = this.currentProjectService.getCurrentlyEditedProject();
+      newProject.id = loadedProject.id;
+      newProject.projectNfas = loadedProject.projectNfas.slice();
+      console.log("Saving Project with these NFAS selected");
+      console.log(newProject.projectNfas);
 
       this.currentProjectService.updateProject(this.project_id_param, newProject);
 
@@ -267,10 +276,12 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
             this.onCancel();
             this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+            console.debug("Update has been send");
           }
         );
       this.subscription.push(subsciption);
     } else {
+      //new Project needs to be created
       newProject.id = null;
 
       const subscription = this.dataStorageService.storeProject(newProject)
@@ -290,6 +301,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       this.subscription.push(subscription);
 
     }
+
+    this.currentProjectService.clearEditedProject();
   }
 
   onCancel() {
@@ -341,6 +354,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   }
 
   onChooseNfa(){
+    console.debug("onChooseNfa");
+
     const newProject = new Project(
       this.project_id_param,
       this.projectForm.value['customerName'],
@@ -354,7 +369,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       this.projectForm.value['projectStatus'],
       []
     );
-    this.currentProjectService.setProject(newProject);
+
+    if(this.currentProjectService.hasCurrentlyEditedProject()){
+      this.local.set(DExchS.selNfs, this.currentProjectService.getCurrentlyEditedProject().projectNfas);
+    }
+
     this.local.set(DExchS.currProject, newProject);
     this.local.set(DExchS.project_mode,true);
 

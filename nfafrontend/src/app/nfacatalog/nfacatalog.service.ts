@@ -6,11 +6,11 @@ import {CurrentProjectService} from '../current-project/current-project.service'
 
 
 export class NfacatalogService {
+
   private nfaCatalog: NfaCatalogModel[];
   nfaCatalogChanged = new Subject<NfaCatalogModel[]>();
   currentProjectService  = new CurrentProjectService();
   projectMode: boolean;
-  private projectNfs: NfaCatalogModel[];
   projectId: number;
 
   private nfaFactors: NfaFactorModel[];
@@ -65,4 +65,5 @@ export class NfacatalogService {
   getNfaFactor(index: number) : NfaFactorModel {
     return this.nfaFactors[index];
   }
+
 }

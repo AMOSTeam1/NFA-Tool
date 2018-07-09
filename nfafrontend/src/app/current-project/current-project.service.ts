@@ -2,7 +2,6 @@ import {Subject} from 'rxjs/Subject';
 import {Project} from '../shared/project.model';
 import {ProjectType} from '../shared/type.model';
 import {Stakeholder} from '../shared/stakeholder.model';
-import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 import {NfaCustomModel} from "../shared/nfaCustom.model";
 
 
@@ -11,14 +10,16 @@ export class CurrentProjectService {
   projectsChanged = new Subject<Project[]>();
   private projectsSubset: Project[];
   private types: ProjectType[];
-  private selectedProjectId: number;
-  private project : Project;
+  private currently_edited_project : Project;
   private nfaMode : boolean;
   private status : string;
   private custom_nfas : NfaCustomModel[] = [];
-  private selectedNfa : number;
+  private selectedNfa : number = 0;
 
   getProjects() {
+    console.debug("The this.projectsSubset is ");
+    console.debug(this.projectsSubset);
+
     return this.projectsSubset.slice();
   }
 
@@ -34,9 +35,17 @@ export class CurrentProjectService {
     return null;
   }
 
-  getProject() : Project {
-    if(this.project){
-      return this.project;
+  hasCurrentlyEditedProject(){
+    console.debug("Is there a project set that is being edited? " + !!this.currently_edited_project);
+    if(!!this.currently_edited_project){
+      console.debug(this.currently_edited_project.projectNfas);
+    }
+    return !!this.currently_edited_project;
+  }
+
+  getCurrentlyEditedProject() : Project {
+    if(this.currently_edited_project){
+      return this.currently_edited_project;
     }
     const message : string = "There is no Project set yet.";
 
@@ -44,12 +53,23 @@ export class CurrentProjectService {
     throw new Error(message);
   }
 
-  setProject(proj: Project){
-    this.project = proj;
+  setCurrentlyEditedProject(proj: Project){
+    if(proj){
+      console.debug("for the newly edited project the nfas will be:");
+      console.debug(proj.projectNfas);
+      this.currently_edited_project = proj;
+    }
+    else {
+      console.debug("Cannot set " + proj.toString() + " as CurrentlyEditedProject");
+    }
+  }
+
+  clearEditedProject(){
+    this.currently_edited_project = null;
   }
 
   setProjectById(projId: number){
-    this.project = this.getProjectById(projId);
+    this.currently_edited_project = this.getProjectById(projId);
   }
 
   addProject(project: Project) {
@@ -78,28 +98,6 @@ export class CurrentProjectService {
   setProjects(projects: Project[]){
     this.projectsSubset = projects;
     this.projectsChanged.next(this.projectsSubset.slice());
-  }
-
-  setSelectedProjectId(index: number){
-    this.selectedProjectId = index;
-  }
-  getSelectedProjectId(){
-    return this.selectedProjectId;
-  }
-
-  getNfa(indexInMetric: number) : NfaCatalogModel {
-    let index = 0;
-    for (let project of this.projectsSubset){
-      if ( project.id == this.selectedProjectId ){
-        return this.projectsSubset[index].projectNfas[indexInMetric];
-      }
-      index++;
-    }
-
-    const message : string = "There is no Nfa with ID " + indexInMetric;
-
-    console.log(message);
-    throw new Error(message);
   }
 
   getTypes() {
@@ -142,11 +140,11 @@ export class CurrentProjectService {
    return null;
   }
 
-  setSelectedNfa(selNfa: number){
+  setSelectedNfaId(selNfa: number){
     this.selectedNfa = selNfa;
   }
 
-  getSelectedNfa() : number {
+  getSelectedNfaId() : number {
     return this.selectedNfa;
   }
 

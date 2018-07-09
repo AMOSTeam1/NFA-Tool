@@ -50,10 +50,6 @@ export class DataStorageService {
     return this.http.get<NfaCatalogModel>('http://localhost:8080/nfabackend/webapi/nfa_catalog/'+nfa_id);
   }
 
-  getCustomNfa(custom_id: number) : Observable<NfaCustomModel>{
-    return this.http.get<NfaCustomModel>('http://localhost:8080/nfabackend/webapi/nfa_edit/'+custom_id);
-  }
-
   storeEditedNfa(project_id: number, original_id: number, nfaCustom: NfaCustomModel) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + project_id + '/' + original_id, nfaCustom, httpOptionsJson);
   }
@@ -71,6 +67,9 @@ export class DataStorageService {
   }
 
   updateProject(updatedProject: Project) : Observable<Project[]> {
+    console.debug("Will update the Project to:");
+    console.debug(updatedProject);
+
     return this.http.post<Project[]>('http://localhost:8080/nfabackend/webapi/project/edit', updatedProject);
   }
 

@@ -12,7 +12,7 @@ import {LocalStorageService} from 'angular-web-storage';
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
-  project: Project;
+  displayed_project: Project;
   name: string;
   project_id_param: number;
   isSelected:boolean;
@@ -38,10 +38,9 @@ export class ProjectDetailComponent implements OnInit {
         (params: Params) => {
           this.project_id_param = +params['project_id'];
 
-          this.project = this.currentProjectService.getProjectById(this.project_id_param);
-          this.currentProjectService.setSelectedProjectId(this.project_id_param);
+          this.displayed_project = this.currentProjectService.getProjectById(this.project_id_param);
 
-          this.stackHolders = this.project.projectStakeholders.slice();
+          this.stackHolders = this.displayed_project.projectStakeholders.slice();
           this.selectedStakeHolders = this.stackHolders;
         }
 
@@ -54,16 +53,17 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   onDeleteProject() {
-  this.local.clear();
-  this.currentProjectService.deleteProjectById(this.project_id_param);
-  this.dataStorageService.deleteProject(this.project)
-    .subscribe(
-      (response) => {
-        this.router.navigate(['../'], {relativeTo: this.route});
-        this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
-      }
-    );
+    this.local.clear();
+    this.currentProjectService.deleteProjectById(this.project_id_param);
+    this.dataStorageService.deleteProject(this.displayed_project)
+      .subscribe(
+        (response) => {
+          this.router.navigate(['../'], {relativeTo: this.route});
+          this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+        }
+      );
   }
+
   // Getting Selected stackholder
   getSelected() {
     this.selectedStakeHolders = [];
@@ -79,7 +79,7 @@ export class ProjectDetailComponent implements OnInit {
 
   export() {
 
-    this.dataStorageService.generateXml(this.project)
+    this.dataStorageService.generateXml(this.displayed_project)
       .subscribe(
         (response) => {
         }

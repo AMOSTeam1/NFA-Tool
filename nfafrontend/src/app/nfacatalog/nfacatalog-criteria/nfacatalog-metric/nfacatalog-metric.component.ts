@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {NfacatalogService} from '../../nfacatalog.service';
 import {NfaMetricModel} from '../../../shared/nfaMetric.model';
@@ -90,8 +90,9 @@ export class NfacatalogMetricComponent implements OnInit {
      * get the nfas of the curret metric
      * check if the nfa of the current metric  is one of the projec nfas then set iseselcted by the condition result
      */
-    if (this.local.get(DExchS.selNfs) != null) {
-      this.selectedNfs = this.local.get(DExchS.selNfs);
+    let stored = this.local.get(DExchS.selNfs);
+    if (stored) {
+      this.selectedNfs = stored;
       if (this.selectedNfs.length === 0) {
         this.class = 'list-group-item-text';
       }
