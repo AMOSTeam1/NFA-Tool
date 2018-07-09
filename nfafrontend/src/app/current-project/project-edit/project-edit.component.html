@@ -155,7 +155,7 @@
                     <select class="form-control" id="factor" formControlName="nfa_id">
                       <option *ngFor="let fact of nfaFactors; let j = index"
                               [value]="fact.nfa_id">
-                        {{fact.factor}}
+                        {{fact.nfa_id}}. {{fact.factor}}
                       </option>
                     </select>
                   </div>
