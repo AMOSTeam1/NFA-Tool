@@ -25,6 +25,7 @@ export class NewnfaComponent implements OnInit {
               private nfaCatalogService: NfacatalogService) {
   }
 
+  private createdNfaNumber: string = null;
   nfaform: FormGroup;
   nfaFactors: NfaFactorModel[];
   @ViewChild(NfatemplateComponent) nfatemplate;
@@ -37,6 +38,7 @@ export class NewnfaComponent implements OnInit {
 
   validUpdate = (value: boolean) => {
     this.valid = value;
+    this.createdNfaNumber = null;
   }
 
   ngOnInit() {
@@ -101,7 +103,11 @@ export class NewnfaComponent implements OnInit {
      this.dataStorageService.storeNfa(this.selectedMetric.id, nfaCatalogModel)
        .subscribe(
          (response: Response) => {
-           console.log(response.json);
+           const result = response.json() as NfaCatalogModel;
+           this.createdNfaNumber = this.selectedFactor.nfa_id +
+             '.' + this.selectedCriteria.criteriaNumber +
+             '.' + this.selectedMetric.metricNumber +
+             '.' + result.nfaNumber;
          }
        );
   }
@@ -116,5 +122,9 @@ export class NewnfaComponent implements OnInit {
     return (this.selectedCriteria != null
       && this.selectedCriteria.metricList != null
       && this.selectedCriteria.metricList.length > 0);
+  }
+
+  lastNfaNumber() {
+    return this.createdNfaNumber;
   }
 }

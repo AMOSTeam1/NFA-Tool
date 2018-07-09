@@ -15,7 +15,7 @@ import {isNull} from 'util';
 export class DenfaformComponent implements OnInit, OnDestroy {
   deForm: FormGroup;
   @Output() submitEvent = new EventEmitter<FormGroup>();
-  modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
+  modalVerbDe: Array<string> = ['muss', 'müssen', 'soll', 'sollen', 'kann', 'können'];
   qualExpr: Array<QualifiyingExpression> = QualifiyingExpression.listContent();
   constructor(private data: DataexchangeService) { }
 
@@ -68,6 +68,15 @@ export class DenfaformComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.data.changeMessage(new Inst(null, null, null));
+  }
+
+  resetForm() {
+    if ((<FormArray>this.deForm.get('valueInput')).length === 2) {
+      (<FormArray>this.deForm.get('valueInput')).removeAt(1);
+    }
+    this.deForm.reset();
+    this.deForm.get('modalVerb').disable({});
+    this.deForm.get('valueInput').disable({});
   }
 
 }

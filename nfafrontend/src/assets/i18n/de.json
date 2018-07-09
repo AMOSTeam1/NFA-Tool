@@ -130,6 +130,7 @@
     "type" : "Typ",
     "cancel" : "Abbrechen",
     "save" : "Speichern",
-    "none" : "Keine"
+    "none" : "Keine",
+    "newNfaMessage": "NFA mit der Nummer {{number}} wurde angelegt"
   }
 }

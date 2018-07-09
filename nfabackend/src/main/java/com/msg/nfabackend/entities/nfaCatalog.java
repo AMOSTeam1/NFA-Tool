@@ -3,11 +3,7 @@ package com.msg.nfabackend.entities;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -21,8 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.msg.nfabackend.templates.Template;
-import com.msg.nfabackend.templates.Template.Restriction;
 
 @Entity
 @Table(name = "nfa")
@@ -31,25 +25,24 @@ public class nfaCatalog {
 	public static class BlueprintConverter implements AttributeConverter<NfaCatalogBlueprint, String> {
 		@Override
 		public String convertToDatabaseColumn(NfaCatalogBlueprint attribute) {
-			
+
 			if (attribute == null) {
 				return null;
 			}
-			
+
 			try (StringWriter stringWriter = new StringWriter()) {
 				new ObjectMapper().writeValue(stringWriter, attribute);
 				return stringWriter.toString();
 			} catch (IOException e) {
 				throw new IllegalStateException("Obj-to-JSON-Converting failed", e);
 			}
-			
+
 		}
 
 		@Override
 		public NfaCatalogBlueprint convertToEntityAttribute(String dbData) {
 			try {
-				return dbData == null ? null 
-						: new ObjectMapper().readValue(dbData, NfaCatalogBlueprint.class);
+				return dbData == null ? null : new ObjectMapper().readValue(dbData, NfaCatalogBlueprint.class);
 			} catch (IOException e) {
 				throw new IllegalStateException("JSON-to-Obj-Converting failed", e);
 			}
@@ -123,11 +116,11 @@ public class nfaCatalog {
 		public void createDescription(List<String> wert) {
 			if (de.getErklaerung() == null) {
 				de.setErklaerung(String.join(" ", de.getCharacteristic(), de.getProperty(), de.getModalVerb(),
-						de.getQualifiedValue(wert), de.getVerb()));
+						de.getQualifiedValue(wert), de.getVerb()) + ".");
 			}
 			if (en.getErklaerung() == null) {
 				en.setErklaerung(String.join(" ", en.getCharacteristic(), en.getProperty(), en.getModalVerb(),
-						en.getVerb(), en.getQualifiedValue(wert)));
+						en.getVerb(), en.getQualifiedValue(wert)) + ".");
 			}
 		}
 	}

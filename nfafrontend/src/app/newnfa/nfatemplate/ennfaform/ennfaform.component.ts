@@ -43,13 +43,13 @@ export class EnnfaformComponent implements OnInit, OnDestroy {
       'verb': new FormControl('be')
     });
     this.subscription = this.data.currentMessage.subscribe(message => {
-      if ((message.verb === 'muessen') || (message.verb === 'muss')) {
+      if ((message.verb === 'müssen') || (message.verb === 'muss')) {
         this.enForm.get('modalVerb').reset('shall');
       }
       if ((message.verb === 'sollen') || (message.verb === 'soll')) {
         this.enForm.get('modalVerb').reset('should');
       }
-      if ((message.verb === 'koennen') || (message.verb === 'kann')) {
+      if ((message.verb === 'können') || (message.verb === 'kann')) {
         this.enForm.get('modalVerb').reset('can');
       }
       if (message.verb === null) {
@@ -76,5 +76,13 @@ export class EnnfaformComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  resetForm() {
+    if ((<FormArray>this.enForm.get('valueInput')).length === 2) {
+      (<FormArray>this.enForm.get('valueInput')).removeAt(1);
+    }
+    this.enForm.reset();
+    this.enForm.get('verb').reset('be');
   }
 }

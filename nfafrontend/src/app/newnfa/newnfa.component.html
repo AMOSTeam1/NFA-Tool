@@ -45,6 +45,7 @@
   <app-nfatemplate *ngIf="nfaform.get('nfa_type').value==='nfa_type_1'" [validUpdate]="validUpdate"></app-nfatemplate>
 
   <br><br>
+  <label>{{lastNfaNumber() ? ('nfa.newNfaMessage' | translate:{'number': lastNfaNumber()}) : '' }}</label>
   <button class="btn btn-primary pull-right addnfa" type="submit" [disabled]="!valid">NFA hinzufügen</button>
   <br>
 </form>
