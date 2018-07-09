@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataexchangeService} from '../../../shared/dataexchange.service';
 import {Inst} from '../../../shared/blueprints/inst.model';
@@ -12,9 +12,8 @@ import {isNull} from 'util';
   templateUrl: './denfaform.component.html',
   styleUrls: ['./denfaform.component.css']
 })
-export class DenfaformComponent implements OnInit {
+export class DenfaformComponent implements OnInit, OnDestroy {
   deForm: FormGroup;
-  @Input() send = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
   modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
   qualExpr: Array<QualifiyingExpression> = QualifiyingExpression.listContent();
@@ -67,13 +66,8 @@ export class DenfaformComponent implements OnInit {
     }
   }
 
-  resetForm() {
-    if ((<FormArray>this.deForm.get('valueInput')).length === 2) {
-      (<FormArray>this.deForm.get('valueInput')).removeAt(1);
-    }
-    this.deForm.reset();
-    this.deForm.get('modalVerb').disable({});
-    this.deForm.get('valueInput').disable({});
+  ngOnDestroy() {
+    this.data.changeMessage(new Inst(null, null, null));
   }
 
 }
