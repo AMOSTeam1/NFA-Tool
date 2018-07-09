@@ -79,11 +79,14 @@ public class QueryService {
 		return nfaCatalog;
 	}
 
-	public CustomNFA createCustomNfa (CustomNFA customNfa, Long originalId) {
+	public CustomNFA createCustomNfa (CustomNFA customNfa, long projectId, long originalId) {
 		System.out.println("TEST: " + customNfa.getBlueprint().getDe().getErklaerung());
 
 		NfaCatalog originalNfa = em.find(NfaCatalog.class, originalId);
+		Project project = em.find(Project.class, projectId);
+	
 		customNfa.setOriginalNfa(originalNfa);
+		customNfa.setProject(project);
 
 		em.merge(customNfa);
 
@@ -181,13 +184,12 @@ public class QueryService {
 		return em.createQuery("from Stakeholder", Stakeholder.class).getResultList();
 	}
 
-	public CustomNFA getCustomNfa(int custom_id) {
-
-		return em.createQuery("from CustomNFA WHERE custom_id IS " + custom_id + " ORDER BY nfa_id DESC", CustomNFA.class).getSingleResult();
-	}
-
 	public NfaCatalog getNfa(int nfa_id) {
 		return em.createQuery("FROM NfaCatalog WHERE nfa_id IS " + nfa_id, NfaCatalog.class).getSingleResult();
+	}
+
+	public List<CustomNFA> getCustomNfa(int project_id) {
+		return em.createQuery("FROM CustomNFA WHERE project_id IS " + project_id + " ORDER BY custom_id DESC", CustomNFA.class).getResultList();
 	}
 
 }

@@ -43,13 +43,15 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
         this.project_id_param = +params['project_id'];
         this.project_is_in_editmode = params['project_id'] != null;
 
-        console.log(this.project_is_in_editmode);
-        console.log(params['project_id']);
-
         this.types = this.currentProjectService.getTypes();
 
         if(params['project_id'] != 'new'){
           this.currentProjectService.setProjectById(this.project_id_param);
+          this.subscription.push(
+            this.dataStorageService.getCustomNfaPerProject(this.project_id_param).subscribe(
+              value => this.currentProjectService.setCustomNfa(value)
+            )
+          );
         }
       });
     this.subscription.push(subscription);
@@ -139,7 +141,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       projectStatus = project.projectStatus;
     }
 
-    else if(this.local.get(DExchS.nfaMode)){
+    else if(this.local.get(DExchS.project_mode)){
       const project = this.local.get(DExchS.currProject);
       if (project['projectTypes']){
       projectTypes = new FormArray([]);
@@ -236,11 +238,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
       stakeholder.stakeholder_id = projectStakeholders[i].stakeholder_id;
       stakeholder.stakeholder_name = projectStakeholders[i].stakeholder_name;
 
-      console.log(stakeholder.stakeholder_name);
-      console.log(stakeholder.stakeholder_id);
       for (let j = 0; j < projectStakeholders[i].stakeholderFactors.length; j++) {
-        console.log(i + ", " + j);
-        console.log(projectStakeholders);
 
         this.nfaFactors.forEach((x) => {
 
@@ -358,7 +356,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     );
     this.currentProjectService.setProject(newProject);
     this.local.set(DExchS.currProject, newProject);
-    this.local.set(DExchS.nfaMode,true);
+    this.local.set(DExchS.project_mode,true);
 
     this.router.navigate(['nfa'], {relativeTo: this.route});
   }

@@ -3,6 +3,7 @@ import {Project} from '../shared/project.model';
 import {ProjectType} from '../shared/type.model';
 import {Stakeholder} from '../shared/stakeholder.model';
 import {NfaCatalogModel} from "../shared/nfaCatalog.model";
+import {NfaCustomModel} from "../shared/nfaCustom.model";
 
 
 export class CurrentProjectService {
@@ -14,6 +15,8 @@ export class CurrentProjectService {
   private project : Project;
   private nfaMode : boolean;
   private status : string;
+  private custom_nfas : NfaCustomModel[] = [];
+  private selectedNfa : number;
 
   getProjects() {
     return this.projectsSubset.slice();
@@ -39,10 +42,6 @@ export class CurrentProjectService {
 
     console.log(message);
     throw new Error(message);
-  }
-
-  getProjectWithNoId(){
-    return this.project;
   }
 
   setProject(proj: Project){
@@ -122,6 +121,33 @@ export class CurrentProjectService {
 
   setStatus(value: string) {
     this.status = value;
+  }
+
+  setCustomNfa(customNfas: NfaCustomModel[]){
+    this.custom_nfas = customNfas;
+  }
+
+  getCustomNfa(originalId: number) : NfaCustomModel {
+    let index : number = 0;
+
+    //This list can contain multiple entries from one originalNfa.
+    //However, the list is ordered from newest to oldest, so we always take the first.
+    for(let nfa of this.custom_nfas){
+      if(nfa.originalNfa.id == originalId){
+        return this.custom_nfas[index];
+      }
+      index++;
+    }
+
+   return null;
+  }
+
+  setSelectedNfa(selNfa: number){
+    this.selectedNfa = selNfa;
+  }
+
+  getSelectedNfa() : number {
+    return this.selectedNfa;
   }
 
 }

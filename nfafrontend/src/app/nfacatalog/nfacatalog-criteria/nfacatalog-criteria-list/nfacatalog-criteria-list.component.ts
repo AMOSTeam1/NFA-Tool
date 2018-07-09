@@ -28,27 +28,35 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
   }
 
   ngOnInit() {
+
+    let tempSubscription : ISubscription;
+
     let subscription = this.route.params
       .subscribe(
         (params: Params) => {
           this.factor_id_param = +params['factor_id'];
-          this.factor = this.nfaCatalogService.getNfaFactor(this.factor_id_param);
-          this.nfaCriterias = this.factor.criteriaList;
-          this.nfaCatalogService.setNfaCriterias(this.nfaCriterias);
+
+          if(tempSubscription){
+            tempSubscription.unsubscribe();
+          }
+
+          tempSubscription = this.dataStorageService.getNfaFactors()
+            .subscribe(response => {
+                this.nfaFactors = response;
+                this.nfaCatalogService.setNfaFactors(this.nfaFactors);
+
+                this.factor = this.nfaFactors[this.factor_id_param];
+                this.nfaCriterias = this.factor.criteriaList;
+                this.nfaCatalogService.setNfaCriterias(this.nfaCriterias);
+              },
+              error1 => console.log(error1)
+            );
 
         }
       );
 
     this.subscription.push(subscription);
 
-    subscription = this.dataStorageService.getNfaFactors()
-      .subscribe(response => {
-          this.nfaFactors = response;
-          this.nfaCatalogService.setNfaFactors(this.nfaFactors);
-        },
-        error1 => console.log(error1)
-      );
-    this.subscription.push(subscription);
   }
 
   ngOnDestroy(){

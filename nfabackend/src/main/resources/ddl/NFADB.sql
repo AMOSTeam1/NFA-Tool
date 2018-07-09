@@ -348,6 +348,7 @@ CREATE TABLE public.custom_nfa
 (
  custom_id serial PRIMARY KEY,
  nfa_id serial NOT NULL,
+ project_id serial NOT NULL,
  VALUE character varying(200),
  FORMULATION character varying(40),
  REFERENCE character varying(40), 

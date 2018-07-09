@@ -22,17 +22,21 @@ import com.msg.nfabackend.entities.NfaCatalog.ValueConverter;
 @Entity
 @Table(name ="custom_nfa")
 //@JsonIgnoreProperties(ignoreUnknown=true)
-@JsonIgnoreProperties({"nfaCustomId", "nfaOriginalId"})
+@JsonIgnoreProperties({"customId", "originalId"})
 public class CustomNFA implements NfaInterface {
 		
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name ="custom_id")
-	private Long nfaCustomId;
+	private Long customId;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "nfa_id")
 	private NfaCatalog originalEntry;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "project_id")
+	private Project project;
 
 	@Column (name ="value")
 	@Convert(converter = ValueConverter.class)
@@ -55,7 +59,7 @@ public class CustomNFA implements NfaInterface {
 	private NfaCatalogBlueprint blueprint;
 
 	public Long getId() {
-		return nfaCustomId;
+		return customId;
 	}
 
 	public String getType() {
@@ -104,6 +108,14 @@ public class CustomNFA implements NfaInterface {
 	
 	public void setOriginalNfa(NfaCatalog originalNfa) {
 		originalEntry = originalNfa;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project2) {
+		this.project = project2;		
 	}
 
 }

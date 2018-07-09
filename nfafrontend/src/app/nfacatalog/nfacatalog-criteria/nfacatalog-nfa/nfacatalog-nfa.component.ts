@@ -13,10 +13,9 @@ import {ISubscription} from "rxjs/Subscription";
 import {FormControl, FormGroup} from "@angular/forms";
 import {NfaCustomModel} from "../../../shared/nfaCustom.model";
 import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
-import {Observable} from "rxjs/Observable";
-import {Observer} from "rxjs/Observer";
 import {NfaInterfaceModel} from "../../../shared/nfaInterface.model";
 import {DataexchangeService as DExchS} from "../../../shared/dataexchange.service";
+import {Subject} from "rxjs/Subject";
 
 @Component({
   selector: 'app-nfacatalog-nfa',
@@ -30,6 +29,8 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   private page_is_in_edit_mode : boolean = false;
   private page_is_in_subnavigation_mode = true;
 
+  selected_nfa_has_custom : boolean = false;
+
   project_id_param: number;
 
   factor_id_param: number;
@@ -41,7 +42,6 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   metric_id_param: number;
   metric: NfaMetricModel;
 
-  selected_nfa_id_in_all : number;
   selected_nfa_id_in_metric: number;
 
   metric_nfas: NfaCatalogModel[] = [];
@@ -52,12 +52,9 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   nfadetailForm: FormGroup;
 
-  observable_nfa : Observable<NfaCatalogModel>;
-  observable_custom_nfa : Observable<NfaCustomModel>;
-
-  observable_erklaerungs_str : Observable<string>;
-  erklarungs_str_observer : Observer<string>;
-
+  observable_nfa : Subject<NfaCatalogModel> = new Subject<NfaCatalogModel>();
+  observable_custom_nfa : Subject<NfaCustomModel> = new Subject<NfaCustomModel>();
+  shown_nfa : NfaCatalogModel;
 
   private subscription: ISubscription[];
 
@@ -69,14 +66,6 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
               private dataStorageService: DataStorageService,
               public local: LocalStorageService,
   ) {
-    //use observable, to store str_observer
-    //to later change the content of this str everywhere it is using {{ observable_erklaerungs_str | async }}
-    this.observable_erklaerungs_str = new Observable<string>(
-      observer => {
-        this.erklarungs_str_observer = observer;
-      }
-    );
-
     this.subscription = [];
     this.initForm();
   }
@@ -101,20 +90,40 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     this.subscription.push(subscriptionB);
 
 
-    //Get the Project from the Id, saved in the Parents, parents Route Parameters
-    let subscriptionA = this.route.parent.parent.params
-      .subscribe((params: Params) =>this.project_id_param = params['project_id']);
-    this.subscription.push(subscriptionA);
-
-    if (this.project_id_param != null) {
-      this.nfaCatalogService.projectId = this.project_id_param;
-      this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
-    }
-    this.subscription.push(subscription);
-
     //Get Criteria and Metric according to the given IDs
     this.selected_nfa_id_in_metric = 0;
-    let subscriptionC = this.route.params
+
+    //Get the Project from the Id, saved in the Parents, parents Route Parameters
+    let subscriptionA = this.route.parent.parent.params
+      .subscribe((params: Params) =>{
+        this.project_id_param = params['project_id'];
+
+        //Init page_is_in_project_mode either from storage or manually
+        if(this.local.hasOwnProperty(DExchS.project_mode)) {
+          this.page_is_in_project_mode = this.local.get(DExchS.project_mode);
+        }else{
+
+          if ( this.project_id_param ) {
+
+            this.page_is_in_project_mode = true;
+            this.nfaCatalogService.projectId = this.project_id_param;
+            this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
+
+            let tempSelected = this.currentProjectService.getSelectedNfa();
+            if(tempSelected){
+              this.selected_nfa_id_in_metric = tempSelected;
+            }
+
+          } else {
+            //Use the else path to set page_is_in_project_mode to false, to also cover undefined and null states of project_id_param
+            this.page_is_in_project_mode = false;
+          }
+        }
+      });
+    this.subscription.push(subscriptionA);
+
+    this.subscription.push(
+      this.route.params
       .subscribe(
         (params: Params) => {
           this.criteria_id_param = +params['criteria_id'];
@@ -124,47 +133,38 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
           this.metric = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param];
           this.metric_nfas = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param].nfaList;
 
-          this.selected_nfa_id_in_all = this.metric_nfas[this.selected_nfa_id_in_metric].id;
+          //Subscribe to observable, so whenever next function is called, an update is triggered
+          this.subscription.push(
+            this.observable_nfa
+              .subscribe(value => this.updateOriginalNfa(value))
+          );
 
-          this.page_is_in_project_mode = this.local.get(DExchS.nfaMode);
+          if (this.page_is_in_project_mode) {
 
-          if(this.page_is_in_project_mode){
-            this.original_nfa = this.currentProjectService.getNfa(this.selected_nfa_id_in_metric);
-
-            if(this.custom_nfa){
-              this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.customId);
-              let subscription2 = this.observable_custom_nfa
-                .subscribe((value : NfaCustomModel) =>
-                {
-                  this.erklarungs_str_observer.next(this.erklaerung(value));
-                  this.custom_nfa = value;
-                });
-              this.subscription.push(subscription2);
-            }
+            //Subscribe to observable, so whenever next function is called, an update is triggered
+            this.subscription.push(
+              this.observable_custom_nfa
+                .subscribe(value => this.updateCustomNfa(value))
+            );
           }
 
-          this.observable_nfa = this.dataStorageService.getNfa(this.selected_nfa_id_in_all);
-          let subscription1 = this.observable_nfa
-            .subscribe((value : NfaCatalogModel) =>
-            {
-              if(this.erklarungs_str_observer){
-                this.erklarungs_str_observer.next(this.erklaerung(value));
-                this.original_nfa = value;
-              }
-            });
-          this.subscription.push(subscription1);
+          //Initialize original and custom via the Next function
+          this.updateShownNfa();
         }
-      );
-    this.subscription.push(subscriptionC);
+      ));
 
 
-    let subscriptionX = this.route.parent.parent.params.subscribe(params => this.project_id_param = params['project_id']);
-    this.subscription.push(subscriptionX);
 
-    if (this.project_id_param != null) {
+    this.subscription.push(
+      this.route.parent.parent.params.subscribe(params => this.project_id_param = params['project_id'])
+    );
+
+    if (this.project_id_param) {
       this.nfaCatalogService.projectId = this.project_id_param;
       this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
     }
+
+    this.updateShownNfa();
   }
 
   ngOnDestroy() {
@@ -175,11 +175,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   onEditNFA() {
     if(this.page_is_in_edit_mode == false){
-
-      // this.erklarungs_str_observer.next(this.erklaerung(this.getRelevantNfa()));
-      if(this.erklarungs_str_observer){
-        this.erklarungs_str_observer.next("");
-      }
+      this.currentProjectService.setSelectedNfa(this.selected_nfa_id_in_metric);
 
       this.router.navigate(['edit'], {relativeTo: this.route});
     }
@@ -187,9 +183,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   onEditBack(){
     if(this.page_is_in_edit_mode == true){
-      if(this.erklarungs_str_observer){
-        this.erklarungs_str_observer.next(this.erklaerung(this.getRelevantNfa()));
-      }
+
       this.router.navigate(['../'], {relativeTo: this.route});
     }
   }
@@ -216,21 +210,6 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     }
   }
 
-  // bezeichnung(nfa?: NfaInterfaceModel) : string { //TODO doesnt work. Syntax and logic is right, but Typescript sucks.
-  //   if(!nfa){
-  //     nfa = this.getRelevantNfa();
-  //   }
-  //
-  //   return (<NfaCatalogBlueprintModel>nfa.blueprint).getBezeichnung(this.getCurrentLanguage());
-  // }
-  //
-  // erklaerung(nfa?: NfaInterfaceModel) : string {
-  //   if(!nfa){
-  //     nfa = this.getRelevantNfa();
-  //   }
-  //   return (<NfaCatalogBlueprintModel>nfa.blueprint).getErklaerung(this.getCurrentLanguage());
-  // }
-
   private getCurrentLanguage() {
     let lang = this.translateService.currentLang;
     if (!lang) {
@@ -239,8 +218,9 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     return lang;
   }
 
-  getCurrentBlueprint() : IBlueprint{
-    let nfa = this.getRelevantNfa();
+  getCurrentBlueprint() : IBlueprint {
+    let nfa = this.getCurrentNfa();
+    // let nfa = this.getRelevantNfa();
 
     if (this.getCurrentLanguage() === 'de') {
       return nfa.blueprint.de;
@@ -251,14 +231,17 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
   onNext() {
     this.selected_nfa_id_in_metric = this.selected_nfa_id_in_metric + 1;
+    this.updateShownNfa();
   }
 
   onPrev() {
     this.selected_nfa_id_in_metric = this.selected_nfa_id_in_metric - 1;
+    this.updateShownNfa();
   }
 
   onBack() {
     this.router.navigate(['../'], {relativeTo: this.route});
+    this.updateShownNfa();
   }
 
   onSubmit() {
@@ -275,7 +258,8 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
     let customNfa = new NfaCustomModel(
       null,
-      this.original_nfa.id,
+      this.original_nfa,
+      this.currentProjectService.getProject(),
       this.original_nfa.values,
       this.original_nfa.formulation,
       this.original_nfa.blueprint,
@@ -285,8 +269,10 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       this.original_nfa.document
     );
 
-    const subscription = this.dataStorageService.storeEditedNfa(customNfa)
+    this.subscription.push(
+      this.dataStorageService.storeEditedNfa(this.project_id_param, this.original_nfa.id, customNfa)
       .subscribe(
+        //TODO Why do we never execute this code? What is still going wrong?
         response => {
           console.log("trying to store custom NFA");
           console.log(response);
@@ -295,18 +281,16 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
           console.log("error while trying to store custom NFA");
           console.log(err);
         }
-      );
-    this.subscription.push(subscription);
+      )
+    );
 
-    this.custom_nfa = customNfa;
-    this.observable_custom_nfa = this.dataStorageService.getCustomNfa(this.custom_nfa.customId);
-    let subscription2 = this.observable_custom_nfa
-      .subscribe((value : NfaCustomModel) =>
-      {
-        this.erklarungs_str_observer.next(this.erklaerung(value));
-        this.custom_nfa = value;
-      });
-    this.subscription.push(subscription2);
+    this.subscription.push(
+      this.dataStorageService.getCustomNfaPerProject(this.project_id_param).subscribe(
+        value => this.currentProjectService.setCustomNfa(value)
+      )
+    );
+
+    this.observable_custom_nfa.next(customNfa);
 
     this.onBack();
   }
@@ -330,31 +314,58 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     });
   }
 
-
-  onNextY() {
-  }
-
-  onPrevY() {
-  }
-
   onGoto(j: number) {
     this.selected_nfa_id_in_metric = j;
     this.page_is_in_subnavigation_mode = !this.page_is_in_subnavigation_mode;
+
+    this.updateShownNfa();
   }
 
-  getOutputErklaerung(){
-    if(this.erklarungs_str_observer){
-      return '{{this.erklarungs_str_observer | async}}';
-    }
-    return this.erklaerung(this.getRelevantNfa());
-  }
-
-  getRelevantNfa() : NfaInterfaceModel {
-    if (this.custom_nfa){
-      return this.custom_nfa;
+  getCurrentNfa() : NfaCatalogModel {
+    if(this.page_is_in_project_mode){
+      return this.shown_nfa;
     }else{
-      return this.original_nfa;
+      return this.metric_nfas[this.selected_nfa_id_in_metric];
     }
+  }
+
+  updateShownNfa(){
+    this.selected_nfa_has_custom = false;
+
+    this.observable_nfa.next(this.metric_nfas[this.selected_nfa_id_in_metric]);
+
+    if(this.page_is_in_project_mode){
+      this.observable_custom_nfa.next(this.currentProjectService.getCustomNfa(this.metric_nfas[this.selected_nfa_id_in_metric].id));
+    }
+  }
+
+  updateCustomNfa(custom: NfaCustomModel) : void {
+    this.selected_nfa_has_custom = false;
+
+    if(custom){
+      this.selected_nfa_has_custom = true;
+      this.custom_nfa = custom;
+
+      //todo store only changed values in shown nfa
+      this.shown_nfa.blueprint = custom.blueprint;
+    }
+  }
+
+  updateOriginalNfa(original: NfaCatalogModel) : void {
+    this.original_nfa = original;
+    if(!this.selected_nfa_has_custom){
+      this.shown_nfa = original;
+    }
+  }
+
+  getNfa(originalId: number) : NfaInterfaceModel {
+    let custom : NfaCustomModel = this.currentProjectService.getCustomNfa(originalId);
+
+    if(custom){
+      return custom;
+    }
+
+    return this.metric_nfas[this.selected_nfa_id_in_metric];
   }
 
   /**

@@ -1,6 +1,7 @@
 package com.msg.nfabackend.entities;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -42,8 +44,8 @@ public class Project {
 	@Column(name="ID")
 	private Long id;
 	
-	@Column(name="NFA_PROJECT_NUMBER")
-	private String nfaProjectNumber;
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	private List<CustomNFA> customNfaList;
 	
 	@Column(name="CUSTOMER_NAME")
 	private String customerName;
@@ -90,21 +92,6 @@ public class Project {
 	 */
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-
-	/**
-	 * @return the nfaProjectNumber
-	 */
-	public String getNfaProjectNumber() {
-		return nfaProjectNumber;
-	}
-
-	/**
-	 * @param nfaProjectNumber the nfaProjectNumber to set
-	 */
-	public void setNfaProjectNumber(String nfaProjectNumber) {
-		this.nfaProjectNumber = nfaProjectNumber;
 	}
 
 	/**

@@ -7,14 +7,23 @@ import {Observable} from "rxjs/Observable";
 import {NfaFactorModel} from "./nfaFactor.model";
 import {ProjectType} from "./type.model";
 
-const headers = new HttpHeaders(
+const headersJson = new HttpHeaders(
   {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json, text/plain, */*'
-    }
-  );
-const httpOptions = {
-  headers: headers
+    'Content-Type': 'application/json',
+    'Accept': 'application/json, text/plain, */*'
+  }
+);
+const headersXml = new HttpHeaders(
+  {
+    'Content-Type': 'application/xml',
+    'Accept': 'application/xml, text/plain, */*'
+  }
+);
+const httpOptionsJson = {
+  headers: headersJson
+};
+const httpOptionsXml = {
+  headers: headersXml
 };
 
 @Injectable()
@@ -22,15 +31,11 @@ export class DataStorageService {
   constructor(private http: HttpClient) {}
 
   storeNfa(metricId: number, nfa: NfaCatalogModel) : Observable<any> {
-   return this.http.post<any>('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa, httpOptions);
-  }
-
-  storeEditedNfa(nfaCustom: NfaCustomModel) {
-    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + nfaCustom.originalId, nfaCustom, httpOptions);
+   return this.http.post<any>('http://localhost:8080/nfabackend/webapi/nfa_catalog/create/' + metricId, nfa, httpOptionsJson);
   }
 
   storeProject(new_project: Project) {
-    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', new_project, httpOptions);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', new_project, httpOptionsJson);
   }
 
   getCurrentProjects() : Observable<Project[]>{
@@ -47,6 +52,14 @@ export class DataStorageService {
 
   getCustomNfa(custom_id: number) : Observable<NfaCustomModel>{
     return this.http.get<NfaCustomModel>('http://localhost:8080/nfabackend/webapi/nfa_edit/'+custom_id);
+  }
+
+  storeEditedNfa(project_id: number, original_id: number, nfaCustom: NfaCustomModel) {
+    return this.http.post('http://localhost:8080/nfabackend/webapi/nfa_edit/create/' + project_id + '/' + original_id, nfaCustom, httpOptionsJson);
+  }
+
+  getCustomNfaPerProject(project_id: number) : Observable<NfaCustomModel[]>{
+    return this.http.get<NfaCustomModel[]>('http://localhost:8080/nfabackend/webapi/nfa_edit/'+project_id);
   }
 
   getNfaCatalog() : Observable<NfaCatalogModel[]>{
@@ -73,9 +86,9 @@ export class DataStorageService {
     return this.http.get<ProjectType[]>('http://localhost:8080/nfabackend/webapi/types');
   }
   generateXml(project: Project) {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/xml/'+ project.id );
+    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/xml/'+ project.id, httpOptionsXml);
   }
   downloadXml() {
-    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/download');
+    return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/download', httpOptionsXml);
   }
 }

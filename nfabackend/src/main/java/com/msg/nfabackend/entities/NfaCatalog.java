@@ -131,8 +131,7 @@ public class NfaCatalog implements NfaInterface{
 	}
 
 	public static class BpPropertyTemplateNoCondition {
-
-
+		
 		private String bezeichnung;
 		private String erklaerung;
 		private String characteristic;
@@ -160,23 +159,11 @@ public class NfaCatalog implements NfaInterface{
 		 * @return the erklaerung
 		 */
 		public String getErklaerung() {
-//			if (erklaerung == null) {
+			if (erklaerung == null) {
 //				updateErklaerung();
-//			}
+			}
 			return erklaerung;
 		}
-//
-//		/**
-//		 * Uses all the Components to generate the Explanation String and updates the Variable Explanation.
-//		 */
-//		public void updateErklaerung() {
-//			erklaerung = String.join(" ",
-//					getCharacteristic(), 
-//					getProperty(), 
-//					getModalVerb(),
-//					getQualifiedValue(getValues()), 
-//					getVerb());
-//		}
 
 		/**
 		 * @param erklaerung

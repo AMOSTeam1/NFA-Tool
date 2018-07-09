@@ -51,8 +51,6 @@ export class DenfaformComponent implements OnInit {
 
   newMessage(event: any) {
     const qualifiyingExpression = QualifiyingExpression.resolve(this.deForm.get('qualifyingEx').value);
-    // console.log(qualifiyingExpression);
-    // this.data.storeNfa(this.selectedMetric.id, nfaCatalogModel)
 
     if (this.deForm.get('chbox')) {
       this.data.changeMessage(new Inst(

@@ -1,6 +1,7 @@
 package com.msg.nfabackend.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -33,10 +34,10 @@ public class CustomNfaResource {
 	private QueryService queryService;
 
 	@OPTIONS
-	@Path("/create/{OriginalId}")
+	@Path("/create/{project_id}/{original_id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response preflight(@PathParam("OriginalId") Long originalId) {
+	public Response preflight(@PathParam("project_id") int project_id, @PathParam("original_id") int original_id) {
 		System.out.println("Pre-flight AAAAAAAC");
 		
 	    return Response.ok("[]", MediaType.APPLICATION_JSON)
@@ -45,23 +46,27 @@ public class CustomNfaResource {
 	}
 
 	@POST
-	@Path("/create/{OriginalId}")
+	@Path("/create/{project_id}/{original_id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createCustomNfa (CustomNFA customNfa, @Context UriInfo uriInfo, @PathParam("OriginalId") Long originalId) {
-		CustomNFA customNfaTemp = queryService.createCustomNfa(customNfa, originalId);
+	public Response createCustomNfa (CustomNFA customNfa, @PathParam("project_id") int project_id, @PathParam("original_id") int original_id, @Context UriInfo uriInfo) {
+		CustomNFA customNfaTemp = queryService.createCustomNfa(customNfa, project_id, original_id);
 		
-		String newId = String.valueOf(customNfaTemp.getId());
-        URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+		String projId_str = String.valueOf(customNfaTemp.getProject().getId());
+		String origId_str = String.valueOf(customNfaTemp.getOriginalNfa().getId());
+        URI uri = uriInfo.getAbsolutePathBuilder().path(projId_str).path(origId_str).build();
+        
+        System.out.println("URI = " + uri);
         return Response.created(uri)
                 .entity(customNfaTemp)
                 .build();
 	}
 	
 	@GET
-	@Path("/{custom_id}")
-	public NfaInterface getNfaForProject(@PathParam("custom_id") int custom_id){
-		return queryService.getCustomNfa(custom_id);
+	@Path("/{project_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<CustomNFA> getCurstomNfaForProject(@PathParam("project_id") int project_id){
+		return queryService.getCustomNfa(project_id);
 	}
 	
 }

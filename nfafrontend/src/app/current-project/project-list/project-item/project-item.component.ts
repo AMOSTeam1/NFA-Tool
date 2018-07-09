@@ -7,9 +7,8 @@ import {CurrentProjectService} from "../../current-project.service";
   templateUrl: './project-item.component.html',
   styleUrls: ['./project-item.component.css']
 })
-export class ProjectItemComponent implements OnInit{
+export class ProjectItemComponent implements OnInit {
 
-  // @Input() index: number;
   @Input() project: Project;
   @Input() id: number;
 
@@ -20,9 +19,6 @@ export class ProjectItemComponent implements OnInit{
   }
 
   ngOnInit() {
-    // this.project = this.currentProjectService.getProjectById(this.id);
-    // this.id = this.project.id;
-
   }
 
 

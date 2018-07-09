@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 import {Stakeholder} from '../../shared/stakeholder.model'
 import {CurrentProjectService} from '../current-project.service';
-import { LocalStorageService } from 'angular-web-storage';
+import {LocalStorageService} from 'angular-web-storage';
 
 @Component({
   selector: 'app-project-detail',
@@ -20,7 +20,7 @@ export class ProjectDetailComponent implements OnInit {
   selectedStake:number[];
   stackHolders: Stakeholder[];
   isExported = false;
-  url:string;
+  url: string;
   title: string;
   modal: string;
 

@@ -33,7 +33,7 @@
 </div>
 
   <hr>
-<div *ngIf ="page_is_in_subnavigation_mode">
+<div *ngIf ="page_is_in_subnavigation_mode && shown_nfa">
   <form [formGroup]="nfadetailForm" (ngSubmit)="onSubmit()">
 
     <!--Erklaerung-->
@@ -42,7 +42,7 @@
         <label for="nfaExplanation" class="panel-title">{{ 'nfa.assign-nfa.explanation' | translate }}</label>
       </div>
       <div class="panel-body" *ngIf = "!page_is_in_project_mode">
-        <p class="small">{{ observable_erklaerungs_str | async }}</p>
+        <p class="small">{{ getCurrentBlueprint().erklaerung }}</p>
       </div>
       <div class="panel-body" *ngIf = "page_is_in_project_mode" >
         <input type="checkbox" id="checkbox" [checked]="nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_in_metric])" (click)="toggleSelectionNfa(metric_nfas[selected_nfa_id_in_metric])">
@@ -50,7 +50,7 @@
           *ngIf="page_is_in_edit_mode"
           id="nfaExplanation"
           formControlName="nfaExplanation"
-          value="{{getOutputErklaerung()}}"
+          value="{{getCurrentBlueprint().erklaerung }}"
           class="form-control small"
           style="align-self: auto"
           wrap="soft"
@@ -58,7 +58,7 @@
           rows="4">
 
         </textarea>
-        <p class="small" *ngIf="!page_is_in_edit_mode"> {{ getOutputErklaerung() }} </p>
+        <p class="small" *ngIf="!page_is_in_edit_mode"> {{ getCurrentBlueprint().erklaerung }} </p>
       </div>
     </div>
 
@@ -78,7 +78,7 @@
         <h3 class="panel-title">{{ 'nfa.assign-nfa.related-projects' | translate }}</h3>
       </div>
       <div class="panel-body">
-        <p class="small">{{metric_nfas[selected_nfa_id_in_metric].referencedProjects}}</p>
+        <p class="small">{{ metric_nfas[selected_nfa_id_in_metric].referencedProjects }}</p>
       </div>
     </div>
 
@@ -88,8 +88,9 @@
       <div class="col-xs-12" *ngIf="page_is_in_edit_mode">
 
         <div class="col-xs-6 text-center">
-          <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="!nfadetailForm.valid"><span class="glyphicon glyphicon-floppy-save"></span>
-            {{ 'nfa.save' | translate}}</button>
+          <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="!nfadetailForm.valid || !nfadetailForm.dirty">
+            <span class="glyphicon glyphicon-floppy-save"></span> {{ 'nfa.save' | translate}}
+          </button>
         </div>
 
         <div class="col-xs-6 text-center">

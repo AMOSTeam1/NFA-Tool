@@ -2,9 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NfacatalogService} from './nfacatalog.service';
 import {TranslateService} from '@ngx-translate/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import  {CurrentProjectService} from '../current-project/current-project.service';
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
-import {NfaFactorModel} from "../shared/nfaFactor.model";
+import {CurrentProjectService} from '../current-project/current-project.service';
+import {LocalStorageService} from 'angular-web-storage';
 
 import {DataStorageService} from "../shared/data-storage.service";
 import {ISubscription} from "rxjs/Subscription";
@@ -17,7 +16,7 @@ import {DataexchangeService as DExchS} from "../shared/dataexchange.service";
 })
 export class NfacatalogComponent implements OnInit, OnDestroy {
 
-  projectMode :boolean = false;
+  page_is_in_project_mode :boolean = false;
   private subscription: ISubscription[];
 
   constructor(private nfaCatalogService: NfacatalogService,
@@ -32,7 +31,9 @@ export class NfacatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.projectMode = this.local.get(DExchS.nfaMode);
+    if(this.local.get(DExchS.project_mode)){
+      this.page_is_in_project_mode = true;
+    }
 
     const subscription = this.dataStorageService.getNfaFactors()
       .subscribe(

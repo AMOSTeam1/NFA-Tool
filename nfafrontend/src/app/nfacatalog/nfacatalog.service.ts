@@ -1,4 +1,3 @@
-
 import {Subject} from "rxjs/Subject";
 import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 import {NfaFactorModel} from "../shared/nfaFactor.model";
@@ -9,7 +8,7 @@ import {CurrentProjectService} from '../current-project/current-project.service'
 export class NfacatalogService {
   private nfaCatalog: NfaCatalogModel[];
   nfaCatalogChanged = new Subject<NfaCatalogModel[]>();
-  currentProhjectService  = new CurrentProjectService();
+  currentProjectService  = new CurrentProjectService();
   projectMode: boolean;
   private projectNfs: NfaCatalogModel[];
   projectId: number;
