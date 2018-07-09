@@ -134,7 +134,7 @@
       <h3 style="text-align: center">Stakeholders</h3>
       <hr>
 
-      <div class="row pre-scrollable">
+      <div class="row">
 
         <div class="col-xs-12" formArrayName="projectStakeholders">
           <div class="row" *ngFor="let stakeholderCtrl of getStakeControls(); let i = index" [formGroupName]="i" style="margin-top: 10px;">
@@ -149,7 +149,7 @@
 
             <div class="col-xs-12" formArrayName="stakeholderFactors">
               <div class ="row" *ngFor="let factorCtrl of getFactorControls(i); let j = index" [formGroupName]="j" style="margin-top: 10px;">
-                <label for="factor" class="small">{{ 'nfa.factor' | translate }}:</label>
+                <!--<label for="factor" class="small">{{ 'nfa.factor' | translate }}:</label>-->
                 <div class="col-xs-4" >
                   <div class="form-group">
                     <select class="form-control" id="factor" formControlName="nfa_id">
