@@ -45,7 +45,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
         this.types = this.currentProjectService.getTypes();
 
-        if(params['project_id'] != 'new'){
+        console.debug(params['project_id']);
+
+
+        if(params['project_id']){
+          console.debug("Param: Project_id " + params['project_id']);
 
           if(!this.currentProjectService.hasCurrentlyEditedProject()){
 
@@ -60,6 +64,28 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
             )
           );
         }
+        else{
+          //Probably new Project. Need to check.
+          console.debug("This is NEW PROJECT");
+          let newProject : Project = new Project(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          );
+
+          this.currentProjectService.setCurrentlyEditedProject(newProject);
+
+
+        }
+
       });
     this.subscription.push(subscription);
 
