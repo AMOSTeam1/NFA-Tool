@@ -123,7 +123,7 @@
 
           <div class="row">
             <div class="col-xs-12">
-              <button type="button" class="btn btn-success" (click)="onAddType()"> <span class="glyphicon glyphicon-plus"> </span>{{'nfa.project-details.add-type' | translate }}</button> <!--Todo-->
+              <button type="button" class="btn btn-success" [disabled]="isMaximum(i)" (click)="onAddType()"> <span class="glyphicon glyphicon-plus"> </span>{{'nfa.project-details.add-type' | translate }}</button> <!--Todo-->
             </div>
           </div>
           <hr>
