@@ -54,6 +54,13 @@
       "close" : "abbrechen",
       "export" : "exportiern",
 
+      "verbindlichkeit-popup":{
+        "save":"speichern",
+        "start-value":"Von",
+        "end-value":"Bis",
+        "label":"Geben Sie den Wert von NFA ein"
+      },
+
       "branch" : {
         "label" : "Branche",
         "choose" : "Branche auswählen",
@@ -66,8 +73,6 @@
         "telecommunications" : "Telecommunications",
         "travel-logistics" : "Travel & Logistics",
         "utilities" : "Utilities"
-
-
       },
 
       "project-type" : {

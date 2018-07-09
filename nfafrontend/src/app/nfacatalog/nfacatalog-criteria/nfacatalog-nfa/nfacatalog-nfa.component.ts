@@ -10,13 +10,14 @@ import {CurrentProjectService} from '../../../current-project/current-project.se
 import {DataStorageService} from '../../../shared/data-storage.service';
 import {LocalStorageService} from 'angular-web-storage';
 import {ISubscription} from "rxjs/Subscription";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NfaCustomModel} from "../../../shared/nfaCustom.model";
 import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
 import {NfaInterfaceModel} from "../../../shared/nfaInterface.model";
 import {DataexchangeService as DExchS} from "../../../shared/dataexchange.service";
+import {NfaVerbindlichkeitModel} from "../../../shared/nfaVerbindlichkeit.model";
 
 @Component({
   selector: 'app-nfacatalog-nfa',
@@ -26,9 +27,9 @@ import {DataexchangeService as DExchS} from "../../../shared/dataexchange.servic
 
 export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
-  private page_is_in_project_mode: boolean = false;
-  private page_is_in_edit_mode : boolean = false;
-  private page_is_in_subnavigation_mode = true;
+  page_is_in_project_mode: boolean = false;
+  page_is_in_edit_mode : boolean = false;
+  page_is_in_subnavigation_mode = true;
 
   project_id_param: number;
 
@@ -51,12 +52,15 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   custom_nfa: NfaCustomModel;
 
   nfadetailForm: FormGroup;
+  popupform:FormGroup;
 
   observable_nfa : Observable<NfaCatalogModel>;
   observable_custom_nfa : Observable<NfaCustomModel>;
 
   observable_erklaerungs_str : Observable<string>;
   erklarungs_str_observer : Observer<string>;
+
+  nfaVerbindlichkeit: NfaVerbindlichkeitModel;
 
 
   private subscription: ISubscription[];
@@ -165,6 +169,8 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       this.nfaCatalogService.projectId = this.project_id_param;
       this.project_nfas = this.currentProjectService.getProjectById(this.project_id_param).projectNfas.slice();
     }
+
+
   }
 
   ngOnDestroy() {
@@ -273,6 +279,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
         break;
     }
 
+
     let customNfa = new NfaCustomModel(
       null,
       this.original_nfa.id,
@@ -311,7 +318,21 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     this.onBack();
   }
 
+  onNfaValueSubmit(){
+    this.local.clear();
+
+    const newNfaVerbindlichkeit = new NfaVerbindlichkeitModel(
+      this.popupform.value['id'],
+      this.popupform.value['nfaVerbindlichkeitFrom'],
+      this.popupform.value['nfaVerbindlichkeitTill']
+    );
+
+
+  }
+
   private initForm() {
+    let nfaVerbindlichkeitFrom = '';
+    let nfaVerbindlichkeitTill = '';
     let nfaExplanation = '';
     let nfaName = '';
     let nfaCatalogReference = '';
@@ -328,6 +349,13 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       'nfaName': new FormControl(nfaName),
       'nfaCatalogReference': new FormControl(nfaCatalogReference),
     });
+    this.popupform = new FormGroup({
+
+      'nfaVerbindlichkeitFrom': new FormControl(nfaVerbindlichkeitFrom, Validators.required),
+      'nfaVerbindlichkeitTill': new FormControl(nfaVerbindlichkeitTill, Validators.required),
+
+    });
+
   }
 
 
@@ -364,10 +392,11 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   toggleSelectionNfa(selectedNfa : NfaCatalogModel){
     //Fetch the savedNfa list (either from project, or locally)
     let savedNfs = this.getSavedNfa();
-
+    console.log("Toggle selection start " + this.nfaFoundInSavedNfas(selectedNfa, savedNfs));
     if(!this.nfaFoundInSavedNfas(selectedNfa, savedNfs)){
       //Add it to the List if its not yet there
       savedNfs.push(selectedNfa);
+
 
     }else{
       //Remove it from the List if it is there already
@@ -377,6 +406,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
     //Update the locally stored list. It will be saved later on saving the project.
     this.local.set(DExchS.selNfs, savedNfs);
+    console.log("Toggle selection end " + this.nfaFoundInSavedNfas(selectedNfa, savedNfs));
   }
 
   /**
