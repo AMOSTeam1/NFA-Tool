@@ -125,6 +125,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
     if (this.project_is_in_editmode) {
       const edited_project = this.currentProjectService.getCurrentlyEditedProject();
+
       if (edited_project['projectTypes']){
 
         projectTypes = new FormArray([]);
@@ -176,7 +177,8 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
     else if(this.local.get(DExchS.project_mode)){
       const project = this.local.get(DExchS.currProject);
-      if (project['projectTypes']){
+
+        if (project['projectTypes']){
       projectTypes = new FormArray([]);
       for(const type of project.projectTypes) {
         projectTypes.push(

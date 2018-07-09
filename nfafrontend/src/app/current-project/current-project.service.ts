@@ -78,11 +78,21 @@ export class CurrentProjectService {
   }
 
   updateProject(id: number, newProject: Project) {
+    console.debug("updateProject(id: number, newProject: Project) {");
+    console.debug(id);
+    console.debug(newProject);
+    console.debug(this.projectsSubset);
+    console.debug("----------------- DONE -------------------------");
+
+
     for(let index in this.projectsSubset){
       if(this.projectsSubset[index].id == id){
+        console.debug(index + " + " + id);
+        console.debug(this.projectsSubset[index]);
         this.projectsSubset[index] = newProject;
       }
     }
+    console.debug(this.projectsSubset);
     this.projectsChanged.next(this.projectsSubset.slice());
   }
 
@@ -122,6 +132,8 @@ export class CurrentProjectService {
   }
 
   setCustomNfa(customNfas: NfaCustomModel[]){
+    console.debug("Refresh Custom NFAS");
+    console.debug(customNfas);
     this.custom_nfas = customNfas;
   }
 

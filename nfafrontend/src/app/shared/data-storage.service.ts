@@ -55,7 +55,7 @@ export class DataStorageService {
   }
 
   getCustomNfaPerProject(project_id: number) : Observable<NfaCustomModel[]>{
-    return this.http.get<NfaCustomModel[]>('http://localhost:8080/nfabackend/webapi/nfa_edit/'+project_id);
+    return this.http.get<NfaCustomModel[]>('http://localhost:8080/nfabackend/webapi/nfa_edit/'+project_id, httpOptionsJson);
   }
 
   getNfaCatalog() : Observable<NfaCatalogModel[]>{

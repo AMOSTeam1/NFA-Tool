@@ -15,7 +15,6 @@ export class ProjectItemComponent implements OnInit {
   constructor(
     private currentProjectService: CurrentProjectService
   ) {
-    // this.currentProjectService.setCurrentlyEditedProject(this.project);
   }
 
   ngOnInit() {

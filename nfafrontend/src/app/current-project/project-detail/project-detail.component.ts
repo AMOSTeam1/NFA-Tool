@@ -42,6 +42,9 @@ export class ProjectDetailComponent implements OnInit {
 
           this.stackHolders = this.displayed_project.projectStakeholders.slice();
           this.selectedStakeHolders = this.stackHolders;
+
+          this.currentProjectService.clearEditedProject();
+          this.local.clear();
         }
 
       );

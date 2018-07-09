@@ -308,6 +308,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       )
     );
 
+    //Refresh the Values inside Custom_Nfa
     this.subscription.push(
       this.dataStorageService.getCustomNfaPerProject(this.project_id_param).subscribe(
         value => this.currentProjectService.setCustomNfa(value)
