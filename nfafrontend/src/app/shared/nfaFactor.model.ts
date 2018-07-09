@@ -1,4 +1,4 @@
-import {NfaCriteriaModel} from "./nfaCriteria.model";
+import {NfaCriteriaModel} from './nfaCriteria.model';
 
 export class NfaFactorModel {
   constructor(

@@ -9,9 +9,12 @@ import { Subject } from 'rxjs/Subject';
 export class AuthenticationService {
   private subject = new Subject<any>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log('Authentication is executed');
+  }
 
-  login(username: string, password: string) {
+  login(username: string, password: string): Observable<any> {
+    console.log('Authentication LOGIN is called');
     return this.http.post<any>('/authenticate', { username: username, password: password })
       .map(user => {
         // login successful if there's a jwt token in the response
@@ -26,12 +29,14 @@ export class AuthenticationService {
   }
 
   logout() {
+    console.log('Authentication LOGOUT is called');
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.subject.next();
 
   }
   getStatus(): Observable<any> {
+    console.log('Authentication GETSTATUS is called');
     // return observable to be notified of status updates (login/logout)
     return this.subject.asObservable();
   }

@@ -49,7 +49,7 @@ const appRoutes: Routes = [
     ]},
   {path: 'curr-projects', component: CurrentProjectComponent, children: [
     {path:  'new', component: ProjectEditComponent},
-    {path: ':id', component: ProjectDetailComponent,},
+    {path: ':id', component: ProjectDetailComponent },
     {path: ':id/edit', component: ProjectEditComponent},
     {path: ':id/edit/stakeholder', component: StakeHolderComponent}
   ]},

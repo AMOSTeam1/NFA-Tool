@@ -36,7 +36,7 @@ export class StakeHolderComponent implements OnInit {
           this.dataStorageService.getNfaFactor()
             .subscribe(
               (response: Response) => {
-                const nfaFactors: NfaFactorModel[]=response.json();
+                const nfaFactors: NfaFactorModel[]= response.json();
                 this.nfaCatalogService.setNfaFactors(nfaFactors);
                 this.nfaFactors = nfaFactors;
               }

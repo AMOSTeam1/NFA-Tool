@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import  {User} from './user';
+import {Observable} from 'rxjs/Observable';
+import {User} from './user';
 
 @Injectable()
 export class UserService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log('execute user.service.ts');
+  }
 
-  getAll() {
-    return this.http.get<User[]>('/users');
+  getUser(): Observable<User> {
+    console.log('execute user.service.ts GET');
+    return this.http.get<User>('http://localhost:8080/nfabackend/webapi/user');
+
   }
 }

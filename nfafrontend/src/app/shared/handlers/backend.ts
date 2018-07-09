@@ -7,33 +7,59 @@ import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/materialize';
 import 'rxjs/add/operator/dematerialize';
+import {User} from '../user';
+import {UserService} from '../user.service';
+
+
 
 @Injectable()
 export class BackendInterceptor implements HttpInterceptor {
 
-  constructor() { }
+
+  constructor(public userService: UserService,
+              public user: User
+  ) {
+
+       console.log('execute backend.ts');
+
+     }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const testUser = { id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' };
 
-    // wrap in delayed observable to simulate server api call
-    return Observable.of(null).mergeMap(() => {
+    console.log('execute backend.ts INTERCEPT');
 
-      // authenticate
-      if (request.url.endsWith('/authenticate') && request.method === 'POST') {
+    // authenticate
+
+    if (request.url.endsWith('/authenticate') && request.method === 'POST') {
+
+        this.userService.getUser()
+        .subscribe(data => {
+          this.user = data;
+        });
+
+        const testUser = {id: this.user.user_id, username: this.user.username, password: this.user.password};
+
         if (request.body.username === testUser.username && request.body.password === testUser.password) {
           // if login details are valid return 200 OK with a fake jwt token
           return Observable.of(new HttpResponse({ status: 200, body: { token: 'token' } }));
         } else {
           // else return 400 bad request
-          //TODO add translation
+          // TODO add translation
           return Observable.throw('Username or password is incorrect');
         }
       }
-
+   /* this.userService.getUser()
+      .subscribe(data => {
+        this.user = data;
+      });*/
       // get users
       if (request.url.endsWith('/users') && request.method === 'GET') {
-        // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
+        this.userService.getUser()
+          .subscribe(data => {
+            this.user = data;
+          });
+
+        const testUser = {id: this.user.user_id, username: this.user.username, password: this.user.password};
         if (request.headers.get('Authorization') === 'Bearer token') {
           return Observable.of(new HttpResponse({ status: 200, body: [testUser] }));
         } else {
@@ -45,12 +71,7 @@ export class BackendInterceptor implements HttpInterceptor {
       // pass through any requests not handled above
       return next.handle(request);
 
-    })
 
-    // call materialize and dematerialize to ensure delay even if an error is thrown
-      .materialize()
-      .delay(500)
-      .dematerialize();
   }
 }
 

@@ -18,6 +18,7 @@ import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
+import com.msg.nfabackend.entities.User;
 import com.msg.nfabackend.entities.nfaCatalog;
 
 @Stateless
@@ -164,6 +165,11 @@ public class QueryService {
 	public List<Stakeholder> getAllStakeholder() {
 		return em.createQuery("from Stakeholder", Stakeholder.class).getResultList();
 	}
+	
+	public List<User> getAllUser() {
+		return em.createQuery("from User", User.class).getResultList();
+	}
+
 
 
 }

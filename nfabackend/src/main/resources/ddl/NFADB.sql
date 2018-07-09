@@ -18,6 +18,8 @@ DROP TABLE IF EXISTS factor_criteria;
 DROP TABLE IF EXISTS nfa_factor;
 DROP TABLE IF EXISTS nfa_criteria;
 
+DROP TABLE IF EXISTS users;
+
 
 CREATE TABLE public.nfa_project
 (
@@ -405,3 +407,13 @@ CREATE TABLE public.stakeholder_factor
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
+
+CREATE TABLE public.users
+(
+    user_id serial NOT NULL,
+    username character(100),
+    password character(100),
+    CONSTRAINT user_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO public.users VALUES (1, "test", "test");
