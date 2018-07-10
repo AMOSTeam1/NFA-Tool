@@ -62,7 +62,6 @@
       </div>
 
       <!-- PopUp -->
-      <form [formGroup]="popupform" (ngSubmit) = "onNfaValueSubmit()">
       <div *ngIf="!nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_in_metric])" class="modal fade" id="VerbindlichkeitPopUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
