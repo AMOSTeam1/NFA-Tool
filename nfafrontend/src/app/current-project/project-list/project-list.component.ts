@@ -22,6 +22,7 @@ enum STATUS {
 
 export class ProjectListComponent implements OnInit , OnDestroy{
 
+  showLoading = true;
   projects: Project[];
   private subscription: ISubscription[];
 
@@ -43,6 +44,7 @@ export class ProjectListComponent implements OnInit , OnDestroy{
           const projects: Project[] = response;
           this.currentProjectService.setProjects(projects);
           this.projects = projects;
+          this.showLoading = false;
         },
         error1 => console.log(error1)
       );
