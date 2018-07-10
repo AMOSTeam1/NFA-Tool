@@ -11,7 +11,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { WaveBarComponent } from './ui/wave-bar/wave-bar.component';
+import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.component';
 
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -71,6 +72,8 @@ import {BackendProvider} from './shared/handlers/backend';
     DenfaformComponent,
     EnnfaformComponent,
     LoginComponent,
+    LoadingSpinnerComponent,
+    WaveBarComponent,
 
   ],
   imports: [
