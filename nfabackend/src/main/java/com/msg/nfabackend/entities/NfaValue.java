@@ -17,10 +17,10 @@ public class NfaValue {
 	private long id;
 	
 	@Column (name ="nfa_verbindlichkeit_from")
-	private String nfaVerbindlichkeitFrom;
+	private Long nfaVerbindlichkeitFrom;
 	
 	@Column (name ="nfa_Verbindlichkeit_till")
-	private String nfaVerbindlichkeitTill;
+	private Long nfaVerbindlichkeitTill;
 
 	public long getId() {
 		return id;
@@ -30,19 +30,19 @@ public class NfaValue {
 		this.id = id;
 	}
 
-	public String getNfaVerbindlichkeitFrom() {
+	public Long getNfaVerbindlichkeitFrom() {
 		return nfaVerbindlichkeitFrom;
 	}
 
-	public void setNfaVerbindlichkeitFrom(String nfaVerbindlichkeitFrom) {
+	public void setNfaVerbindlichkeitFrom(Long nfaVerbindlichkeitFrom) {
 		this.nfaVerbindlichkeitFrom = nfaVerbindlichkeitFrom;
 	}
 
-	public String getNfaVerbindlichkeitTill() {
+	public Long getNfaVerbindlichkeitTill() {
 		return nfaVerbindlichkeitTill;
 	}
 
-	public void setNfaVerbindlichkeitTill(String nfaVerbindlichkeitTill) {
+	public void setNfaVerbindlichkeitTill(Long nfaVerbindlichkeitTill) {
 		this.nfaVerbindlichkeitTill = nfaVerbindlichkeitTill;
 	}
 }

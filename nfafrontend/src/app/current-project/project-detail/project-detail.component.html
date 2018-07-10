@@ -76,6 +76,7 @@
       </div>
       <div class="modal-body">
         <h6>Stakeholder List</h6>
+          <!--Todo make bilingual-->
         <ul class="list-group">
           <li *ngFor="let s of stackHolders" class="list-group-items">
             <span class="list-group-item-text">{{s.stakeholder_name}}</span>
@@ -86,6 +87,7 @@
         </ul>
         <div>
           <a *ngIf="isExported" href= "http://localhost:8080/nfabackend/webapi/projectexport/download"> Download XML File </a>
+          <!--Todo make bilingual-->
         </div>
       </div>
       <div class="modal-footer">

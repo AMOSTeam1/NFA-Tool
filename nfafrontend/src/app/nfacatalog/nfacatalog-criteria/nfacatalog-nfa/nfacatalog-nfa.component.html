@@ -72,16 +72,17 @@
                 <span aria-hidden="true">&times;</span>
               </button>
               <h4 class="modal-title">{{'nfa.project-details.verbindlichkeit-popup.label' | translate }}</h4>
+
               <h5 class="modal-title">{{'nfa.project-details.verbindlichkeit-popup.start-value' | translate }}</h5>
               <div>
-                <input type="text" id="nfaValueFrom" formControlName="nfaVerbindlichkeitFrom"  >
+                <input type="number" id="nfaValueFrom" formControlName="nfaVerbindlichkeitFrom"  >
               </div>
 
               <h5 class="modal-title">{{'nfa.project-details.verbindlichkeit-popup.end-value' | translate }}</h5>
               <div>
-                <input type="text" id="nfaVaueTill" formControlName="nfaVerbindlichkeitTill">
+                <input type="number" id="nfaVaueTill" formControlName="nfaVerbindlichkeitTill">
               </div>
-              <button type="submit" class="btn btn-success"  > <span class="glyphicon glyphicon-floppy-disk"> </span> {{'nfa.project-details.verbindlichkeit-popup.save' | translate }}</button>
+              <button type="submit" class="btn btn-success" [disabled]="!popupform.valid"> <span class="glyphicon glyphicon-floppy-disk"> </span> {{'nfa.project-details.verbindlichkeit-popup.save' | translate }}</button>
             </div>
           </div>
         </div>
