@@ -4,12 +4,17 @@
   </div>
 </div>
 <hr>
-<div class="row">
+<div class="row" *ngIf="!showSpinner">
   <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
 
     <app-nfacatalog-item
       *ngFor="let nfaFactorEl of nfaFactors let i = index"
       [factor]="nfaFactorEl"
       [index]="i"></app-nfacatalog-item>
+  </div>
+</div>
+<div class="row" *ngIf="showSpinner">
+  <div class="col-xs-12">
+    <app-loading-spinner></app-loading-spinner>
   </div>
 </div>

@@ -1,15 +1,40 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12" style="text-align:center">
-      <h1>{{ 'nfa.home.welcome' | translate:{'name': title } }}</h1>
-      <img width="400" alt="NFA Logo" src="logo.png">
-      <hr id="uline">
-      <div class="col-xs-12 col-sm-4 col-md-4 col-sm-offset-1 col-md-offset-4">
-        <button class="btn btn-danger col-xs-12"style="margin-top: 5px" (click)="onClick()">{{
-          'nfa.home.current-projects' | translate }}</button>
+
+<div class="jumbotron">
+  <div class="container">
+      <div class="col-xs-7">
+        <h2><strong>{{ 'nfa.home.welcome' | translate:{'name': title } }}!</strong></h2>
+
+        <h4 class="small" style="min-height: 5em">{{ 'nfa.home.subheading' | translate }}</h4>
+        <button class="btn btn-primary"style="margin-top: 5px" (click)="onClick()">{{ 'nfa.home.current-projects' | translate }}</button>
       </div>
-    </div>
+      <div class="col-xs-5 text-center">
+        <img width="300" alt="NFA Logo" src="logo.png">
+      </div>
   </div>
 </div>
+
+<hr>
+<div class="row">
+  <div class="col-sm-6 col-md-4">
+      <div class="caption text-center">
+        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+        <h4 class="small" style="min-height: 4em">{{ 'nfa.home.thumbnail-1' | translate }}</h4>
+      </div>
+  </div>
+  <div class="col-sm-6 col-md-4">
+      <div class="caption text-center">
+        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+        <h4 class="small" style="min-height: 4em">{{ 'nfa.home.thumbnail-2' | translate }}</h4>
+      </div>
+
+  </div>
+  <div class="col-sm-6 col-md-4">
+      <div class="caption text-center">
+        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+        <h4 class="small" style="min-height: 4em">{{ 'nfa.home.thumbnail-3' | translate }}</h4>
+      </div>
+  </div>
+</div>
+<hr>
 
