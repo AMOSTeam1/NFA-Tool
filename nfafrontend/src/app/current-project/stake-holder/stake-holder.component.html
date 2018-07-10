@@ -3,7 +3,7 @@
     <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
       <div class= "row">
         <div class= "col-xs-12">
-          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid"> <span class="glyphicon glyphicon-floppy-disk"> </span> Save</button>
+          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid"> <span class="glyphicon glyphicon-floppy-disk"> </span> {{'nfa.save' | translate}}</button>
           <button type="button" class="btn btn-danger" (click)="onCancel()">{{ 'nfa.factor' | translate }}</button>
         </div>
       </div>
@@ -26,9 +26,9 @@
                 <label for="factor" class="small">{{ 'nfa.factor' | translate }}:</label>
                 <div class="col-xs-4" >
                   <div class="form-group">
-                    <select class="form-control" id="factor" formControlName="nfa_id">
+                    <select class="form-control" id="factor" formControlName="factorNumber">
                       <option *ngFor="let fact of nfaFactors; let j = index"
-                              [value]="fact.nfa_id">
+                              [value]="fact.factorNumber">
                         {{fact.factor}}
                       </option>
                     </select>

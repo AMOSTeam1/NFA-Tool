@@ -1,16 +1,16 @@
-import {forEach} from '@angular/router/src/utils/collection';
 import {isNull} from 'util';
 
 export class QualifiyingExpression {
   private constructor(
     public de: string,
     public en: string,
-    public abundant: QualifiyingExpression) { }
+    public abundant: QualifiyingExpression)
+  { }
 
     public static listContent(): Array<QualifiyingExpression> {
 
       return [
-        new QualifiyingExpression('gleich', 'equals', null ),
+        new QualifiyingExpression('gleich', 'equal', null ),
         new QualifiyingExpression('genau', 'exactly', null ),
         new QualifiyingExpression('größer als', 'greater than', null ),
         new QualifiyingExpression('mehr als', 'more than', null ),

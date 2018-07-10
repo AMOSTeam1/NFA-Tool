@@ -5,19 +5,14 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { NfacatalogComponent } from './nfacatalog/nfacatalog.component';
 import { NewnfaComponent } from './newnfa/newnfa.component';
-import { NewpackageComponent } from './newpackage/newpackage.component';
 import { HomeComponent } from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {DataStorageService} from './shared/data-storage.service';
-import {Http, HttpModule} from '@angular/http';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularFileUploaderModule } from 'angular-file-uploader';
-
-
-
-
+import { WaveBarComponent } from './ui/wave-bar/wave-bar.component';
+import { LoadingSpinnerComponent } from './ui/loading-spinner/loading-spinner.component';
 
 // import ngx-translate and the http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -40,13 +35,7 @@ import { NfacatalogCriteriaListComponent } from './nfacatalog/nfacatalog-criteri
 import { NfacatalogCriteriaItemComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-criteria-list/nfacatalog-criteria-item/nfacatalog-criteria-item.component';
 import { NfacatalogMetricComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-metric/nfacatalog-metric.component';
 import { NfacatalogNfaComponent } from './nfacatalog/nfacatalog-criteria/nfacatalog-nfa/nfacatalog-nfa.component';
-import { AssignNfaComponent } from './current-project/assign-nfa/assign-nfa.component';
-import { NfaListComponent } from './current-project/assign-nfa/nfa-list/nfa-list.component';
-import { NfaItemComponent } from './current-project/assign-nfa/nfa-list/nfa-item/nfa-item.component';
-import { ChooseNfaComponent } from './current-project/assign-nfa/choose-nfa/choose-nfa.component';
-import { NfaDetailComponent } from './current-project/assign-nfa/nfa-detail/nfa-detail.component';
 import { DataexchangeService } from './shared/dataexchange.service';
-import {Inst} from './shared/blueprints/inst.model';
 import { DenfaformComponent } from './newnfa/nfatemplate/denfaform/denfaform.component';
 import { EnnfaformComponent } from './newnfa/nfatemplate/ennfaform/ennfaform.component';
 import { AngularWebStorageModule } from 'angular-web-storage';
@@ -63,7 +52,6 @@ import {BackendProvider} from './shared/handlers/backend';
     HeaderComponent,
     NfacatalogComponent,
     NewnfaComponent,
-    NewpackageComponent,
     HomeComponent,
     DialogComponent,
     CurrentProjectComponent,
@@ -81,14 +69,11 @@ import {BackendProvider} from './shared/handlers/backend';
     NfacatalogCriteriaItemComponent,
     NfacatalogMetricComponent,
     NfacatalogNfaComponent,
-    AssignNfaComponent,
-    NfaListComponent,
-    NfaItemComponent,
-    ChooseNfaComponent,
-    NfaDetailComponent,
     DenfaformComponent,
     EnnfaformComponent,
     LoginComponent,
+    LoadingSpinnerComponent,
+    WaveBarComponent,
 
   ],
   imports: [
@@ -99,9 +84,7 @@ import {BackendProvider} from './shared/handlers/backend';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    HttpModule,
     BrowserAnimationsModule,
-    AngularFileUploaderModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -46,7 +46,6 @@ public class ProjectResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createProject(Project project, @Context UriInfo uriInfo) {
-
 		Project createProject = queryService.createProject(project);
 		String newId = String.valueOf(createProject.getId());
 		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
@@ -74,14 +73,21 @@ public class ProjectResource {
 		return queryService.findProject(status, lookupCustName);
 	}
 
+	@GET
+	@Path("/{ProjectId}")
+	public Project getProject(@PathParam("ProjectId") Long id) {
+		return queryService.getProject(id);
+	}
+
 	@POST
 	@Path("/importnfa")
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Consumes({ MediaType.MULTIPART_FORM_DATA })
 	public void upload(MultipartFormDataInput input) throws IOException {
 
-		try (InputStream is2 = input.getFormDataPart("file", InputStream.class, null)) {
-			System.out.println("CONSUMED: " + new String(is2.readAllBytes()));
+		try (InputStream is = input.getFormDataPart("file", InputStream.class, null)) {
+			System.out.println(
+					input.getFormDataMap().get("file").get(0).getHeaders() + "\n" + new String(is.readAllBytes()));
 		}
 	}
 

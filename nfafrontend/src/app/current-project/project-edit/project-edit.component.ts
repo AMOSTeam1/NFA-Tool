@@ -1,15 +1,16 @@
-import { DataStorageService } from '../../shared/data-storage.service';
-import { Component, OnInit } from '@angular/core';
-import { Project } from '../../shared/project.model';
-import { CurrentProjectService } from '../current-project.service';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import {DataStorageService} from '../../shared/data-storage.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Project} from '../../shared/project.model';
+import {CurrentProjectService} from '../current-project.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ProjectType} from '../../shared/type.model';
-import {Response} from '@angular/http';
 import {NfaFactorModel} from '../../shared/nfaFactor.model';
-import {NfacatalogService} from '../../nfacatalog//nfacatalog.service';
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import {NfacatalogService} from '../../nfacatalog//nfacatalog.service'
+import {ISubscription} from "rxjs/Subscription";
+import {LocalStorageService} from 'angular-web-storage';
 import {Stakeholder} from '../../shared/stakeholder.model';
+import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 
 
 @Component({
@@ -17,12 +18,14 @@ import {Stakeholder} from '../../shared/stakeholder.model';
   templateUrl: './project-edit.component.html',
   styleUrls: ['./project-edit.component.css']
 })
-export class ProjectEditComponent implements OnInit {
-  id: number;
-  editMode = false;
+export class ProjectEditComponent implements OnInit, OnDestroy {
+  project_id_param: number;
+  project_is_in_editmode = false;
   projectForm: FormGroup;
   types: ProjectType[] = [];
   nfaFactors: NfaFactorModel[];
+
+  subscription : ISubscription[];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -30,31 +33,88 @@ export class ProjectEditComponent implements OnInit {
               private dataStorageService: DataStorageService,
               private nfaCatalogService: NfacatalogService,
               public local: LocalStorageService,
-  ) { }
+  ) {
+    this.subscription = [];
+  }
 
   ngOnInit() {
-    this.route.params.subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
-          this.types = this.currentProjectService.getTypes();
-          this.initForm();
-        });
+    const subscription = this.route.params.subscribe(
+      (params: Params) => {
+        this.project_id_param = +params['project_id'];
+        this.project_is_in_editmode = params['project_id'] != null;
 
-    this.dataStorageService.getNfaFactor()
+        this.types = this.currentProjectService.getTypes();
+
+        console.debug(params['project_id']);
+
+
+        if(params['project_id']){
+          console.debug("Param: Project_id " + params['project_id']);
+
+          if(!this.currentProjectService.hasCurrentlyEditedProject()){
+
+            console.debug("We use project id to fetch proj " + this.project_id_param);
+            let proj : Project = this.currentProjectService.getProjectById(this.project_id_param);
+            console.debug(proj.projectNfas);
+            this.currentProjectService.setCurrentlyEditedProject(proj);
+          }
+          this.subscription.push(
+            this.dataStorageService.getCustomNfaPerProject(this.project_id_param).subscribe(
+              value => this.currentProjectService.setCustomNfa(value)
+            )
+          );
+        }
+        else{
+          //Probably new Project. Need to check.
+          console.debug("This is NEW PROJECT");
+          let newProject : Project = new Project(
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          );
+
+          this.currentProjectService.setCurrentlyEditedProject(newProject);
+
+
+        }
+
+      });
+    this.subscription.push(subscription);
+
+    const subscription2 = this.dataStorageService.getNfaFactors()
       .subscribe(
-        (response: Response) => {
-          const nfaFactors: NfaFactorModel[] = response.json();
+        response => {
+          const nfaFactors: NfaFactorModel[] = response;
           this.nfaCatalogService.setNfaFactors(nfaFactors);
           this.nfaFactors = nfaFactors;
-        }
+        },
+        error1 => console.log(error1)
       );
+
+    this.subscription.push(subscription2);
     this.nfaCatalogService.setProjectMode(true);
+
+    this.initForm();
    }
 
+   ngOnDestroy(){
+     for(let item of this.subscription){
+       item.unsubscribe();
+     }
+   }
+
+   //TODO split body into multiple smaller functions
   private initForm() {
     let projectTypes = new FormArray([]);
-    const projectStakeholders = new FormArray([]);
+    let projectStakeholders = new FormArray([]);
     let customerName = '';
     let customerContact = '';
     let msgContact = '';
@@ -62,12 +122,14 @@ export class ProjectEditComponent implements OnInit {
     let devProcess = '';
     let projectPhase = '';
     let projectStatus = '';
-    if (this.editMode) {
-      const project = this.currentProjectService.getProject(this.id);
-      if (project['projectTypes']) {
+
+    if (this.project_is_in_editmode) {
+      const edited_project = this.currentProjectService.getCurrentlyEditedProject();
+
+      if (edited_project['projectTypes']){
 
         projectTypes = new FormArray([]);
-        for (const type of project.projectTypes) {
+        for(const type of edited_project.projectTypes) {
           projectTypes.push(
             new FormGroup({
               'id' : new FormControl(type.id, Validators.required),
@@ -77,18 +139,18 @@ export class ProjectEditComponent implements OnInit {
         }}
 
       /*stakeholder changes begin*/
-      if (project['projectStakeholders']) {
-        for (const stakeholder of project.projectStakeholders) {
+      if(edited_project['projectStakeholders']) {
+        for(const stakeholder of edited_project.projectStakeholders) {
 
-          const stakeholderFactors = new FormArray([]);
-          if (stakeholder['stakeholderFactors']) {
-            for (const factor of stakeholder.stakeholderFactors) {
+          let stakeholderFactors= new FormArray([]);
+          if(stakeholder['stakeholderFactors']) {
+            for(const factor of stakeholder.stakeholderFactors) {
 
               stakeholderFactors.push(
                 new FormGroup({
-                  'nfa_id' : new FormControl(factor, Validators.required)
+                  'factorNumber' : new FormControl(factor, Validators.required)
                 })
-              );
+              )
             }
           }
 
@@ -104,18 +166,21 @@ export class ProjectEditComponent implements OnInit {
       /*stakeholder changes ends*/
 
 
-      customerName = project.customerName;
-      customerContact = project.contactPersCustomer;
-      msgContact = project.contactPersMsg;
-      branch = project.branch;
-      devProcess = project.developmentProcess;
-      projectPhase = project.projectPhase;
-      projectStatus = project.projectStatus;
-    } else if (this.local.get('nfaMode')) {
-      const project = this.local.get('currProject');
-      if (project['projectTypes']) {
+      customerName = edited_project.customerName;
+      customerContact = edited_project.contactPersCustomer;
+      msgContact = edited_project.contactPersMsg;
+      branch = edited_project.branch;
+      devProcess = edited_project.developmentProcess;
+      projectPhase = edited_project.projectPhase;
+      projectStatus = edited_project.projectStatus;
+    }
+
+    else if(this.local.get(DExchS.project_mode)){
+      const project = this.local.get(DExchS.currProject);
+
+        if (project['projectTypes']){
       projectTypes = new FormArray([]);
-      for (const type of project.projectTypes) {
+      for(const type of project.projectTypes) {
         projectTypes.push(
           new FormGroup({
             'id' : new FormControl(type.id, Validators.required),
@@ -123,18 +188,6 @@ export class ProjectEditComponent implements OnInit {
           })
         );
       }}
-
-    /*for(const holder of project.projectStakeholder){
-      this.newAttribute.stakeholder_name = holder.stakeholder_name;
-      this.newAttribute.factor = [];
-      for(const fac of holder.stakeholderFactors){
-        this.newAttribute.factor.push(fac.factor);
-      }
-      //this.newAttribute = holder;
-      this.fieldArray.push(this.newAttribute);
-      this.newAttribute = {};
-    }*/
-
 
     customerName = project.customerName;
     customerContact = project.contactPersCustomer;
@@ -144,21 +197,22 @@ export class ProjectEditComponent implements OnInit {
     projectPhase = project.projectPhase;
     projectStatus = project.projectStatus;
 
-    } else {
-        projectTypes.push(
-          new FormGroup({
-            'id' : new FormControl('', Validators.required),
-            'name' : new FormControl('')
-          }));
+    }
+    else {
+      projectTypes.push(
+        new FormGroup({
+          'id' : new FormControl('', Validators.required),
+          'name' : new FormControl('')
+        }));
 
       /*stakeholder changes begins*/
       const stakeholderFactors = new FormArray([]);
       stakeholderFactors.push(
         new FormGroup({
-          'nfa_id' : new FormControl('', Validators.required)
+          'factorNumber' : new FormControl('', Validators.required)
         })
-
       );
+
       projectStakeholders.push(
         new FormGroup({
           'stakeholder_id' : new FormControl(''),
@@ -168,30 +222,27 @@ export class ProjectEditComponent implements OnInit {
       );
       /*stakeholder changes ends*/
     }
+
     this.projectForm = new FormGroup({
+      //Form Groups
       'types' : projectTypes,
-      /*stakeholder changes begins*/
       'projectStakeholders' : projectStakeholders,
-      /*stakeholder changes ends*/
+
+      //Form Controls
       'customerName': new FormControl(customerName, Validators.required),
       'customerContact': new FormControl(customerContact, Validators.required),
       'msgContact': new FormControl(msgContact, Validators.required),
       'branch': new FormControl(branch, Validators.required),
       'devProcess': new FormControl(devProcess, Validators.required),
       'projectPhase': new FormControl(projectPhase, Validators.required),
-      'projectStatus': new FormControl(projectStatus, Validators.required),
-      'importNfaControl': new FormControl(null)
+      'projectStatus': new FormControl(projectStatus, Validators.required)
     });
-  }
-
-  onImportNfa(event) {
-    this.dataStorageService.importNfa((<FileList>event.target.files).item(0));
   }
 
   onSubmit() {
     this.local.clear();
     const newProject = new Project(
-      this.id,
+      this.project_id_param,
       this.projectForm.value['customerName'],
       this.projectForm.value['customerContact'],
       this.projectForm.value['msgContact'],
@@ -205,55 +256,81 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['projectStatus'],
       []
     );
-    for (let i = 0; i < newProject.projectTypes.length; i++) {
+
+    for (let i = 0; i < newProject.projectTypes.length; i++){
       this.types.forEach((x) => {
         if (x.id.toString() === newProject.projectTypes[i].id.toString()) {newProject.projectTypes[i].name = x.name; }
       });
     }
+
     /*stakeholder changes begins*/
     const stakeholders: Stakeholder[] = [];
     const projectStakeholders = this.projectForm.value['projectStakeholders'];
+
     for (let i = 0; i < projectStakeholders.length; i++) {
       const stakeholder: Stakeholder = new Stakeholder(null, null, []);
+
       stakeholder.stakeholder_id = projectStakeholders[i].stakeholder_id;
       stakeholder.stakeholder_name = projectStakeholders[i].stakeholder_name;
+
       for (let j = 0; j < projectStakeholders[i].stakeholderFactors.length; j++) {
+
         this.nfaFactors.forEach((x) => {
-          if (x.nfa_id.toString() === projectStakeholders[i].stakeholderFactors[j].nfa_id.toString()) {stakeholder.stakeholderFactors.push(x.nfa_id); }});
+
+          if (x.factorNumber.toString() === projectStakeholders[i].stakeholderFactors[j].factorNumber.toString())
+          {
+            stakeholder.stakeholderFactors.push(x.factorNumber);
+          }
+        });
       }
       stakeholders.push(stakeholder);
     }
+
     newProject.projectStakeholders = stakeholders;
     /*stakeholder changes ends*/
-    if (this.editMode) {
-      newProject.id = this.currentProjectService.getProject(this.id).id;
-      newProject.projectNfas = this.currentProjectService.getProject(this.id).projectNfas;
-      console.log(newProject);
-      this.currentProjectService.updateProject(this.id, newProject);
-      this.dataStorageService.updateProject(newProject)
+
+    if (this.project_is_in_editmode) {
+      let loadedProject : Project = this.currentProjectService.getCurrentlyEditedProject();
+      newProject.id = loadedProject.id;
+      newProject.projectNfas = loadedProject.projectNfas.slice();
+      console.log("Saving Project with these NFAS selected");
+      console.log(newProject.projectNfas);
+
+      this.currentProjectService.updateProject(this.project_id_param, newProject);
+
+      const subsciption = this.dataStorageService.updateProject(newProject)
         .subscribe(
-          (response: Response) => {
+          (response) => {
 
             this.onCancel();
             this.currentProjectService.projectsChanged.next(this.currentProjectService.getProjects());
+            console.debug("Update has been send");
           }
         );
+      this.subscription.push(subsciption);
     } else {
+      //new Project needs to be created
       newProject.id = null;
-      this.dataStorageService.storeProject(newProject)
+
+      const subscription = this.dataStorageService.storeProject(newProject)
         .subscribe(
-          (response: Response) => {
-            this.dataStorageService.getProjectByName('On Process', '')
+          (response) => {
+           const subscription1 = this.dataStorageService.getProjectsByName(this.currentProjectService.getStatus(),"")
               .subscribe(
-                (respons: Response) => {
-                  const projects: Project[] = respons.json();
-                  this.currentProjectService.setProjects(projects);
+                respons => {
+                  this.currentProjectService.setProjects(respons);
                   this.onCancel();
-                }
+                },
+                error1 => console.log(error1)
               );
+            this.subscription.push(subscription1);
           }
         );
+      this.subscription.push(subscription);
+
     }
+
+    this.currentProjectService.clearEditedProject();
   }
 
   onCancel() {
@@ -265,11 +342,11 @@ export class ProjectEditComponent implements OnInit {
     return (<FormArray>this.projectForm.get('types')).controls;
   }
 
-  onDeleteType(index: number) {
+  onDeleteType(index: number){
     (<FormArray>this.projectForm.get('types')).removeAt(index);
   }
 
-  onAddType() {
+  onAddType(){
     (<FormArray>this.projectForm.get('types')).push(
       new FormGroup({
         'id' : new FormControl(null, Validators.required),
@@ -278,24 +355,41 @@ export class ProjectEditComponent implements OnInit {
     );
   }
 
-  updatePhase() {
+  updatePhase(){
     const no_phase = new FormControl('None', Validators.required );
     const choose_phase = new FormControl('', Validators.required );
-    if (this.projectForm.value['devProcess'] === 'Agile') { this.projectForm.setControl('projectPhase', no_phase); } else {this.projectForm.setControl('projectPhase', choose_phase); }
+
+    if (this.projectForm.value['devProcess'] === 'Agile')
+    {
+      this.projectForm.setControl('projectPhase', no_phase);
+    }
+    else {
+      this.projectForm.setControl('projectPhase', choose_phase);
+    }
   }
 
   isAgileCheck() {
-    if (this.projectForm.value['devProcess'] === 'Agile') { return true; } else {return false; }
+    if (this.projectForm.value['devProcess'] === 'Agile') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
-  isMinimum(i: number) {
+  isMinimum(i:number){
     return ((<FormArray>this.projectForm.get('types')).length === 1);
   }
 
-  onChooseNfa() {
+  isMaximum(i: number){
+    return ((<FormArray>this.projectForm.get('types')).length === this.types.length);
+  }
 
-     const newProject = new Project(
-      this.id,
+  onChooseNfa(){
+    console.debug("onChooseNfa");
+
+    const newProject = new Project(
+      this.project_id_param,
       this.projectForm.value['customerName'],
       this.projectForm.value['customerContact'],
       this.projectForm.value['msgContact'],
@@ -307,55 +401,62 @@ export class ProjectEditComponent implements OnInit {
       this.projectForm.value['projectStatus'],
       []
     );
-     this.currentProjectService.setProject(newProject);
-    this.local.set('currProject', newProject);
-    this.local.set('nfaMode', true);
 
+    if(this.currentProjectService.hasCurrentlyEditedProject()){
+      this.local.set(DExchS.selNfs, this.currentProjectService.getCurrentlyEditedProject().projectNfas);
+    }
+
+    this.local.set(DExchS.currProject, newProject);
+    this.local.set(DExchS.project_mode,true);
 
     this.router.navigate(['nfa'], {relativeTo: this.route});
   }
+  
+  onImportNfa(event) {
+    this.dataStorageService.importNfa((<FileList>event.target.files).item(0));
+  }
 
   /*changes to add stakeholder begins*/
-  isFacMinimum(i: number, j: number) {
+  isFacMinimum(i: number, j: number){
     return ((<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).length === 1);
   }
 
-  isFacMaximum(i: number, j: number) {
+  isFacMaximum(i: number, j: number){
     return ((<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).length === 13);
   }
 
-  getStakeControls() {
+  getStakeControls(){
     return (<FormArray>this.projectForm.get('projectStakeholders')).controls;
   }
 
-  getFactorControls(i: number) {
+  getFactorControls(i: number){
     return (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).controls;
   }
 
-  onAddStakeholder() {
+  onAddStakeholder(){
     (<FormArray>this.projectForm.get('projectStakeholders')).push(
       new FormGroup({
         'stakeholder_id' : new FormControl(null),
         'stakeholder_name' : new FormControl(null, Validators.required),
-        'stakeholderFactors' : new FormArray([new FormGroup({'nfa_id': new FormControl(null, Validators.required)}),
-          new FormGroup({'nfa_id': new FormControl(null, Validators.required)})])
+        'stakeholderFactors' : new FormArray([new FormGroup({'factorNumber': new FormControl(null, Validators.required)}),
+          new FormGroup({'factorNumber': new FormControl(null, Validators.required)})])
       })
     );
   }
 
-  onDeleteStakeholder(index: number) {
+  onDeleteStakeholder(index: number){
     (<FormArray>this.projectForm.get('projectStakeholders')).removeAt(index);
   }
 
-  onAddFactor(i: number) {
+  onAddFactor(i: number){
     (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).push(
       new FormGroup({
-        'nfa_id': new FormControl(null, Validators.required)
+        'factorNumber' : new FormControl(null, Validators.required)
       })
     );
   }
 
-  onDeleteFactor(i: number, j: number) {
+  onDeleteFactor(i: number, j: number){
     (<FormArray>(<FormArray>this.projectForm.get('projectStakeholders')).at(i).get('stakeholderFactors')).removeAt(j);
   }
   /*changes to add stakeholder ends*/
