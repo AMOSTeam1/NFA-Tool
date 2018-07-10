@@ -100,6 +100,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
         //Init page_is_in_project_mode either from storage or manually
         if(this.local.hasOwnProperty(DExchS.project_mode)) {
           this.page_is_in_project_mode = this.local.get(DExchS.project_mode);
+          console.debug("Set this.page_is_in_project_mode from memory: " + this.page_is_in_project_mode)
         }else{
 
           if ( this.project_id_param ) {
@@ -125,6 +126,9 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
             this.page_is_in_project_mode = false;
           }
         }
+
+        console.debug(this.page_is_in_project_mode);
+        console.debug("this.page_is_in_project_mode");
       });
     this.subscription.push(subscriptionA);
 
@@ -364,6 +368,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     }
   }
 
+  //This is called from an observer. Usually no need to call yourself
   updateCustomNfa(custom: NfaCustomModel) : void {
     this.selected_nfa_has_custom = false;
 
@@ -376,6 +381,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     }
   }
 
+  //This is called from an observer. Usually no need to call yourself
   updateOriginalNfa(original: NfaCatalogModel) : void {
     this.original_nfa = original;
     if(!this.selected_nfa_has_custom){

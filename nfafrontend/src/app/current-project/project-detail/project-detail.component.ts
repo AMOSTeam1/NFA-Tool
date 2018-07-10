@@ -5,6 +5,7 @@ import {Project} from '../../shared/project.model';
 import {Stakeholder} from '../../shared/stakeholder.model'
 import {CurrentProjectService} from '../current-project.service';
 import {LocalStorageService} from 'angular-web-storage';
+import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 
 @Component({
   selector: 'app-project-detail',
@@ -43,6 +44,7 @@ export class ProjectDetailComponent implements OnInit {
           this.stackHolders = this.displayed_project.projectStakeholders.slice();
           this.selectedStakeHolders = this.stackHolders;
 
+          console.debug("FULL RESET OF ALL TEMP DATA 2");
           this.currentProjectService.clearEditedProject();
           this.local.clear();
         }
@@ -52,6 +54,7 @@ export class ProjectDetailComponent implements OnInit {
 
   onEditProject() {
     this.local.clear();
+    this.currentProjectService.setCurrentlyEditedProject(this.displayed_project);
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 

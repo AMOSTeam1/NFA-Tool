@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {CurrentProjectService} from "./current-project.service";
+import {LocalStorageService} from "angular-web-storage";
 
 @Component({
   selector: 'app-current-project',

@@ -44,8 +44,6 @@ export class NfacatalogListComponent implements OnInit {
         }
       );
     this.subscription.push(subscription);
-
-    this.local.set(DExchS.project_mode, false);
   }
 
 }
