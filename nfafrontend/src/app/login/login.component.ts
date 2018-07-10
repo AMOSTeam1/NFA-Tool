@@ -17,15 +17,19 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error = '';
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private translate: TranslateService) {
+    private translate: TranslateService
+   ) {
      translate.setDefaultLang('de');
     console.log('init login');
 
   }
+
+
   useLanguage(language: string) {
     this.translate.use(language);
   }
