@@ -43,8 +43,12 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
 
           tempSubscription = this.dataStorageService.getNfaFactors()
             .subscribe(response => {
+                console.debug("Get nfa factors:");
                 this.nfaFactors = response;
                 this.nfaCatalogService.setNfaFactors(this.nfaFactors);
+                console.debug(response);
+                console.debug(this.factor_id_param);
+
 
                 this.factor = this.nfaFactors[this.factor_id_param];
                 this.nfaCriterias = this.factor.criteriaList;
