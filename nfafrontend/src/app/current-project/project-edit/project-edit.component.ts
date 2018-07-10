@@ -381,6 +381,10 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
     return ((<FormArray>this.projectForm.get('types')).length === 1);
   }
 
+  isMaximum(i: number){
+    return ((<FormArray>this.projectForm.get('types')).length === this.types.length);
+  }
+
   onChooseNfa(){
     console.debug("onChooseNfa");
 
