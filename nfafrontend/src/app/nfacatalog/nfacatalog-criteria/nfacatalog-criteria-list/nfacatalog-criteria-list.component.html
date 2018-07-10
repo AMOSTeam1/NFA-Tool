@@ -1,4 +1,5 @@
-<div class="row">
+<hr>
+<div class="row" *ngIf="!showLoading">
   <div class="col-xs-12">
     <div *ngFor="let factor of nfaFactors let i = index">
       <a class="list-group-item clearfix"
@@ -17,5 +18,10 @@
       ></app-nfacatalog-criteria-item>
       </div>
     </div>
+  </div>
+</div>
+<div class="row" *ngIf="showLoading">
+  <div class="col-xs-12">
+    <app-wave-bar></app-wave-bar>
   </div>
 </div>

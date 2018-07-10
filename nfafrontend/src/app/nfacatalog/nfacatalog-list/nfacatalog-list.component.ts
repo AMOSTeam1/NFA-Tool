@@ -17,7 +17,7 @@ import {DataexchangeService as DExchS} from "../../shared/dataexchange.service";
 })
 export class NfacatalogListComponent implements OnInit {
 
-
+  showSpinner = true;
   nfaFactors: NfaFactorModel[] = [];
   criteria: NfaCriteriaModel[];
   nfa: NfaCatalogModel[];
@@ -40,6 +40,7 @@ export class NfacatalogListComponent implements OnInit {
         response => {
           this.nfaFactors = response;
           this.nfaCatalogService.setNfaFactors(this.nfaFactors);
+          this.showSpinner = false;
         }
       );
     this.subscription.push(subscription);

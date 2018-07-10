@@ -34,11 +34,16 @@
   </div>
 </div>
 <hr>
-<div class="row">
+<div class="row" *ngIf="!showLoading">
   <div class="col-xs-12">
     <app-project-item
       *ngFor="let projectEl of projects let i = index"
       [project]="projectEl"
       [id]="projectEl.id"></app-project-item>
+  </div>
+</div>
+<div class="row" *ngIf="showLoading">
+  <div class="col-xs-12">
+    <app-wave-bar></app-wave-bar>
   </div>
 </div>
