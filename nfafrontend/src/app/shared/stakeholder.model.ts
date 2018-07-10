@@ -1,4 +1,3 @@
-import {NfaFactorModel} from './nfaFactor.model';
 
 export class Stakeholder {
   constructor(

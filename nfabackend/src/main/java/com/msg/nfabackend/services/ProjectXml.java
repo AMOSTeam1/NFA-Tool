@@ -1,23 +1,20 @@
 package com.msg.nfabackend.services;
-import java.util.ArrayList;
 import java.util.Set;
-
 import javax.xml.bind.annotation.*;
 
-import com.msg.nfabackend.entities.Stakeholder;
-import com.msg.nfabackend.entities.nfaCatalog;
-import com.msg.nfabackend.entities.Metric;
-import com.msg.nfabackend.entities.NfaCriteria;
-import com.msg.nfabackend.entities.NfaFactor;
-import com.msg.nfabackend.entities.NfaFactor;
-import com.msg.nfabackend.entities.NfaFactor;;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import com.msg.nfabackend.entities.*;
+
+
 /**
  * 
  * @author Mai
  * This file is xml structure for the project data 
  *
  */
-
 @XmlRootElement(name = "project")
 @XmlType(propOrder = { "name", "faktor" ,"stakeholderId", "stakeholderName"})
 public class ProjectXml {
@@ -28,15 +25,14 @@ public class ProjectXml {
 	    private Set<NfaFactor> factorsList;
 	    private NfaCriteria crieria;
 	    private Metric metric;
-	    private Set<nfaCatalog> nfasList;
+	    private Set<NfaCatalog> nfasList;
 	    private Stakeholder stakeholder;
 	    private NfaFactor factor;
-	    private nfaCatalog  nfa;
+	    private NfaCatalog  nfa;
 	    private String name;
 	    private String stakeholderName;
 	    
-	     
-	    @XmlAttribute(name = "projectId")
+    @XmlAttribute(name = "projectId")
 	    public Long getProjectId() {
 	        return projectId;
 	    }

@@ -1,4 +1,3 @@
-
 import {Subject} from "rxjs/Subject";
 import {NfaCatalogModel} from "../shared/nfaCatalog.model";
 import {NfaFactorModel} from "../shared/nfaFactor.model";
@@ -7,11 +6,11 @@ import {CurrentProjectService} from '../current-project/current-project.service'
 
 
 export class NfacatalogService {
+
   private nfaCatalog: NfaCatalogModel[];
   nfaCatalogChanged = new Subject<NfaCatalogModel[]>();
-  currentProhjectService  = new CurrentProjectService();
+  currentProjectService  = new CurrentProjectService();
   projectMode: boolean;
-  private projectNfs: NfaCatalogModel[];
   projectId: number;
 
   private nfaFactors: NfaFactorModel[];
@@ -40,7 +39,6 @@ export class NfacatalogService {
   setnfaCatalogs(nfaCatalogs: NfaCatalogModel[]) {
     this.nfaCatalog = nfaCatalogs;
     this.nfaCatalogChanged.next(this.nfaCatalog.slice());
-    console.log(this.nfaCatalog.slice());
   }
 
   setNfaFactors(nfaFactors: NfaFactorModel[]) {
@@ -61,10 +59,11 @@ export class NfacatalogService {
     return this.nfaCriterias.slice();
   }
 
-  getNfaCriteria(index: number) {
+  getNfaCriteria(index: number) : NfaCriteriaModel {
     return this.nfaCriterias[index];
   }
-  getNfaFactor(index: number) {
+  getNfaFactor(index: number) : NfaFactorModel {
     return this.nfaFactors[index];
   }
+
 }

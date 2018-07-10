@@ -16,9 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.*;
-import javax.xml.bind.JAXBElement;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name ="nfa_factor")
@@ -31,8 +29,9 @@ public class NfaFactor {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name ="factor_id")
-	protected Long nfa_id;
-	
+
+	private Long factorNumber;
+
 	@Column (name ="factor")
 	protected String factor;
 	
@@ -49,8 +48,6 @@ public class NfaFactor {
 	@OrderBy("criteria_num ASC")
 	private Set<NfaCriteria> criteriaList = new HashSet<NfaCriteria>();
 	
-
-
 	public Set<NfaCriteria> getCriteriaList() {
 		return criteriaList;
 	}
@@ -59,19 +56,21 @@ public class NfaFactor {
 		this.criteriaList = criteriaList;
 	}
 
-	public Long getNfa_id() {
-		return nfa_id;
+	public Long getFactorNumber() {
+		return factorNumber;
 	}
-	public void setNfa_id(Long nfa_id) {
-		this.nfa_id = nfa_id;
+
+	public void setFactorNumber(Long factorNumber) {
+		this.factorNumber = factorNumber;
+
 	}
 	@XmlElement
 	public void setId(Long nfa_id) {
-		this.nfa_id = nfa_id;
+		this.factorNumber = nfa_id;
 	}
 	
 	public Long getId() {
-		return nfa_id;
+		return factorNumber;
 	}
 	
     @XmlElement (name = "bezeichnung")

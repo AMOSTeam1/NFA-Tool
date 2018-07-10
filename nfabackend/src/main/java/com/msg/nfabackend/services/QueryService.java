@@ -1,6 +1,8 @@
 package com.msg.nfabackend.services;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,13 +14,14 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.cfg.NotYetImplementedException;
 
+import com.msg.nfabackend.entities.CustomNFA;
 import com.msg.nfabackend.entities.Metric;
+import com.msg.nfabackend.entities.NfaCatalog;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
-import com.msg.nfabackend.entities.nfaCatalog;
 
 @Stateless
 public class QueryService {
@@ -28,6 +31,10 @@ public class QueryService {
 
 	public List<Project> getAllProject() {
 		return em.createQuery("from Project", Project.class).getResultList();
+	}
+	
+	public Project getProject(Long projectId) {
+		return em.createQuery("from Project WHERE id IS " + projectId, Project.class).getSingleResult();
 	}
 
 	public List<Project> findProject(String status, String lookupCustName) {
@@ -61,17 +68,31 @@ public class QueryService {
 		return project;
 	}
 
-	public nfaCatalog createNfa(Long metricId, nfaCatalog nfaCatalog) {
+	public NfaCatalog createNfa(Long metricId, NfaCatalog nfaCatalog) {
 		Metric metric = em.find(Metric.class, metricId);
 		nfaCatalog.setNfaNumber((long) metric.getNfaList().size());
 
-		nfaCatalog.getNfaCatalogBlueprint().createDescription(nfaCatalog.getNfaCatalogWert());
+        nfaCatalog.getBlueprint().createDescription(nfaCatalog.getValues());
 
 		em.persist(nfaCatalog);
 
 		metric.getNfaList().add(nfaCatalog);
 
 		return nfaCatalog;
+	}
+
+	public CustomNFA createCustomNfa (CustomNFA customNfa, long projectId, long originalId) {
+		System.out.println("TEST: " + customNfa.getBlueprint().getDe().getErklaerung());
+
+		NfaCatalog originalNfa = em.find(NfaCatalog.class, originalId);
+		Project project = em.find(Project.class, projectId);
+	
+		customNfa.setOriginalNfa(originalNfa);
+		customNfa.setProject(project);
+
+		em.merge(customNfa);
+
+		return customNfa;
 	}
 
 	public void removeProject(Long id) {
@@ -102,8 +123,16 @@ public class QueryService {
 		project.setProjectStatus(editedProject.getProjectStatus());
 		project.setProjectTypes(editedProject.getProjectTypes());
 		project.setProjectStakeholders(editedProject.getProjectStakeholders());
-		project.setProjectNfas(editedProject.getProjectNfas());
-		em.merge(editedProject);
+		
+		Set<NfaCatalog> originalNfas = new HashSet<NfaCatalog>();
+		for(NfaCatalog nfa : editedProject.getProjectNfas()) {
+			NfaCatalog equivalent = em.find(NfaCatalog.class,  nfa.getId());
+			if(equivalent != null) {
+				originalNfas.add(equivalent);
+			}
+		}
+		project.setProjectNfas(originalNfas);
+		em.merge(project);
 
 	}
 
@@ -111,8 +140,8 @@ public class QueryService {
 		return em.createQuery("from Type", Type.class).getResultList();
 	}
 
-	public List<nfaCatalog> getAllNfa() {
-		return em.createQuery("from nfaCatalog", nfaCatalog.class).getResultList();
+	public List<NfaCatalog> getAllNfa() {
+		return em.createQuery("from NfaCatalog", NfaCatalog.class).getResultList();
 	}
 
 	public List<NfaFactor> getAllFactors() {
@@ -139,7 +168,7 @@ public class QueryService {
 		criteria.where(criteriaBuilder.like(fromProject.<String>get("projectStatus"), status));
 		return em.createQuery(criteria).getResultList();
 	}
-	
+
 
 /**
  * get the project by its id
@@ -151,11 +180,11 @@ public class QueryService {
 		return em.find(Project.class, id);
 	}
 /**
- * get nfafactor by its id	
+ * get nfafactor by its id
  * @param id
  * @return
  */
-	
+
 	public NfaFactor getFactorById(Long id) {
 			return  em.find(NfaFactor.class,id);
     }
@@ -165,5 +194,12 @@ public class QueryService {
 		return em.createQuery("from Stakeholder", Stakeholder.class).getResultList();
 	}
 
+	public NfaCatalog getNfa(int nfa_id) {
+		return em.createQuery("FROM NfaCatalog WHERE nfa_id IS " + nfa_id, NfaCatalog.class).getSingleResult();
+	}
+
+	public List<CustomNFA> getCustomNfa(int project_id) {
+		return em.createQuery("FROM CustomNFA WHERE project_id IS " + project_id + " ORDER BY custom_id DESC", CustomNFA.class).getResultList();
+	}
 
 }
