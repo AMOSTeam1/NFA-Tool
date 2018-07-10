@@ -27,12 +27,12 @@ export class BackendInterceptor implements HttpInterceptor {
 
   }
 
-  
+
   readUser() {
     this.userService.getUser()
       .subscribe(resp => {
-        this.user = resp;
-        console.log(resp);
+        this.user = resp [0];
+        console.log(resp[0]);
         console.log(this.user.userId);
         console.log(this.user.username);
         this.testUser = {id: this.user.userId, username: this.user.username, password: this.user.password};
@@ -50,7 +50,7 @@ export class BackendInterceptor implements HttpInterceptor {
    // return Observable.of(null).mergeMap(() => {
     if (request.url.endsWith('/authenticate') && request.method === 'POST') {
       this.readUser();
-      this.testUser = {id: this.user.userId, username: this.user.username, password: this.user.password};
+
       console.log('execute backend.ts INTERCEPT');
 
       return Observable.of(null).mergeMap(() => {
@@ -61,14 +61,14 @@ export class BackendInterceptor implements HttpInterceptor {
         } else {
           // else return 400 bad request
           // TODO add translation
-
+console.log (this.testUser.username);
           return Observable.throw('Username or password is incorrect');
 
 
         }
       })
         .materialize()
-        .delay(1000)
+        .delay(15000)
         .dematerialize();
       }
 
@@ -76,7 +76,7 @@ export class BackendInterceptor implements HttpInterceptor {
 
       // get users
       if (request.url.endsWith('/users') && request.method === 'GET') {
-        this.readUser();
+
 
         if (request.headers.get('Authorization') === 'Bearer token') {
           return Observable.of(new HttpResponse({ status: 200, body: [this.testUser] }));
