@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Inst} from './blueprints/inst.model';
-import {Observable} from 'rxjs/src/Observable';
 
 
 @Injectable()
