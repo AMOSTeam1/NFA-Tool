@@ -1,11 +1,11 @@
-import {forEach} from '@angular/router/src/utils/collection';
 import {isNull} from 'util';
 
 export class QualifiyingExpression {
   private constructor(
     public de: string,
     public en: string,
-    public abundant: QualifiyingExpression) { }
+    public abundant: QualifiyingExpression)
+  { }
 
     public static listContent(): Array<QualifiyingExpression> {
 

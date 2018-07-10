@@ -1,17 +1,18 @@
 import {NfaCatalogBlueprintModel} from './nfaCatalogBlueprint.model';
+import {NfaInterfaceModel} from "./nfaInterface.model";
 
-export class NfaCatalogModel {
+export class NfaCatalogModel implements NfaInterfaceModel{
   constructor(
-    public nfaCatalogId: number,
+    public id: number,
     public nfaNumber: number,
-    public nfaCatalogType: string,
-    public rechtlicheVerbindlichkeit: string,
-    public nfaCatalogWert: string[],
-    public nfaCatalogFormulierung: string,
-    public nfaCatalogBlueprint: NfaCatalogBlueprintModel,
-    public nfaCatalogReferenz: string,
-    public nfaCatalogReferenzierteProjekte: string,
-    public nfaCatalogKritikalität: string,
-    public nfaCatalogDokument: string,
+    public type: string,
+    public legalLiability: string,
+    public values: string[],
+    public formulation: string,
+    public blueprint: NfaCatalogBlueprintModel,
+    public reference: string,
+    public referencedProjects: string,
+    public criticality: string,
+    public document: string,
   ) {}
 }

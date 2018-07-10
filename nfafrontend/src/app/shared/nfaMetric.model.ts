@@ -1,6 +1,6 @@
 import {NfaCatalogModel} from './nfaCatalog.model';
 
-export class NfaMetric{
+export class NfaMetricModel{
   constructor(
 
     public id: number,

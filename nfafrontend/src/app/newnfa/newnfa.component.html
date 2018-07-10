@@ -8,7 +8,7 @@
      <label for="factor" class="control-label col-xs-2"><p>{{ 'nfa.factor' | translate }}</p></label>
     <div class="col-xs-3">
       <select class="form-control" formControlName="factor" id="factor" name="factor" required [(ngModel)]='selectedFactor'>
-        <option *ngFor="let fac of nfaFactors" [ngValue]="fac">{{fac.nfa_id}}. {{fac.factor}}</option>
+        <option *ngFor="let fac of nfaFactors" [ngValue]="fac">{{fac.factorNumber}}. {{fac.factor}}</option>
       </select> <br>
     </div>
   </div>
@@ -17,7 +17,8 @@
     <label for="criteria" class="control-label col-xs-2"><p>{{ 'nfa.criteria' | translate }}</p></label>
     <div class="col-xs-3">
     <select class="form-control" formControlName ="criteria" id="criteria" name="criteria" required [(ngModel)]='selectedCriteria'>
-      <option *ngFor="let crit of selectedFactor.criteriaList" [ngValue]="crit">{{selectedFactor.nfa_id}}.{{crit.criteriaNumber}} {{crit.criteria}}</option>
+      <option *ngFor="let crit of selectedFactor.criteriaList" [ngValue]="crit">{{selectedFactor.factorNumber}}.{{crit.criteriaNumber}}
+        {{crit.criteria}}</option>
     </select> <br>
     </div>
   </div>
@@ -26,7 +27,8 @@
     <label for="criteria" class="control-label col-xs-2"><p>{{ 'nfa.metric' | translate }}</p></label>
     <div class="col-xs-3">
     <select class="form-control" formControlName ="metric" name="metric" required [(ngModel)]='selectedMetric'>
-      <option *ngFor="let met of selectedCriteria.metricList" [ngValue]="met">{{selectedFactor.nfa_id}}.{{selectedCriteria.criteriaNumber}}.{{met.metricNumber}} {{met.bezeichnung}}</option>
+      <option *ngFor="let met of selectedCriteria.metricList" [ngValue]="met">{{selectedFactor.factorNumber}}.{{selectedCriteria.criteriaNumber}}.{{met.metricNumber}}
+        {{met.bezeichnung}}</option>
     </select> <br>
     </div>
   </div>

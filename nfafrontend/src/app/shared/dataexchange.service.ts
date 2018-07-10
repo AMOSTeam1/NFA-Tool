@@ -1,14 +1,15 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {AsyncSubject} from 'rxjs/AsyncSubject';
-import {FormControl, Validators} from '@angular/forms';
-import {FormGroup} from '@angular/forms';
 import {Inst} from './blueprints/inst.model';
 import {Observable} from 'rxjs/src/Observable';
 
 
 @Injectable()
 export class DataexchangeService {
+//Define Lookup-Name in Local Storage
+  static selNfs : string = 'selNfs';
+  static currProject : string = 'currProject';
+  static project_mode : string = 'project_mode';
 
   private messageSource = new BehaviorSubject<Inst>(new Inst(null, null, null));
   currentMessage = this.messageSource.asObservable();
