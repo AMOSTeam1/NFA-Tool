@@ -16,7 +16,8 @@ import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
 import {NfaInterfaceModel} from "../../../shared/nfaInterface.model";
 import {DataexchangeService as DExchS} from "../../../shared/dataexchange.service";
 import {Subject} from "rxjs/Subject";
-import {NfaVerbindlichkeitModel} from "../../../shared/nfaVerbindlichkeit.model";
+import {NfaVerbindlichkeitModel} from "../../../shared/NfaVerbindlichkeit.model";
+
 
 @Component({
   selector: 'app-nfacatalog-nfa',
@@ -56,8 +57,6 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   observable_nfa : Subject<NfaCatalogModel> = new Subject<NfaCatalogModel>();
   observable_custom_nfa : Subject<NfaCustomModel> = new Subject<NfaCustomModel>();
   shown_nfa : NfaCatalogModel;
-
-  nfaVerbindlichkeit: NfaVerbindlichkeitModel;
 
   private subscription: ISubscription[];
 
@@ -134,34 +133,34 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
     this.subscription.push(
       this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.criteria_id_param = +params['criteria_id'];
-          this.metric_id_param = +params['metric_id'];
+        .subscribe(
+          (params: Params) => {
+            this.criteria_id_param = +params['criteria_id'];
+            this.metric_id_param = +params['metric_id'];
 
-          this.criteria = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param);
-          this.metric = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param];
-          this.metric_nfas = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param].nfaList;
-
-          //Subscribe to observable, so whenever next function is called, an update is triggered
-          this.subscription.push(
-            this.observable_nfa
-              .subscribe(value => this.updateOriginalNfa(value))
-          );
-
-          if (this.page_is_in_project_mode) {
+            this.criteria = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param);
+            this.metric = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param];
+            this.metric_nfas = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param].nfaList;
 
             //Subscribe to observable, so whenever next function is called, an update is triggered
             this.subscription.push(
-              this.observable_custom_nfa
-                .subscribe(value => this.updateCustomNfa(value))
+              this.observable_nfa
+                .subscribe(value => this.updateOriginalNfa(value))
             );
-          }
 
-          //Initialize original and custom via the Next function
-          this.updateShownNfa();
-        }
-      ));
+            if (this.page_is_in_project_mode) {
+
+              //Subscribe to observable, so whenever next function is called, an update is triggered
+              this.subscription.push(
+                this.observable_custom_nfa
+                  .subscribe(value => this.updateCustomNfa(value))
+              );
+            }
+
+            //Initialize original and custom via the Next function
+            this.updateShownNfa();
+          }
+        ));
 
 
 
@@ -249,7 +248,6 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   getCurrentBlueprint() : IBlueprint {
     let nfa = this.getCurrentNfa();
     // let nfa = this.getRelevantNfa();
-
     if (this.getCurrentLanguage() === 'de') {
       return nfa.blueprint.de;
     } else {
@@ -299,17 +297,17 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
     this.subscription.push(
       this.dataStorageService.storeEditedNfa(this.project_id_param, this.original_nfa.id, customNfa)
-      .subscribe(
-        //TODO Why do we never execute this code? What is still going wrong?
-        response => {
-          console.log("trying to store custom NFA");
-          console.log(response);
-        },
-        err => {
-          console.log("error while trying to store custom NFA");
-          console.log(err);
-        }
-      )
+        .subscribe(
+          //TODO Why do we never execute this code? What is still going wrong?
+          response => {
+            console.log("trying to store custom NFA");
+            console.log(response);
+          },
+          err => {
+            console.log("error while trying to store custom NFA");
+            console.log(err);
+          }
+        )
     );
 
     //Refresh the Values inside Custom_Nfa
@@ -330,9 +328,12 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       this.popupform.value['nfaVerbindlichkeitFrom'],
       this.popupform.value['nfaVerbindlichkeitTill']
     );
-    this.dataStorageService.storeNfaValue(newNfaVerbindlichkeit);
-
-
+    this.subscription.push(
+            this.dataStorageService.storeNfaValue(newNfaVerbindlichkeit).subscribe(
+              result => console.log(result),
+              error1 => console.log(error1)
+          )
+    );
   }
 
   private initForm() {
@@ -479,5 +480,3 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
     return result != undefined;
   }
 }
-
-
