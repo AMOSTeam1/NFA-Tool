@@ -408,12 +408,10 @@ CREATE TABLE public.stakeholder_factor
         ON DELETE NO ACTION
 );
 
-CREATE TABLE public.users
-(
-    user_id serial NOT NULL,
-    username character(100),
-    password character(100),
-    CONSTRAINT user_pkey PRIMARY KEY (id)
+CREATE TABLE public.users (
+  user_id bigserial NOT NULL,
+  username varchar(45) NOT NULL,
+  password varchar(45) NOT NULL,
+  PRIMARY KEY (user_id)
 );
-
 INSERT INTO public.users VALUES (1, "test", "test");
