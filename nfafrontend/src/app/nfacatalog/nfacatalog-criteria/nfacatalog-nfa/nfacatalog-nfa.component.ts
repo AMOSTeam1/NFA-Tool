@@ -327,15 +327,15 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       this.popupform.value['nfaVerbindlichkeitTill']
     );
 
-
   }
 
   private initForm() {
-    let nfaVerbindlichkeitFrom = '';
-    let nfaVerbindlichkeitTill = '';
+    let nfaVerbindlichkeitFrom = null;
+    let nfaVerbindlichkeitTill = null;
     let nfaExplanation = '';
     let nfaName = '';
     let nfaCatalogReference = '';
+
 
     if (this.page_is_in_edit_mode) {
       let currentBlueprint = this.getCurrentBlueprint();

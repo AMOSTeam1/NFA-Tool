@@ -17,6 +17,7 @@ import com.msg.nfabackend.entities.Metric;
 import com.msg.nfabackend.entities.NfaCatalog;
 import com.msg.nfabackend.entities.NfaCriteria;
 import com.msg.nfabackend.entities.NfaFactor;
+import com.msg.nfabackend.entities.NfaValue;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.Type;
@@ -64,6 +65,11 @@ public class QueryService {
 	public Project createProject(Project project) {
 		em.merge(project);
 		return project;
+	}
+	
+	public NfaValue createNfaValue(NfaValue nfaValue) {
+		em.merge(nfaValue);
+		return nfaValue;
 	}
 
 	public NfaCatalog createNfa(Long metricId, NfaCatalog nfaCatalog) {

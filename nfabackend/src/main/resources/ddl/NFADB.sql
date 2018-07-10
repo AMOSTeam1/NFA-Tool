@@ -409,3 +409,10 @@ CREATE TABLE public.stakeholder_factor
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
+
+DROP TABLE IF EXISTS nfa_verbindlichkeit;
+CREATE TABLE public.nfa_verbindlichkeit(
+	ID serial PRIMARY KEY,
+ 	NFA_VERBINDLICHKEIT_FROM bigint,
+	NFA_VERBINDLICHKEIT_TILL bigint
+);
