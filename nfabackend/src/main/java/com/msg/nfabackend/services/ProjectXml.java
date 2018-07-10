@@ -2,14 +2,14 @@ package com.msg.nfabackend.services;
 import java.util.ArrayList;
 import java.util.Set;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.*;
+
 import com.msg.nfabackend.entities.Stakeholder;
 import com.msg.nfabackend.entities.nfaCatalog;
 import com.msg.nfabackend.entities.Metric;
 import com.msg.nfabackend.entities.NfaCriteria;
+import com.msg.nfabackend.entities.NfaFactor;
+import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.NfaFactor;;
 /**
  * 
@@ -17,10 +17,13 @@ import com.msg.nfabackend.entities.NfaFactor;;
  * This file is xml structure for the project data 
  *
  */
+
 @XmlRootElement(name = "project")
+@XmlType(propOrder = { "name", "faktor" ,"stakeholderId", "stakeholderName"})
 public class ProjectXml {
 		 	     
 	    private Long projectId;
+	    private Long stakeholderId; 
 	    private Set<Stakeholder> stakeholderList;
 	    private Set<NfaFactor> factorsList;
 	    private NfaCriteria crieria;
@@ -29,6 +32,9 @@ public class ProjectXml {
 	    private Stakeholder stakeholder;
 	    private NfaFactor factor;
 	    private nfaCatalog  nfa;
+	    private String name;
+	    private String stakeholderName;
+	    
 	     
 	    @XmlAttribute(name = "projectId")
 	    public Long getProjectId() {
@@ -36,21 +42,39 @@ public class ProjectXml {
 	    }
 	    public void setProjectId(Long projectId) {
 	        this.projectId = projectId;
-	    }	      
-	    @XmlElement (name = "stakeholder")
-	    public void setStakeholder(Stakeholder stakeholder) {
-	    	this.stakeholder = stakeholder;
+	    }	
+	    @XmlElement (name = "name")
+	    public String getName() {
+	        return name;
+	    }
+	    public void setName(String name) {
+	        this.name = name;
+	    }
+	    @XmlElement (name = "stakeholdername")
+
+	    public void setStakeholderName(String name) {
+	    	this.stakeholderName = name;
 	    	 
 	    }
-	    public Stakeholder getStakeholder() {
-	    	return this.stakeholder;
+	    public String getStakeholderName() {
+	    	return this.stakeholderName;
 	    	
-	    }     
-	    @XmlElementWrapper  (name = "factors")
-	    public void setStakeholderFactors(Set<NfaFactor> factorsList) {
+	    }  
+	    @XmlElement (name = "stakeholderid")
+	    public void setStakeholderId(Long id) {
+	    	this.stakeholderId = id;
+	    	 
+	    }
+	    public Long getStakeholderId() {
+	    	return this.stakeholderId;
+	    	
+	    }  
+	    
+	    @XmlElementWrapper  (name = "fakoren")
+	    public void setFaktor(Set<NfaFactor> factorsList) {
 	    	this.factorsList = factorsList;
 	    }
-	    public Set<NfaFactor>  getStakeholderFactors() {
+	    public Set<NfaFactor>  getFaktor() {
 	    	return this.factorsList;
 	    }
 	    

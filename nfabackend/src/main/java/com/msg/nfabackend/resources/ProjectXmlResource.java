@@ -1,8 +1,12 @@
 package com.msg.nfabackend.resources;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,6 +27,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import com.msg.nfabackend.entities.NfaFactor;
+import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.NfaFactor;
 import com.msg.nfabackend.entities.Project;
 import com.msg.nfabackend.entities.Stakeholder;
@@ -62,7 +68,14 @@ public class ProjectXmlResource {
 		Stakeholder stakeholder;
 		NfaFactor factor = new NfaFactor();
 		ProjectXml projXml = new ProjectXml();
+		Set<String> linesToRemove =  new HashSet<String>();
 		byte[] buffer = new byte[1024];
+		
+		linesToRemove.add("<factor>");
+		linesToRemove.add("<nfa_id>");
+		Iterator<String> linesToRemoveIter;
+
+		
 
 		FileOutputStream fos = new FileOutputStream(downloadXmlLocation);
 
@@ -70,26 +83,29 @@ public class ProjectXmlResource {
 
 		Project project = queryService.getProjectByID(id);
 		/**
+		 * 
 		 * get the stakeholders of the project
 		 */
 		stakeholderList = project.getProjectStakeholders();
 		Iterator<Stakeholder> stakeholderIter = stakeholderList.iterator();
 		projXml.setProjectId(project.getId());
-
+		projXml.setName(project.getCustomerName() + " " + project.getContactPersCustomer());
 		for (int i = 0; 0 == i || stakeholderIter.hasNext(); i++) {
 
 			factorsList = new HashSet<NfaFactor>();
 			stakeholder = stakeholderIter.next();
-			projXml.setStakeholder(stakeholder);
+			projXml.setStakeholderName(stakeholder.getStakeholder_name());
+			projXml.setStakeholderId(stakeholder.getStakeholder_id());
 			factors = stakeholder.getStakeholderFactors();
 
 			for (int j = 0; j < factors.size(); j++) {
 				Long factorId = factors.get(j);
-				factor = queryService.getFactorById(factorId);
+				factor =  queryService.getFactorById(factorId);			
 				factorsList.add(factor);
+
 			}
 
-			projXml.setStakeholderFactors(factorsList);
+			projXml.setFaktor(factorsList);
 
 			/**
 			 * generate xml for each stakeholder
@@ -100,6 +116,38 @@ public class ProjectXmlResource {
 
 			marshaller.marshal(projXml, new File(getProjectXmlLocation(i)));
 			marshaller.marshal(projXml, System.out);
+			
+			/////remove not needed lines 
+			
+			File tempFile = new File("C:\\Windows\\Temp/myTempFile.txt");
+			File inputFile = new File(getProjectXmlLocation(i));
+			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+			String lineToRemove;
+			String currentLine;
+
+			while((currentLine = reader.readLine()) != null) {
+			    // trim newline when comparing with lineToRemove
+			    String trimmedLine = currentLine.trim();
+			     linesToRemoveIter = linesToRemove.iterator();
+			     boolean isFound = false;
+			    for (int x = 0; 0 == x || linesToRemoveIter.hasNext(); x++) {
+			    	lineToRemove= linesToRemoveIter.next();
+			    if(trimmedLine.contains(lineToRemove)) {
+			    	 isFound = true;
+			    }
+			    }
+			    if(!isFound) writer.write(currentLine + System.getProperty("line.separator"));
+			   
+			}
+			
+			writer.close(); 
+			reader.close(); 
+			tempFile.renameTo(inputFile);
+			
+			/////////////////////
+			
 
 			File srcFile = new File(getProjectXmlLocation(i));
 
