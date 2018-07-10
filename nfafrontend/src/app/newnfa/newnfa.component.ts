@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Form, FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../shared/data-storage.service';
 import {Response} from '@angular/http';
 import {NfacatalogService} from '../nfacatalog/nfacatalog.service';
@@ -39,7 +39,7 @@ export class NewnfaComponent implements OnInit {
   validUpdate = (value: boolean) => {
     this.valid = value;
     this.createdNfaNumber = null;
-  }
+  };
 
   ngOnInit() {
     this.initForm();
