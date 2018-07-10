@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {NfaFactorModel} from "./nfaFactor.model";
 import {ProjectType} from "./type.model";
+import {NfaVerbindlichkeitModel} from "./nfaVerbindlichkeit.model";
 
 const headers = new HttpHeaders(
   {
@@ -32,6 +33,12 @@ export class DataStorageService {
   storeProject(new_project: Project) {
     return this.http.post('http://localhost:8080/nfabackend/webapi/project/create', new_project, httpOptions);
   }
+
+  storeNfaValue(nfaValue: NfaVerbindlichkeitModel ){
+    console.log(nfaValue);
+    return this.http.post('http://localhost:8080/nfabackend/webapi/nfavalue/create', nfaValue, httpOptions);
+  }
+
 
   getCurrentProjects() : Observable<Project[]>{
     return this.http.get<Project[]>('http://localhost:8080/nfabackend/webapi/project');
@@ -78,4 +85,6 @@ export class DataStorageService {
   downloadXml() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/download');
   }
+
+
 }

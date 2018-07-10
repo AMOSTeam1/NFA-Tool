@@ -30,6 +30,8 @@ public class NfaVerbindlichkeitResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createNfaValue(NfaValue nfaValue, @Context UriInfo uriInfo) {		
+		System.out.println("here");
+		System.out.println(nfaValue);
 		NfaValue createNfaValue = queryService.createNfaValue(nfaValue);
 		String newId = String.valueOf(createNfaValue.getId());
         URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();

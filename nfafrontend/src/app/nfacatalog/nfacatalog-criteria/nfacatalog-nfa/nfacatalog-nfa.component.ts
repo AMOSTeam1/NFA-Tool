@@ -326,7 +326,7 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       this.popupform.value['nfaVerbindlichkeitFrom'],
       this.popupform.value['nfaVerbindlichkeitTill']
     );
-
+    this.dataStorageService.storeNfaValue(newNfaVerbindlichkeit);
   }
 
   private initForm() {

@@ -68,6 +68,7 @@ public class QueryService {
 	}
 	
 	public NfaValue createNfaValue(NfaValue nfaValue) {
+		System.out.println("i am here");
 		em.merge(nfaValue);
 		return nfaValue;
 	}
