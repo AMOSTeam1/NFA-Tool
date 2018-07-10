@@ -10,12 +10,13 @@ import {CurrentProjectService} from '../../../current-project/current-project.se
 import {DataStorageService} from '../../../shared/data-storage.service';
 import {LocalStorageService} from 'angular-web-storage';
 import {ISubscription} from "rxjs/Subscription";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {NfaCustomModel} from "../../../shared/nfaCustom.model";
 import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
 import {NfaInterfaceModel} from "../../../shared/nfaInterface.model";
 import {DataexchangeService as DExchS} from "../../../shared/dataexchange.service";
 import {Subject} from "rxjs/Subject";
+import {NfaVerbindlichkeitModel} from "../../../shared/nfaVerbindlichkeit.model";
 
 @Component({
   selector: 'app-nfacatalog-nfa',
@@ -50,10 +51,13 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   custom_nfa: NfaCustomModel;
 
   nfadetailForm: FormGroup;
+  popupform:FormGroup;
 
   observable_nfa : Subject<NfaCatalogModel> = new Subject<NfaCatalogModel>();
   observable_custom_nfa : Subject<NfaCustomModel> = new Subject<NfaCustomModel>();
   shown_nfa : NfaCatalogModel;
+
+  nfaVerbindlichkeit: NfaVerbindlichkeitModel;
 
   private subscription: ISubscription[];
 
@@ -319,8 +323,21 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
 
     this.onBack();
   }
+  onNfaValueSubmit(){
+
+    const newNfaVerbindlichkeit = new NfaVerbindlichkeitModel(
+      this.popupform.value['id'],
+      this.popupform.value['nfaVerbindlichkeitFrom'],
+      this.popupform.value['nfaVerbindlichkeitTill']
+    );
+    this.dataStorageService.storeNfaValue(newNfaVerbindlichkeit);
+
+
+  }
 
   private initForm() {
+    let nfaVerbindlichkeitFrom = null;
+    let nfaVerbindlichkeitTill = null;
     let nfaExplanation = '';
     let nfaName = '';
     let nfaCatalogReference = '';
@@ -337,6 +354,13 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
       'nfaName': new FormControl(nfaName),
       'nfaCatalogReference': new FormControl(nfaCatalogReference),
     });
+    this.popupform = new FormGroup({
+
+      'nfaVerbindlichkeitFrom': new FormControl(nfaVerbindlichkeitFrom, Validators.required),
+      'nfaVerbindlichkeitTill': new FormControl(nfaVerbindlichkeitTill, Validators.required),
+
+    });
+
   }
 
   onGoto(j: number) {

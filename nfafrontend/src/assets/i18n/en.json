@@ -58,6 +58,13 @@
       "close" : "Close",
       "export" : "Export",
 
+      "verbindlichkeit-popup":{
+        "save":"save",
+        "start-value":"From",
+        "end-value":"To",
+        "label":"Enter the value of NFR"
+      },
+
       "branch" : {
         "label" : "Branch",
         "choose" : "Choose branch",
