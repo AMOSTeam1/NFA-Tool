@@ -13,6 +13,7 @@ import {DataStorageService} from '../../../shared/data-storage.service';
 })
 export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
 
+  showLoading = true;
   nfaCriterias: NfaCriteriaModel[];
   factor: NfaFactorModel;
   factor_id_param: number;
@@ -48,6 +49,7 @@ export class NfacatalogCriteriaListComponent implements OnInit, OnDestroy{
                 this.factor = this.nfaFactors[this.factor_id_param];
                 this.nfaCriterias = this.factor.criteriaList;
                 this.nfaCatalogService.setNfaCriterias(this.nfaCriterias);
+                this.showLoading = false;
               },
               error1 => console.log(error1)
             );
