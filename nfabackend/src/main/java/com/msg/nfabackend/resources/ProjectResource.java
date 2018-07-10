@@ -41,8 +41,7 @@ public class ProjectResource {
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response createProject(Project project, @Context UriInfo uriInfo) {
-		
+	public Response createProject(Project project, @Context UriInfo uriInfo) {		
 		Project createProject = queryService.createProject(project);
 		String newId = String.valueOf(createProject.getId());
         URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
@@ -69,6 +68,12 @@ public class ProjectResource {
 	@Path("/search")
 	public List<Project> searchProject(@QueryParam(value = "status") String status,@QueryParam(value = "lookupCustName") String lookupCustName) {
 		return queryService.findProject(status,lookupCustName);
+	}
+	
+	@GET
+	@Path("/{ProjectId}")
+	public Project getProject(@PathParam("ProjectId") Long id) {
+		return queryService.getProject(id);
 	}
 	
 } 

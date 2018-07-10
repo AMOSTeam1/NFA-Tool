@@ -4,7 +4,8 @@
     <button class="btn btn-success btn-lg col-xs-10"
             style="text-align: center"
             (click)="onView = !onView">
-      {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{nfaMetrics[metricIdx].metricNumber}} {{nfaMetrics[metricIdx].bezeichnung}}</button>
+      {{factor.factorNumber}}.{{criteria.criteriaNumber}}.{{nfaMetrics[metricIdx].metricNumber}}
+      {{nfaMetrics[metricIdx].bezeichnung}}</button>
     <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "metricIdx == nfaMetrics.length-1"> > </button>
   </div>
   <div class="col-xs-12" *ngIf="isSelected==false">
@@ -12,7 +13,8 @@
     <button class="btn btn-default btn-lg col-xs-10"
             style="text-align: center"
             (click)="onView = !onView">
-      {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{nfaMetrics[metricIdx].metricNumber}} {{nfaMetrics[metricIdx].bezeichnung}}</button>
+      {{factor.factorNumber}}.{{criteria.criteriaNumber}}.{{nfaMetrics[metricIdx].metricNumber}}
+      {{nfaMetrics[metricIdx].bezeichnung}}</button>
     <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "metricIdx == nfaMetrics.length-1"> > </button>
   </div>
 </div>
@@ -25,7 +27,7 @@
     <div class="panel-body">
       <div class="row text-center" *ngFor="let metric of nfaMetrics; let j = index">
         <button class="btn btn-default small"  style="margin:0 0 1px" (click)="onGoto(j)">
-          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}} {{metric.bezeichnung}}
+          {{factor.factorNumber}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}} {{metric.bezeichnung}}
         </button>
         <hr>
       </div>

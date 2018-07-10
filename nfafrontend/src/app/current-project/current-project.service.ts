@@ -2,61 +2,112 @@ import {Subject} from 'rxjs/Subject';
 import {Project} from '../shared/project.model';
 import {ProjectType} from '../shared/type.model';
 import {Stakeholder} from '../shared/stakeholder.model';
-
+import {NfaCustomModel} from "../shared/nfaCustom.model";
 
 
 export class CurrentProjectService {
+
   projectsChanged = new Subject<Project[]>();
-  private projects: Project[];
+  private projectsSubset: Project[];
   private types: ProjectType[];
-  private selectedProjectId: number;
-  private project : Project;
-  private  nfaMode : boolean;
+  private currently_edited_project : Project;
+  private nfaMode : boolean;
+  private status : string;
+  private custom_nfas : NfaCustomModel[] = [];
+  private selectedNfa : number = 0;
 
   getProjects() {
-    return this.projects.slice();
+    console.debug("The this.projectsSubset is ");
+    console.debug(this.projectsSubset);
+
+    return this.projectsSubset.slice();
   }
 
-  getProject(index: number) {
-    return this.projects[index];
+  getProjectById(projectId: number) : Project {
+    for(let index in this.projectsSubset) {
+
+      if (this.projectsSubset[index].id == projectId) {
+
+        return this.projectsSubset[index];
+      }
+    }
+    console.error("Project with Id " + projectId + " is not Part of the current Subset");
+    return null;
   }
 
-  getProjectWithNoId(){
-    return this.project;
+  hasCurrentlyEditedProject(){
+    console.debug("Is there a project set that is being edited? " + !!this.currently_edited_project);
+    if(!!this.currently_edited_project){
+      console.debug(this.currently_edited_project.projectNfas);
+    }
+    return !!this.currently_edited_project;
   }
 
-  setProject(proj: Project){
-    this.project = proj;
+  getCurrentlyEditedProject() : Project {
+    if(this.currently_edited_project){
+      return this.currently_edited_project;
+    }
+    const message : string = "There is no Project set yet.";
+
+    console.log(message);
+    throw new Error(message);
+  }
+
+  setCurrentlyEditedProject(proj: Project){
+    if(proj){
+      console.debug("for the newly edited project the nfas will be:");
+      console.debug(proj.projectNfas);
+      this.currently_edited_project = proj;
+    }
+    else {
+      console.debug("Cannot set " + proj.toString() + " as CurrentlyEditedProject");
+    }
+  }
+
+  clearEditedProject(){
+    this.currently_edited_project = null;
+  }
+
+  setProjectById(projId: number){
+    this.currently_edited_project = this.getProjectById(projId);
   }
 
   addProject(project: Project) {
-    this.projects.push(project);
-    this.projectsChanged.next(this.projects.slice());
+    this.projectsSubset.push(project);
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
-  updateProject(index: number, newProject: Project) {
-    this.projects[index] = newProject;
-    this.projectsChanged.next(this.projects.slice());
+  updateProject(id: number, newProject: Project) {
+    console.debug("updateProject(id: number, newProject: Project) {");
+    console.debug(id);
+    console.debug(newProject);
+    console.debug(this.projectsSubset);
+    console.debug("----------------- DONE -------------------------");
+
+
+    for(let index in this.projectsSubset){
+      if(this.projectsSubset[index].id == id){
+        console.debug(index + " + " + id);
+        console.debug(this.projectsSubset[index]);
+        this.projectsSubset[index] = newProject;
+      }
+    }
+    console.debug(this.projectsSubset);
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
-  deleteProject(index: number) {
-    this.projects.splice(index,1);
-    this.projectsChanged.next(this.projects.slice());
+  deleteProjectById(id: number) {
+    for(let index in this.projectsSubset){
+      if(this.projectsSubset[index].id == id){
+        this.projectsSubset.splice(Number(index),1);
+      }
+    }
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
   setProjects(projects: Project[]){
-    this.projects = projects;
-    this.projectsChanged.next(this.projects.slice());
-  }
-
-  setSelectedProjectId(index: number){
-    this.selectedProjectId = index;
-  }
-  getSelectedProjectId(){
-    return this.selectedProjectId;
-  }
-  getNfa(index: number){
-    return this.projects[this.selectedProjectId].projectNfas[index];
+    this.projectsSubset = projects;
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
   getTypes() {
@@ -68,9 +119,45 @@ export class CurrentProjectService {
   }
 
   updateStakeholder(index: number, stakeholder: Stakeholder[]) {
-    this.projects[index].projectStakeholders = stakeholder;
-    this.projectsChanged.next(this.projects.slice());
+    this.projectsSubset[index].projectStakeholders = stakeholder;
+    this.projectsChanged.next(this.projectsSubset.slice());
   }
 
+  getStatus(): string {
+    return this.status;
+  }
+
+  setStatus(value: string) {
+    this.status = value;
+  }
+
+  setCustomNfa(customNfas: NfaCustomModel[]){
+    console.debug("Refresh Custom NFAS");
+    console.debug(customNfas);
+    this.custom_nfas = customNfas;
+  }
+
+  getCustomNfa(originalId: number) : NfaCustomModel {
+    let index : number = 0;
+
+    //This list can contain multiple entries from one originalNfa.
+    //However, the list is ordered from newest to oldest, so we always take the first.
+    for(let nfa of this.custom_nfas){
+      if(nfa.originalNfa.id == originalId){
+        return this.custom_nfas[index];
+      }
+      index++;
+    }
+
+   return null;
+  }
+
+  setSelectedNfaId(selNfa: number){
+    this.selectedNfa = selNfa;
+  }
+
+  getSelectedNfaId() : number {
+    return this.selectedNfa;
+  }
 
 }

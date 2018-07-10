@@ -1,60 +1,130 @@
-<div class="row" *ngIf ="onView">
-  <div class="col-xs-12">
-    <button class="btn btn-default btn-lg col-xs-1" (click)="onPrev()" [disabled] = "nfaIdx == 0"> < </button>
-    <button class="btn btn-default btn-lg col-xs-10"
-            style="text-align: center"
-            (click)="onView = !onView">
-      {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfas[nfaIdx].nfaNumber}} {{bezeichnung(nfas[nfaIdx])}}</button>
-    <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "nfaIdx == nfas.length-1"> > </button>
-  </div>
-</div>
 
-<div class="col-xs-12" *ngIf="!onView">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{ 'nfa.assign-nfa.title' | translate }}{{metric.bezeichnung}}</h3>
+<!--<div *ngIf="factor && criteria && metric">-->
+<div>
+
+  <!-- Navigation Header for NFAs -->
+  <div class="row" *ngIf ="page_is_in_subnavigation_mode">
+    <div class="col-xs-12">
+      <button class="btn btn-default btn-lg col-xs-1" (click)="onPrev()" [disabled] = "selected_nfa_id_in_metric == 0"> < </button>
+      <button class="btn btn-default btn-lg col-xs-10" style="text-align: center" (click)="page_is_in_subnavigation_mode = !page_is_in_subnavigation_mode">
+        {{factor.factorNumber}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{metric_nfas[selected_nfa_id_in_metric].nfaNumber}}
+        {{bezeichnung(metric_nfas[selected_nfa_id_in_metric])}}</button>
+      <button class="btn btn-default btn-lg col-xs-1" (click)="onNext()" [disabled] = "selected_nfa_id_in_metric == metric_nfas.length-1"> > </button>
     </div>
-    <div class="panel-body">
-      <div class="row text-center" *ngFor="let nfa of nfas; let j = index">
-        <button class="btn btn-default small" style="margin:0 0 1px" (click)="onGoto(j)">
-          {{nfaFactor.nfa_id}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfa.nfaNumber}} {{bezeichnung(nfa)}}
-        </button>
-        <hr>
+  </div>
+
+  <!-- Show all NFAs as a selectable List as a full navigation -->
+  <div class="col-xs-12" *ngIf="!page_is_in_subnavigation_mode">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'nfa.assign-nfa.title' | translate }}{{metric.bezeichnung}}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row text-center" *ngFor="let nfa of metric_nfas; let j = index">
+          <button class="btn btn-default small" style="margin:0 0 1px" (click)="onGoto(j)">
+            {{factor.factorNumber}}.{{criteria.criteriaNumber}}.{{metric.metricNumber}}.{{nfa.nfaNumber}}
+            {{bezeichnung(nfa)}}
+          </button>
+          <hr>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<hr>
-<div class="panel panel-primary" *ngIf ="onView">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{ 'nfa.assign-nfa.explanation' | translate }}</h3>
-  </div>
-  <div class="panel-body" *ngIf = "!projectMode">
-    <p class="small">{{erklaerung(nfas[nfaIdx])}}</p>
-  </div>
-  <div class="panel-body"  *ngIf = "projectMode" >
-    <input type="checkbox" id="checkbox" [checked]="inProject(nfas[nfaIdx].nfaCatalogId)" (click)="selectNfa(nfas[nfaIdx])"> <textarea  style="align-self: auto" wrap="on" cols="60" rows="4" class="small" value=" {{erklaerung(nfas[nfaIdx])}}"></textarea>
-  </div>
-</div>
-<div class="panel panel-primary" *ngIf ="onView">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{ 'nfa.assign-nfa.reference' | translate }}</h3>
-  </div>
-  <div class="panel-body">
-    <p class="small">{{nfas[nfaIdx].nfaCatalogReferenz}}</p>
-  </div>
-</div>
-<div class="panel panel-primary" *ngIf ="onView">
-  <div class="panel-heading">
-    <h3 class="panel-title">{{ 'nfa.assign-nfa.related-projects' | translate }}</h3>
-  </div>
-  <div class="panel-body">
-    <p class="small">{{nfas[nfaIdx].nfaCatalogReferenzierteProjekte}}</p>
-  </div>
-</div>
-<div class="row" *ngIf ="onView">
-  <div class="col-xs-12 text-center">
-    <button type="button" class="btn btn-primary" (click)="onBack()"> Back</button>
-  </div>
+  <hr>
+<div *ngIf ="page_is_in_subnavigation_mode && shown_nfa">
+  <form [formGroup]="nfadetailForm" (ngSubmit)="onSubmit()">
+
+    <!--Erklaerung-->
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <label for="nfaExplanation" class="panel-title">{{ 'nfa.assign-nfa.explanation' | translate }}</label>
+      </div>
+      <div class="panel-body" *ngIf = "!page_is_in_project_mode">
+        <p class="small">{{ getCurrentBlueprint().erklaerung }}</p>
+      </div>
+      <div class="panel-body" *ngIf = "page_is_in_project_mode" >
+        <input type="checkbox" id="checkbox" [checked]="nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_in_metric])" (click)="toggleSelectionNfa(metric_nfas[selected_nfa_id_in_metric])">
+        <textarea
+          *ngIf="page_is_in_edit_mode"
+          id="nfaExplanation"
+          formControlName="nfaExplanation"
+          value="{{getCurrentBlueprint().erklaerung }}"
+          class="form-control small"
+          style="align-self: auto"
+          wrap="soft"
+          cols="60"
+          rows="4">
+
+        </textarea>
+        <p class="small" *ngIf="!page_is_in_edit_mode"> {{ getCurrentBlueprint().erklaerung }} </p>
+      </div>
+    </div>
+
+    <!--Reference-->
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'nfa.assign-nfa.reference' | translate }}</h3>
+      </div>
+      <div class="panel-body">
+        <p class="small">{{metric_nfas[selected_nfa_id_in_metric].reference }}</p>
+      </div>
+    </div>
+
+    <!--Related Projects-->
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'nfa.assign-nfa.related-projects' | translate }}</h3>
+      </div>
+      <div class="panel-body">
+        <p class="small">{{ metric_nfas[selected_nfa_id_in_metric].referencedProjects }}</p>
+      </div>
+    </div>
+
+
+    <!-- Button Controls Below Right View-Area -->
+    <div *ngIf="page_is_in_project_mode">
+      <div class="col-xs-12" *ngIf="page_is_in_edit_mode">
+
+        <div class="col-xs-6 text-center">
+          <button type="submit" class="btn btn-success" style="margin-top: 10px" [disabled]="!nfadetailForm.valid || !nfadetailForm.dirty">
+            <span class="glyphicon glyphicon-floppy-save"></span> {{ 'nfa.save' | translate}}
+          </button>
+        </div>
+
+        <div class="col-xs-6 text-center">
+          <button type="button" class="btn btn-danger" style="margin-top: 10px" (click)="onCancel()">
+            <span class="glyphicon glyphicon-pencil"></span> {{ 'nfa.cancel' | translate}}
+          </button>
+        </div>
+
+      </div>
+
+      <div class="col-xs-12" *ngIf="!page_is_in_edit_mode">
+
+        <div class="col-xs-6 text-center">
+          <button type="button" class="btn btn-toolbar" style="margin-top: 10px" (click)="onEditNFA()">
+            <span class="glyphicon glyphicon-pencil"></span> {{ 'nfa.edit' | translate}}
+          </button>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-6 text-center">
+            <button type="button" class="btn btn-primary" style="margin-top: 10px" (click)="onBack()">
+              {{ 'nfa.back' | translate}}
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-xs-12 text-center" *ngIf="!page_is_in_project_mode">
+      <button type="button" class="btn btn-primary" style="margin-top: 10px" (click)="onBack()">
+        {{ 'nfa.back' | translate}}
+      </button>
+    </div>
+
+  </form>
 </div>
