@@ -135,6 +135,7 @@
     "save" : "Save",
     "edit" : "Edit",
     "back" : "Back",
-    "none" : "None"
+    "none" : "None",
+    "newNfaMessage": "NFA with the number {{number}} was created"
   }
 }

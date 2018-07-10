@@ -1,5 +1,5 @@
-import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataStorageService} from '../shared/data-storage.service';
 
 import {NfacatalogService} from '../nfacatalog/nfacatalog.service';
@@ -12,7 +12,6 @@ import {BpPropertyTemplateNoCondition} from '../shared/blueprints/bpPropertyTemp
 import {NfaCatalogModel} from '../shared/nfaCatalog.model';
 import {QualifiyingExpression} from '../shared/blueprints/QualifiyingExpression.model';
 import {ISubscription} from "rxjs/Subscription";
-import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -23,11 +22,12 @@ import {TranslateService} from "@ngx-translate/core";
 export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(private dataStorageService: DataStorageService,
-              private nfaCatalogService: NfacatalogService,
-              private translateService: TranslateService) {
+              private nfaCatalogService: NfacatalogService)
+  {
     this.subscription = [];
   }
 
+  private createdNfaNumber: string = null;
   nfaform: FormGroup;
   nfaFactors: NfaFactorModel[];
   @ViewChild(NfatemplateComponent) nfatemplate;
@@ -40,6 +40,7 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   validUpdate = (value: boolean) => {
     this.valid = value;
+    this.createdNfaNumber = null;
   };
 
   private subscription: ISubscription[];
@@ -113,15 +114,19 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
       null
     );
 
-    this.dataStorageService.storeNfa(this.selectedMetric.id, nfaCatalogModel)
-      .subscribe(
-        response => {
-          console.log(response);
-        },
-        error1 => {
-          console.log(error1);
-        }
-      );
+     this.dataStorageService.storeNfa(this.selectedMetric.id, nfaCatalogModel)
+       .subscribe(
+         response => {
+           this.createdNfaNumber = this.selectedFactor.factorNumber +
+             '.' + this.selectedCriteria.criteriaNumber +
+             '.' + this.selectedMetric.metricNumber +
+             '.' + response.nfaNumber;
+           console.log(response);
+         },
+         error1 => {
+           console.log(error1);
+         }
+       );
   }
 
   factorHasCriteria() {
@@ -134,5 +139,9 @@ export class NewnfaComponent implements OnInit, AfterViewInit, OnDestroy {
     return (this.selectedCriteria != null
       && this.selectedCriteria.metricList != null
       && this.selectedCriteria.metricList.length > 0);
+  }
+
+  lastNfaNumber() {
+    return this.createdNfaNumber;
   }
 }

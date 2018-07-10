@@ -37,8 +37,8 @@
     <label for="nfa_type" class="control-label col-xs-2"><p>{{ 'nfa.type' | translate }}</p></label>
     <div class="col-xs-3">
     <select class="form-control" formControlName ="nfa_type"  id="nfa_type" name="nfa_type"  required [(ngModel)]='selectedType'>
-    <option value="nfa_type_1">Eigenschaftsschablone</option>
-    <option value="nfa_type_2">Eigenschaftsschablone mit Bedingung</option> <!--TODO generalize option with bilingual value-->
+    <option value="nfa_type_1">Eigenschaftsschablone</option> <!--TODO make bilingual-->
+    <!--<option value="nfa_type_2">Eigenschaftsschablone mit Bedingung</option>--> <!--Removed since there is no function in yet.-->
   </select> <br>
     </div>
   </div>
@@ -47,7 +47,8 @@
   <app-nfatemplate *ngIf="nfaform.get('nfa_type').value==='nfa_type_1'" [validUpdate]="validUpdate"></app-nfatemplate>
 
   <br><br>
-  <button class="btn btn-primary pull-right addnfa" type="submit" [disabled]="!valid">NFA hinzufügen</button>
+  <label>{{lastNfaNumber() ? ('nfa.newNfaMessage' | translate:{'number': lastNfaNumber()}) : '' }}</label>
+  <button class="btn btn-primary pull-right addnfa" type="submit" [disabled]="!valid">NFA hinzufügen</button><!--TODO make bilingual-->
   <br>
 </form>
 <br><br>

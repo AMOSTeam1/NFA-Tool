@@ -137,6 +137,7 @@
     "save" : "Speichern",
     "edit" : "Bearbeiten",
     "back" : "Zurück",
-    "none" : "Keine"
+    "none" : "Keine",
+    "newNfaMessage": "NFA mit der Nummer {{number}} wurde angelegt"
   }
 }

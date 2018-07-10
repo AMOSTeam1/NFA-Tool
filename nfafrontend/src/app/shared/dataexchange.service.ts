@@ -10,7 +10,7 @@ export class DataexchangeService {
   static currProject : string = 'currProject';
   static project_mode : string = 'project_mode';
 
-  private messageSource = new BehaviorSubject(new Inst(null, null, null));
+  private messageSource = new BehaviorSubject<Inst>(new Inst(null, null, null));
   currentMessage = this.messageSource.asObservable();
 
   constructor() { }
@@ -18,12 +18,6 @@ export class DataexchangeService {
   changeMessage(message: Inst) {
     this.messageSource.next(message);
   }
-
-
-/*  (message: string) {
-    this.messageSource.next(message);
-  }*/
-
 }
 
 

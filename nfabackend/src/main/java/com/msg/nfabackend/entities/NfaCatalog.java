@@ -28,25 +28,24 @@ public class NfaCatalog implements NfaInterface{
 	public static class BlueprintConverter implements AttributeConverter<NfaCatalogBlueprint, String> {
 		@Override
 		public String convertToDatabaseColumn(NfaCatalogBlueprint attribute) {
-			
+
 			if (attribute == null) {
 				return null;
 			}
-			
+
 			try (StringWriter stringWriter = new StringWriter()) {
 				new ObjectMapper().writeValue(stringWriter, attribute);
 				return stringWriter.toString();
 			} catch (IOException e) {
 				throw new IllegalStateException("Obj-to-JSON-Converting failed", e);
 			}
-			
+
 		}
 
 		@Override
 		public NfaCatalogBlueprint convertToEntityAttribute(String dbData) {
 			try {
-				return dbData == null ? null 
-						: new ObjectMapper().readValue(dbData, NfaCatalogBlueprint.class);
+				return dbData == null ? null : new ObjectMapper().readValue(dbData, NfaCatalogBlueprint.class);
 			} catch (IOException e) {
 				throw new IllegalStateException("JSON-to-Obj-Converting failed", e);
 			}
@@ -121,11 +120,11 @@ public class NfaCatalog implements NfaInterface{
 		public void createDescription(List<String> wert) {
 			if (de.getErklaerung() == null) {
 				de.setErklaerung(String.join(" ", de.getCharacteristic(), de.getProperty(), de.getModalVerb(),
-						de.getQualifiedValue(wert), de.getVerb()));
+						de.getQualifiedValue(wert), de.getVerb()) + ".");
 			}
 			if (en.getErklaerung() == null) {
 				en.setErklaerung(String.join(" ", en.getCharacteristic(), en.getProperty(), en.getModalVerb(),
-						en.getVerb(), en.getQualifiedValue(wert)));
+						en.getVerb(), en.getQualifiedValue(wert)) + ".");
 			}
 		}
 	}

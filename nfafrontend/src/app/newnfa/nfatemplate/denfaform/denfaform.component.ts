@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DataexchangeService} from '../../../shared/dataexchange.service';
 import {Inst} from '../../../shared/blueprints/inst.model';
@@ -10,12 +10,11 @@ import {isNull} from 'util';
   templateUrl: './denfaform.component.html',
   styleUrls: ['./denfaform.component.css']
 })
-export class DenfaformComponent implements OnInit {
+export class DenfaformComponent implements OnInit, OnDestroy {
   deForm: FormGroup;
-  @Input() send = false;
   @Output() submitEvent = new EventEmitter<FormGroup>();
 
-  modalVerbDe: Array<string> = ['muss', 'muessen', 'soll', 'sollen', 'kann', 'koennen'];
+  modalVerbDe: Array<string> = ['muss', 'müssen', 'soll', 'sollen', 'kann', 'können'];
   qualExpr: Array<QualifiyingExpression> = QualifiyingExpression.listContent();
 
   constructor(
@@ -69,6 +68,10 @@ export class DenfaformComponent implements OnInit {
     } else if ((!isNull(qualifiyingExpression.abundant) && formArray.length === 1) && (!this.deForm.get('chbox').value)) {
       formArray.push(new FormControl({value: null, disabled: true}, Validators.required));
     }
+  }
+
+  ngOnDestroy() {
+    this.data.changeMessage(new Inst(null, null, null));
   }
 
   resetForm() {
