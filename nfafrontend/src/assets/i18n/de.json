@@ -3,7 +3,11 @@
     "nfa-title": "NFA-Tool",
     "home": {
       "welcome": "Hallo zum {{name}}",
-      "current-projects": "Projekte ansehen"
+      "current-projects": "Projekte ansehen",
+      "subheading": "Das Tool unterstützt die Berater und Kunden der msg bei der Erstellung und Analyse von Nicht Functionalen Anforderungen(NFA).",
+      "thumbnail-1": "Es basiert auf der ISO 25010. Es ist in der Lage Themengebiete der ISO zusammenzustellen und nach Stakeholdern getrennt zu exportieren.",
+      "thumbnail-2": "Es bildet die Wissensbasis aller msg Berater zum Thema NFA.",
+      "thumbnail-3": "Das Tool bietet hohen Komfort bei der standardisierten Erfassung von neuen oder zu überarbeitenden NFA"
     },
     "new-project" : {
       "create-nfa-project" : "Erstelle neues NFA-Projekt",

@@ -3,7 +3,11 @@
     "nfa-title": "NFA-Tool",
     "home": {
       "welcome": "Welcome to {{name}}",
-      "current-projects": "View Projects"
+      "current-projects": "View Projects",
+      "subheading": "The tool supports msg consultants and customers in creating and analyzing Non-Functional Requirements (NFR).",
+      "thumbnail-1": "It is based on the ISO 25010. It is able to compile subject areas of the ISO and export separately for stakeholders.",
+      "thumbnail-2": "It forms the knowledge base of all msg consultants on NFR.",
+      "thumbnail-3": "The tool offers a high level of convenience in the standardized recording of new or to be revised NFR"
     },
     "new-project" : {
       "create-nfa-project" : "Add new Project",
