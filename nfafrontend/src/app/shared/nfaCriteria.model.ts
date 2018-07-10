@@ -1,4 +1,4 @@
-import {NfaMetric} from './nfaMetric.model';
+import {NfaMetricModel} from './nfaMetric.model';
 
 export class NfaCriteriaModel{
   constructor(
@@ -6,6 +6,6 @@ export class NfaCriteriaModel{
     public id: number,
     public criteriaNumber: number,
     public criteria: string,
-    public metricList: NfaMetric[]
+    public metricList: NfaMetricModel[]
   ) {}
 }

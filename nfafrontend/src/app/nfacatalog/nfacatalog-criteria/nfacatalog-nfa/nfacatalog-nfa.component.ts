@@ -1,36 +1,61 @@
-import {Component, OnInit, ɵEMPTY_ARRAY} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NfaCatalogModel} from '../../../shared/nfaCatalog.model';
 import {NfacatalogService} from '../../nfacatalog.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {NfaMetric} from '../../../shared/nfaMetric.model';
+import {NfaMetricModel} from '../../../shared/nfaMetric.model';
 import {NfaFactorModel} from '../../../shared/nfaFactor.model';
 import {NfaCriteriaModel} from '../../../shared/nfaCriteria.model';
 import {TranslateService} from '@ngx-translate/core';
 import {CurrentProjectService} from '../../../current-project/current-project.service';
 import {DataStorageService} from '../../../shared/data-storage.service';
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import {LocalStorageService} from 'angular-web-storage';
+import {ISubscription} from "rxjs/Subscription";
+import {FormControl, FormGroup} from "@angular/forms";
+import {NfaCustomModel} from "../../../shared/nfaCustom.model";
+import {IBlueprint} from "../../../shared/blueprints/IBlueprint.model";
+import {NfaInterfaceModel} from "../../../shared/nfaInterface.model";
+import {DataexchangeService as DExchS} from "../../../shared/dataexchange.service";
+import {Subject} from "rxjs/Subject";
 
 @Component({
   selector: 'app-nfacatalog-nfa',
   templateUrl: './nfacatalog-nfa.component.html',
   styleUrls: ['./nfacatalog-nfa.component.css']
 })
-export class NfacatalogNfaComponent implements OnInit {
 
-  nfas: NfaCatalogModel[];
-  id: number;
-  nfaFactor: NfaFactorModel;
+export class NfacatalogNfaComponent implements OnInit, OnDestroy {
+
+  private page_is_in_project_mode: boolean = false;
+  private page_is_in_edit_mode : boolean = false;
+  private page_is_in_subnavigation_mode = true;
+
+  selected_nfa_has_custom : boolean = false;
+
+  project_id_param: number;
+
+  factor_id_param: number;
+  factor: NfaFactorModel;
+
+  criteria_id_param: number;
   criteria: NfaCriteriaModel;
-  criteria_id: number;
-  metric_id: number;
-  metric: NfaMetric;
-  private onView = true;
-  nfaIdx: number;
-  projectMode: boolean = false;
-  projectNfs: NfaCatalogModel[] = [];
-  checked :boolean;
-  projectId: number;
 
+  metric_id_param: number;
+  metric: NfaMetricModel;
+
+  selected_nfa_id_in_metric: number;
+
+  metric_nfas: NfaCatalogModel[] = [];
+
+  original_nfa: NfaCatalogModel;
+  custom_nfa: NfaCustomModel;
+
+  nfadetailForm: FormGroup;
+
+  observable_nfa : Subject<NfaCatalogModel> = new Subject<NfaCatalogModel>();
+  observable_custom_nfa : Subject<NfaCustomModel> = new Subject<NfaCustomModel>();
+  shown_nfa : NfaCatalogModel;
+
+  private subscription: ISubscription[];
 
   constructor(private nfaCatalogService: NfacatalogService,
               private route: ActivatedRoute,
@@ -38,56 +63,178 @@ export class NfacatalogNfaComponent implements OnInit {
               private translateService: TranslateService,
               private currentProjectService: CurrentProjectService,
               private dataStorageService: DataStorageService,
-              public local: LocalStorageService,
+              public local: LocalStorageService
   ) {
+    this.subscription = [];
+    this.initForm();
   }
 
   ngOnInit() {
-    this.route.parent.params
+    //Get the Current Factor-ID and the Factor from this parents parameters
+    let subscription = this.route.parent.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.nfaFactor = this.nfaCatalogService.getNfaFactor(this.id);
+          this.factor_id_param= +params['factor_id'];
+          this.factor = this.nfaCatalogService.getNfaFactor(this.factor_id_param);
         }
       );
+    this.subscription.push(subscription);
 
-    this.nfaIdx = 0;
-    this.route.params
+
+    //Check if we are operating under the route "[parent-route]/[..]/[..]/edit"
+    let subscriptionB = this.route.url.subscribe(value => {
+      const index_of_edit : number = 2;
+      this.page_is_in_edit_mode = (value.length>index_of_edit && (value[index_of_edit].path == 'edit'));
+    });
+    this.subscription.push(subscriptionB);
+
+
+    //Get Criteria and Metric according to the given IDs
+    this.selected_nfa_id_in_metric = 0;
+
+    //Get the Project from the Id, saved in the Parents, parents Route Parameters
+    let subscriptionA = this.route.parent.parent.params
+      .subscribe((params: Params) =>{
+        this.project_id_param = params['project_id'];
+
+        //Init page_is_in_project_mode either from storage or manually
+        if(this.local.hasOwnProperty(DExchS.project_mode)) {
+          this.page_is_in_project_mode = this.local.get(DExchS.project_mode);
+        }else{
+
+          if ( this.project_id_param ) {
+
+            this.page_is_in_project_mode = true;
+            this.nfaCatalogService.projectId = this.project_id_param;
+
+            if(!this.currentProjectService.hasCurrentlyEditedProject()){
+              console.debug("For some reason we are not yet editing. Lets fix that,");
+
+              let proj = this.currentProjectService.getProjectById(this.project_id_param);
+              this.currentProjectService.setCurrentlyEditedProject(proj);
+            }
+
+            let tempSelected = this.currentProjectService.getSelectedNfaId();
+            if(tempSelected){
+              this.selected_nfa_id_in_metric = tempSelected;
+            }
+
+
+          } else {
+            //Use the else path to set page_is_in_project_mode to false, to also cover undefined and null states of project_id_param
+            this.page_is_in_project_mode = false;
+          }
+        }
+      });
+    this.subscription.push(subscriptionA);
+
+    this.subscription.push(
+      this.route.params
       .subscribe(
         (params: Params) => {
-          this.criteria_id = +params['criteria_id'];
-          this.metric_id = +params['metric_id'];
-          this.criteria = this.nfaCatalogService.getNfaCriteria(this.criteria_id);
-          this.metric = this.nfaCatalogService.getNfaCriteria(this.criteria_id).metricList[this.metric_id];
-          this.nfas = this.nfaCatalogService.getNfaCriteria(this.criteria_id).metricList[this.metric_id].nfaList;
+          this.criteria_id_param = +params['criteria_id'];
+          this.metric_id_param = +params['metric_id'];
+
+          this.criteria = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param);
+          this.metric = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param];
+          this.metric_nfas = this.nfaCatalogService.getNfaCriteria(this.criteria_id_param).metricList[this.metric_id_param].nfaList;
+
+          //Subscribe to observable, so whenever next function is called, an update is triggered
+          this.subscription.push(
+            this.observable_nfa
+              .subscribe(value => this.updateOriginalNfa(value))
+          );
+
+          if (this.page_is_in_project_mode) {
+
+            //Subscribe to observable, so whenever next function is called, an update is triggered
+            this.subscription.push(
+              this.observable_custom_nfa
+                .subscribe(value => this.updateCustomNfa(value))
+            );
+          }
+
+          //Initialize original and custom via the Next function
+          this.updateShownNfa();
         }
-      );
-    this.route.parent.parent.params.subscribe(params => this.projectId = params['id']);
-    if (this.projectId != null) {
-      this.nfaCatalogService.projectId = this.projectId;
-      this.projectNfs = this.currentProjectService.getProject(this.projectId).projectNfas.slice();
-    }
-    this.projectMode = this.local.get('nfaMode');
-  }
-  bezeichnung(nfa: NfaCatalogModel) {
+      ));
 
-    if (this.lang() === 'de') {
-      return nfa.nfaCatalogBlueprint.de.bezeichnung;
+
+
+    this.subscription.push(
+      this.route.parent.parent.params.subscribe(params => this.project_id_param = params['project_id'])
+    );
+
+    if (this.project_id_param) {
+      this.nfaCatalogService.projectId = this.project_id_param;
+
+      let proj  = this.currentProjectService.getCurrentlyEditedProject();
+      this.local.set(DExchS.selNfs, proj.projectNfas);
+
+      console.debug("NFA on init has: ");
+      console.debug(proj.projectNfas);
+    }
+
+    this.updateShownNfa();
+  }
+
+  ngOnDestroy() {
+    for(let item of this.subscription){
+      item.unsubscribe();
+    }
+
+    let localNfas : NfaCatalogModel[] = this.getSavedNfa();
+    if (localNfas && this.page_is_in_project_mode){
+      let proj = this.currentProjectService.getCurrentlyEditedProject();
+      proj.projectNfas = localNfas;
+
+      this.local.set(DExchS.currProject, proj);
+      this.currentProjectService.setCurrentlyEditedProject(proj);
+
+      console.debug("NFA On destroy has");
+      console.debug(proj.projectNfas);
+    }
+
+  }
+
+  onEditNFA() {
+    if(this.page_is_in_edit_mode == false){
+      this.currentProjectService.setSelectedNfaId(this.selected_nfa_id_in_metric);
+
+      this.router.navigate(['edit'], {relativeTo: this.route});
+    }
+  }
+
+  onEditBack(){
+    if(this.page_is_in_edit_mode == true){
+
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
+  }
+
+  onCancel(){
+    this.onBack();
+  }
+
+  bezeichnung(nfa: NfaInterfaceModel) : string {
+
+    if (this.getCurrentLanguage() === 'de') {
+      return nfa.blueprint.de.bezeichnung;
     } else {
-      return nfa.nfaCatalogBlueprint.en.bezeichnung;
+      return nfa.blueprint.en.bezeichnung;
     }
   }
 
-  erklaerung(nfa: NfaCatalogModel) {
+  erklaerung(nfa: NfaInterfaceModel) : string {
 
-    if (this.lang() === 'de') {
-      return nfa.nfaCatalogBlueprint.de.erklaerung;
+    if (this.getCurrentLanguage() === 'de') {
+      return nfa.blueprint.de.erklaerung;
     } else {
-      return nfa.nfaCatalogBlueprint.en.erklaerung;
+      return nfa.blueprint.en.erklaerung;
     }
   }
 
-  private lang() {
+  private getCurrentLanguage() {
     let lang = this.translateService.currentLang;
     if (!lang) {
       lang = this.translateService.defaultLang;
@@ -95,91 +242,218 @@ export class NfacatalogNfaComponent implements OnInit {
     return lang;
   }
 
+  getCurrentBlueprint() : IBlueprint {
+    let nfa = this.getCurrentNfa();
+    // let nfa = this.getRelevantNfa();
+
+    if (this.getCurrentLanguage() === 'de') {
+      return nfa.blueprint.de;
+    } else {
+      return nfa.blueprint.en;
+    }
+  }
+
   onNext() {
-    this.nfaIdx = this.nfaIdx + 1;
+    this.selected_nfa_id_in_metric = this.selected_nfa_id_in_metric + 1;
+    this.updateShownNfa();
   }
 
   onPrev() {
-    this.nfaIdx = this.nfaIdx - 1;
+    this.selected_nfa_id_in_metric = this.selected_nfa_id_in_metric - 1;
+    this.updateShownNfa();
   }
 
   onBack() {
     this.router.navigate(['../'], {relativeTo: this.route});
+    this.updateShownNfa();
   }
 
-  onNextY() {
+  onSubmit() {
+
+    switch(this.getCurrentLanguage()){
+      case 'de':
+        this.original_nfa.blueprint.de.erklaerung = this.nfadetailForm.value['nfaExplanation'];
+        break;
+      case 'en':
+      default:
+        this.original_nfa.blueprint.en.erklaerung = this.nfadetailForm.value['nfaExplanation'];
+        break;
+    }
+
+    let customNfa = new NfaCustomModel(
+      null,
+      this.original_nfa,
+      this.currentProjectService.getCurrentlyEditedProject(),
+      this.original_nfa.values,
+      this.original_nfa.formulation,
+      this.original_nfa.blueprint,
+      // this.original_nfa.nfaCatalogReference,
+      this.nfadetailForm.value['nfaCatalogReference'],
+      this.original_nfa.criticality,
+      this.original_nfa.document
+    );
+
+    this.subscription.push(
+      this.dataStorageService.storeEditedNfa(this.project_id_param, this.original_nfa.id, customNfa)
+      .subscribe(
+        //TODO Why do we never execute this code? What is still going wrong?
+        response => {
+          console.log("trying to store custom NFA");
+          console.log(response);
+        },
+        err => {
+          console.log("error while trying to store custom NFA");
+          console.log(err);
+        }
+      )
+    );
+
+    //Refresh the Values inside Custom_Nfa
+    this.subscription.push(
+      this.dataStorageService.getCustomNfaPerProject(this.project_id_param).subscribe(
+        value => this.currentProjectService.setCustomNfa(value)
+      )
+    );
+
+    this.observable_custom_nfa.next(customNfa);
+
+    this.onBack();
   }
 
-  onPrevY() {
+  private initForm() {
+    let nfaExplanation = '';
+    let nfaName = '';
+    let nfaCatalogReference = '';
+
+    if (this.page_is_in_edit_mode) {
+      let currentBlueprint = this.getCurrentBlueprint();
+
+      nfaName = currentBlueprint.bezeichnung;
+      nfaExplanation = currentBlueprint.erklaerung;
+    }
+
+    this.nfadetailForm = new FormGroup({
+      'nfaExplanation': new FormControl(nfaExplanation),
+      'nfaName': new FormControl(nfaName),
+      'nfaCatalogReference': new FormControl(nfaCatalogReference),
+    });
   }
 
   onGoto(j: number) {
-    this.nfaIdx = j;
-    this.onView = !this.onView;
-  }
-  /*
-        this function used to initialize the checkbox --checked property
-   */
-  inProject(nfsid: number) {
-     this.checked = false;
-      let savedNfs: NfaCatalogModel[] =  this.local.get('selNfs');
-      const  projNfas : NfaCatalogModel[] = [];
-      if (savedNfs == null){ savedNfs = projNfas;}
-      if(savedNfs.length == 0 && this.projectNfs.length != 0) {
-      this.local.set('selNfs', this.projectNfs);
-      savedNfs =  this.local.get('selNfs'); }
+    this.selected_nfa_id_in_metric = j;
+    this.page_is_in_subnavigation_mode = !this.page_is_in_subnavigation_mode;
 
-    if (savedNfs.length ==0) {
-      this.checked = false;
+    this.updateShownNfa();
+  }
+
+  getCurrentNfa() : NfaCatalogModel {
+    if(this.page_is_in_project_mode){
+      return this.shown_nfa;
+    }else{
+      return this.metric_nfas[this.selected_nfa_id_in_metric];
     }
-    else {
-      savedNfs.forEach((x) => {
-      if (x.nfaCatalogId == nfsid) {
-        this.checked= true;
-      }
-    });
-  }
-    return  this.checked;
   }
 
+  updateShownNfa(){
+    this.selected_nfa_has_custom = false;
 
+    this.observable_nfa.next(this.metric_nfas[this.selected_nfa_id_in_metric]);
+
+    if(this.page_is_in_project_mode){
+      this.observable_custom_nfa.next(this.currentProjectService.getCustomNfa(this.metric_nfas[this.selected_nfa_id_in_metric].id));
+    }
+  }
+
+  updateCustomNfa(custom: NfaCustomModel) : void {
+    this.selected_nfa_has_custom = false;
+
+    if(custom){
+      this.selected_nfa_has_custom = true;
+      this.custom_nfa = custom;
+
+      //todo store only changed values in shown nfa
+      this.shown_nfa.blueprint = custom.blueprint;
+    }
+  }
+
+  updateOriginalNfa(original: NfaCatalogModel) : void {
+    this.original_nfa = original;
+    if(!this.selected_nfa_has_custom){
+      this.shown_nfa = original;
+    }
+  }
+
+  getNfa(originalId: number) : NfaInterfaceModel {
+    let custom : NfaCustomModel = this.currentProjectService.getCustomNfa(originalId);
+
+    if(custom){
+      return custom;
+    }
+
+    return this.metric_nfas[this.selected_nfa_id_in_metric];
+  }
 
   /**
-   * this function used tto add nfa to the local variable selNfs
+   * Add an nfa to the savedNfas and store it locally
    * @param {NfaCatalogModel} selectedNfa
    */
+  toggleSelectionNfa(selectedNfa : NfaCatalogModel){
+    //Fetch the savedNfa list (either from project, or locally)
+    let savedNfs = this.getSavedNfa();
 
-  selectNfa(selectedNfa : NfaCatalogModel){
-      let savedNfs: NfaCatalogModel[] =  this.local.get('selNfs');
-     const  projNfas : NfaCatalogModel[] = [];
-      if (savedNfs == null){ savedNfs = projNfas;}
-      if(savedNfs.length ==0 && this.projectNfs.length != 0) {
-      this.local.set('selNfs', this.projectNfs);
-      savedNfs =  this.local.get('selNfs'); }
+    if(!this.nfaFoundInSavedNfas(selectedNfa, savedNfs)){
+      //Add it to the List if its not yet there
+      savedNfs.push(selectedNfa);
+      console.debug("Add to list " + selectedNfa.id)
 
-      if(savedNfs.length>0){
-        let count = 0
-        savedNfs.forEach((x) => {
-          if (x.nfaCatalogId !== selectedNfa.nfaCatalogId) {
-            count = count +1;
-          }
-        });
-          if(count>0) {savedNfs.push(selectedNfa);}
-      }
-    else  if (savedNfs.length == 0){
-       savedNfs.push(selectedNfa);
-       console.log(savedNfs);
-      }
-    this.local.set('selNfs', savedNfs);
+    }else{
+      //Remove it from the List if it is there already
+      const indexInStorage: number = savedNfs.findIndex(x => selectedNfa.id == x.id);
+      console.debug("Remove from list " + selectedNfa.id + " at possition " + indexInStorage);
+
+      savedNfs.splice(indexInStorage, 1);
+    }
+
+    console.debug(savedNfs);
+    //Update the locally stored list. It will be saved later on saving the project.
+    this.local.set(DExchS.selNfs, savedNfs);
   }
- /*  to be used later when removing the checkbox
-  else {
-       const index: number = savedNfs.indexOf(selectedNfa);
-       if (index !== -1) {
-         savedNfs.splice(index, 1);
-       }
 
-     }*/
+  /**
+   * Returns the Locally saved list of savedNfa
+   * If the current list is still empty, fetch the original from the project and store it locally.
+   *
+   * @returns {NfaCatalogModel[]} List with the currently saved Nfas
+   */
+  getSavedNfa() : NfaCatalogModel[]{
+
+    //init the list with the currently stored nfa-list
+    let savedNfs: NfaCatalogModel[] = this.local.get(DExchS.selNfs);
+
+    if (!savedNfs) {
+      //init an empty list, to avoid nullptr
+      savedNfs = [];
+    }
+
+    return savedNfs;
+  }
+
+  /**
+   * Checks, whether a given nfa is part of the currently saved list
+   *
+   * @param {NfaCatalogModel} nfa The Nfa, of which the presence will be determined
+   * @param {NfaCatalogModel[]} inList optional list, in which the Nfa will be searched. Otherwise the local one will be used.
+   * @returns {boolean} true if nfa is found in the savedNfs List.
+   */
+  nfaFoundInSavedNfas(nfa: NfaCatalogModel, inList? : NfaCatalogModel[]) : boolean{
+    //if a parameter is provided, use it, otherwise fetch the saved Nfas.
+    let savedNfs : NfaCatalogModel[] = (inList) ? inList : this.getSavedNfa();
+
+    let result = savedNfs.find(x => x.id == nfa.id);
+
+    //true, if storage index equals anything but -1, false otherwise
+    return result != undefined;
+  }
 }
 
 

@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-xs-12">
-    <button class="btn btn-success" (click)="onNewProject()" >{{ 'nfa.new-project.create-nfa-project' | translate }}</button>
+    <button class="btn btn-success" (click)="onNewProject()" >{{ 'nfa.new-project.create-nfa-project' |
+      translate }}</button>
   </div>
 </div>
 <hr>
@@ -18,10 +19,11 @@
 <hr>
 <div class="row">
   <div class="col-xs-12">
-    <div class="col-xs-6 text-center"><label for="filter" class="small">{{ 'nfa.search-project.filter' | translate }}:</label> </div>
+    <div class="col-xs-6 text-center"><label for="filter" class="small">{{ 'nfa.search-project.filter' |
+      translate }}:</label> </div>
     <div class="col-xs-6 btn-group pull-left">
       <button type="button" id="filter" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        {{this.getStringByStatus(status)}} <span class="caret"></span>
+        {{ getStringByStatus( status) }} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu">
         <li><a (click)="onAll(inp)">{{ 'nfa.search-project.filter-all' | translate }}</a></li>
@@ -37,6 +39,6 @@
     <app-project-item
       *ngFor="let projectEl of projects let i = index"
       [project]="projectEl"
-      [index]="i"></app-project-item>
+      [id]="projectEl.id"></app-project-item>
   </div>
 </div>

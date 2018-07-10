@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {DataStorageService} from '../../shared/data-storage.service';
 import {Project} from '../../shared/project.model';
 import {Stakeholder} from '../../shared/stakeholder.model'
 import {CurrentProjectService} from '../current-project.service';
-import {Response} from '@angular/http';
-import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import {LocalStorageService} from 'angular-web-storage';
 
 @Component({
   selector: 'app-project-detail',
@@ -13,15 +12,15 @@ import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorag
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
-  project: Project;
+  displayed_project: Project;
   name: string;
-  id: number;
+  project_id_param: number;
   isSelected:boolean;
   selectedStakeHolders: Stakeholder[];
   selectedStake:number[];
   stackHolders: Stakeholder[];
   isExported = false;
-  url:string;
+  url: string;
   title: string;
   modal: string;
 
@@ -33,15 +32,20 @@ export class ProjectDetailComponent implements OnInit {
               ) { }
 
   ngOnInit() {
+
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.project = this.currentProjectService.getProject(this.id);
-          this.stackHolders = this.project.projectStakeholders.slice();
-          this.selectedStakeHolders = this.stackHolders;
-        }
+          this.project_id_param = +params['project_id'];
 
+          this.displayed_project = this.currentProjectService.getProjectById(this.project_id_param);
+
+          this.stackHolders = this.displayed_project.projectStakeholders.slice();
+          this.selectedStakeHolders = this.stackHolders;
+
+          this.currentProjectService.clearEditedProject();
+          this.local.clear();
+        }
 
       );
   }
@@ -52,9 +56,9 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   onDeleteProject() {
-  this.local.clear();
-  this.currentProjectService.deleteProject(this.id);
-    this.dataStorageService.deleteProject(this.project)
+    this.local.clear();
+    this.currentProjectService.deleteProjectById(this.project_id_param);
+    this.dataStorageService.deleteProject(this.displayed_project)
       .subscribe(
         (response) => {
           this.router.navigate(['../'], {relativeTo: this.route});
@@ -62,6 +66,7 @@ export class ProjectDetailComponent implements OnInit {
         }
       );
   }
+
   // Getting Selected stackholder
   getSelected() {
     this.selectedStakeHolders = [];
@@ -77,12 +82,11 @@ export class ProjectDetailComponent implements OnInit {
 
   export() {
 
-    this.dataStorageService.generateXml(this.project)
+    this.dataStorageService.generateXml(this.displayed_project)
       .subscribe(
         (response) => {
-          this.isExported = true;
         }
       );
-
+    this.isExported = true;
   }
 }
