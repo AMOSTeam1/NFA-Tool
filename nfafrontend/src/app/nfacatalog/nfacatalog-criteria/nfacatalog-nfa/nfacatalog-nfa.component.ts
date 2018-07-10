@@ -319,14 +319,22 @@ export class NfacatalogNfaComponent implements OnInit, OnDestroy {
   }
 
   onNfaValueSubmit(){
-    this.local.clear();
+    // this.local.clear();
+    console.debug("Submitting:");
+    console.debug(this.popupform);
 
     const newNfaVerbindlichkeit = new NfaVerbindlichkeitModel(
       this.popupform.value['id'],
       this.popupform.value['nfaVerbindlichkeitFrom'],
       this.popupform.value['nfaVerbindlichkeitTill']
     );
-    this.dataStorageService.storeNfaValue(newNfaVerbindlichkeit);
+
+    this.subscription.push(
+      this.dataStorageService.storeNfaValue(newNfaVerbindlichkeit).subscribe(
+        result => console.log(result),
+        error1 => console.log(error1)
+      )
+    );
   }
 
   private initForm() {
