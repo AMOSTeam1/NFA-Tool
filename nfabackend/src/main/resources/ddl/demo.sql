@@ -118,7 +118,8 @@ INSERT INTO public.project_type VALUES (4,2);
 CREATE TABLE public.nfa_factor
 (
 	factor_id serial PRIMARY KEY,
-	factor varchar(45) NOT NULL
+	factor varchar(45) NOT NULL,
+	erklarung varchar(500)
 );
 
 CREATE TABLE public.nfa_criteria
@@ -308,7 +309,6 @@ CREATE TABLE public.criteria_metric
 	metric_id serial NOT NULL,
     CONSTRAINT criteria_fk FOREIGN KEY (criteria_id)
         REFERENCES public.nfa_criteria (criteria_id) MATCH SIMPLE
-        REFERENCES public.nfa_criteria (criteria_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 	CONSTRAINT metric_fk FOREIGN KEY (metric_id)
@@ -401,19 +401,19 @@ CREATE TABLE public.stakeholder_factor
 
 
 ---------------update factors explanation 
-UPDATE nfa_factor SET  erklarung= 'enauigkeit und Vollständigkeit, mit dem ein Nutzer spezifische Ziele erreicht' 	WHERE factor_id =	1	;
-UPDATE nfa_factor SET  erklarung= 'Ressourcen, die in Bezug auf die Genauigkeit und Vollständigkeit, mit denen die Nutzer Ziele erreichen - aufgewendet werden - relevante Ressourcen können Zeit zur Komplettierung der Aufgabe (menschliche Ressourcen), Materialien oder die finanziellen Kosten der Nutzung beinhalten' 	WHERE factor_id =	2	;
-UPDATE nfa_factor SET  erklarung= 'Grad, zu dem ein Nutzer mit der wahrgenommenen Erreichung von Programmierzielen inklusive der Ergebnisse und den Auswirkungen der Nutzung zufrieden ist' WHERE factor_id =	3	;
-UPDATE nfa_factor SET  erklarung = 'Grad, zu dem die Qualität eines Produkts oder Systems, potentielle Risiken dem Nutzer gegenüber mindert.'	WHERE factor_id =	4	;
-UPDATE nfa_factor SET  erklarung = 'Grad, zu dem ein Produkt oder System sowohl innerhalb als auch außerhalb der definierten Nutzungsumgebungen effektiv, effizient, zufriedenstellend und frei von Risiken genutzt werden kann.'	WHERE factor_id =	5	;
-UPDATE nfa_factor SET  erklarung = 'Grad, zu dem ein Produkt oder System die Bedürfnisse, die festgelegt und vorausgesetzt wurden, zur Verfügung stellt, wenn sie unter spezifischen Bedingungen genutzt werden.'	WHERE factor_id =	6	;
-UPDATE nfa_factor SET  erklarung=  'Leistungsgrad bezüglich der Menge an Ressourcen, die unter festgelegten Umständen genutzt werden' WHERE factor_id =	7	;
-UPDATE nfa_factor SET  erklarung = 'Grad, zu dem ein Produkt, ein System oder eine Komponente beim Teilen der selben Hardware- oder Softwareumgebung Informationen mit anderen Produkten, Systemen oder Komponenten austauschen kann und/oder seine/ihre benötigten Funktionen ausführen kann' WHERE factor_id =	8	;
-UPDATE nfa_factor SET  erklarung = 'Grad, zu dem ein Produkt oder System von einem spezifischen Nutzer zur effektiven, effizienten und innerhalb einer Nutzungsumgebung zufriedenstellenden Zielerreichung genutzt werden kann'	WHERE factor_id =	9	;
-UPDATE nfa_factor SET  erklarung = 'Grad, zu dem ein Produkt, ein System oder eine Komponente spezifische Funktionen unter spezifischen Bedingungen innerhalb einer spezifische Zeitperiode ausführt' WHERE factor_id =	10	;
-UPDATE nfa_factor SET  erklarung= 'Grad, zu dem ein Produkt oder System Informationen und Daten so schützt, dass für Nutzer, andere Produkte oder Systeme ein angemessener Grad an Datenzugriff gemäß ihrer Autorisierungstypen und -levels vorherrscht' WHERE factor_id =	11	;
-UPDATE nfa_factor SET  erklarung = 'Grad an Effektivität und Effizienz, mit dem ein Produkt oder System durch den vorgesehenen Warter modifiziert werden kann' WHERE factor_id =	12	;
-UPDATE nfa_factor SET  erklarung = 'Grad an Effektivität und Effizienz mit dem ein Produkt, ein System oder eine Komponente von einer Hardware, Software oder einer anderen Betriebs- oder Nutzungsumgebung auf eine andere übertragen werden kann' WHERE factor_id =	13	;
+UPDATE nfa_factor SET erklarung = 'enauigkeit und Vollständigkeit, mit dem ein Nutzer spezifische Ziele erreicht' 	WHERE factor_id =	1	;
+UPDATE nfa_factor SET erklarung = 'Ressourcen, die in Bezug auf die Genauigkeit und Vollständigkeit, mit denen die Nutzer Ziele erreichen - aufgewendet werden - relevante Ressourcen können Zeit zur Komplettierung der Aufgabe (menschliche Ressourcen), Materialien oder die finanziellen Kosten der Nutzung beinhalten' 	WHERE factor_id =	2	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem ein Nutzer mit der wahrgenommenen Erreichung von Programmierzielen inklusive der Ergebnisse und den Auswirkungen der Nutzung zufrieden ist' WHERE factor_id =	3	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem die Qualität eines Produkts oder Systems, potentielle Risiken dem Nutzer gegenüber mindert.'	WHERE factor_id =	4	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem ein Produkt oder System sowohl innerhalb als auch außerhalb der definierten Nutzungsumgebungen effektiv, effizient, zufriedenstellend und frei von Risiken genutzt werden kann.'	WHERE factor_id =	5	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem ein Produkt oder System die Bedürfnisse, die festgelegt und vorausgesetzt wurden, zur Verfügung stellt, wenn sie unter spezifischen Bedingungen genutzt werden.'	WHERE factor_id =	6	;
+UPDATE nfa_factor SET erklarung = 'Leistungsgrad bezüglich der Menge an Ressourcen, die unter festgelegten Umständen genutzt werden' WHERE factor_id =	7	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem ein Produkt, ein System oder eine Komponente beim Teilen der selben Hardware- oder Softwareumgebung Informationen mit anderen Produkten, Systemen oder Komponenten austauschen kann und/oder seine/ihre benötigten Funktionen ausführen kann' WHERE factor_id =	8	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem ein Produkt oder System von einem spezifischen Nutzer zur effektiven, effizienten und innerhalb einer Nutzungsumgebung zufriedenstellenden Zielerreichung genutzt werden kann'	WHERE factor_id =	9	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem ein Produkt, ein System oder eine Komponente spezifische Funktionen unter spezifischen Bedingungen innerhalb einer spezifische Zeitperiode ausführt' WHERE factor_id =	10	;
+UPDATE nfa_factor SET erklarung = 'Grad, zu dem ein Produkt oder System Informationen und Daten so schützt, dass für Nutzer, andere Produkte oder Systeme ein angemessener Grad an Datenzugriff gemäß ihrer Autorisierungstypen und -levels vorherrscht' WHERE factor_id =	11	;
+UPDATE nfa_factor SET erklarung = 'Grad an Effektivität und Effizienz, mit dem ein Produkt oder System durch den vorgesehenen Warter modifiziert werden kann' WHERE factor_id =	12	;
+UPDATE nfa_factor SET erklarung = 'Grad an Effektivität und Effizienz mit dem ein Produkt, ein System oder eine Komponente von einer Hardware, Software oder einer anderen Betriebs- oder Nutzungsumgebung auf eine andere übertragen werden kann' WHERE factor_id =	13	;
 
 -------------------------insert metrics 
 INSERT INTO metric ( metric_number, bezeichnung,erklaerung_messgroesse, formel, interpretation)  VALUES (	2  , 'Vollständigkeit der Arbeit'  , 'In welchem Umfang die Aufgaben durch einen Nutzer oder einer Nutzergruppe in Bezug auf die in den Anforderungen identifizierten oder vom Nutzer angestrebten Aufgaben erledigt sind. Hierbei wird die Anzahl der erledigten Aufgaben mit der Anzahl der angestrebten Aufgaben verglichen.'  , 'X = A/B; A = Anzahl der einzigartigen Aufgaben, die abgeschlossen wurden; B = Gesamtzahl der angestrebten Aufgaben; bei verschiedener Komplexität der Aufgaben: = Σ (i=1..n) Wi × Ai/B; i = Anzahl der Aufgben; Wi = Schwierigkeit der Aufgabe bei einer Summe von 1,00'  , '{X | 0 ≤ X ≤ 1}; Je näher der Wert an "1" ist, desto besser.' );
@@ -699,8 +699,8 @@ INSERT INTO public.project_nfa VALUES (3, 4);
 INSERT INTO public.project_nfa VALUES (4, 5);
 
 -------------------------stakeholder factors
-INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (1.1);
-INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (2.2);
-INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (3.3);
-INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (4.4);
-INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (5.5);
+INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (1,1);
+INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (2,2);
+INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (3,3);
+INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (4,4);
+INSERT INTO public.stakeholder_factor(stakeholder_id, factor_id) VALUES (5,5);
