@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/first';  // needed for first() call
 import {TranslateService} from '@ngx-translate/core';
+import 'rxjs/add/operator/first';
 
 
 import {AuthenticationService} from '../shared/authentication.service';
