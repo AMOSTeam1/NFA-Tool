@@ -9,33 +9,27 @@ import 'rxjs/add/operator/materialize';
 import 'rxjs/add/operator/dematerialize';
 import {User} from '../user';
 import {UserService} from '../user.service';
-import {Http} from '@angular/http';
 
 @Injectable()
 export class BackendInterceptor implements HttpInterceptor {
 
   private testUser;
 
-
-
   constructor(private userService: UserService,
               private user: User,
-              private http: Http,
   ) {
 
     console.log('execute backend.ts');
-
   }
-
 
   readUser() {
     this.userService.getUser()
       .subscribe(resp => {
-        this.user = resp [0];
+        this.user = resp[0];
         console.log(resp[0]);
         console.log(this.user.userId);
         console.log(this.user.username);
-        this.testUser = {id: this.user.userId, username: this.user.username, password: this.user.password};
+        this.testUser = {userId: this.user.userId, username: this.user.username, password: this.user.password};
       });
 
   }
@@ -53,7 +47,12 @@ export class BackendInterceptor implements HttpInterceptor {
 
       console.log('execute backend.ts INTERCEPT');
 
+
       return Observable.of(null).mergeMap(() => {
+        if(!this.testUser){
+          console.log("There is no user yet.");
+          return Observable.of(new HttpResponse({status: 500}));
+        }
         if (request.body.username === this.testUser.username && request.body.password === this.testUser.password) {
 
           // if login details are valid return 200 OK with a fake jwt token
@@ -61,21 +60,17 @@ export class BackendInterceptor implements HttpInterceptor {
         } else {
           // else return 400 bad request
           // TODO add translation
-console.log (this.testUser.username);
+          console.log (this.testUser.username);
           return Observable.throw('Username or password is incorrect');
-
-
         }
       })
         .materialize()
-        .delay(15000)
+        .delay(500)
         .dematerialize();
       }
 
-
-
       // get users
-      if (request.url.endsWith('/users') && request.method === 'GET') {
+      if (request.url.endsWith('/user') && request.method === 'GET') {
 
 
         if (request.headers.get('Authorization') === 'Bearer token') {

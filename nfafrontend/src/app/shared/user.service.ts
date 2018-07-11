@@ -9,9 +9,9 @@ export class UserService {
     console.log('execute user.service.ts');
   }
 
-  getUser(): Observable<User> {
+  getUser(): Observable<User[]> {
     console.log('execute user.service.ts GET');
-    return this.http.get<User>('http://localhost:8080/nfabackend/webapi/user');
+    return this.http.get<User[]>('http://localhost:8080/nfabackend/webapi/user');
 
   }
 }
