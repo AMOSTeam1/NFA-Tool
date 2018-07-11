@@ -414,4 +414,4 @@ CREATE TABLE public.users (
   password varchar(45) NOT NULL,
   PRIMARY KEY (user_id)
 );
-INSERT INTO public.users VALUES (1, "test", "test");
+INSERT INTO public.users VALUES (1, 'test', 'test');
