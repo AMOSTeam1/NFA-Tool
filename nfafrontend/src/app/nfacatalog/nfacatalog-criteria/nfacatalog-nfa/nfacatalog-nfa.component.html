@@ -45,7 +45,7 @@
         <p class="small">{{ getCurrentBlueprint().erklaerung }}</p>
       </div>
       <div class="panel-body" *ngIf = "page_is_in_project_mode" >
-        <input type="checkbox" id="checkbox" [checked]="nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_in_metric])" (click)="toggleSelectionNfa(metric_nfas[selected_nfa_id_in_metric])">
+        <input type="checkbox" data-toggle="modal" data-target="#VerbindlichkeitPopUp" id="checkbox" [checked]="nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_in_metric])" (click)="toggleSelectionNfa(metric_nfas[selected_nfa_id_in_metric])" >
         <textarea
           *ngIf="page_is_in_edit_mode"
           id="nfaExplanation"
@@ -60,6 +60,35 @@
         </textarea>
         <p class="small" *ngIf="!page_is_in_edit_mode"> {{ getCurrentBlueprint().erklaerung }} </p>
       </div>
+      <!-- PopUp -->
+      <form [formGroup]="popupform" >
+        <div *ngIf="nfaFoundInSavedNfas(metric_nfas[selected_nfa_id_in_metric])" class="modal fade" id="VerbindlichkeitPopUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">{{'nfa.project-details.verbindlichkeit-popup.label' | translate }}</h4>
+                <h5 class="modal-title">{{'nfa.project-details.verbindlichkeit-popup.start-value' | translate }}</h5>
+                <div>
+                  <input type="text" id="nfaValueFrom" formControlName="nfaVerbindlichkeitFrom"  >
+                </div>
+
+                <h5 class="modal-title">{{'nfa.project-details.verbindlichkeit-popup.end-value' | translate }}</h5>
+                <div>
+                  <input type="text" id="nfaVaueTill" formControlName="nfaVerbindlichkeitTill">
+                </div>
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onNfaValueSubmit()" > <span class="glyphicon glyphicon-floppy-disk"> </span> {{'nfa.project-details.verbindlichkeit-popup.save' | translate }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+
+      <!-- PopUp -->
     </div>
 
     <!--Reference-->

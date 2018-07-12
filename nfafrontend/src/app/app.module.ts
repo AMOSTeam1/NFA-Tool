@@ -45,6 +45,8 @@ import {AuthenticationService} from './shared/authentication.service';
 import {UserService} from './shared/user.service';
 import {JwtInterceptor} from './shared/handlers/jwt.interceptor';
 import {BackendProvider} from './shared/handlers/backend';
+import {NfaVerbindlichkeitModel} from "./shared/NfaVerbindlichkeit.model";
+
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import {BackendProvider} from './shared/handlers/backend';
     LoginComponent,
     LoadingSpinnerComponent,
     WaveBarComponent,
+
 
   ],
   imports: [
