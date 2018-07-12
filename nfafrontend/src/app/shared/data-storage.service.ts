@@ -84,10 +84,22 @@ export class DataStorageService {
   getTypes() : Observable<ProjectType[]>{
     return this.http.get<ProjectType[]>('http://localhost:8080/nfabackend/webapi/types');
   }
+
   generateXml(project: Project) {
     return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/xml/'+ project.id, httpOptionsXml);
   }
+
   downloadXml() {
     return this.http.get('http://localhost:8080/nfabackend/webapi/projectexport/download', httpOptionsXml);
+  }
+
+  importNfa(nfaFile: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', nfaFile, nfaFile.name);
+    formData.append('fileName', nfaFile.name, nfaFile.name + 'fileName');
+    const observable = this.http.post('http://localhost:8080/nfabackend/webapi/project/importnfa', formData);
+    observable.subscribe(resp => {
+      // Do nothing
+    });
   }
 }

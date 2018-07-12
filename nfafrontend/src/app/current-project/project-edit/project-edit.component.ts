@@ -411,6 +411,10 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['nfa'], {relativeTo: this.route});
   }
+  
+  onImportNfa(event) {
+    this.dataStorageService.importNfa((<FileList>event.target.files).item(0));
+  }
 
   /*changes to add stakeholder begins*/
   isFacMinimum(i: number, j: number){
