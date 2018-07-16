@@ -15,21 +15,31 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.*;
+
 
 @Entity
 @Table(name ="nfa_factor")
+@XmlType(propOrder = {"factorNumber" ,"factor","erklaerung","criteriaList"})
 public class NfaFactor {
-	public NfaFactor() {}
+	public NfaFactor() {
+		
+	}
 	 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column (name ="factor_id")
+
 	private Long factorNumber;
-	
+
 	@Column (name ="factor")
-	private String factor;
+	protected String factor;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Column (name ="erklaerung")
+	protected String erklaerung;
+
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "FACTOR_CRITERIA", joinColumns = @JoinColumn(name = "FACTOR_ID"), inverseJoinColumns = @JoinColumn(name = "CRITERIA_ID"))
 	@OrderBy("criteria_num ASC")
 	private Set<NfaCriteria> criteriaList = new HashSet<NfaCriteria>();
@@ -48,14 +58,22 @@ public class NfaFactor {
 
 	public void setFactorNumber(Long factorNumber) {
 		this.factorNumber = factorNumber;
-	}
 
+	}
+	
 	public String getFactor() {
 		return factor;
 	}
-
 	public void setFactor(String factor) {
 		this.factor = factor;
+	}
+	@XmlElement (name = "erklaerung")
+	public String getErklaerung() {
+			return erklaerung;
+	}
+
+	public void setErklaerung(String erklaerung) {
+			this.erklaerung = erklaerung;
 	}
 
 }

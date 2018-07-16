@@ -15,9 +15,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
 @Table(name ="nfa_criteria")
+@XmlRootElement (name = "kriterien")
+@XmlType(propOrder = {"id" ,"criteriaNumber","criteria","erklaerung","metricList"})
 public class NfaCriteria {
 	public NfaCriteria() {}
 	 
@@ -34,6 +39,9 @@ public class NfaCriteria {
 	@Column (name ="criteria")
 	private String criteria;
 	
+	@Column (name ="erklaerung")
+	private String erklaerung;
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "CRITERIA_METRIC", joinColumns = @JoinColumn(name = "CRITERIA_ID"), inverseJoinColumns = @JoinColumn(name = "METRIC_ID"))
 	@OrderBy("METRIC_NUMBER ASC")
@@ -71,10 +79,12 @@ public class NfaCriteria {
 		this.metricList = metricList;
 	}
 	
-	
-		
-	
-	
-	
+	public String getErklaerung() {
+		return erklaerung;
+	}
+
+	public void setErklaerung(String erklaerung) {
+		this.erklaerung = erklaerung;
+	}			
 
 }

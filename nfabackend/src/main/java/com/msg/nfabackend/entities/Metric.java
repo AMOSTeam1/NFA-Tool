@@ -14,8 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 @Entity
+@XmlRootElement(name = "metrik")
+@XmlType(propOrder = {"id" ,"metricNumber","bezeichnung", "erklaerungMessgroesse","referenz","nutzungsempfehlung","formel", "interpretation","nfaList"})
 @Table(name="METRIC")
 public class Metric {
 
@@ -40,6 +44,12 @@ public class Metric {
 	
 	@Column (name ="INTERPRETATION")
 	private String interpretation;
+	
+	@Column (name ="referenz")
+	private String referenz;
+	
+	@Column (name ="nutzungsempfehlung")
+	private String nutzungsempfehlung;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "METRIC_NFA", joinColumns = @JoinColumn(name = "METRIC_ID"), inverseJoinColumns = @JoinColumn(name = "NFA_ID"))
@@ -100,6 +110,22 @@ public class Metric {
 
 	public void setErklaerungMessgroesse(String erklaerungMessgroesse) {
 		this.erklaerungMessgroesse = erklaerungMessgroesse;
+	}
+
+	public String getReferenz() {
+		return referenz;
+	}
+
+	public void setReferenz(String referenz) {
+		this.referenz = referenz;
+	}
+
+	public String getNutzungsempfehlung() {
+		return nutzungsempfehlung;
+	}
+
+	public void setNutzungsempfehlung(String nutzungsempfehlung) {
+		this.nutzungsempfehlung = nutzungsempfehlung;
 	}
 	
 	
