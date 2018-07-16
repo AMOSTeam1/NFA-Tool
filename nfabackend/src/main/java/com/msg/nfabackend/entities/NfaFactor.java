@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.*;
 
 @Entity
 @Table(name ="nfa_factor")
-@XmlType(propOrder = { "factor", "nfa_id" ,"id", "bezeichnung","criteriaList"})
+@XmlType(propOrder = {"factorNumber" ,"factor","erklaerung","criteriaList"})
 public class NfaFactor {
 	public NfaFactor() {
 		
@@ -35,15 +35,11 @@ public class NfaFactor {
 	@Column (name ="factor")
 	protected String factor;
 	
-	public String getFactor() {
-		return factor;
-	}
-	public void setFactor(String factor) {
-		this.factor = factor;
-	}
+	@Column (name ="erklaerung")
+	protected String erklaerung;
 
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "FACTOR_CRITERIA", joinColumns = @JoinColumn(name = "FACTOR_ID"), inverseJoinColumns = @JoinColumn(name = "CRITERIA_ID"))
 	@OrderBy("criteria_num ASC")
 	private Set<NfaCriteria> criteriaList = new HashSet<NfaCriteria>();
@@ -64,22 +60,20 @@ public class NfaFactor {
 		this.factorNumber = factorNumber;
 
 	}
-	@XmlElement
-	public void setId(Long nfa_id) {
-		this.factorNumber = nfa_id;
-	}
 	
-	public Long getId() {
-		return factorNumber;
+	public String getFactor() {
+		return factor;
 	}
-	
-    @XmlElement (name = "bezeichnung")
-	public void setBezeichnung(String factor) {
+	public void setFactor(String factor) {
 		this.factor = factor;
 	}
-    
-	public String getBezeichnung() {
-		return factor;
+	@XmlElement (name = "erklaerung")
+	public String getErklaerung() {
+			return erklaerung;
+	}
+
+	public void setErklaerung(String erklaerung) {
+			this.erklaerung = erklaerung;
 	}
 
 }

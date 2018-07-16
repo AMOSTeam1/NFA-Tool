@@ -8,6 +8,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -70,11 +76,57 @@ public class ProjectXmlResource {
 		ProjectXml projXml = new ProjectXml();
 		Set<String> linesToRemove =  new HashSet<String>();
 		byte[] buffer = new byte[1024];
-		
-		linesToRemove.add("<factor>");
-		linesToRemove.add("<nfa_id>");
-		Iterator<String> linesToRemoveIter;
+		ArrayList<ArrayList<String>> textreplacer = new ArrayList<ArrayList<String>>();
+		ArrayList <String> replacer;
+		replacer = new ArrayList<String>();
+		replacer.add("factor>");
+		replacer.add("bezeichnung>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("factorNumber>");
+		replacer.add("id>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("criteriaNumber>");
+		replacer.add("id>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("<criteria>");
+		replacer.add("<bezeichnung>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("</criteria>");
+		replacer.add("</bezeichnung>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("metricList>");
+		replacer.add("metriken>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("criteriaList>");
+		replacer.add("kriterien>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("metricNumber>");
+		replacer.add("id>");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("nfaList");
+		replacer.add("nfa");
+		textreplacer.add(replacer);
+		replacer = new ArrayList<String>();
+		replacer.add("nfaNumber");
+		replacer.add("id");
+		textreplacer.add(replacer);
 
+		
+		
+		linesToRemove.add("<id>");
+		linesToRemove.add("</id>");
+		/*linesToRemove.add("<factorNumber>");
+		linesToRemove.add("<criteriaList>");*/
+
+		Iterator<String> linesToRemoveIter;
 		
 
 		FileOutputStream fos = new FileOutputStream(downloadXmlLocation);
@@ -90,6 +142,7 @@ public class ProjectXmlResource {
 		Iterator<Stakeholder> stakeholderIter = stakeholderList.iterator();
 		projXml.setProjectId(project.getId());
 		projXml.setName(project.getCustomerName() + " " + project.getContactPersCustomer());
+		
 		for (int i = 0; 0 == i || stakeholderIter.hasNext(); i++) {
 
 			factorsList = new HashSet<NfaFactor>();
@@ -97,14 +150,24 @@ public class ProjectXmlResource {
 			projXml.setStakeholderName(stakeholder.getStakeholder_name());
 			projXml.setStakeholderId(stakeholder.getStakeholder_id());
 			factors = stakeholder.getStakeholderFactors();
-
-			for (int j = 0; j < factors.size(); j++) {
-				Long factorId = factors.get(j);
-				factor =  queryService.getFactorById(factorId);			
+			Iterator<Long> factorsIterator = factors.iterator();
+			
+			for (int x = 0; 0 == x || factorsIterator.hasNext(); x++) {
+				int count =0;
+				Long factorId = factorsIterator.next();
+				factor =  queryService.getFactorById(factorId);	
+				Iterator<NfaFactor> factorListIterator = factorsList.iterator();
+				//check if the list has the same factor for not adding it again 
+				while(factorListIterator.hasNext()) {
+				 NfaFactor listFactor = factorListIterator.next();
+				if (listFactor.getFactorNumber() == factor.getFactorNumber()) {
+					count = count+1;}
+				}
+				if (count ==0) {
 				factorsList.add(factor);
-
+				}
 			}
-
+			
 			projXml.setFaktor(factorsList);
 
 			/**
@@ -119,7 +182,7 @@ public class ProjectXmlResource {
 			
 			/////remove not needed lines 
 			
-			File tempFile = new File("C:\\Windows\\Temp/myTempFile.txt");
+			File tempFile = new File(tempFolder + "myTempFile.txt");
 			File inputFile = new File(getProjectXmlLocation(i));
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
@@ -138,15 +201,33 @@ public class ProjectXmlResource {
 			    	 isFound = true;
 			    }
 			    }
-			    if(!isFound) writer.write(currentLine + System.getProperty("line.separator"));
-			   
+			    if(!isFound) writer.write(currentLine + System.getProperty("line.separator"));			   
 			}
 			
 			writer.close(); 
 			reader.close(); 
-			tempFile.renameTo(inputFile);
 			
-			/////////////////////
+			 FileChannel src = new FileInputStream(tempFile).getChannel();
+			 FileChannel dest = new FileOutputStream(inputFile).getChannel();
+			 dest.transferFrom(src, 0, src.size());
+
+						
+			/*
+			 * replace the tag names 
+			 */
+			
+			java.nio.file.Path path = Paths.get(getProjectXmlLocation(i));
+			Iterator<ArrayList<String>> replacerIterator = textreplacer.iterator();
+			while ( replacerIterator.hasNext()) {
+			String content = new String(Files.readAllBytes(path));
+			ArrayList<String> textToBeReplaced= new ArrayList<String>();
+			textToBeReplaced= replacerIterator.next();
+			content = content.replaceAll(textToBeReplaced.get(0),textToBeReplaced.get(1));
+			Files.write(path, content.getBytes());	
+			}
+
+			
+			///////////////////// 
 			
 
 			File srcFile = new File(getProjectXmlLocation(i));

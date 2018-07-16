@@ -410,3 +410,29 @@ CREATE TABLE public.stakeholder_factor
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 );
+---------------------------------------------------update tables for xml generation
+ALTER TABLE nfa_factor ADD COLUMN erklaerung character varying(500);
+ALTER TABLE nfa_criteria ADD COLUMN erklaerung character varying(500);
+ALTER TABLE metric ADD COLUMN referenz character varying(50);
+ALTER TABLE metric ADD COLUMN nutzungsempfehlung character varying(50);
+ALTER TABLE public.nfa ADD COLUMN bezeichnung character varying(250);
+ALTER TABLE public.nfa ADD COLUMN erklaerung character varying(1000);
+
+---------------update factors explanation 
+UPDATE nfa_factor SET  erklaerung= 'enauigkeit und Vollständigkeit, mit dem ein Nutzer spezifische Ziele erreicht' 	WHERE factor_id =	1	;
+UPDATE nfa_factor SET  erklaerung= 'Ressourcen, die in Bezug auf die Genauigkeit und Vollständigkeit, mit denen die Nutzer Ziele erreichen - aufgewendet werden - relevante Ressourcen können Zeit zur Komplettierung der Aufgabe (menschliche Ressourcen), Materialien oder die finanziellen Kosten der Nutzung beinhalten' 	WHERE factor_id =	2	;
+UPDATE nfa_factor SET  erklaerung= 'Grad, zu dem ein Nutzer mit der wahrgenommenen Erreichung von Programmierzielen inklusive der Ergebnisse und den Auswirkungen der Nutzung zufrieden ist' WHERE factor_id =	3	;
+UPDATE nfa_factor SET  erklaerung = 'Grad, zu dem die Qualität eines Produkts oder Systems, potentielle Risiken dem Nutzer gegenüber mindert.'	WHERE factor_id =	4	;
+UPDATE nfa_factor SET  erklaerung = 'Grad, zu dem ein Produkt oder System sowohl innerhalb als auch außerhalb der definierten Nutzungsumgebungen effektiv, effizient, zufriedenstellend und frei von Risiken genutzt werden kann.'	WHERE factor_id =	5	;
+UPDATE nfa_factor SET  erklaerung = 'Grad, zu dem ein Produkt oder System die Bedürfnisse, die festgelegt und vorausgesetzt wurden, zur Verfügung stellt, wenn sie unter spezifischen Bedingungen genutzt werden.'	WHERE factor_id =	6	;
+UPDATE nfa_factor SET  erklaerung=  'Leistungsgrad bezüglich der Menge an Ressourcen, die unter festgelegten Umständen genutzt werden' WHERE factor_id =	7	;
+UPDATE nfa_factor SET  erklaerung = 'Grad, zu dem ein Produkt, ein System oder eine Komponente beim Teilen der selben Hardware- oder Softwareumgebung Informationen mit anderen Produkten, Systemen oder Komponenten austauschen kann und/oder seine/ihre benötigten Funktionen ausführen kann' WHERE factor_id =	8	;
+UPDATE nfa_factor SET  erklaerung = 'Grad, zu dem ein Produkt oder System von einem spezifischen Nutzer zur effektiven, effizienten und innerhalb einer Nutzungsumgebung zufriedenstellenden Zielerreichung genutzt werden kann'	WHERE factor_id =	9	;
+UPDATE nfa_factor SET  erklaerung = 'Grad, zu dem ein Produkt, ein System oder eine Komponente spezifische Funktionen unter spezifischen Bedingungen innerhalb einer spezifische Zeitperiode ausführt' WHERE factor_id =	10	;
+UPDATE nfa_factor SET  erklaerung= 'Grad, zu dem ein Produkt oder System Informationen und Daten so schützt, dass für Nutzer, andere Produkte oder Systeme ein angemessener Grad an Datenzugriff gemäß ihrer Autorisierungstypen und -levels vorherrscht' WHERE factor_id =	11	;
+UPDATE nfa_factor SET  erklaerung = 'Grad an Effektivität und Effizienz, mit dem ein Produkt oder System durch den vorgesehenen Warter modifiziert werden kann' WHERE factor_id =	12	;
+UPDATE nfa_factor SET  erklaerung = 'Grad an Effektivität und Effizienz mit dem ein Produkt, ein System oder eine Komponente von einer Hardware, Software oder einer anderen Betriebs- oder Nutzungsumgebung auf eine andere übertragen werden kann' WHERE factor_id =	13	;
+
+
+	
+	

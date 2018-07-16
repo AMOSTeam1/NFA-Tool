@@ -18,11 +18,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Entity
 @Table(name ="nfa")
+@XmlRootElement(name = "nfa")
+@XmlType(propOrder = {"id" ,"nfaNumber","bezeichnung","erklaerung","criticality","reference","referencedProjects"})
 public class NfaCatalog implements NfaInterface{
 	
 	public static class BlueprintConverter implements AttributeConverter<NfaCatalogBlueprint, String> {
@@ -297,11 +301,37 @@ public class NfaCatalog implements NfaInterface{
 
 	@Column(name = "document")
 	private String document;
+	
 
+	@Column(name = "bezeichnung")
+	private String bezeichnung;
+
+
+	@Column(name = "erklaerung")
+	private String erklaerung;
+		
+	public String getBezeichnung() {
+		return this.getBlueprint().getDe().getBezeichnung();
+	}
+	public void setBezeichnung(String bezeichnung) {
+		this.bezeichnung = bezeichnung;
+	}
+
+	public void setErklaerung(String erklaerung) {
+		this.erklaerung = erklaerung;	
+	}
+	public String getErklaerung() {	
+		return this.getBlueprint().getDe().getErklaerung();
+	}
+	
+	
 	public Long getId() {
 		return id;
 	}
-
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getType() {
 		return type;
 	}
@@ -309,21 +339,32 @@ public class NfaCatalog implements NfaInterface{
 	public String getLegalLiability() {
 		return legalLiability;
 	}
+	
 
 	public String getFormulation() {
 		return formulation;
 	}
-
+	
 	public String getReference() {
 		return reference;
 	}
-
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
 	public String getReferencedProjects() {
 		return referencedProjects;
 	}
 
+	public void setReferencedProjects(String referencedProjects) {
+		this.referencedProjects = referencedProjects;
+	}
+
+
 	public String getCriticality() {
 		return criticality;
+	}
+	public void setCriticality(String criticality) {
+		this.criticality = criticality;
 	}
 
 	public String getDocument() {
@@ -337,9 +378,9 @@ public class NfaCatalog implements NfaInterface{
 	public Long getNfaNumber() {
 		return nfaNumber;
 	}
-
-	public void setNfaNumber(long newNumber) {
-		nfaNumber = newNumber;
+	
+	public void setNfaNumber(Long nfaNumber) {
+		this.nfaNumber = nfaNumber;
 	}
 
 	public NfaCatalogBlueprint getBlueprint() {
